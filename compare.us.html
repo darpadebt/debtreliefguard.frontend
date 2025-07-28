@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0" />
   <title>Compare Verified Debt Help vs High-Risk Offers</title>
   <meta name="description" content="See how our verified, FTC-compliant debt relief process compares to aggressive or non-transparent offers. No pressure. No gimmicks. Just facts." />
   <meta name="keywords" content="compare debt help, debt relief trust, verified debt options, scam free debt help, ftc debt comparison, debt help guardrail, no fake reviews" />
@@ -14,12 +14,13 @@
     body {
       font-family: 'Inter', sans-serif;
       background: #f9fafb;
-      padding: 2rem;
       color: #333;
+      margin: 0;
+      padding: 0;
     }
     .container {
       max-width: 900px;
-      margin: auto;
+      margin: 6rem auto 4rem;
       background: #fff;
       padding: 2rem;
       border-radius: 12px;
@@ -54,10 +55,91 @@
       font-weight: 600;
       text-decoration: none;
     }
+
+    /* Sticky Top Header */
+    header {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      background: white;
+      border-bottom: 1px solid #e5e7eb;
+      z-index: 1000;
+      padding: 1rem;
+    }
+    header .nav {
+      max-width: 1200px;
+      margin: 0 auto;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    header nav a {
+      margin: 0 0.5rem;
+      color: #2563eb;
+      font-weight: 500;
+      text-decoration: none;
+    }
+    header nav a:hover {
+      text-decoration: underline;
+    }
+
+    /* Sticky Footer Menu */
+    .sticky-menu {
+      position: fixed;
+      bottom: 0;
+      width: 100%;
+      background: #004488;
+      color: white;
+      font-family: 'Inter', sans-serif;
+      font-size: 0.85rem;
+      z-index: 9999;
+      border-top: 2px solid #2563eb;
+    }
+    .sticky-menu nav {
+      display: flex;
+      overflow-x: auto;
+      white-space: nowrap;
+      padding: 0.5rem;
+      gap: 1rem;
+      justify-content: center;
+    }
+    .sticky-menu nav a {
+      color: #ffdd00;
+      text-decoration: none;
+      padding: 0.3rem 0.5rem;
+      border-radius: 4px;
+      transition: background 0.2s;
+    }
+    .sticky-menu nav a:hover {
+      background: rgba(255, 255, 255, 0.1);
+    }
+    @media (max-width: 768px) {
+      .sticky-menu nav {
+        gap: 0.5rem;
+        font-size: 0.75rem;
+      }
+    }
   </style>
 </head>
 
 <body>
+
+  <!-- Sticky Header -->
+  <header>
+    <div class="nav">
+      <div class="text-lg font-bold text-gray-800">DebtReliefGuard<span style="color:#2563eb">.com</span></div>
+      <nav>
+        <a href="/">Home</a>
+        <a href="/reviews.index.html">Reviews</a>
+        <a href="/faq.index.html">FAQ</a>
+        <a href="/contact.index.html">Contact</a>
+        <a href="https://debthelpform.com/#lead-form" class="bg-blue-600 text-white px-2 py-1 rounded hover:bg-blue-700">Estimate</a>
+      </nav>
+    </div>
+  </header>
+
+  <!-- Main Content -->
   <div class="container">
     <h1 class="text-3xl font-bold mb-4 text-center">Compare Verified Relief vs Risky Promises</h1>
     <p class="text-center text-gray-600 mb-6">
@@ -116,5 +198,19 @@
       This is an educational comparison and does not reference any specific company or competitor. DebtReliefGuard.com is not a provider or seller of debt relief services.
     </p>
   </div>
+
+  <!-- Sticky Bottom Menu -->
+  <div class="sticky-menu">
+    <nav>
+      <a href="/compare.us.html">Compare Us</a>
+      <a href="/debt.relief.option.index.html">Relief Options</a>
+      <a href="/savings.calculator.html">Calculator</a>
+      <a href="/scam.warning.index.html">Scam Warnings</a>
+      <a href="/faq.index.html">FAQ</a>
+      <a href="https://debthelpform.com" target="_blank">DebtHelpForm.com</a>
+      <a href="https://gatewaydebthelp.com" target="_blank">GatewayDebtHelp.com</a>
+    </nav>
+  </div>
+
 </body>
 </html>
