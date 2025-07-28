@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0" />
   <title>{{title}} | DebtReliefGuard Blog</title>
   <meta name="description" content="{{excerpt}}" />
   <meta name="keywords" content="debt relief, credit card help, personal loans, {{tags}}" />
@@ -15,16 +15,46 @@
       font-family: 'Inter', sans-serif;
       background: #f9fafb;
       color: #333;
-      padding: 2rem;
+      margin: 0;
+      padding: 0;
     }
+
+    header {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      background: white;
+      border-bottom: 1px solid #e5e7eb;
+      z-index: 999;
+      padding: 1rem;
+    }
+    header .nav {
+      max-width: 1200px;
+      margin: 0 auto;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    header nav a {
+      margin: 0 0.5rem;
+      color: #2563eb;
+      font-weight: 500;
+      text-decoration: none;
+    }
+    header nav a:hover {
+      text-decoration: underline;
+    }
+
     .container {
       max-width: 740px;
-      margin: auto;
+      margin: 6rem auto 5rem;
       background: white;
       padding: 2rem;
       border-radius: 12px;
       box-shadow: 0 0 10px rgba(0,0,0,0.05);
     }
+
     img.feature {
       width: 100%;
       max-height: 400px;
@@ -32,27 +62,33 @@
       border-radius: 10px;
       margin-bottom: 1.5rem;
     }
+
     h1 {
       font-size: 2rem;
       margin-bottom: 1rem;
     }
+
     .meta {
       font-size: 0.9rem;
       color: #555;
       margin-bottom: 1rem;
     }
+
     .meta a {
       color: #2563eb;
       text-decoration: underline;
     }
+
     .content p {
       line-height: 1.7;
       margin-bottom: 1rem;
     }
+
     .content a {
       color: #2563eb;
       text-decoration: underline;
     }
+
     .cta {
       background: #2563eb;
       color: white;
@@ -61,6 +97,7 @@
       border-radius: 10px;
       margin: 2rem 0;
     }
+
     .cta a {
       background: white;
       color: #2563eb;
@@ -69,10 +106,64 @@
       font-weight: 600;
       text-decoration: none;
     }
+
+    .sticky-menu {
+      position: fixed;
+      bottom: 0;
+      width: 100%;
+      background: #004488;
+      color: white;
+      font-size: 0.85rem;
+      border-top: 2px solid #2563eb;
+      z-index: 9999;
+    }
+
+    .sticky-menu nav {
+      display: flex;
+      overflow-x: auto;
+      white-space: nowrap;
+      padding: 0.5rem;
+      gap: 1rem;
+      justify-content: center;
+    }
+
+    .sticky-menu nav a {
+      color: #ffdd00;
+      text-decoration: none;
+      padding: 0.3rem 0.5rem;
+      border-radius: 4px;
+    }
+
+    .sticky-menu nav a:hover {
+      background: rgba(255,255,255,0.1);
+    }
+
+    @media (max-width: 768px) {
+      .sticky-menu nav {
+        gap: 0.5rem;
+        font-size: 0.75rem;
+      }
+    }
   </style>
 </head>
 
 <body>
+
+  <!-- Sticky Header -->
+  <header>
+    <div class="nav">
+      <div class="text-lg font-bold text-gray-800">DebtReliefGuard<span style="color:#2563eb">.com</span></div>
+      <nav>
+        <a href="/">Home</a>
+        <a href="/blog.index.html">Blog</a>
+        <a href="/faq.index.html">FAQ</a>
+        <a href="/contact.index.html">Contact</a>
+        <a href="https://debthelpform.com/#lead-form" class="bg-blue-600 text-white px-2 py-1 rounded hover:bg-blue-700">Estimate</a>
+      </nav>
+    </div>
+  </header>
+
+  <!-- Blog Content -->
   <div class="container">
     <img src="{{image}}" alt="{{title}}" class="feature" />
     <h1>{{title}}</h1>
@@ -98,7 +189,20 @@
     </div>
   </div>
 
-  <!-- BlogPosting Structured Data -->
+  <!-- Sticky Bottom Menu -->
+  <div class="sticky-menu">
+    <nav>
+      <a href="/blog.index.html">Blog Home</a>
+      <a href="/debt.relief.option.index.html">Relief Options</a>
+      <a href="/faq.index.html">FAQ</a>
+      <a href="/scam.warning.index.html">Scam Warnings</a>
+      <a href="/contact.index.html">Contact</a>
+      <a href="https://gatewaydebthelp.com" target="_blank">GatewayDebtHelp.com</a>
+      <a href="https://debthelpform.com" target="_blank">DebtHelpForm.com</a>
+    </nav>
+  </div>
+
+  <!-- BlogPosting Schema -->
   <script type="application/ld+json">
   {
     "@context": "https://schema.org",
