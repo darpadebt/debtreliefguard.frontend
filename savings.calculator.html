@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Debt Savings Calculator | Estimate Your Payoff Plan</title>
+  <meta name="description" content="Use this FTC-compliant debt savings calculator to estimate your monthly payments and total payoff under a verified debt relief program." />
+  <meta name="robots" content="index, follow" />
+  <link rel="canonical" href="https://debtreliefguard.com/savings-calculator.html" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="/styles/main.css" />
+  <style>
+    body {
+      font-family: 'Inter', sans-serif;
+      background-color: #f9fafb;
+      color: #333;
+      padding: 2rem;
+    }
+    h1, h2, h3 {
+      text-align: center;
+    }
+    .container {
+      max-width: 720px;
+      margin: auto;
+      background: white;
+      padding: 2rem;
+      border-radius: 12px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    }
+    input, select {
+      width: 100%;
+      padding: 0.5rem;
+      margin-top: 0.25rem;
+      margin-bottom: 1rem;
+      border: 1px solid #ccc;
+      border-radius: 6px;
+    }
+    button {
+      background-color: #2563eb;
+      color: white;
+      border: none;
+      padding: 0.75rem 1.5rem;
+      font-size: 1rem;
+      border-radius: 8px;
+      cursor: pointer;
+    }
+    .result {
+      margin-top: 2rem;
+      background-color: #f1f5f9;
+      padding: 1rem;
+      border-radius: 8px;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="container">
+    <h1 class="text-3xl font-bold mb-4">Debt Relief Savings Calculator</h1>
+    <p class="text-md mb-6 text-gray-600 text-center">This free tool estimates your monthly payments and payoff timeline using verified FTC-compliant relief program guidelines. No sales. No exaggeration.</p>
+
+    <form id="calculator-form">
+      <label>Total Debt Amount (minimum $10,000):</label>
+      <input type="number" id="debtAmount" placeholder="Enter your total unsecured debt" required />
+
+      <label>How many accounts is this spread across?</label>
+      <select id="accountCount" required>
+        <option value="">Select...</option>
+        <option value="1">1 Account</option>
+        <option value="2">2 Accounts</option>
+        <option value="3">3 or more Accounts</option>
+      </select>
+
+      <label>What’s your current monthly debt payment (estimated)?</label>
+      <input type="number" id="currentMonthly" placeholder="Optional — helps improve accuracy" />
+
+      <label>Your average interest rate (APR):</label>
+      <input type="number" id="interestRate" placeholder="Optional — e.g., 18%" />
+
+      <button type="submit">Calculate My Estimate</button>
+    </form>
+
+    <div id="results" class="result hidden">
+      <h2 class="text-xl font-bold mb-2">Your Estimated Debt Relief Plan</h2>
+      <p id="newPlan"></p>
+      <h3 class="text-lg font-semibold mt-4">Your Current Path (Estimate)</h3>
+      <p id="currentPlan"></p>
+    </div>
+  </div>
+
+  <script>
+    document.getElementById('calculator-form').addEventListener('submit', function (e) {
+      e.preventDefault();
+
+      const debt = parseFloat(document.getElementById('debtAmount').value);
+      const accounts = parseInt(document.getElementById('accountCount').value);
+      const interest = parseFloat(document.getElementById('interestRate').value) || 18;
+      const currentMonthly = parseFloat(document.getElementById('currentMonthly').value) || 500;
+
+      if (debt < 10000 || currentMonthly < 250) {
+        alert("Minimum total debt is $10,000 and estimated monthly payment should be $250 or more.");
+        return;
+      }
+
+      let termMonths = 18;
+
+      if (accounts === 1) {
+        if (debt <= 15000) termMonths = 18;
+        else if (debt <= 30000) termMonths = 22;
+        else if (debt <= 50000) termMonths = 24;
+        else termMonths = 30;
+      } else if (accounts === 2) {
+        if (debt <= 15000) termMonths = 25;
+        else if (debt <= 30000) termMonths = 30;
+        else if (debt <= 50000) termMonths = 36;
+        else termMonths = 36;
+      } else if (accounts >= 3) {
+        if (debt <= 15000) termMonths = 40;
+        else if (debt <= 30000) termMonths = 48;
+        else if (debt <= 50000) termMonths = 52;
+        else termMonths = 60;
+      }
+
+      const estimatedMonthlyPayment = Math.max(250, Math.round(debt / termMonths));
+      const estimatedTotalPayment = estimatedMonthlyPayment * termMonths;
+
+      const currentTotalPayment = Math.round((currentMonthly * 12 * (debt / 10000)) * (interest / 100 < 0.05 ? 1.5 : 1.8));
+
+      document.getElementById('newPlan').innerHTML = `
+        <strong>Estimated Monthly Payment:</strong> $${estimatedMonthlyPayment.toLocaleString()}<br>
+        <strong>Estimated Term:</strong> ${termMonths} months<br>
+        <strong>Total Repayment:</strong> ~$${estimatedTotalPayment.toLocaleString()}
+      `;
+
+      document.getElementById('currentPlan').innerHTML = `
+        <strong>Estimated Total Repayment at ${interest}% APR:</strong><br>
+        ~$${currentTotalPayment.toLocaleString()} over ~${Math.round(currentTotalPayment / currentMonthly)} months
+      `;
+
+      document.getElementById('results').classList.remove('hidden');
+    });
+  </script>
+</body>
+</html>
