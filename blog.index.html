@@ -3,9 +3,9 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Debt Help Insights | Expert Debt Relief Blog</title>
-  <meta name="description" content="Explore expert tips, verified insights, and FTC-compliant guidance to help you navigate debt relief with confidence. Updated by AI every 72 hours." />
-  <meta name="keywords" content="debt relief blog, financial freedom insights, verified debt help, gatewaydebthelp, debthelpform, GFSR, debt strategies, money education, scam protection" />
+  <title>Debt Help Blog | Credit Card & Personal Loan Relief Tips</title>
+  <meta name="description" content="Explore FTC-compliant articles on credit card debt relief, personal loan management, and financial scams. Updated by AI every 72 hours." />
+  <meta name="keywords" content="debt blog, credit card relief, personal loan help, debt consolidation, financial scams, unsecured debt help, verified relief, debthelpform, gatewaydebthelp, GFSR" />
   <meta name="robots" content="index, follow" />
   <link rel="canonical" href="https://debtreliefguard.com/blog/" />
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet" />
@@ -40,30 +40,65 @@
       font-size: 2rem;
       margin-bottom: 1rem;
     }
+    .filters {
+      text-align: center;
+      margin-bottom: 1rem;
+    }
+    .filters button {
+      background: #eee;
+      border: none;
+      padding: 0.4rem 0.8rem;
+      margin: 0 0.2rem;
+      cursor: pointer;
+      border-radius: 6px;
+    }
+    .filters button.active {
+      background: #2563eb;
+      color: white;
+    }
     .post {
-      padding: 1rem;
+      display: flex;
+      gap: 1rem;
+      margin-bottom: 2rem;
       border-bottom: 1px solid #ddd;
+      padding-bottom: 1rem;
     }
-    .post:last-child {
-      border-bottom: none;
+    .post img {
+      width: 120px;
+      height: 120px;
+      border-radius: 6px;
+      object-fit: cover;
     }
-    .post h3 {
-      margin: 0 0 0.5rem;
+    .post-content {
+      flex: 1;
+    }
+    .post-content h3 {
+      margin-top: 0;
       color: #004488;
     }
-    .post p {
+    .post-content p {
+      margin-bottom: 0.5rem;
       color: #555;
     }
-    .post a {
+    .post-content a {
       color: #2563eb;
       font-weight: 600;
+    }
+    .pagination {
+      text-align: center;
+      margin-top: 2rem;
+    }
+    .pagination a {
+      margin: 0 0.5rem;
+      color: #004488;
+      text-decoration: underline;
     }
   </style>
 </head>
 
 <body>
   <header>
-    <h1>Debt Relief Insights Blog</h1>
+    <h1>Debt Help Blog</h1>
     <nav>
       <a href="/">Home</a>
       <a href="/debt-relief-options/">Options</a>
@@ -75,37 +110,67 @@
   </header>
 
   <main class="container">
-    <p class="text-center text-gray-600 mb-6">Updated automatically by our AI system every 72 hours.</p>
-    <div id="blog-feed">
-      <p>Loading verified blog content...</p>
+    <p class="text-center text-gray-600 mb-6">Updated every 72 hours by AI. Focused on real solutions — not student loans.</p>
+
+    <div class="filters">
+      <button class="active" onclick="filterTag('all')">All</button>
+      <button onclick="filterTag('credit-cards')">Credit Cards</button>
+      <button onclick="filterTag('personal-loans')">Personal Loans</button>
+      <button onclick="filterTag('relief')">Relief</button>
+      <button onclick="filterTag('scams')">Scams</button>
+    </div>
+
+    <div id="blog-feed"></div>
+
+    <div class="pagination">
+      <a href="/blog/page/2/">Next Page →</a>
     </div>
   </main>
 
   <footer>
-    <p>&copy; 2025 DebtReliefGuard.com — Powered by Verified AI. <a href="/privacy-policy/" style="color:#ffdd00;">Privacy</a> | <a href="/terms/" style="color:#ffdd00;">Terms</a></p>
+    <p>&copy; 2025 DebtReliefGuard.com — FTC-Compliant, Educational, Verified. <a href="/privacy-policy/" style="color:#ffdd00;">Privacy</a> | <a href="/terms/" style="color:#ffdd00;">Terms</a></p>
   </footer>
 
   <script>
+    function filterTag(tag) {
+      document.querySelectorAll('.filters button').forEach(btn => btn.classList.remove('active'));
+      if (tag === 'all') {
+        document.querySelectorAll('.post').forEach(p => p.style.display = 'flex');
+        document.querySelector(".filters button").classList.add('active');
+      } else {
+        document.querySelectorAll('.post').forEach(p => {
+          const tags = p.getAttribute('data-tags') || '';
+          p.style.display = tags.includes(tag) ? 'flex' : 'none';
+        });
+        document.querySelectorAll(`.filters button`).forEach(btn => {
+          if (btn.textContent.toLowerCase().includes(tag)) btn.classList.add('active');
+        });
+      }
+    }
+
     fetch("/api/blog-feed")
       .then(res => res.json())
       .then(posts => {
         const container = document.getElementById("blog-feed");
         container.innerHTML = "";
+
         posts.forEach(post => {
           const div = document.createElement("div");
           div.className = "post";
+          div.setAttribute('data-tags', (post.tags || []).join(','));
+
+          const imgSrc = post.image || "https://via.placeholder.com/120?text=Debt";
+
           div.innerHTML = `
-            <h3>${post.title}</h3>
-            <p>${post.excerpt}</p>
-            <a href="${post.url}" target="_blank">Read Full Article →</a>
-          `;
-          container.appendChild(div);
-        });
-      })
-      .catch(err => {
-        document.getElementById("blog-feed").innerHTML = "<p style='color:red;'>Unable to load blog posts at this time. Please check back later.</p>";
-        console.error("Blog load failed:", err);
-      });
-  </script>
-</body>
-</html>
+            <img src="${imgSrc}" alt="Post Image" />
+            <div class="post-content">
+              <h3>${post.title}</h3>
+              <p>${post.excerpt}</p>
+              <a href="${post.url}" target="_blank">Read Full Article →</a>
+              <script type="application/ld+json">
+              {
+                "@context": "https://schema.org",
+                "@type": "BlogPosting",
+                "headline": "${post.title}",
+                "description": "${post.excerpt}",
+                "url":
