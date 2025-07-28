@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0" />
   <title>Debt Help Blog | Credit Card & Personal Loan Relief Tips</title>
   <meta name="description" content="Explore FTC-compliant articles on credit card debt relief, personal loan management, and financial scams. Updated by AI every 72 hours." />
   <meta name="keywords" content="debt blog, credit card relief, personal loan help, debt consolidation, financial scams, unsecured debt help, verified relief, debthelpform, gatewaydebthelp, GFSR" />
@@ -15,21 +15,26 @@
       font-family: 'Inter', sans-serif;
       background-color: #f4f7fa;
       color: #333;
+      margin: 0;
     }
-    header, footer {
-      background-color: #004488;
+    header {
+      position: sticky;
+      top: 0;
+      background: #004488;
       color: white;
-      padding: 1.5rem 1rem;
+      padding: 1rem;
+      z-index: 999;
       text-align: center;
     }
     nav a {
       color: #ffdd00;
       text-decoration: none;
       margin: 0 10px;
+      font-weight: 500;
     }
     .container {
       max-width: 960px;
-      margin: 2rem auto;
+      margin: 2rem auto 5rem;
       padding: 1rem;
       background: white;
       border-radius: 8px;
@@ -93,6 +98,42 @@
       color: #004488;
       text-decoration: underline;
     }
+    footer {
+      background: #004488;
+      color: white;
+      text-align: center;
+      padding: 1.5rem 1rem;
+    }
+    footer a {
+      color: #ffdd00;
+    }
+    .sticky-menu {
+      position: fixed;
+      bottom: 0;
+      width: 100%;
+      background: #004488;
+      color: white;
+      font-size: 0.85rem;
+      border-top: 2px solid #2563eb;
+      z-index: 9999;
+    }
+    .sticky-menu nav {
+      display: flex;
+      overflow-x: auto;
+      white-space: nowrap;
+      padding: 0.5rem;
+      gap: 1rem;
+      justify-content: center;
+    }
+    .sticky-menu nav a {
+      color: #ffdd00;
+      text-decoration: none;
+      padding: 0.3rem 0.5rem;
+      border-radius: 4px;
+    }
+    .sticky-menu nav a:hover {
+      background: rgba(255,255,255,0.1);
+    }
   </style>
 </head>
 
@@ -104,8 +145,8 @@
       <a href="/debt-relief-options/">Options</a>
       <a href="/faq/">FAQ</a>
       <a href="/contact/">Contact</a>
-      <a href="https://debthelpform.com">DebtHelpForm</a>
-      <a href="https://gatewaydebthelp.com">GatewayDebtHelp</a>
+      <a href="https://debthelpform.com" target="_blank">DebtHelpForm</a>
+      <a href="https://gatewaydebthelp.com" target="_blank">GatewayDebtHelp</a>
     </nav>
   </header>
 
@@ -128,9 +169,26 @@
   </main>
 
   <footer>
-    <p>&copy; 2025 DebtReliefGuard.com — FTC-Compliant, Educational, Verified. <a href="/privacy-policy/" style="color:#ffdd00;">Privacy</a> | <a href="/terms/" style="color:#ffdd00;">Terms</a></p>
+    <p>&copy; 2025 DebtReliefGuard.com — FTC-Compliant, Educational, Verified. 
+      <a href="/privacy-policy/">Privacy</a> | 
+      <a href="/terms/">Terms</a>
+    </p>
   </footer>
 
+  <!-- Sticky Footer Menu -->
+  <div class="sticky-menu">
+    <nav>
+      <a href="/blog/">Blog Home</a>
+      <a href="/debt-relief-options/">Relief Options</a>
+      <a href="/faq/">FAQ</a>
+      <a href="/scam-warning/">Scam Warnings</a>
+      <a href="/contact/">Contact</a>
+      <a href="https://gatewaydebthelp.com" target="_blank">GatewayDebtHelp</a>
+      <a href="https://debthelpform.com" target="_blank">DebtHelpForm</a>
+    </nav>
+  </div>
+
+  <!-- AI Blog Loader Script -->
   <script>
     function filterTag(tag) {
       document.querySelectorAll('.filters button').forEach(btn => btn.classList.remove('active'));
@@ -155,22 +213,42 @@
         container.innerHTML = "";
 
         posts.forEach(post => {
+          if ((post.tags || []).includes("student-loans")) return;
+
           const div = document.createElement("div");
           div.className = "post";
-          div.setAttribute('data-tags', (post.tags || []).join(','));
+          div.setAttribute("data-tags", (post.tags || []).join(","));
 
           const imgSrc = post.image || "https://via.placeholder.com/120?text=Debt";
 
           div.innerHTML = `
-            <img src="${imgSrc}" alt="Post Image" />
+            <img src="${imgSrc}" alt="${post.title}" />
             <div class="post-content">
               <h3>${post.title}</h3>
               <p>${post.excerpt}</p>
-              <a href="${post.url}" target="_blank">Read Full Article →</a>
+              <a href="${post.url}">Read Full Article →</a>
               <script type="application/ld+json">
               {
                 "@context": "https://schema.org",
                 "@type": "BlogPosting",
                 "headline": "${post.title}",
                 "description": "${post.excerpt}",
-                "url":
+                "url": "https://debtreliefguard.com${post.url}",
+                "datePublished": "${post.date}",
+                "author": {
+                  "@type": "Organization",
+                  "name": "DebtReliefGuard.com"
+                }
+              }
+              </script>
+            </div>
+          `;
+          container.appendChild(div);
+        });
+      })
+      .catch(err => {
+        document.getElementById("blog-feed").innerHTML = "<p style='color:red;text-align:center;'>Unable to load blog posts at this time.</p>";
+      });
+  </script>
+</body>
+</html>
