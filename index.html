@@ -29,7 +29,7 @@
   }
   </script>
 
-  <!-- AI Optimizer -->
+  <!-- AI Loopback -->
   <script>
     window.__AI_OPTIMIZER__ = {
       loopback: true,
@@ -43,7 +43,7 @@
 </head>
 
 <body class="bg-white text-gray-800 font-inter">
-  <!-- Top Header -->
+  <!-- Header -->
   <header class="sticky top-0 bg-white shadow-md z-50">
     <div class="max-w-7xl mx-auto px-4 py-4 flex justify-between items-center">
       <h1 class="text-xl font-bold">
@@ -60,38 +60,40 @@
   </header>
 
   <main>
-    <!-- Hero -->
+    <!-- Hero Section -->
     <section class="text-center py-16 px-4 bg-gradient-to-b from-blue-50 to-white">
-      <h2 class="text-4xl font-bold mb-4">Is Debt Relief Legit?</h2>
-      <p class="max-w-xl mx-auto text-lg text-gray-700 mb-6">We break down the facts. No gimmicks. No sales. Just verified options reviewed under FTC guidelines.</p>
-      <a href="#lead-form" class="bg-blue-600 text-white px-6 py-3 rounded text-lg font-semibold hover:bg-blue-700 transition">Compare My Debt Relief Options</a>
-      <p class="mt-3 text-sm text-gray-500">Takes 60 seconds. No obligation. 100% secure & private.</p>
+      <div class="max-w-4xl mx-auto">
+        <h2 class="text-4xl font-bold mb-4">Is Debt Relief Legit?</h2>
+        <p class="text-lg text-gray-700 mb-6">We break down the facts. No gimmicks. No sales. Just verified options reviewed under FTC guidelines.</p>
+        <a href="#lead-form" class="bg-blue-600 text-white px-6 py-3 rounded text-lg font-semibold hover:bg-blue-700 transition">Compare My Debt Relief Options</a>
+        <p class="mt-3 text-sm text-gray-500">Takes 60 seconds. No obligation. 100% secure & private.</p>
+      </div>
     </section>
 
     <!-- Trust Signals -->
-    <section class="max-w-5xl mx-auto py-16 px-6">
-      <div class="grid md:grid-cols-3 gap-8 text-center">
+    <section class="bg-white py-16 px-4 text-center">
+      <div class="max-w-6xl mx-auto grid md:grid-cols-3 gap-10">
         <div>
-          <i class="fas fa-shield-alt fa-2x text-blue-600 mb-3"></i>
+          <i class="fas fa-shield-alt fa-2x text-blue-600 mb-4"></i>
           <h3 class="text-xl font-semibold">Only Verified Programs</h3>
-          <p class="text-gray-600">No ads. No sponsors. Pure comparison.</p>
+          <p class="text-gray-600 mt-2">No ads. No sponsors. Pure comparison.</p>
         </div>
         <div>
-          <i class="fas fa-balance-scale fa-2x text-blue-600 mb-3"></i>
+          <i class="fas fa-balance-scale fa-2x text-blue-600 mb-4"></i>
           <h3 class="text-xl font-semibold">FTC Compliant Only</h3>
-          <p class="text-gray-600">Aligned with <a href="https://www.ftc.gov" target="_blank" class="text-blue-600 underline">Federal Trade Commission</a> guidelines.</p>
+          <p class="text-gray-600 mt-2">Aligned with <a href="https://www.ftc.gov" target="_blank" class="text-blue-600 underline">Federal Trade Commission</a> guidelines.</p>
         </div>
         <div>
-          <i class="fas fa-user-check fa-2x text-blue-600 mb-3"></i>
+          <i class="fas fa-user-check fa-2x text-blue-600 mb-4"></i>
           <h3 class="text-xl font-semibold">Built for Consumers</h3>
-          <p class="text-gray-600">We're not a provider. We're your guardrail.</p>
+          <p class="text-gray-600 mt-2">We're not a provider. We're your guardrail.</p>
         </div>
       </div>
     </section>
 
     <!-- Lead Form -->
-    <section id="lead-form" class="bg-white py-20 px-4 border-t border-gray-200">
-      <div class="max-w-3xl mx-auto text-center">
+    <section id="lead-form" class="bg-white py-20 px-4 border-t border-gray-200 text-center">
+      <div class="max-w-3xl mx-auto">
         <h2 class="text-3xl font-bold mb-4">Get Your Free Debt Relief Estimate</h2>
         <p class="text-lg text-gray-600 mb-6">Securely compare top-rated programs tailored to your needs.</p>
         <div class="w-full max-w-2xl mx-auto rounded shadow-lg overflow-hidden">
@@ -109,10 +111,12 @@
     </section>
 
     <!-- Blog Feed -->
-    <section class="max-w-6xl mx-auto py-20 px-4">
-      <h4 class="text-2xl font-bold mb-8 text-center">Verified Debt Relief Insights</h4>
-      <div id="ai-blog-feed" class="grid md:grid-cols-3 gap-6 text-sm text-gray-600 text-center" aria-live="polite">
-        <p class="col-span-3">Loading verified content…</p>
+    <section class="bg-white py-20 px-4 text-center">
+      <div class="max-w-6xl mx-auto">
+        <h4 class="text-2xl font-bold mb-8">Verified Debt Relief Insights</h4>
+        <div id="ai-blog-feed" class="grid md:grid-cols-3 gap-6 text-sm text-gray-600" aria-live="polite">
+          <p class="col-span-3">Loading verified content…</p>
+        </div>
       </div>
     </section>
 
@@ -124,7 +128,7 @@
           container.innerHTML = '';
           posts.forEach(post => {
             const card = document.createElement('div');
-            card.className = 'bg-white shadow rounded p-5';
+            card.className = 'bg-white shadow rounded p-5 text-left';
             card.innerHTML = `
               <h5 class="text-lg font-semibold text-gray-800 mb-2">${post.title}</h5>
               <p class="text-sm text-gray-600">${post.excerpt}</p>
@@ -142,13 +146,11 @@
   </main>
 
   <!-- Footer -->
-  <footer class="bg-gray-900 text-white py-8 mt-12">
-    <div class="max-w-6xl mx-auto px-4 flex flex-col md:flex-row justify-between items-center">
-      <div>
-        <p class="text-sm">© 2025 DebtReliefGuard.com — Educational, Independent, FTC-Aligned.</p>
-        <p class="text-sm mt-1">Questions? Call us: <a href="tel:8884377141" class="underline text-blue-300 hover:text-white">888-437-7141</a></p>
-      </div>
-      <div class="space-x-4 mt-4 md:mt-0 text-sm">
+  <footer class="bg-gray-900 text-white py-10 text-center">
+    <div class="max-w-6xl mx-auto px-4">
+      <p class="text-sm">© 2025 DebtReliefGuard.com — Educational, Independent, FTC-Aligned.</p>
+      <p class="text-sm mt-2">Questions? Call us: <a href="tel:8884377141" class="underline text-blue-300 hover:text-white">888-437-7141</a></p>
+      <div class="space-x-4 mt-4 text-sm">
         <a href="/privacy.policy.index.html" class="text-gray-400 hover:text-white">Privacy</a>
         <a href="/terms.index.html" class="text-gray-400 hover:text-white">Terms</a>
         <a href="/contact.index.html" class="text-gray-400 hover:text-white">Contact</a>
