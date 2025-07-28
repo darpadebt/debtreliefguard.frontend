@@ -12,18 +12,23 @@
 </head>
 
 <body class="bg-white text-gray-800 font-inter">
-  <header class="sticky top-0 bg-white shadow z-50">
+  <!-- ✅ Sticky Top Header -->
+  <header class="sticky top-0 bg-white shadow-md z-50">
     <div class="max-w-7xl mx-auto px-4 py-3 flex justify-between items-center">
-      <h1 class="text-xl font-bold text-gray-800">DebtReliefGuard<span class="text-blue-600">.com</span></h1>
+      <h1 class="text-xl font-bold text-gray-800">
+        <a href="/" style="text-decoration:none;">DebtReliefGuard<span class="text-blue-600">.com</span></a>
+      </h1>
       <nav class="space-x-4 text-sm md:text-base">
         <a href="/" class="text-gray-700 hover:text-blue-600">Home</a>
-        <a href="/reviews/" class="text-gray-700 hover:text-blue-600">Reviews</a>
-        <a href="/faq/" class="text-gray-700 hover:text-blue-600">FAQ</a>
-        <a href="/contact/" class="text-gray-700 hover:text-blue-600">Contact</a>
+        <a href="/faq.index.html" class="text-gray-700 hover:text-blue-600">FAQ</a>
+        <a href="/blog.index.html" class="text-gray-700 hover:text-blue-600">Blog</a>
+        <a href="/contact.index.html" class="text-gray-700 hover:text-blue-600">Contact</a>
+        <a href="https://debthelpform.com/#lead-form" class="bg-blue-600 text-white px-3 py-1 rounded hover:bg-blue-700">Free Estimate</a>
       </nav>
     </div>
   </header>
 
+  <!-- Message -->
   <main class="max-w-3xl mx-auto px-4 py-24 text-center">
     <h2 class="text-3xl font-bold text-red-700 mb-4">We're Sorry — Our Services Aren’t Available in Your State</h2>
     <p class="text-gray-700 mb-6 text-lg">
@@ -37,6 +42,7 @@
     </p>
   </main>
 
+  <!-- Footer -->
   <footer class="bg-gray-900 text-white py-6 mt-10">
     <div class="max-w-6xl mx-auto px-4 flex flex-col md:flex-row justify-between items-center">
       <div>
@@ -46,11 +52,62 @@
         </p>
       </div>
       <div class="space-x-4 mt-4 md:mt-0 text-sm">
-        <a href="/privacy-policy/" class="text-gray-400 hover:text-white">Privacy</a>
-        <a href="/terms/" class="text-gray-400 hover:text-white">Terms</a>
-        <a href="/contact/" class="text-gray-400 hover:text-white">Contact</a>
+        <a href="/privacy.policy.index.html" class="text-gray-400 hover:text-white">Privacy</a>
+        <a href="/terms.index.html" class="text-gray-400 hover:text-white">Terms</a>
+        <a href="/contact.index.html" class="text-gray-400 hover:text-white">Contact</a>
       </div>
     </div>
   </footer>
+
+  <!-- ✅ Sticky Bottom Menu -->
+  <style>
+    .sticky-menu {
+      position: fixed;
+      bottom: 0;
+      width: 100%;
+      background: #004488;
+      color: white;
+      font-family: 'Inter', sans-serif;
+      font-size: 0.85rem;
+      z-index: 9999;
+      border-top: 2px solid #2563eb;
+    }
+    .sticky-menu nav {
+      display: flex;
+      overflow-x: auto;
+      white-space: nowrap;
+      padding: 0.5rem;
+      gap: 1rem;
+      justify-content: center;
+    }
+    .sticky-menu nav a {
+      color: #ffdd00;
+      text-decoration: none;
+      padding: 0.3rem 0.5rem;
+      border-radius: 4px;
+      transition: background 0.2s;
+    }
+    .sticky-menu nav a:hover {
+      background: rgba(255, 255, 255, 0.1);
+    }
+    @media (max-width: 768px) {
+      .sticky-menu nav {
+        gap: 0.5rem;
+        font-size: 0.75rem;
+      }
+    }
+  </style>
+
+  <div class="sticky-menu">
+    <nav>
+      <a href="/compare.us.html">Compare Us</a>
+      <a href="/credit.card.relief.index.html">Credit Card Help</a>
+      <a href="/debt.relief.option.index.html">Relief Options</a>
+      <a href="/savings.calculator.html">Calculator</a>
+      <a href="/scam.warning.index.html">Scam Warnings</a>
+      <a href="https://debthelpform.com" target="_blank">DebtHelpForm.com</a>
+      <a href="https://gatewaydebthelp.com" target="_blank">GatewayDebtHelp.com</a>
+    </nav>
+  </div>
 </body>
 </html>
