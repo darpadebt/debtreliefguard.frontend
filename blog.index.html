@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Debt Help Insights | Expert Debt Relief Blog</title>
+  <meta name="description" content="Explore expert tips, verified insights, and FTC-compliant guidance to help you navigate debt relief with confidence. Updated by AI every 72 hours." />
+  <meta name="keywords" content="debt relief blog, financial freedom insights, verified debt help, gatewaydebthelp, debthelpform, GFSR, debt strategies, money education, scam protection" />
+  <meta name="robots" content="index, follow" />
+  <link rel="canonical" href="https://debtreliefguard.com/blog/" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="/styles/main.css" />
+  <style>
+    body {
+      font-family: 'Inter', sans-serif;
+      background-color: #f4f7fa;
+      color: #333;
+    }
+    header, footer {
+      background-color: #004488;
+      color: white;
+      padding: 1.5rem 1rem;
+      text-align: center;
+    }
+    nav a {
+      color: #ffdd00;
+      text-decoration: none;
+      margin: 0 10px;
+    }
+    .container {
+      max-width: 960px;
+      margin: 2rem auto;
+      padding: 1rem;
+      background: white;
+      border-radius: 8px;
+      box-shadow: 0 0 6px rgba(0,0,0,0.1);
+    }
+    h1 {
+      text-align: center;
+      font-size: 2rem;
+      margin-bottom: 1rem;
+    }
+    .post {
+      padding: 1rem;
+      border-bottom: 1px solid #ddd;
+    }
+    .post:last-child {
+      border-bottom: none;
+    }
+    .post h3 {
+      margin: 0 0 0.5rem;
+      color: #004488;
+    }
+    .post p {
+      color: #555;
+    }
+    .post a {
+      color: #2563eb;
+      font-weight: 600;
+    }
+  </style>
+</head>
+
+<body>
+  <header>
+    <h1>Debt Relief Insights Blog</h1>
+    <nav>
+      <a href="/">Home</a>
+      <a href="/debt-relief-options/">Options</a>
+      <a href="/faq/">FAQ</a>
+      <a href="/contact/">Contact</a>
+      <a href="https://debthelpform.com">DebtHelpForm</a>
+      <a href="https://gatewaydebthelp.com">GatewayDebtHelp</a>
+    </nav>
+  </header>
+
+  <main class="container">
+    <p class="text-center text-gray-600 mb-6">Updated automatically by our AI system every 72 hours.</p>
+    <div id="blog-feed">
+      <p>Loading verified blog content...</p>
+    </div>
+  </main>
+
+  <footer>
+    <p>&copy; 2025 DebtReliefGuard.com — Powered by Verified AI. <a href="/privacy-policy/" style="color:#ffdd00;">Privacy</a> | <a href="/terms/" style="color:#ffdd00;">Terms</a></p>
+  </footer>
+
+  <script>
+    fetch("/api/blog-feed")
+      .then(res => res.json())
+      .then(posts => {
+        const container = document.getElementById("blog-feed");
+        container.innerHTML = "";
+        posts.forEach(post => {
+          const div = document.createElement("div");
+          div.className = "post";
+          div.innerHTML = `
+            <h3>${post.title}</h3>
+            <p>${post.excerpt}</p>
+            <a href="${post.url}" target="_blank">Read Full Article →</a>
+          `;
+          container.appendChild(div);
+        });
+      })
+      .catch(err => {
+        document.getElementById("blog-feed").innerHTML = "<p style='color:red;'>Unable to load blog posts at this time. Please check back later.</p>";
+        console.error("Blog load failed:", err);
+      });
+  </script>
+</body>
+</html>
