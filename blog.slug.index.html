@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>{{title}} | DebtReliefGuard Blog</title>
+  <meta name="description" content="{{excerpt}}" />
+  <meta name="keywords" content="debt relief, credit card help, personal loans, {{tags}}" />
+  <meta name="robots" content="index, follow" />
+  <link rel="canonical" href="https://debtreliefguard.com/blog/{{slug}}/" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="/styles/main.css" />
+  <style>
+    body {
+      font-family: 'Inter', sans-serif;
+      background: #f9fafb;
+      color: #333;
+      padding: 2rem;
+    }
+    .container {
+      max-width: 740px;
+      margin: auto;
+      background: white;
+      padding: 2rem;
+      border-radius: 12px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.05);
+    }
+    img.feature {
+      width: 100%;
+      max-height: 400px;
+      object-fit: cover;
+      border-radius: 10px;
+      margin-bottom: 1.5rem;
+    }
+    h1 {
+      font-size: 2rem;
+      margin-bottom: 1rem;
+    }
+    .meta {
+      font-size: 0.9rem;
+      color: #555;
+      margin-bottom: 1rem;
+    }
+    .meta a {
+      color: #2563eb;
+      text-decoration: underline;
+    }
+    .content p {
+      line-height: 1.7;
+      margin-bottom: 1rem;
+    }
+    .content a {
+      color: #2563eb;
+      text-decoration: underline;
+    }
+    .cta {
+      background: #2563eb;
+      color: white;
+      padding: 1rem;
+      text-align: center;
+      border-radius: 10px;
+      margin: 2rem 0;
+    }
+    .cta a {
+      background: white;
+      color: #2563eb;
+      padding: 0.5rem 1rem;
+      border-radius: 6px;
+      font-weight: 600;
+      text-decoration: none;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="container">
+    <img src="{{image}}" alt="{{title}}" class="feature" />
+    <h1>{{title}}</h1>
+    <div class="meta">
+      Published on {{date}} by 
+      <a href="{{authorLink}}" target="_blank">{{authorName}}</a>
+      | Tagged: {{tags}}
+    </div>
+
+    <div class="content">
+      {{body}}
+
+      <div class="cta">
+        <p>Want a personalized estimate for your credit card or personal loan debt?</p>
+        <a href="https://debthelpform.com/#lead-form">Get My Free Estimate</a>
+      </div>
+
+      <p class="text-sm text-gray-600">
+        For more educational resources, visit our sister sites:
+        <a href="https://gatewaydebthelp.com" target="_blank">GatewayDebtHelp.com</a> and
+        <a href="https://debthelpform.com" target="_blank">DebtHelpForm.com</a>.
+      </p>
+    </div>
+  </div>
+
+  <!-- BlogPosting Structured Data -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "BlogPosting",
+    "headline": "{{title}}",
+    "description": "{{excerpt}}",
+    "image": "{{image}}",
+    "url": "https://debtreliefguard.com/blog/{{slug}}/",
+    "datePublished": "{{date}}",
+    "author": {
+      "@type": "Organization",
+      "name": "{{authorName}}",
+      "url": "{{authorLink}}"
+    },
+    "publisher": {
+      "@type": "Organization",
+      "name": "DebtReliefGuard.com",
+      "logo": {
+        "@type": "ImageObject",
+        "url": "https://debtreliefguard.com/logo.png"
+      }
+    }
+  }
+  </script>
+</body>
+</html>
