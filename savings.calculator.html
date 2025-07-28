@@ -54,7 +54,6 @@
 </head>
 
 <body>
-  <!-- ✅ Sticky Top Header -->
   <header class="sticky top-0 bg-white shadow-md z-50">
     <div class="max-w-7xl mx-auto px-4 py-3 flex justify-between items-center">
       <h1 class="text-xl font-bold text-gray-800">
@@ -103,7 +102,6 @@
     </div>
   </div>
 
-  <!-- ✅ Sticky Bottom Menu -->
   <style>
     .sticky-menu {
       position: fixed;
@@ -155,6 +153,28 @@
   </div>
 
   <script>
+    function calculateCreditorRepayment(debtAmount, monthlyPayment, interestRate) {
+      const monthlyRate = (interestRate / 100) / 12;
+      let balance = debtAmount;
+      let totalPaid = 0;
+      let months = 0;
+
+      while (balance > 0 && months < 600) {
+        const interest = balance * monthlyRate;
+        balance += interest;
+
+        const payment = Math.min(monthlyPayment, balance);
+        balance -= payment;
+        totalPaid += payment;
+        months++;
+      }
+
+      return {
+        totalPaid: Math.round(totalPaid),
+        months: months
+      };
+    }
+
     document.getElementById('calculator-form').addEventListener('submit', function (e) {
       e.preventDefault();
 
@@ -190,7 +210,7 @@
       const estimatedMonthlyPayment = Math.max(250, Math.round(debt / termMonths));
       const estimatedTotalPayment = estimatedMonthlyPayment * termMonths;
 
-      const currentTotalPayment = Math.round((currentMonthly * 12 * (debt / 10000)) * (interest / 100 < 0.05 ? 1.5 : 1.8));
+      const currentRepayment = calculateCreditorRepayment(debt, currentMonthly, interest);
 
       document.getElementById('newPlan').innerHTML = `
         <strong>Estimated Monthly Payment:</strong> $${estimatedMonthlyPayment.toLocaleString()}<br>
@@ -200,7 +220,7 @@
 
       document.getElementById('currentPlan').innerHTML = `
         <strong>Estimated Total Repayment at ${interest}% APR:</strong><br>
-        ~$${currentTotalPayment.toLocaleString()} over ~${Math.round(currentTotalPayment / currentMonthly)} months
+        ~$${currentRepayment.totalPaid.toLocaleString()} over ~${currentRepayment.months} months
       `;
 
       document.getElementById('results').classList.remove('hidden');
