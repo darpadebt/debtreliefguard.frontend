@@ -12,6 +12,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="/styles/main.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" integrity="sha512-..." crossorigin="anonymous" referrerpolicy="no-referrer" />
 
   <!-- Structured Schema for SEO -->
   <script type="application/ld+json">
@@ -28,7 +29,7 @@
   }
   </script>
 
-  <!-- AI Trifecta Loopback Optimizer -->
+  <!-- AI Optimizer -->
   <script>
     window.__AI_OPTIMIZER__ = {
       loopback: true,
@@ -42,13 +43,13 @@
 </head>
 
 <body class="bg-white text-gray-800 font-inter">
-  <!-- ✅ Sticky Top Header -->
+  <!-- Top Header -->
   <header class="sticky top-0 bg-white shadow-md z-50">
-    <div class="max-w-7xl mx-auto px-4 py-3 flex justify-between items-center">
-      <h1 class="text-xl font-bold text-gray-800">
-        <a href="/" style="text-decoration:none;">DebtReliefGuard<span class="text-blue-600">.com</span></a>
+    <div class="max-w-7xl mx-auto px-4 py-4 flex justify-between items-center">
+      <h1 class="text-xl font-bold">
+        <a href="/" class="text-gray-900 no-underline">DebtReliefGuard<span class="text-blue-600">.com</span></a>
       </h1>
-      <nav class="space-x-4 text-sm md:text-base">
+      <nav class="space-x-3 text-sm md:text-base">
         <a href="/" class="text-gray-700 hover:text-blue-600">Home</a>
         <a href="/faq.index.html" class="text-gray-700 hover:text-blue-600">FAQ</a>
         <a href="/blog.index.html" class="text-gray-700 hover:text-blue-600">Blog</a>
@@ -59,31 +60,29 @@
   </header>
 
   <main>
-    <!-- Hero Section -->
-    <section class="text-center py-16 px-4 bg-gradient-to-b from-blue-100 to-white" data-ai-section="hero">
+    <!-- Hero -->
+    <section class="text-center py-16 px-4 bg-gradient-to-b from-blue-50 to-white">
       <h2 class="text-4xl font-bold mb-4">Is Debt Relief Legit?</h2>
-      <p class="max-w-2xl mx-auto text-lg text-gray-700 mb-6">
-        We break down the facts. No gimmicks. No sales. Just verified options reviewed under FTC guidelines.
-      </p>
+      <p class="max-w-xl mx-auto text-lg text-gray-700 mb-6">We break down the facts. No gimmicks. No sales. Just verified options reviewed under FTC guidelines.</p>
       <a href="#lead-form" class="bg-blue-600 text-white px-6 py-3 rounded text-lg font-semibold hover:bg-blue-700 transition">Compare My Debt Relief Options</a>
       <p class="mt-3 text-sm text-gray-500">Takes 60 seconds. No obligation. 100% secure & private.</p>
     </section>
 
     <!-- Trust Signals -->
-    <section class="max-w-5xl mx-auto py-12 px-4" data-ai-section="trust-signals">
+    <section class="max-w-5xl mx-auto py-16 px-6">
       <div class="grid md:grid-cols-3 gap-8 text-center">
         <div>
-          <img src="/images/icon-shield.svg" alt="Shield icon representing verified debt relief programs with no advertising bias" class="mx-auto mb-3" />
+          <i class="fas fa-shield-alt fa-2x text-blue-600 mb-3"></i>
           <h3 class="text-xl font-semibold">Only Verified Programs</h3>
           <p class="text-gray-600">No ads. No sponsors. Pure comparison.</p>
         </div>
         <div>
-          <img src="/images/icon-law.svg" alt="Gavel icon indicating strict FTC compliance checks for debt help programs" class="mx-auto mb-3" />
+          <i class="fas fa-balance-scale fa-2x text-blue-600 mb-3"></i>
           <h3 class="text-xl font-semibold">FTC Compliant Only</h3>
-          <p class="text-gray-600">Aligned with <a href="https://www.ftc.gov" target="_blank" class="text-blue-600 underline">Federal Trade Commission</a> debt help rules.</p>
+          <p class="text-gray-600">Aligned with <a href="https://www.ftc.gov" target="_blank" class="text-blue-600 underline">Federal Trade Commission</a> guidelines.</p>
         </div>
         <div>
-          <img src="/images/icon-user.svg" alt="User icon showing a consumer-first approach to debt relief information" class="mx-auto mb-3" />
+          <i class="fas fa-user-check fa-2x text-blue-600 mb-3"></i>
           <h3 class="text-xl font-semibold">Built for Consumers</h3>
           <p class="text-gray-600">We're not a provider. We're your guardrail.</p>
         </div>
@@ -91,20 +90,16 @@
     </section>
 
     <!-- Lead Form -->
-    <section id="lead-form" class="bg-white py-16 px-4 border-t border-gray-200" data-ai-section="lead-form">
+    <section id="lead-form" class="bg-white py-20 px-4 border-t border-gray-200">
       <div class="max-w-3xl mx-auto text-center">
         <h2 class="text-3xl font-bold mb-4">Get Your Free Debt Relief Estimate</h2>
-        <p class="text-lg text-gray-600 mb-6">
-          Securely compare top-rated programs tailored to your needs.
-        </p>
+        <p class="text-lg text-gray-600 mb-6">Securely compare top-rated programs tailored to your needs.</p>
         <div class="w-full max-w-2xl mx-auto rounded shadow-lg overflow-hidden">
-          <iframe
-            src="https://api.leadconnectorhq.com/widget/form/A5c9I3HkyNd1puU4nJWl"
+          <iframe src="https://api.leadconnectorhq.com/widget/form/A5c9I3HkyNd1puU4nJWl"
             style="width:100%; height:1360px; border:none; border-radius:12px;"
-            id="inline-A5c9I3HkyNd1puU4nJWl"
             title="Debt Relief Estimate Form"
-            loading="lazy"
-          ></iframe>
+            loading="lazy">
+          </iframe>
           <script src="https://link.msgsndr.com/js/form_embed.js"></script>
         </div>
         <p class="mt-4 text-sm text-gray-500">
@@ -113,15 +108,14 @@
       </div>
     </section>
 
-    <!-- Blog Feed (AI Generated) -->
-    <section class="max-w-6xl mx-auto py-16 px-4" data-ai-section="blog-feed">
-      <h4 class="text-2xl font-bold mb-6 text-center">Verified Debt Relief Insights</h4>
-      <div id="ai-blog-feed" class="grid md:grid-cols-3 gap-6 text-sm text-gray-600 text-center">
+    <!-- Blog Feed -->
+    <section class="max-w-6xl mx-auto py-20 px-4">
+      <h4 class="text-2xl font-bold mb-8 text-center">Verified Debt Relief Insights</h4>
+      <div id="ai-blog-feed" class="grid md:grid-cols-3 gap-6 text-sm text-gray-600 text-center" aria-live="polite">
         <p class="col-span-3">Loading verified content…</p>
       </div>
     </section>
 
-    <!-- Blog Feed Loader Script -->
     <script>
       fetch('/api/blog-feed')
         .then(res => res.json())
@@ -130,11 +124,11 @@
           container.innerHTML = '';
           posts.forEach(post => {
             const card = document.createElement('div');
-            card.className = 'bg-white shadow rounded p-4';
+            card.className = 'bg-white shadow rounded p-5';
             card.innerHTML = `
               <h5 class="text-lg font-semibold text-gray-800 mb-2">${post.title}</h5>
               <p class="text-sm text-gray-600">${post.excerpt}</p>
-              <a href="${post.url}" class="text-blue-600 mt-2 inline-block text-sm font-medium">Read More →</a>
+              <a href="${post.url}" class="text-blue-600 mt-2 inline-block font-medium">Read More →</a>
             `;
             container.appendChild(card);
           });
@@ -142,20 +136,17 @@
         .catch(error => {
           const container = document.getElementById('ai-blog-feed');
           container.innerHTML = '<p class="col-span-3 text-red-600">Unable to load content. Please check back later.</p>';
-          console.error('Blog feed load error:', error);
+          console.error('Blog feed error:', error);
         });
     </script>
   </main>
 
   <!-- Footer -->
-  <footer class="bg-gray-900 text-white py-6 mt-10">
+  <footer class="bg-gray-900 text-white py-8 mt-12">
     <div class="max-w-6xl mx-auto px-4 flex flex-col md:flex-row justify-between items-center">
       <div>
         <p class="text-sm">© 2025 DebtReliefGuard.com — Educational, Independent, FTC-Aligned.</p>
-        <p class="text-sm mt-1">
-          Questions? Call us anytime:
-          <a href="tel:8884377141" class="underline text-blue-300 hover:text-white">888-437-7141</a>
-        </p>
+        <p class="text-sm mt-1">Questions? Call us: <a href="tel:8884377141" class="underline text-blue-300 hover:text-white">888-437-7141</a></p>
       </div>
       <div class="space-x-4 mt-4 md:mt-0 text-sm">
         <a href="/privacy.policy.index.html" class="text-gray-400 hover:text-white">Privacy</a>
@@ -165,7 +156,19 @@
     </div>
   </footer>
 
-  <!-- ✅ Sticky Bottom Menu -->
+  <!-- Sticky Bottom Menu -->
+  <div class="sticky-menu">
+    <nav>
+      <a href="/compare.us.html">Compare Us</a>
+      <a href="/credit.card.relief.index.html">Credit Card Help</a>
+      <a href="/debt.relief.option.index.html">Relief Options</a>
+      <a href="/savings.calculator.html">Calculator</a>
+      <a href="/scam.warning.index.html">Scam Warnings</a>
+      <a href="https://debthelpform.com" target="_blank">DebtHelpForm.com</a>
+      <a href="https://gatewaydebthelp.com" target="_blank">GatewayDebtHelp.com</a>
+    </nav>
+  </div>
+
   <style>
     .sticky-menu {
       position: fixed;
@@ -180,40 +183,21 @@
     }
     .sticky-menu nav {
       display: flex;
-      overflow-x: auto;
-      white-space: nowrap;
-      padding: 0.5rem;
-      gap: 1rem;
+      flex-wrap: wrap;
       justify-content: center;
+      padding: 0.75rem;
+      gap: 1rem;
     }
     .sticky-menu nav a {
       color: #ffdd00;
       text-decoration: none;
-      padding: 0.3rem 0.5rem;
+      padding: 0.4rem 0.75rem;
       border-radius: 4px;
       transition: background 0.2s;
     }
     .sticky-menu nav a:hover {
-      background: rgba(255, 255, 255, 0.1);
-    }
-    @media (max-width: 768px) {
-      .sticky-menu nav {
-        gap: 0.5rem;
-        font-size: 0.75rem;
-      }
+      background: rgba(255, 255, 255, 0.15);
     }
   </style>
-
-  <div class="sticky-menu">
-    <nav>
-      <a href="/compare.us.html">Compare Us</a>
-      <a href="/credit.card.relief.index.html">Credit Card Help</a>
-      <a href="/debt.relief.option.index.html">Relief Options</a>
-      <a href="/savings.calculator.html">Calculator</a>
-      <a href="/scam.warning.index.html">Scam Warnings</a>
-      <a href="https://debthelpform.com" target="_blank">DebtHelpForm.com</a>
-      <a href="https://gatewaydebthelp.com" target="_blank">GatewayDebtHelp.com</a>
-    </nav>
-  </div>
 </body>
 </html>
