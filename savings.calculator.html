@@ -54,6 +54,22 @@
 </head>
 
 <body>
+  <!-- ✅ Sticky Top Header -->
+  <header class="sticky top-0 bg-white shadow-md z-50">
+    <div class="max-w-7xl mx-auto px-4 py-3 flex justify-between items-center">
+      <h1 class="text-xl font-bold text-gray-800">
+        <a href="/" style="text-decoration:none;">DebtReliefGuard<span class="text-blue-600">.com</span></a>
+      </h1>
+      <nav class="space-x-4 text-sm md:text-base">
+        <a href="/" class="text-gray-700 hover:text-blue-600">Home</a>
+        <a href="/faq.index.html" class="text-gray-700 hover:text-blue-600">FAQ</a>
+        <a href="/blog.index.html" class="text-gray-700 hover:text-blue-600">Blog</a>
+        <a href="/contact.index.html" class="text-gray-700 hover:text-blue-600">Contact</a>
+        <a href="https://debthelpform.com/#lead-form" class="bg-blue-600 text-white px-3 py-1 rounded hover:bg-blue-700">Free Estimate</a>
+      </nav>
+    </div>
+  </header>
+
   <div class="container">
     <h1 class="text-3xl font-bold mb-4">Debt Relief Savings Calculator</h1>
     <p class="text-md mb-6 text-gray-600 text-center">This free tool estimates your monthly payments and payoff timeline using verified FTC-compliant relief program guidelines. No sales. No exaggeration.</p>
@@ -85,6 +101,57 @@
       <h3 class="text-lg font-semibold mt-4">Your Current Path (Estimate)</h3>
       <p id="currentPlan"></p>
     </div>
+  </div>
+
+  <!-- ✅ Sticky Bottom Menu -->
+  <style>
+    .sticky-menu {
+      position: fixed;
+      bottom: 0;
+      width: 100%;
+      background: #004488;
+      color: white;
+      font-family: 'Inter', sans-serif;
+      font-size: 0.85rem;
+      z-index: 9999;
+      border-top: 2px solid #2563eb;
+    }
+    .sticky-menu nav {
+      display: flex;
+      overflow-x: auto;
+      white-space: nowrap;
+      padding: 0.5rem;
+      gap: 1rem;
+      justify-content: center;
+    }
+    .sticky-menu nav a {
+      color: #ffdd00;
+      text-decoration: none;
+      padding: 0.3rem 0.5rem;
+      border-radius: 4px;
+      transition: background 0.2s;
+    }
+    .sticky-menu nav a:hover {
+      background: rgba(255, 255, 255, 0.1);
+    }
+    @media (max-width: 768px) {
+      .sticky-menu nav {
+        gap: 0.5rem;
+        font-size: 0.75rem;
+      }
+    }
+  </style>
+
+  <div class="sticky-menu">
+    <nav>
+      <a href="/compare.us.html">Compare Us</a>
+      <a href="/credit.card.relief.index.html">Credit Card Help</a>
+      <a href="/debt.relief.option.index.html">Relief Options</a>
+      <a href="/savings.calculator.html">Calculator</a>
+      <a href="/scam.warning.index.html">Scam Warnings</a>
+      <a href="https://debthelpform.com" target="_blank">DebtHelpForm.com</a>
+      <a href="https://gatewaydebthelp.com" target="_blank">GatewayDebtHelp.com</a>
+    </nav>
   </div>
 
   <script>
