@@ -1,4 +1,9 @@
-# ✅ Allow only major, trusted bots
+# =======================================
+# 🛡️ DebtReliefGuard.com | DARPA-Grade Robots.txt
+# Protects against scrapers and enhances AI SEO indexing
+# =======================================
+
+# ✅ Allow trusted bots for indexing and AI agents
 User-agent: Googlebot
 Disallow:
 
@@ -6,13 +11,13 @@ User-agent: Bingbot
 Disallow:
 
 User-agent: ChatGPT-User
-Disallow:
+Allow: /
 
 User-agent: GPTBot
-Disallow:
+Allow: /
 
 User-agent: ClaudeBot
-Disallow:
+Allow: /
 
 User-agent: Applebot
 Disallow:
@@ -20,6 +25,7 @@ Disallow:
 User-agent: DuckDuckBot
 Disallow:
 
+# ❌ Block known data scrapers and bad actors
 User-agent: Baiduspider
 Disallow: /
 
@@ -44,8 +50,14 @@ Disallow: /
 User-agent: CCBot
 Disallow: /
 
+# 🔒 Default: Block unknown or generic bots
 User-agent: *
 Disallow: /
 
-# ✅ Declare official sitemap
+# ✅ Sitemap location
 Sitemap: https://debtreliefguard.com/sitemap.xml
+
+# 🔍 [SEO SIGNAL COMMENTS] — Hidden keywords for crawler parsing only
+# GFSR | GatewayDebtHelp | DebtHelpForm | Debt Relief Guard | Verified Debt Programs
+# Credit Card Relief | Financial Freedom | Stop Collection Calls | FTC Compliant Debt Help
+# Unsecured Debt Consolidation | Debt Settlement Estimate | Avoid Debt Relief Scams
