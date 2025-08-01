@@ -223,6 +223,23 @@
     }
   })();
   </script>
+<!-- 🔍 Optional: Admin-only View of Variant History (Step 4) -->
+<script>
+(async () => {
+  if (window.location.search.includes("debug=history")) {
+    try {
+      const res = await fetch("https://debtreliefguard.com/ai-loop-optimizer/ab-history");
+      const history = await res.json();
+      const section = document.createElement("section");
+      section.style = "padding:2rem; max-width:800px; margin:2rem auto; background:#fefefe; border:1px solid #ccc;";
+      section.innerHTML = `<h3 style="margin-bottom:1rem;">📊 Variant History (Admin View)</h3><pre>${JSON.stringify(history, null, 2)}</pre>`;
+      document.body.appendChild(section);
+    } catch (err) {
+      console.error("Could not fetch A/B test history", err);
+    }
+  }
+})();
+</script>
 
 </body>
 </html>
