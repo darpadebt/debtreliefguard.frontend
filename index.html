@@ -111,7 +111,7 @@
   </section>
 
   <script>
-    fetch('/api/blog-feed')
+    fetch('/ai-loop-optimizer/blog-feed')
       .then(res => res.json())
       .then(posts => {
         const container = document.getElementById('ai-blog-feed');
@@ -140,7 +140,7 @@
 
   <footer class="bg-gray-900 text-white py-10 text-center">
     <div class="max-w-6xl mx-auto px-4">
-      <p class="text-sm">© 2025 DebtReliefGuard.com — Educational, Independent, FTC-Aligned.</p>
+      <p class="text-sm">© 2025 DebtReliefGuard.com — Educational, Independent, FTC-Aligned.<br/>A Gateway Financial Settlement Relief™ Project</p>
       <p class="text-sm mt-2">Questions? Call us: <a href="tel:8884377141" class="underline text-blue-300 hover:text-white">888-437-7141</a></p>
       <div class="space-x-4 mt-4 text-sm">
         <a href="/privacy.policy.index.html" class="text-gray-400 hover:text-white">Privacy</a>
@@ -223,23 +223,24 @@
     }
   })();
   </script>
-<!-- 🔍 Optional: Admin-only View of Variant History (Step 4) -->
-<script>
-(async () => {
-  if (window.location.search.includes("debug=history")) {
-    try {
-      const res = await fetch("https://debtreliefguard.com/ai-loop-optimizer/ab-history");
-      const history = await res.json();
-      const section = document.createElement("section");
-      section.style = "padding:2rem; max-width:800px; margin:2rem auto; background:#fefefe; border:1px solid #ccc;";
-      section.innerHTML = `<h3 style="margin-bottom:1rem;">📊 Variant History (Admin View)</h3><pre>${JSON.stringify(history, null, 2)}</pre>`;
-      document.body.appendChild(section);
-    } catch (err) {
-      console.error("Could not fetch A/B test history", err);
+
+  <!-- 🔍 Optional: Admin-only Variant History -->
+  <script>
+  (async () => {
+    if (window.location.search.includes("debug=history")) {
+      try {
+        const res = await fetch("https://debtreliefguard.com/ai-loop-optimizer/ab-history");
+        const history = await res.json();
+        const section = document.createElement("section");
+        section.style = "padding:2rem; max-width:800px; margin:2rem auto; background:#fefefe; border:1px solid #ccc;";
+        section.innerHTML = `<h3 style="margin-bottom:1rem;">📊 Variant History (Admin View)</h3><pre>${JSON.stringify(history, null, 2)}</pre>`;
+        document.body.appendChild(section);
+      } catch (err) {
+        console.error("Could not fetch A/B test history", err);
+      }
     }
-  }
-})();
-</script>
+  })();
+  </script>
 
 </body>
 </html>
