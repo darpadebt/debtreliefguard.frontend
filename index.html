@@ -2,56 +2,44 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0" />
-  <title>Compare Verified Debt Help vs High-Risk Offers | DebtReliefGuard</title>
-  <meta name="description" content="See how FTC-compliant, consumer-first debt help compares to risky or aggressive debt relief options. Backed by Gateway Financial Settlement Relief (GFSR)." />
-  <meta name="keywords" content="compare debt help, ethical debt relief, FTC compliant debt comparison, secure debt estimate, scam-free debt solutions, how to compare debt relief programs, avoid debt scams" />
-  <meta name="robots" content="index, follow" />
-  <link rel="canonical" href="https://debtreliefguard.com/compare.us.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>DebtReliefGuard | Scam-Free Estimates & Trusted Debt Help Reviews</title>
+
+  <!-- SEO Meta -->
+  <meta name="description" content="Compare FTC-compliant debt help options. Get scam warnings, verified reviews, and a secure estimate. DebtReliefGuard is your consumer-first protection site." />
+  <meta name="keywords" content="debt relief guard, debt scam protection, GFSR, gateway financial, secure debt quote, credit card relief, gatewaydebthelp.com, debthelpform.com, debt settlement review, legit debt help, avoid debt scams, free debt estimate">
+  <meta name="robots" content="index, follow">
+  <meta name="author" content="DebtReliefGuard.com">
+
+  <!-- Schema -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "WebPage",
+    "name": "DebtReliefGuard",
+    "url": "https://debtreliefguard.com",
+    "description": "Trusted reviews and scam protection for debt relief programs. FTC-aligned and powered by Gateway Financial Settlement Relief.",
+    "publisher": {
+      "@type": "Organization",
+      "name": "Gateway Financial Settlement Relief",
+      "url": "https://gatewayfinancialsettlementrelief.com"
+    }
+  }
+  </script>
+
+  <!-- Google Fonts -->
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet" />
+
+  <!-- Styles -->
   <style>
     body {
-      font-family: 'Inter', sans-serif;
-      background: #f9fafb;
-      color: #333;
       margin: 0;
-      padding: 0;
+      padding-top: 80px;
+      font-family: 'Inter', sans-serif;
+      background: #f9fafe;
+      color: #222;
     }
-    .container {
-      max-width: 900px;
-      margin: 6rem auto 4rem;
-      background: #fff;
-      padding: 2rem;
-      border-radius: 12px;
-      box-shadow: 0 0 12px rgba(0,0,0,0.05);
-    }
-    table {
-      width: 100%;
-      border-collapse: collapse;
-      margin-top: 1rem;
-    }
-    th, td {
-      text-align: left;
-      padding: 0.75rem;
-      border-bottom: 1px solid #e5e7eb;
-    }
-    th {
-      background-color: #2563eb;
-      color: white;
-    }
-    .cta {
-      text-align: center;
-      margin-top: 2rem;
-    }
-    .cta a {
-      background: #2563eb;
-      color: white;
-      padding: 0.75rem 1.5rem;
-      border-radius: 8px;
-      font-weight: 600;
-      text-decoration: none;
-    }
+
     .sticky-nav {
       position: fixed;
       top: 0;
@@ -73,19 +61,98 @@
       padding: 0.5rem 0.75rem;
       flex: 0 0 auto;
     }
-    .sticky-nav a:hover {
+    .sticky-nav a:hover { text-decoration: underline; }
+    .sticky-nav::-webkit-scrollbar { display: none; }
+
+    .mobile-call {
+      display: none;
+      position: fixed;
+      bottom: 0;
+      width: 100%;
+      background: #007b55;
+      color: #fff;
+      text-align: center;
+      padding: 1rem;
+      z-index: 998;
+    }
+    @media (max-width: 768px) {
+      .mobile-call { display: block; }
+    }
+    .mobile-call a {
+      color: #fff;
+      font-weight: bold;
+      text-decoration: none;
+    }
+
+    header {
+      max-width: 900px;
+      margin: 0 auto;
+      background: #004477;
+      color: #fff;
+      text-align: center;
+      padding: 2rem 1rem;
+    }
+    header a {
+      color: #ffdd00;
+      font-weight: bold;
+      text-decoration: none;
+    }
+
+    section {
+      max-width: 900px;
+      margin: 2rem auto;
+      background: #fff;
+      border-radius: 10px;
+      padding: 2rem;
+      box-shadow: 0 2px 12px rgba(0,0,0,0.08);
+    }
+
+    .trust-links {
+      margin-top: 2rem;
+      font-size: 0.95rem;
+    }
+    .trust-links ul {
+      padding-left: 1rem;
+      list-style: disc;
+    }
+    .trust-links a {
+      color: #0055aa;
+      text-decoration: none;
+    }
+    .trust-links a:hover {
       text-decoration: underline;
     }
-    .sticky-nav::-webkit-scrollbar {
-      display: none;
+
+    .cta-button {
+      display: inline-block;
+      background: #2563eb;
+      color: white;
+      padding: 0.75rem 1.5rem;
+      border-radius: 8px;
+      font-weight: 600;
+      text-decoration: none;
+      margin-top: 1rem;
     }
+
+    footer {
+      background: #111827;
+      color: #ccc;
+      padding: 2rem 1rem;
+      font-size: 0.9rem;
+      text-align: center;
+    }
+    footer a {
+      color: #ffdd00;
+      margin: 0 0.5rem;
+      text-decoration: none;
+    }
+
     .sticky-menu {
       position: fixed;
       bottom: 0;
       width: 100%;
       background: #004488;
       color: white;
-      font-family: 'Inter', sans-serif;
       font-size: 0.85rem;
       z-index: 9999;
       border-top: 2px solid #2563eb;
@@ -103,105 +170,110 @@
       text-decoration: none;
       padding: 0.3rem 0.5rem;
       border-radius: 4px;
-      transition: background 0.2s;
-    }
-    .sticky-menu nav a:hover {
-      background: rgba(255, 255, 255, 0.1);
-    }
-    @media (max-width: 768px) {
-      .sticky-menu nav {
-        gap: 0.5rem;
-        font-size: 0.75rem;
-      }
     }
   </style>
 </head>
 <body>
 
-  <!-- Sticky Header -->
-  <nav class="sticky-nav" role="navigation" aria-label="Main navigation">
-    <a href="/">Home</a>
-    <a href="/compare.us.html">Compare Us</a>
-    <a href="/faq.index.html">FAQ</a>
-    <a href="/blog.index.html">Blog</a>
-    <a href="/contact.index.html">Contact</a>
-    <a href="https://debthelpform.com/#lead-form" class="bg-blue-600 text-white px-2 py-1 rounded hover:bg-blue-700">Estimate</a>
-    <a href="https://gatewaydebthelp.com" target="_blank">GatewayDebtHelp.com</a>
-    <a href="https://gatewayfinancialsettlementrelief.com" target="_blank"><strong>GFSR Owner</strong></a>
-  </nav>
+<!-- Sticky Top Navigation -->
+<nav class="sticky-nav" role="navigation" aria-label="Main navigation">
+  <a href="/">Home</a>
+  <a href="/compare.us.html">Compare</a>
+  <a href="/faq.index.html">FAQ</a>
+  <a href="/blog.index.html">Blog</a>
+  <a href="/contact.index.html">Contact</a>
+  <a href="https://debthelpform.com/#lead-form" target="_blank">Get Estimate</a>
+  <a href="https://gatewaydebthelp.com" target="_blank">GatewayDebtHelp.com</a>
+  <a href="https://gatewayfinancialsettlementrelief.com" target="_blank"><strong>GFSR Owner</strong></a>
+</nav>
 
-  <!-- Main Content -->
-  <main class="container" role="main">
-    <h1 class="text-3xl font-bold mb-4 text-center">Compare Verified Relief vs Risky Promises</h1>
-    <p class="text-center text-gray-600 mb-6">
-      Before you sign up for anything, know the facts. Many offers look legit — but come with hidden risks. Here's how verified, compliant programs compare to high-pressure or unclear alternatives.
-    </p>
+<!-- Mobile Call Bar -->
+<div class="mobile-call" aria-label="Tap to call 888-437-7141">
+  <a href="tel:+18884377141">📞 Tap to Call: 888-437-7141</a>
+</div>
 
-    <table aria-label="Comparison of Verified Relief vs High-Risk Offers">
-      <thead>
-        <tr>
-          <th>Feature</th>
-          <th>Verified Relief (Our System)</th>
-          <th>High-Risk Debt Offers</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr>
-          <td>FTC Compliance</td>
-          <td>✅ Verified. No upfront fees. Transparent.</td>
-          <td>❌ Often fails to meet FTC standards</td>
-        </tr>
-        <tr>
-          <td>Realistic Claims</td>
-          <td>✅ Based on your info, not generic promises</td>
-          <td>❌ “Guaranteed savings” or “erase debt instantly”</td>
-        </tr>
-        <tr>
-          <td>Lead Privacy</td>
-          <td>✅ Submitted to one provider, encrypted</td>
-          <td>❌ May be sold to multiple third parties</td>
-        </tr>
-        <tr>
-          <td>Program History</td>
-          <td>✅ Evaluated, documented, legally aligned</td>
-          <td>❌ Often unverified or undisclosed</td>
-        </tr>
-        <tr>
-          <td>Form Experience</td>
-          <td>✅ Simple, no pressure, user-first</td>
-          <td>❌ Urgent popups, auto-calls, or hidden terms</td>
-        </tr>
-        <tr>
-          <td>Transparency</td>
-          <td>✅ We explain what to expect before you commit</td>
-          <td>❌ Fine print, vague fees, hard to cancel</td>
-        </tr>
-      </tbody>
-    </table>
+<!-- Header -->
+<header>
+  <h1 id="ab-cta-text">Protect Yourself From Debt Relief Scams</h1>
+  <p><a href="https://debthelpform.com/#lead-form" target="_blank">Get Your Free Estimate Securely</a></p>
+</header>
 
-    <div class="cta">
-      <h2 class="text-xl font-semibold mt-8 mb-2">Want the verified path?</h2>
-      <p class="mb-4 text-gray-600">See your options in 60 seconds. No cost. No pressure. No surprises.</p>
-      <a href="https://debthelpform.com/#lead-form">Start My Free Estimate</a>
-    </div>
+<!-- Main Content -->
+<section>
+  <h2>Verified Programs. Scam-Free Guidance.</h2>
+  <p>We aren't a provider — we're a review and trust platform backed by <a href="https://gatewayfinancialsettlementrelief.com" target="_blank">Gateway Financial Settlement Relief</a>. We help you compare legitimate options, avoid deceptive marketing, and get the facts.</p>
 
-    <p class="text-xs text-gray-500 text-center mt-6">
-      This is an educational comparison and does not reference any specific company or competitor. DebtReliefGuard.com is not a provider or seller of debt relief services.
-    </p>
-  </main>
+  <p><strong>Step 1:</strong> Click below to begin your private estimate request.</p>
+  <a class="cta-button" href="https://debthelpform.com/#lead-form" target="_blank">Start My Free Estimate</a>
 
-  <!-- Sticky Bottom Menu -->
-  <div class="sticky-menu" role="navigation" aria-label="Footer navigation">
-    <nav>
-      <a href="/compare.us.html">Compare Us</a>
-      <a href="/debt.relief.option.index.html">Relief Options</a>
-      <a href="/savings.calculator.html">Calculator</a>
-      <a href="/scam.warning.index.html">Scam Warnings</a>
-      <a href="/faq.index.html">FAQ</a>
-      <a href="https://debthelpform.com" target="_blank">DebtHelpForm.com</a>
-      <a href="https://gatewaydebthelp.com" target="_blank">GatewayDebtHelp.com</a>
-    </nav>
+  <div class="trust-links">
+    <h3>Helpful Government & Scam Protection Resources:</h3>
+    <ul>
+      <li><a href="https://consumer.ftc.gov" target="_blank">FTC – Federal Trade Commission</a></li>
+      <li><a href="https://consumerfinance.gov" target="_blank">CFPB – Consumer Financial Protection Bureau</a></li>
+      <li><a href="https://identitytheft.gov" target="_blank">IdentityTheft.gov – ID Theft Help</a></li>
+      <li><a href="https://usa.gov" target="_blank">USA.gov – Assistance Portal</a></li>
+      <li><a href="https://nfcc.org" target="_blank">NFCC – National Foundation for Credit Counseling</a></li>
+      <li><a href="https://bbb.org" target="_blank">BBB – Better Business Bureau</a></li>
+    </ul>
   </div>
+</section>
+
+<!-- Footer -->
+<footer>
+  <p>&copy; 2025 DebtReliefGuard.com — Trust-First. Scam-Free. GFSR Verified.</p>
+  <p>Website operated by <a href="https://gatewayfinancialsettlementrelief.com" target="_blank">Gateway Financial Settlement Relief</a></p>
+</footer>
+
+<!-- Sticky Bottom Menu -->
+<div class="sticky-menu" role="navigation" aria-label="Footer navigation">
+  <nav>
+    <a href="/">Home</a>
+    <a href="/compare.us.html">Compare</a>
+    <a href="/savings.calculator.html">Calculator</a>
+    <a href="/faq.index.html">FAQ</a>
+    <a href="/scam.warning.index.html">Scam Warnings</a>
+    <a href="https://debthelpform.com" target="_blank">DebtHelpForm.com</a>
+    <a href="https://gatewaydebthelp.com" target="_blank">GatewayDebtHelp.com</a>
+  </nav>
+</div>
+
+<!-- A/B Headline Testing Script -->
+<script>
+(async () => {
+  try {
+    const stored = localStorage.getItem("variantVersion");
+    let variant = stored;
+    if (!stored) {
+      variant = Math.random() < 0.5 ? "A" : "B";
+      localStorage.setItem("variantVersion", variant);
+    }
+
+    const res = await fetch("https://debthelpform.com/ai-loop-optimizer/ab-variants");
+    const data = await res.json();
+    const text = variant === "A" ? data.variantA : data.variantB;
+
+    const el = document.getElementById("ab-cta-text");
+    if (el && text) el.innerText = text;
+
+    fetch("https://debthelpform.com/ai-loop-optimizer/ab-log", {
+      method: "POST",
+      body: JSON.stringify({ variant }),
+      headers: { "Content-Type": "application/json" }
+    });
+
+    window.trackConversion = () => {
+      fetch("https://debthelpform.com/ai-loop-optimizer/ab-convert", {
+        method: "POST",
+        body: JSON.stringify({ variant }),
+        headers: { "Content-Type": "application/json" }
+      });
+    };
+  } catch (e) {
+    console.error("A/B logic failed:", e);
+  }
+})();
+</script>
 
 </body>
 </html>
