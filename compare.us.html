@@ -39,6 +39,9 @@
       background-color: #2563eb;
       color: white;
     }
+    td:nth-child(2) {
+      background-color: transparent !important;
+    }
     .cta {
       text-align: center;
       margin-top: 2rem;
@@ -72,16 +75,18 @@
       padding: 0.5rem 0.75rem;
       flex: 0 0 auto;
     }
-    .sticky-nav a:hover { text-decoration: underline; }
-    .sticky-nav::-webkit-scrollbar { display: none; }
-
+    .sticky-nav a:hover {
+      text-decoration: underline;
+    }
+    .sticky-nav::-webkit-scrollbar {
+      display: none;
+    }
     .sticky-menu {
       position: fixed;
       bottom: 0;
       width: 100%;
       background: #004488;
       color: white;
-      font-family: 'Inter', sans-serif;
       font-size: 0.85rem;
       z-index: 9999;
       border-top: 2px solid #2563eb;
@@ -110,6 +115,19 @@
         font-size: 0.75rem;
       }
     }
+    h1, h2 {
+      text-align: center;
+    }
+    .muted-text {
+      color: #6b7280;
+      font-size: 0.95rem;
+    }
+    .disclaimer {
+      font-size: 0.75rem;
+      color: #666;
+      text-align: center;
+      margin-top: 2rem;
+    }
   </style>
 </head>
 
@@ -121,67 +139,43 @@
     <a href="/faq.index.html">FAQ</a>
     <a href="/blog.index.html">Blog</a>
     <a href="/contact.index.html">Contact</a>
-    <a href="https://debthelpform.com/#lead-form" class="bg-blue-600 text-white px-2 py-1 rounded hover:bg-blue-700">Estimate</a>
+    <a href="https://debthelpform.com/#lead-form" style="background:#2563eb;color:white;padding:0.5rem 0.75rem;border-radius:6px;">Estimate</a>
     <a href="https://gatewaydebthelp.com" target="_blank">GatewayDebtHelp.com</a>
     <a href="https://gatewayfinancialsettlementrelief.com" target="_blank"><strong>GFSR Owner</strong></a>
   </nav>
 
   <!-- Main Content -->
-  <div class="container">
-    <h1 class="text-3xl font-bold mb-4 text-center">Compare Verified Relief vs Risky Promises</h1>
-    <p class="text-center text-gray-600 mb-6">
+  <div class="container" role="main">
+    <h1>Compare Verified Relief vs Risky Promises</h1>
+    <p class="muted-text">
       Before you sign up for anything, know the facts. Many offers look legit — but come with hidden risks. Here's how verified, compliant programs compare to high-pressure or unclear alternatives.
     </p>
 
-    <table>
+    <table role="table">
       <thead>
         <tr>
-          <th>Feature</th>
-          <th>Verified Relief (Our System)</th>
-          <th>High-Risk Debt Offers</th>
+          <th scope="col">Feature</th>
+          <th scope="col">Verified Relief (Our System)</th>
+          <th scope="col">High-Risk Debt Offers</th>
         </tr>
       </thead>
       <tbody>
-        <tr>
-          <td>FTC Compliance</td>
-          <td>✅ Verified. No upfront fees. Transparent.</td>
-          <td>❌ Often fails to meet FTC standards</td>
-        </tr>
-        <tr>
-          <td>Realistic Claims</td>
-          <td>✅ Based on your info, not generic promises</td>
-          <td>❌ “Guaranteed savings” or “erase debt instantly”</td>
-        </tr>
-        <tr>
-          <td>Lead Privacy</td>
-          <td>✅ Submitted to one provider, encrypted</td>
-          <td>❌ May be sold to multiple third parties</td>
-        </tr>
-        <tr>
-          <td>Program History</td>
-          <td>✅ Evaluated, documented, legally aligned</td>
-          <td>❌ Often unverified or undisclosed</td>
-        </tr>
-        <tr>
-          <td>Form Experience</td>
-          <td>✅ Simple, no pressure, user-first</td>
-          <td>❌ Urgent popups, auto-calls, or hidden terms</td>
-        </tr>
-        <tr>
-          <td>Transparency</td>
-          <td>✅ We explain what to expect before you commit</td>
-          <td>❌ Fine print, vague fees, hard to cancel</td>
-        </tr>
+        <tr><td>FTC Compliance</td><td>✅ Verified. No upfront fees. Transparent.</td><td>❌ Often fails to meet FTC standards</td></tr>
+        <tr><td>Realistic Claims</td><td>✅ Based on your info, not generic promises</td><td>❌ “Guaranteed savings” or “erase debt instantly”</td></tr>
+        <tr><td>Lead Privacy</td><td>✅ Submitted to one provider, encrypted</td><td>❌ May be sold to multiple third parties</td></tr>
+        <tr><td>Program History</td><td>✅ Evaluated, documented, legally aligned</td><td>❌ Often unverified or undisclosed</td></tr>
+        <tr><td>Form Experience</td><td>✅ Simple, no pressure, user-first</td><td>❌ Urgent popups, auto-calls, or hidden terms</td></tr>
+        <tr><td>Transparency</td><td>✅ We explain what to expect before you commit</td><td>❌ Fine print, vague fees, hard to cancel</td></tr>
       </tbody>
     </table>
 
     <div class="cta">
-      <h2 class="text-xl font-semibold mt-8 mb-2">Want the verified path?</h2>
-      <p class="mb-4 text-gray-600">See your options in 60 seconds. No cost. No pressure. No surprises.</p>
+      <h2>Want the verified path?</h2>
+      <p class="muted-text">See your options in 60 seconds. No cost. No pressure. No surprises.</p>
       <a href="https://debthelpform.com/#lead-form">Start My Free Estimate</a>
     </div>
 
-    <p class="text-xs text-gray-500 text-center mt-6">
+    <p class="disclaimer">
       This is an educational comparison and does not reference any specific company or competitor. DebtReliefGuard.com is not a provider or seller of debt relief services.
     </p>
   </div>
