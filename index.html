@@ -173,6 +173,32 @@
     }
   </style>
 </head>
+<!-- ✅ DEBUG START -->
+<script>
+  document.body.style.background = '#ffe8e8';
+  console.log("✅ index.html loaded and executing");
+
+  // Check if a crucial element exists
+  const el = document.getElementById("ab-cta-text");
+  if (!el) {
+    console.warn("⚠️ A/B test element not found.");
+  } else {
+    console.log("✅ A/B test element found.");
+  }
+
+  // Test DOM rendering
+  const probe = document.createElement("div");
+  probe.innerText = "✅ DEBUG: index.html is active";
+  probe.style.position = "fixed";
+  probe.style.top = "10px";
+  probe.style.left = "10px";
+  probe.style.background = "#000";
+  probe.style.color = "#0f0";
+  probe.style.padding = "5px 10px";
+  probe.style.zIndex = 99999;
+  document.body.appendChild(probe);
+</script>
+<!-- ✅ DEBUG END -->
 <body>
 
 <!-- Sticky Top Navigation -->
