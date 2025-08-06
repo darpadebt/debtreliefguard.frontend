@@ -7,48 +7,69 @@
   <meta name="description" content="Explore FTC-compliant articles on credit card debt relief, personal loan management, and financial scams. Updated by AI every 72 hours." />
   <meta name="keywords" content="debt blog, credit card relief, personal loan help, debt consolidation, financial scams, unsecured debt help, verified relief, debthelpform, gatewaydebthelp, GFSR" />
   <meta name="robots" content="index, follow" />
-  <link rel="canonical" href="https://debtreliefguard.com/blog/" />
+  <link rel="canonical" href="https://debtreliefguard.com/blog.index.html" />
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="/styles/main.css" />
   <style>
     body {
       font-family: 'Inter', sans-serif;
       background-color: #f4f7fa;
       color: #333;
       margin: 0;
+      padding-top: 80px;
+      padding-bottom: 4rem;
     }
-    header {
-      position: sticky;
+
+    .sticky-nav {
+      position: fixed;
       top: 0;
-      background: #004488;
-      color: white;
+      left: 0;
+      right: 0;
+      background: #003057;
+      z-index: 9999;
+      display: flex;
+      gap: 1rem;
       padding: 1rem;
-      z-index: 999;
-      text-align: center;
+      overflow-x: auto;
+      white-space: nowrap;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
     }
-    nav a {
-      color: #ffdd00;
+
+    .sticky-nav a {
+      color: #fff;
+      font-weight: 600;
       text-decoration: none;
-      margin: 0 10px;
-      font-weight: 500;
+      padding: 0.5rem 0.75rem;
+      flex: 0 0 auto;
     }
+
+    .sticky-nav a[aria-current="page"] {
+      color: #ffdd00;
+    }
+
+    .sticky-nav a:hover {
+      text-decoration: underline;
+    }
+
     .container {
       max-width: 960px;
-      margin: 2rem auto 5rem;
+      margin: 2rem auto;
       padding: 1rem;
       background: white;
       border-radius: 8px;
       box-shadow: 0 0 6px rgba(0,0,0,0.1);
     }
+
     h1 {
       text-align: center;
       font-size: 2rem;
       margin-bottom: 1rem;
     }
+
     .filters {
       text-align: center;
       margin-bottom: 1rem;
     }
+
     .filters button {
       background: #eee;
       border: none;
@@ -57,10 +78,12 @@
       cursor: pointer;
       border-radius: 6px;
     }
+
     .filters button.active {
       background: #2563eb;
       color: white;
     }
+
     .post {
       display: flex;
       gap: 1rem;
@@ -68,45 +91,56 @@
       border-bottom: 1px solid #ddd;
       padding-bottom: 1rem;
     }
+
     .post img {
       width: 120px;
       height: 120px;
       border-radius: 6px;
       object-fit: cover;
     }
+
     .post-content {
       flex: 1;
     }
+
     .post-content h3 {
       margin-top: 0;
       color: #004488;
     }
+
     .post-content p {
       margin-bottom: 0.5rem;
       color: #555;
     }
+
     .post-content a {
       color: #2563eb;
       font-weight: 600;
     }
+
     .pagination {
       text-align: center;
       margin-top: 2rem;
     }
+
     .pagination a {
       margin: 0 0.5rem;
       color: #004488;
       text-decoration: underline;
     }
+
     footer {
-      background: #004488;
+      background: #111827;
       color: white;
       text-align: center;
-      padding: 1.5rem 1rem;
+      padding: 2rem 1rem;
+      font-size: 0.85rem;
     }
+
     footer a {
       color: #ffdd00;
     }
+
     .sticky-menu {
       position: fixed;
       bottom: 0;
@@ -117,6 +151,7 @@
       border-top: 2px solid #2563eb;
       z-index: 9999;
     }
+
     .sticky-menu nav {
       display: flex;
       overflow-x: auto;
@@ -125,12 +160,14 @@
       gap: 1rem;
       justify-content: center;
     }
+
     .sticky-menu nav a {
       color: #ffdd00;
       text-decoration: none;
       padding: 0.3rem 0.5rem;
       border-radius: 4px;
     }
+
     .sticky-menu nav a:hover {
       background: rgba(255,255,255,0.1);
     }
@@ -138,20 +175,23 @@
 </head>
 
 <body>
-  <header>
-    <h1>Debt Help Blog</h1>
-    <nav>
-      <a href="/">Home</a>
-      <a href="/debt-relief-options/">Options</a>
-      <a href="/faq/">FAQ</a>
-      <a href="/contact/">Contact</a>
-      <a href="https://debthelpform.com" target="_blank">DebtHelpForm</a>
-      <a href="https://gatewaydebthelp.com" target="_blank">GatewayDebtHelp</a>
-    </nav>
-  </header>
 
+  <!-- Sticky Header -->
+  <nav class="sticky-nav" role="navigation" aria-label="Main navigation">
+    <a href="/">Home</a>
+    <a href="/compare.us.html">Compare</a>
+    <a href="/faq.index.html">FAQ</a>
+    <a href="/blog.index.html" aria-current="page">Blog</a>
+    <a href="/contact.index.html">Contact</a>
+    <a href="https://debthelpform.com/#lead-form" style="background:#2563eb;padding:0.5rem 0.75rem;border-radius:6px;color:white;" target="_blank" rel="noopener">Estimate</a>
+    <a href="https://gatewaydebthelp.com" target="_blank" rel="noopener">GatewayDebtHelp.com</a>
+    <a href="https://gatewayfinancialsettlementrelief.com" target="_blank" rel="noopener"><strong>GFSR Owner</strong></a>
+  </nav>
+
+  <!-- Main Content -->
   <main class="container">
-    <p class="text-center text-gray-600 mb-6">Updated every 72 hours by AI. Focused on real solutions — not student loans.</p>
+    <h1>Debt Help Blog</h1>
+    <p class="text-center" style="color: #666;">Updated every 72 hours by AI. Focused on real solutions — not student loans.</p>
 
     <div class="filters">
       <button class="active" onclick="filterTag('all')">All</button>
@@ -168,23 +208,24 @@
     </div>
   </main>
 
+  <!-- Footer -->
   <footer>
     <p>&copy; 2025 DebtReliefGuard.com — FTC-Compliant, Educational, Verified. 
-      <a href="/privacy-policy/">Privacy</a> | 
-      <a href="/terms/">Terms</a>
+      <a href="/privacy.policy.index.html">Privacy</a> | 
+      <a href="/terms.index.html">Terms</a>
     </p>
   </footer>
 
-  <!-- Sticky Footer Menu -->
-  <div class="sticky-menu">
+  <!-- Sticky Footer -->
+  <div class="sticky-menu" role="navigation" aria-label="Sticky footer links">
     <nav>
-      <a href="/blog/">Blog Home</a>
-      <a href="/debt-relief-options/">Relief Options</a>
-      <a href="/faq/">FAQ</a>
-      <a href="/scam-warning/">Scam Warnings</a>
-      <a href="/contact/">Contact</a>
-      <a href="https://gatewaydebthelp.com" target="_blank">GatewayDebtHelp</a>
-      <a href="https://debthelpform.com" target="_blank">DebtHelpForm</a>
+      <a href="/">Home</a>
+      <a href="/compare.us.html">Compare</a>
+      <a href="/debt.relief.option.index.html">Relief Options</a>
+      <a href="/savings.calculator.html">Calculator</a>
+      <a href="/faq.index.html">FAQ</a>
+      <a href="https://debthelpform.com" target="_blank" rel="noopener">DebtHelpForm.com</a>
+      <a href="https://gatewaydebthelp.com" target="_blank" rel="noopener">GatewayDebtHelp.com</a>
     </nav>
   </div>
 
