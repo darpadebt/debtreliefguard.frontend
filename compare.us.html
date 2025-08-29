@@ -44,6 +44,8 @@
       --cta:#2563eb; --ok:#007b55; --card:#fff; --card-b:#e5e7eb;
       --shadow:0 10px 30px rgba(0,0,0,.12);
       --callbar-h: 64px; /* mobile dual action bar height */
+      /* NEW: floating sitemap height for consistent spacing */
+      --sitemap-h: 52px;
     }
     *{box-sizing:border-box}
     html,body{margin:0;padding:0}
@@ -51,6 +53,8 @@
       font-family:'Inter',system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;
       background:var(--bg); color:var(--ink); line-height:1.55;
       padding-top:76px; /* space for sticky top nav */
+      /* keep content above floating sitemap */
+      padding-bottom: calc(var(--sitemap-h) + 14px);
     }
     .sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}
     .skip-link{position:absolute;left:-999px;top:auto;width:1px;height:1px;overflow:hidden}
@@ -114,18 +118,32 @@
     }
     @media (min-width:769px){ .desk-call{ display:inline-flex } }
 
-    /* Sticky bottom site menu */
+    /* Floating bottom sitemap (sticky like top) */
     .sticky-menu{
-      position:fixed; bottom:0; left:0; right:0; background:#004488; color:#fff; font-size:.85rem; z-index:9997; border-top:2px solid #2563eb
+      position:fixed; left:0; right:0;
+      bottom: calc(var(--callbar-h) + env(safe-area-inset-bottom));
+      background:#004488; color:#fff; z-index:9997;
+      border-top:2px solid #2563eb;
+      height: var(--sitemap-h);
+      display:flex; align-items:center;
     }
-    .sticky-menu nav{ display:flex; overflow-x:auto; white-space:nowrap; padding:.5rem; gap:1rem; justify-content:center }
-    .sticky-menu nav a{ color:#ffdd00; text-decoration:none; padding:.3rem .5rem; border-radius:4px; transition:background .2s }
-    .sticky-menu nav a:hover{ background:rgba(255,255,255,.1) }
-    @media (max-width:768px){ .sticky-menu nav{ gap:.5rem; font-size:.75rem } }
+    @media (min-width:769px){ .sticky-menu{ bottom:0 } }
+    .sticky-menu nav{
+      display:flex; gap:1rem; overflow-x:auto; white-space:nowrap;
+      padding:0 .75rem; width:100%; align-items:center; scrollbar-width:none;
+    }
+    .sticky-menu nav::-webkit-scrollbar{ display:none }
+    .sticky-menu nav a{
+      color:#ffdd00; text-decoration:none; padding:.35rem .55rem; border-radius:6px;
+      font-weight:700; font-size:.92rem; flex:0 0 auto;
+    }
+    .sticky-menu nav a:hover, .sticky-menu nav a:focus{
+      background:rgba(255,255,255,.1); outline:none;
+    }
 
     /* ensure content sits above bars on mobile */
     @media (max-width: 768px){
-      body, main { padding-bottom: calc(var(--callbar-h) + env(safe-area-inset-bottom) + 70px); }
+      body, main { padding-bottom: calc(var(--callbar-h) + var(--sitemap-h) + env(safe-area-inset-bottom) + 14px); }
     }
 
     footer.note{ max-width:960px; margin:1rem auto 5.5rem; text-align:center; color:#666 }
@@ -268,19 +286,19 @@
     </p>
   </main>
 
-  <!-- Bottom Bars -->
+  <!-- Mobile dual action bar (optional per design) -->
   <div class="mobile-bar" aria-label="Quick actions">
     <a class="mobile-call" href="tel:+18884377141">📞 Call 888-437-7141</a>
     <a class="mobile-est" href="https://debthelpform.com/#lead-form" target="_blank" rel="noopener">🔒 Start Secure Estimate</a>
   </div>
 
-  <!-- Sticky bottom menu (expanded; Calculator points to .html) -->
-  <footer class="sticky-menu" role="contentinfo" aria-label="Footer navigation">
+  <!-- Floating bottom sitemap (matches Home) -->
+  <footer class="sticky-menu" role="navigation" aria-label="Site map">
     <nav>
       <a href="/">Home</a>
-      <a href="/compare.us.html" aria-current="page">Compare Us</a>
+      <a href="/compare.us.html" aria-current="page">Compare</a>
       <a href="/how.it.works.index.html">How It Works</a>
-      <a href="/debt.relief.option.index.html">Relief Options</a>
+      <a href="/debt.relief.option.index.html">Debt Relief Options</a>
       <a href="/credit.card.relief.index.html">Credit Card Relief</a>
       <a href="/savings.calculator.html">Calculator</a>
       <a href="/reviews.index.html">Reviews</a>
@@ -363,7 +381,7 @@
   </script>
 
   <!-- 016 Chat Markup -->
-  <button id="gfsrChatFab" class="gfsr-chat-fab" aria-haspopup="dialog" aria-expanded="false" aria-controls="gfsrChatSheet" style="position:fixed; right:14px; bottom:calc(var(--callbar-h) + 80px); z-index:10003; display:inline-flex; align-items:center; gap:.5rem; padding:.8rem 1rem; border-radius:999px; border:1px solid rgba(0,0,0,.06); background:#0b63f6; color:#fff; box-shadow:0 10px 30px rgba(0,0,0,.18); font:600 14px/1.1 system-ui,-apple-system,Segoe UI,Roboto,Arial">💬 Chat</button>
+  <button id="gfsrChatFab" class="gfsr-chat-fab" aria-haspopup="dialog" aria-expanded="false" aria-controls="gfsrChatSheet" style="position:fixed; right:14px; bottom:calc(var(--callbar-h) + var(--sitemap-h) + 14px); z-index:10003; display:inline-flex; align-items:center; gap:.5rem; padding:.8rem 1rem; border-radius:999px; border:1px solid rgba(0,0,0,.06); background:#0b63f6; color:#fff; box-shadow:0 10px 30px rgba(0,0,0,.18); font:600 14px/1.1 system-ui,-apple-system,Segoe UI,Roboto,Arial">💬 Chat</button>
 
   <section id="gfsrChatSheet" class="gfsr-chat-sheet" role="dialog" aria-modal="true"
            aria-labelledby="gfsrChatTitle" aria-describedby="gfsrChatDesc" hidden
