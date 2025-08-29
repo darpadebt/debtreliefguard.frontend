@@ -173,9 +173,15 @@
     }
   </style>
 
-  <!-- Structured Data: Website + Breadcrumbs + FAQ (unchanged) -->
+  <!-- Structured Data: Website + Breadcrumbs + FAQ (WebSite publisher now references shared @id) -->
   <script type="application/ld+json">
-  { "@context":"https://schema.org","@type":"WebSite","name":"DebtReliefGuard","url":"https://debtreliefguard.com/","publisher":{"@type":"Organization","name":"Gateway Financial Settlement Relief","url":"https://gatewayfinancialsettlementrelief.com"} }
+  {
+    "@context":"https://schema.org",
+    "@type":"WebSite",
+    "name":"DebtReliefGuard",
+    "url":"https://debtreliefguard.com/",
+    "publisher": { "@id": "https://gatewaydebthelp.com/#gfsr" }
+  }
   </script>
   <script type="application/ld+json">
   {
@@ -197,6 +203,37 @@
       {"@type":"Question","name":"Can I get a secure savings estimate here?","acceptedAnswer":{"@type":"Answer","text":"Yes. Use the secure form at DebtHelpForm.com to receive a no-pressure estimate in about a minute."}},
       {"@type":"Question","name":"Is this site a provider?","acceptedAnswer":{"@type":"Answer","text":"No. We’re a consumer-first review and trust resource. We help you compare legitimate options and spot red flags."}}
     ]
+  }
+  </script>
+
+  <!-- NEW: Unified Organization/FinancialService JSON-LD (shared @id; disambiguation) -->
+  <script type="application/ld+json">
+  {
+    "@context":"https://schema.org",
+    "@type":["Organization","FinancialService"],
+    "@id":"https://gatewaydebthelp.com/#gfsr",
+    "name":"Gateway Financial Settlement Relief, LLC",
+    "legalName":"Gateway Financial Settlement Relief, LLC",
+    "alternateName":["Gateway Debt Help","GFSR"],
+    "url":"https://gatewaydebthelp.com/",
+    "logo":"https://debtreliefguard.com/og-cover.jpg",
+    "telephone":"+1-888-437-7141",
+    "address":{"@type":"PostalAddress","addressCountry":"US","addressRegion":"FL"},
+    "areaServed":{"@type":"Country","name":"United States"},
+    "sameAs":[
+      "https://gatewayfinancialsettlementrelief.com/",
+      "https://debthelpform.com/",
+      "https://debtreliefguard.com/",
+      "https://gatewaydebthelp.com/"
+    ],
+    "contactPoint":{
+      "@type":"ContactPoint",
+      "telephone":"+1-888-437-7141",
+      "contactType":"customer service",
+      "areaServed":"US",
+      "availableLanguage":["English"]
+    },
+    "disambiguatingDescription":"Florida-operated, Wyoming-registered debt relief company using 'Gateway Debt Help' as a marketing tagline. Not affiliated with Gateway Debt Relief of Costa Mesa, CA."
   }
   </script>
 </head>
@@ -303,6 +340,11 @@
     <p>Website operated by <a href="https://gatewayfinancialsettlementrelief.com" target="_blank" rel="noopener">Gateway Financial Settlement Relief</a></p>
     <p style="font-size:.82rem;color:#999">This site provides educational information, not legal, tax, or financial advice. Results vary and are not guaranteed. Programs may affect creditworthiness and involve fees disclosed in writing; no fees until your first debt is settled.</p>
     <p style="font-size:.82rem;color:#999">Last updated: August 2025</p>
+    <!-- NEW: visible disambiguation line -->
+    <p style="font-size:.82rem;color:#999">
+      “Gateway Debt Help” is the marketing brand of <strong>Gateway Financial Settlement Relief, LLC</strong>.
+      Not affiliated with “Gateway Debt Relief” of Costa Mesa, CA.
+    </p>
   </footer>
 
   <!-- Bot heuristic (simple honeypot) -->
@@ -400,7 +442,7 @@
     };
 
     const openChat = () => {
-      el.sheet.removeAttribute('hidden');          // NEW: make visible
+      el.sheet.removeAttribute('hidden');          // make visible
       el.sheet.classList.add('open');
       el.fab.setAttribute('aria-expanded','true');
       setTimeout(()=>el.input.focus(),120);
@@ -408,7 +450,7 @@
     const closeChat = () => {
       el.sheet.classList.remove('open');
       el.fab.setAttribute('aria-expanded','false');
-      el.sheet.setAttribute('hidden','');          // NEW: fully hide & remove from a11y tree
+      el.sheet.setAttribute('hidden','');          // fully hide & remove from a11y tree
       el.fab.focus();
     };
     el.fab.addEventListener('click', openChat);
