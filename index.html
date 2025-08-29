@@ -92,9 +92,9 @@
 
     /* 016 chat (bottom sheet) */
     :root{ --chat-radius:16px; --chat-shadow:0 10px 30px rgba(0,0,0,.18); --chat-border:1px solid rgba(0,0,0,.06) }
-    .gfsr-chat-fab{ position:fixed; right:14px; bottom:74px; z-index:9999; display:inline-flex; align-items:center; gap:.5rem; padding:.8rem 1rem; border-radius:999px; border:var(--chat-border); background:#0b63f6; color:#fff; box-shadow:var(--chat-shadow); font:600 14px/1.1 system-ui,-apple-system,Segoe UI,Roboto,Arial }
+    .gfsr-chat-fab{ position:fixed; right:14px; bottom:74px; z-index:10003; display:inline-flex; align-items:center; gap:.5rem; padding:.8rem 1rem; border-radius:999px; border:var(--chat-border); background:#0b63f6; color:#fff; box-shadow:var(--chat-shadow); font:600 14px/1.1 system-ui,-apple-system,Segoe UI,Roboto,Arial }
     .gfsr-chat-fab:focus-visible{ outline:3px solid #b9d3ff; outline-offset:3px }
-    .gfsr-chat-sheet{ position:fixed; inset:auto 0 0 0; margin:auto; width:100%; max-width:420px; right:12px; left:auto; border-radius:18px 18px 0 0; background:#fff; box-shadow:var(--chat-shadow); transform:translateY(110%); transition:transform .28s ease; border:var(--chat-border); z-index:10000 }
+    .gfsr-chat-sheet{ position:fixed; inset:auto 0 0 0; margin:auto; width:100%; max-width:420px; right:12px; left:auto; border-radius:18px 18px 0 0; background:#fff; box-shadow:var(--chat-shadow); transform:translateY(110%); transition:transform .28s ease; border:var(--chat-border); z-index:10004 }
     @media (min-width:720px){ .gfsr-chat-sheet{ bottom:auto; top:calc(12px + env(safe-area-inset-top)); right:12px; left:auto; border-radius:18px; max-height:78vh; width:380px } .gfsr-chat-fab{ bottom:14px } }
     .gfsr-chat-sheet.open{ transform:translateY(0) }
     @media (min-width:720px){ .gfsr-chat-sheet.open{ transform:none; position:fixed; bottom:12px } }
@@ -128,6 +128,22 @@
     }
 
     .sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}
+
+    /* ▶ Per-step action buttons */
+    .process .row{ position:relative; padding-right:160px; }
+    .process .row .actions{ position:absolute; right:12px; top:50%; transform:translateY(-50%); display:inline-flex; gap:8px; white-space:nowrap; }
+    .btn-sm{ padding:.45rem .7rem; font-weight:800; border-radius:8px; font-size:.9rem; line-height:1; text-decoration:none }
+    .btn-sm.btn-primary{ background:#0b63f6; color:#fff; border:0; box-shadow:0 6px 14px rgba(0,0,0,.08) }
+    .btn-sm.btn-outline{ background:transparent; color:#0b63f6; border:2px solid #0b63f6 }
+
+    /* ▶ Desktop sticky phone pill */
+    .desk-call{
+      position:fixed; right:14px; bottom:14px; z-index:10002;
+      display:none; align-items:center; gap:.4rem;
+      padding:.7rem 1rem; border-radius:999px; background:#007b55; color:#fff; font-weight:900; text-decoration:none;
+      box-shadow:0 10px 24px rgba(0,0,0,.18);
+    }
+    @media (min-width:769px){ .desk-call{ display:inline-flex } }
   </style>
 
   <!-- Structured Data: Website + Breadcrumbs + FAQ (unchanged) -->
@@ -181,6 +197,9 @@
     <a class="mobile-est" href="https://debthelpform.com/#lead-form" target="_blank" rel="noopener">🔒 Start Secure Estimate</a>
   </div>
 
+  <!-- Desktop sticky phone pill -->
+  <a class="desk-call" href="tel:+18884377141">📞 888-437-7141</a>
+
   <!-- HERO -->
   <header>
     <span class="badge">🛡️ Secure • Confidential • Scam-Defense</span>
@@ -197,10 +216,34 @@
     <section>
       <h2>How it works (simple & safe)</h2>
       <p class="lead">Compare legitimate options side-by-side and pick what fits — with zero pressure.</p>
+
       <div class="process" role="list">
-        <div class="row" role="listitem"><strong>1) Quick, secure estimate</strong> Answer a few questions; no credit score impact.</div>
-        <div class="row" role="listitem"><strong>2) Compare options</strong> Settlement, consolidation, counseling — transparent pros/cons.</div>
-        <div class="row" role="listitem"><strong>3) Decide with confidence</strong> No fees until your first debt is settled.</div>
+        <div class="row" role="listitem">
+          <strong>1) Quick, secure estimate</strong>
+          Answer a few questions; no credit score impact.
+          <div class="actions">
+            <a class="btn-sm btn-primary" href="https://debthelpform.com/#lead-form" target="_blank" rel="noopener">Start</a>
+            <a class="btn-sm btn-outline" href="tel:+18884377141">Call</a>
+          </div>
+        </div>
+
+        <div class="row" role="listitem">
+          <strong>2) Compare options</strong>
+          Settlement, consolidation, counseling — transparent pros/cons.
+          <div class="actions">
+            <a class="btn-sm btn-primary" href="https://debthelpform.com/#lead-form" target="_blank" rel="noopener">Start</a>
+            <a class="btn-sm btn-outline" href="tel:+18884377141">Call</a>
+          </div>
+        </div>
+
+        <div class="row" role="listitem">
+          <strong>3) Decide with confidence</strong>
+          No fees until your first debt is settled.
+          <div class="actions">
+            <a class="btn-sm btn-primary" href="https://debthelpform.com/#lead-form" target="_blank" rel="noopener">Start</a>
+            <a class="btn-sm btn-outline" href="tel:+18884377141">Call</a>
+          </div>
+        </div>
       </div>
 
       <div class="trust-links">
@@ -293,44 +336,6 @@
     })();
   })();
   </script>
-
-  <!-- 016 chat (sleek bottom-sheet; posts to this site's /chat) -->
-  <style>
-    :root{ --chat-radius:16px; --chat-shadow:0 10px 30px rgba(0,0,0,.18); --chat-border:1px solid rgba(0,0,0,.06); }
-    .gfsr-chat-fab{ position:fixed; right:14px; bottom:74px; z-index:9999; display:inline-flex; align-items:center; gap:.5rem; padding:.8rem 1rem; border-radius:999px; border:var(--chat-border); background:#0b63f6; color:#fff; box-shadow:var(--chat-shadow); font:600 14px/1.1 system-ui,-apple-system,Segoe UI,Roboto,Arial; }
-    .gfsr-chat-fab:focus-visible{ outline:3px solid #b9d3ff; outline-offset:3px; }
-    .gfsr-chat-sheet{ position:fixed; inset:auto 0 0 0; margin:auto; width:100%; max-width:420px; right:12px; left:auto; border-radius:18px 18px 0 0; background:#fff; box-shadow:var(--chat-shadow); transform:translateY(110%); transition:transform .28s ease; border:var(--chat-border); z-index:10000; }
-    @media (min-width:720px){ .gfsr-chat-sheet{ bottom:auto; top:calc(12px + env(safe-area-inset-top)); right:12px; left:auto; border-radius:18px; max-height:78vh; width:380px; } .gfsr-chat-fab{ bottom:14px; } }
-    .gfsr-chat-sheet.open{ transform:translateY(0); }
-    @media (min-width:720px){ .gfsr-chat-sheet.open{ transform:none; position:fixed; bottom:12px; } }
-    .gfsr-chat-head{ display:flex; align-items:center; justify-content:space-between; padding:12px 14px; border-bottom:var(--chat-border); background:#f9fafb; border-radius:inherit; }
-    .gfsr-chat-title{ font-weight:700; font-size:15px; }
-    .gfsr-chat-close{ background:transparent; border:none; padding:8px; border-radius:10px; cursor:pointer; }
-    .gfsr-chat-close:focus-visible{ outline:3px solid #0b63f6; }
-    .gfsr-chat-body{ display:flex; flex-direction:column; gap:8px; padding:12px; height:min(70vh, 520px); overflow:auto; -webkit-overflow-scrolling:touch; }
-    @media (min-width:720px){ .gfsr-chat-body{ height:56vh; } }
-    .gfsr-msg{ max-width:88%; padding:10px 12px; border-radius:14px; font-size:14px; line-height:1.35; }
-    .gfsr-msg.user{ margin-left:auto; background:#0b63f6; color:#fff; border-top-right-radius:4px; }
-    .gfsr-msg.bot{ background:#eef2ff; color:#111; border-top-left-radius:4px; }
-    .gfsr-msg.meta{ background:#f3f4f6; color:#444; font-size:12px; margin:4px auto; }
-    .gfsr-chat-input{ display:flex; gap:8px; padding:10px; border-top:var(--chat-border); background:#fff; border-radius:0 0 18px 18px; }
-    .gfsr-chat-input textarea{ flex:1; resize:none; min-height:42px; max-height:120px; padding:10px 12px; border:1px solid #e5e7eb; border-radius:12px; font-size:14px; line-height:1.35; }
-    .gfsr-chat-send{ background:#0b63f6; color:#fff; border:none; padding:12px 14px; border-radius:12px; font-weight:700; }
-    .gfsr-chat-send[disabled]{ opacity:.6; cursor:not-allowed; }
-    @media (prefers-reduced-motion:reduce){ .gfsr-chat-sheet{ transition:none; } }
-    @media (prefers-color-scheme:dark){
-      .gfsr-chat-sheet{ background:#0b0b0d; border-color:#1e1e22; }
-      .gfsr-chat-head{ background:#111216; color:#eaeaea; }
-      .gfsr-chat-body{ background:#0b0b0d; }
-      .gfsr-msg.bot{ background:#1a2236; color:#eaeaea; }
-      .gfsr-msg.meta{ background:#121318; color:#c9c9c9; }
-      .gfsr-chat-input{ background:#0b0b0d; border-color:#1e1e22; }
-      .gfsr-chat-input textarea{ background:#0f0f12; color:#eaeaea; border-color:#1f2532; }
-      .gfsr-chat-send{ background:#2d6bf6; }
-      .gfsr-chat-fab{ background:#2d6bf6; }
-    }
-    .sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0;}
-  </style>
 
   <!-- 016 Chat Markup -->
   <button id="gfsrChatFab" class="gfsr-chat-fab" aria-haspopup="dialog" aria-expanded="false" aria-controls="gfsrChatSheet">💬 Chat</button>
