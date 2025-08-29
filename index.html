@@ -35,6 +35,23 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet" />
 
+  <!-- ===== A/B hook for AI Loop Optimizer (050) ===== -->
+  <meta name="x-ai-optimizer-page" content="drg:index" />
+  <script>
+    window.__ab = {
+      pageKey: 'drg:index',
+      slots: {
+        headline: '#ab-cta-text',
+        primaryCta: '.hero-ctas .btn.btn-primary',
+        phoneCta: '.hero-ctas .btn.btn-outline'
+      },
+      defaults: {
+        primaryCtaText: '🔒 Start Secure Estimate',
+        primaryCtaHref: 'https://debthelpform.com/#lead-form'
+      }
+    };
+  </script>
+
   <!-- Styles (mobile-first, polished like DHF) -->
   <style>
     :root {
