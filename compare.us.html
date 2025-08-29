@@ -56,14 +56,14 @@
     .skip-link{position:absolute;left:-999px;top:auto;width:1px;height:1px;overflow:hidden}
     .skip-link:focus{position:fixed;left:12px;top:12px;padding:.5rem .75rem;background:#000;color:#fff;z-index:10000;border-radius:6px}
 
-    /* Sticky top nav (yours, with home parity colors) */
+    /* Sticky top nav (home parity colors) */
     .sticky-nav{
       position:fixed; top:0; left:0; right:0; background:var(--brand-2);
-      z-index:9999; display:flex; gap:1rem; padding:1rem; overflow-x:auto; white-space:nowrap;
+      z-index:9999; display:flex; gap:.75rem; padding:.75rem 1rem; overflow-x:auto; white-space:nowrap;
       box-shadow:0 2px 5px rgba(0,0,0,0.08)
     }
     .sticky-nav a{ color:#fff; font-weight:600; text-decoration:none; padding:.5rem .75rem; flex:0 0 auto; border-radius:6px }
-    .sticky-nav a:hover{ text-decoration:underline }
+    .sticky-nav a:hover,.sticky-nav a:focus{ text-decoration:underline; outline:none }
     .sticky-nav::-webkit-scrollbar{ display:none }
 
     /* Hero-ish page header (home parity) */
@@ -87,7 +87,7 @@
     h1,h2{text-align:center}
     .muted-text{ color:#6b7280; font-size:.95rem }
 
-    /* Comparison table (styled to match home aesthetic) */
+    /* Comparison table */
     .table-wrap{ overflow:auto }
     table{ width:100%; border-collapse:separate; border-spacing:0; border:1px solid #e5e7eb; border-radius:12px; overflow:hidden; margin-top:1rem }
     thead th{ background:#0f172a; color:#e5e7eb; text-align:left; padding:.75rem; font-weight:800; position:sticky; top:0 }
@@ -96,7 +96,7 @@
     .cta{ text-align:center; margin-top:2rem }
     .cta a{ background:var(--cta); color:#fff; padding:.75rem 1.5rem; border-radius:8px; font-weight:800; text-decoration:none; box-shadow:0 6px 14px rgba(0,0,0,.08) }
 
-    /* Mobile dual action bar (home parity) */
+    /* Mobile dual action bar */
     .mobile-bar{
       position:fixed; left:0; right:0; bottom:0; background:#0b1220; color:#fff;
       display:flex; gap:8px; padding:.6rem; z-index:9998
@@ -106,7 +106,7 @@
     .mobile-est{ background:#0b63f6; color:#fff }
     @media (min-width:769px){ .mobile-bar{ display:none } }
 
-    /* Desktop sticky phone pill (home parity) */
+    /* Desktop sticky phone pill */
     .desk-call{
       position:fixed; right:14px; bottom:14px; z-index:10002; display:none; align-items:center; gap:.4rem;
       padding:.7rem 1rem; border-radius:999px; background:#007b55; color:#fff; font-weight:900; text-decoration:none;
@@ -114,7 +114,7 @@
     }
     @media (min-width:769px){ .desk-call{ display:inline-flex } }
 
-    /* Your sticky bottom menu kept (sits under mobile bar visually) */
+    /* Sticky bottom site menu */
     .sticky-menu{
       position:fixed; bottom:0; left:0; right:0; background:#004488; color:#fff; font-size:.85rem; z-index:9997; border-top:2px solid #2563eb
     }
@@ -135,28 +135,16 @@
   <!-- =========================
        STRUCTURED DATA (JSON-LD)
        ========================= -->
-
-  <!-- WebSite (publisher -> shared @id) -->
   <script type="application/ld+json">
-  {
-    "@context":"https://schema.org",
-    "@type":"WebSite",
-    "name":"DebtReliefGuard",
-    "url":"https://debtreliefguard.com/",
-    "publisher": { "@id": "https://gatewaydebthelp.com/#gfsr" }
-  }
+  {"@context":"https://schema.org","@type":"WebSite","name":"DebtReliefGuard","url":"https://debtreliefguard.com/","publisher":{"@id":"https://gatewaydebthelp.com/#gfsr"}}
   </script>
 
   <!-- Breadcrumbs for Compare page -->
   <script type="application/ld+json">
-  {
-    "@context":"https://schema.org",
-    "@type":"BreadcrumbList",
-    "itemListElement":[
-      { "@type":"ListItem","position":1,"name":"Home","item":"https://debtreliefguard.com/" },
-      { "@type":"ListItem","position":2,"name":"Compare Verified vs High-Risk","item":"https://debtreliefguard.com/compare.us.html" }
-    ]
-  }
+  {"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[
+    {"@type":"ListItem","position":1,"name":"Home","item":"https://debtreliefguard.com/"},
+    {"@type":"ListItem","position":2,"name":"Compare Verified vs High-Risk","item":"https://debtreliefguard.com/compare.us.html"}
+  ]}
   </script>
 
   <!-- Unified Organization/FinancialService (shared @id; disambiguation) -->
@@ -190,7 +178,7 @@
   }
   </script>
 
-  <!-- ===== A/B slots exposed for 050 (kept tiny, no blocking) ===== -->
+  <!-- ===== A/B slots for 050 ===== -->
   <script>
     window.__ab = {
       pageKey: 'drg:compare',
@@ -210,13 +198,21 @@
 <body>
   <a href="#main" class="skip-link">Skip to content</a>
 
-  <!-- Sticky Header (kept) -->
+  <!-- Sticky Header (expanded to all pages) -->
   <nav class="sticky-nav" role="navigation" aria-label="Main navigation">
     <a href="/">Home</a>
     <a href="/compare.us.html" aria-current="page">Compare Us</a>
-    <a href="/faq.index.html">FAQ</a>
+    <a href="/how.it.works.index.html">How It Works</a>
+    <a href="/debt.relief.option.index.html">Relief Options</a>
+    <a href="/credit.card.relief.index.html">Credit Card Relief</a>
+    <a id="link-savings-top" href="/savings.calculator.index.html">Calculator</a>
+    <a href="/reviews.index.html">Reviews</a>
     <a href="/blog.index.html">Blog</a>
+    <a href="/scam.warning.index.html">Scam Warnings</a>
+    <a href="/faq.index.html">FAQ</a>
     <a href="/contact.index.html">Contact</a>
+    <a href="/privacy.policy.index.html">Privacy</a>
+    <a href="/terms.index.html">Terms</a>
     <a href="https://debthelpform.com/#lead-form" style="background:#2563eb;color:white;padding:0.5rem 0.75rem;border-radius:6px;">Estimate</a>
     <a href="https://gatewaydebthelp.com" target="_blank" rel="noopener">GatewayDebtHelp.com</a>
     <a href="https://gatewayfinancialsettlementrelief.com" target="_blank" rel="noopener"><strong>GFSR Owner</strong></a>
@@ -278,20 +274,29 @@
     <a class="mobile-est" href="https://debthelpform.com/#lead-form" target="_blank" rel="noopener">🔒 Start Secure Estimate</a>
   </div>
 
-  <!-- Your existing sticky bottom menu (kept) -->
+  <!-- Sticky bottom menu (expanded to all pages) -->
   <footer class="sticky-menu" role="contentinfo" aria-label="Footer navigation">
     <nav>
+      <a href="/">Home</a>
       <a href="/compare.us.html" aria-current="page">Compare Us</a>
+      <a href="/how.it.works.index.html">How It Works</a>
       <a href="/debt.relief.option.index.html">Relief Options</a>
-      <a href="/savings.calculator.html">Calculator</a>
+      <a href="/credit.card.relief.index.html">Credit Card Relief</a>
+      <a id="link-savings-foot" href="/savings.calculator.index.html">Calculator</a>
+      <a href="/reviews.index.html">Reviews</a>
+      <a href="/blog.index.html">Blog</a>
       <a href="/scam.warning.index.html">Scam Warnings</a>
       <a href="/faq.index.html">FAQ</a>
+      <a href="/contact.index.html">Contact</a>
+      <a href="/privacy.policy.index.html">Privacy</a>
+      <a href="/terms.index.html">Terms</a>
+      <a href="/geo-blocked.html" rel="nofollow">Geo-Blocked</a>
       <a href="https://debthelpform.com" target="_blank" rel="noopener">DebtHelpForm.com</a>
       <a href="https://gatewaydebthelp.com" target="_blank" rel="noopener">GatewayDebtHelp.com</a>
     </nav>
   </footer>
 
-  <!-- Visible legal/disambiguation note (not cloaking) -->
+  <!-- Visible legal/disambiguation note -->
   <footer class="note">
     <p>© 2025 DebtReliefGuard.com — Trust-First. Scam-Free. GFSR Verified.</p>
     <p>Website operated by <a href="https://gatewayfinancialsettlementrelief.com" target="_blank" rel="noopener">Gateway Financial Settlement Relief</a></p>
@@ -309,6 +314,26 @@
       addEventListener('keydown',()=>u=true,{passive:true});
       setInterval(()=>t++,1000);
       window.validateBotProtections=()=> (honeypot.value==="" && u && t>=3);
+    })();
+  </script>
+
+  <!-- Savings Calculator link fallback (index → non-index if needed) -->
+  <script>
+    (function(){
+      async function safeNav(e, preferred, fallback){
+        try{
+          e.preventDefault();
+          const r = await fetch(preferred, {method:'HEAD', cache:'no-store', redirect:'manual'});
+          if (r && (r.ok || r.status===304)) location.href = preferred;
+          else location.href = fallback;
+        }catch(_){ location.href = fallback; }
+      }
+      const preferred = '/savings.calculator.index.html';
+      const fallback  = '/savings.calculator.html';
+      const aTop = document.getElementById('link-savings-top');
+      const aFoot = document.getElementById('link-savings-foot');
+      if (aTop)  aTop.addEventListener('click',  (e)=>safeNav(e, preferred, fallback));
+      if (aFoot) aFoot.addEventListener('click', (e)=>safeNav(e, preferred, fallback));
     })();
   </script>
 
@@ -332,7 +357,7 @@
         const raw = localStorage.getItem(CACHE_KEY);
         if (raw) {
           const { ts, message } = JSON.parse(raw);
-          if (ts && (now()-ts) < MAX_AGE_MS && message) el.textContent = safeText(message);
+          if (ts && (Date.now()-ts) < MAX_AGE_MS && message) el.textContent = safeText(message);
         }
       } catch(_) {}
 
@@ -348,7 +373,7 @@
           if(data && data.message){
             el.textContent = safeText(data.message);
             ok=true;
-            try{ localStorage.setItem(CACHE_KEY, JSON.stringify({ ts: now(), message: data.message })); }catch(_){}
+            try{ localStorage.setItem(CACHE_KEY, JSON.stringify({ ts: Date.now(), message: data.message })); }catch(_){}
           }
         }catch(e){ await sleep(200); }
       }
