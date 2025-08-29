@@ -83,7 +83,7 @@
     /* Container + Calculator UI */
     .container{max-width:820px;margin:1.25rem auto;background:#fff;border:1px solid var(--card-b);border-radius:12px;padding:1.25rem;box-shadow:0 2px 12px rgba(0,0,0,.06)}
     h1{margin:.2rem 0 .4rem;font-size:clamp(1.6rem,3vw + 1rem,2.1rem);font-weight:800;text-align:center}
-    .sub{margin:0 0 1rem;color:#444;text-align:center}
+    .sub{margin:0 0 1rem;text-align:center}
     label{font-weight:700;display:block;margin-top:.6rem}
     input,select{width:100%;padding:.65rem;border:1px solid #d1d5db;border-radius:10px;margin-top:.35rem}
     .btn{display:inline-flex;align-items:center;justify-content:center;gap:.4rem;border-radius:10px;padding:.7rem 1.05rem;font-weight:800;text-decoration:none;cursor:pointer}
@@ -127,6 +127,10 @@
     @media (max-width:768px){
       body, main { padding-bottom: calc(var(--callbar-h) + var(--sitemap-h) + env(safe-area-inset-bottom) + 14px); }
     }
+
+    /* >>> Contrast fix for hero block <<< */
+    header { color:#fff; }
+    header .sub { color:#f1f5f9; }
   </style>
 
   <!-- =========================
@@ -210,10 +214,10 @@
   <a class="desk-call" href="tel:+18884377141">📞 888-437-7141</a>
 
   <!-- HERO / Intro -->
-  <header style="max-width:960px;margin:0 auto;text-align:center;background:var(--brand);color:#fff;padding:1.25rem 1rem;border-radius:12px;box-shadow:0 6px 18px rgba(0,0,0,.08)">
+  <header style="max-width:960px;margin:0 auto;text-align:center;background:#004477;color:#fff;padding:1.25rem 1rem;border-radius:12px;box-shadow:0 6px 18px rgba(0,0,0,.08)">
     <span class="badge" style="display:inline-flex;gap:.35rem;align-items:center;justify-content:center;background:#0f172a;color:#e5e7eb;border:1px solid rgba(255,255,255,.18);border-radius:999px;padding:.35rem .6rem;font-size:.82rem">🛡️ Secure • FTC-Aligned • No Upfront Fees</span>
-    <h1 id="ab-cta-text">Debt Savings Calculator — See a Plan Before You Commit</h1>
-    <p class="sub">Private, fast, and transparent. Estimate your monthly payment and timeline, then decide with confidence.</p>
+    <h1 id="ab-cta-text" style="color:#fff">Debt Savings Calculator — See a Plan Before You Commit</h1>
+    <p class="sub" style="color:#f1f5f9">Private, fast, and transparent. Estimate your monthly payment and timeline, then decide with confidence.</p>
   </header>
 
   <!-- CALCULATOR -->
