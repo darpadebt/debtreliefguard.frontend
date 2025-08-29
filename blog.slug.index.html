@@ -1,231 +1,407 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+  <!-- Charset & Compatibility -->
   <meta charset="UTF-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+
+  <!-- Viewport -->
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0" />
+
+  <!-- =========================
+       TITLE & DESCRIPTION (SEO)
+       ========================= -->
   <title>{{title}} | DebtReliefGuard Blog</title>
   <meta name="description" content="{{excerpt}}" />
-  <meta name="keywords" content="debt relief, credit card help, personal loans, {{tags}}" />
-  <meta name="robots" content="index, follow" />
-  <link rel="canonical" href="https://debtreliefguard.com/blog/{{slug}}/" />
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="/styles/main.css" />
-  <style>
-    body {
-      font-family: 'Inter', sans-serif;
-      background: #f9fafb;
-      color: #333;
-      margin: 0;
-      padding: 0;
-    }
+  <meta name="robots" content="index,follow,max-image-preview:large" />
+  <link rel="canonical" href="https://debtreliefguard.com/blog/{{slug}}.html" />
 
-    header {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      background: white;
-      border-bottom: 1px solid #e5e7eb;
-      z-index: 999;
-      padding: 1rem;
-    }
-    header .nav {
-      max-width: 1200px;
-      margin: 0 auto;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-    }
-    header nav a {
-      margin: 0 0.5rem;
-      color: #2563eb;
-      font-weight: 500;
-      text-decoration: none;
-    }
-    header nav a:hover {
-      text-decoration: underline;
-    }
+  <!-- Open Graph / Twitter -->
+  <meta property="og:type" content="article" />
+  <meta property="og:url" content="https://debtreliefguard.com/blog/{{slug}}.html" />
+  <meta property="og:title" content="{{title}} | DebtReliefGuard Blog" />
+  <meta property="og:description" content="{{excerpt}}" />
+  <meta property="og:site_name" content="DebtReliefGuard.com" />
+  <meta property="og:image" content="{{image}}" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="{{title}} | DebtReliefGuard Blog" />
+  <meta name="twitter:description" content="{{excerpt}}" />
+  <meta name="twitter:image" content="{{image}}" />
 
-    .container {
-      max-width: 740px;
-      margin: 6rem auto 5rem;
-      background: white;
-      padding: 2rem;
-      border-radius: 12px;
-      box-shadow: 0 0 10px rgba(0,0,0,0.05);
-    }
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" crossorigin>
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet" />
 
-    img.feature {
-      width: 100%;
-      max-height: 400px;
-      object-fit: cover;
-      border-radius: 10px;
-      margin-bottom: 1.5rem;
-    }
-
-    h1 {
-      font-size: 2rem;
-      margin-bottom: 1rem;
-    }
-
-    .meta {
-      font-size: 0.9rem;
-      color: #555;
-      margin-bottom: 1rem;
-    }
-
-    .meta a {
-      color: #2563eb;
-      text-decoration: underline;
-    }
-
-    .content p {
-      line-height: 1.7;
-      margin-bottom: 1rem;
-    }
-
-    .content a {
-      color: #2563eb;
-      text-decoration: underline;
-    }
-
-    .cta {
-      background: #2563eb;
-      color: white;
-      padding: 1rem;
-      text-align: center;
-      border-radius: 10px;
-      margin: 2rem 0;
-    }
-
-    .cta a {
-      background: white;
-      color: #2563eb;
-      padding: 0.5rem 1rem;
-      border-radius: 6px;
-      font-weight: 600;
-      text-decoration: none;
-    }
-
-    .sticky-menu {
-      position: fixed;
-      bottom: 0;
-      width: 100%;
-      background: #004488;
-      color: white;
-      font-size: 0.85rem;
-      border-top: 2px solid #2563eb;
-      z-index: 9999;
-    }
-
-    .sticky-menu nav {
-      display: flex;
-      overflow-x: auto;
-      white-space: nowrap;
-      padding: 0.5rem;
-      gap: 1rem;
-      justify-content: center;
-    }
-
-    .sticky-menu nav a {
-      color: #ffdd00;
-      text-decoration: none;
-      padding: 0.3rem 0.5rem;
-      border-radius: 4px;
-    }
-
-    .sticky-menu nav a:hover {
-      background: rgba(255,255,255,0.1);
-    }
-
-    @media (max-width: 768px) {
-      .sticky-menu nav {
-        gap: 0.5rem;
-        font-size: 0.75rem;
+  <!-- ===== A/B hook for AI Loop Optimizer (050) ===== -->
+  <meta name="x-ai-optimizer-page" content="drg:post" />
+  <script>
+    window.__ab = {
+      pageKey: 'drg:post',
+      slots: {
+        headline:   '#ab-cta-text',
+        primaryCta: '.hero-ctas .btn.btn-primary',
+        phoneCta:   '.hero-ctas .btn.btn-outline'
+      },
+      defaults: {
+        primaryCtaText: '🔒 Start Secure Estimate',
+        primaryCtaHref: 'https://debthelpform.com/#lead-form'
       }
+    };
+  </script>
+
+  <!-- =========================
+       STYLES (match site)
+       ========================= -->
+  <style>
+    :root{
+      --ink:#222; --bg:#f9fafe; --brand:#004477; --brand-2:#003057;
+      --cta:#0b63f6; --ok:#007b55; --card:#fff; --card-b:#e5e7eb;
+      --shadow:0 10px 30px rgba(0,0,0,.12);
+      --callbar-h: 64px;  /* dynamic via script */
+      --sitemap-h: 52px;  /* floating sitemap height */
+    }
+    *{box-sizing:border-box}
+    html,body{margin:0;padding:0}
+    body{
+      font-family:'Inter',system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;
+      background:var(--bg); color:var(--ink); line-height:1.6;
+      padding-top:76px; /* sticky top nav space */
+      padding-bottom: calc(var(--sitemap-h) + 14px); /* clear floating sitemap (desktop) */
+    }
+
+    .skip-link{position:absolute;left:-999px;top:auto;width:1px;height:1px;overflow:hidden}
+    .skip-link:focus{position:fixed;left:12px;top:12px;padding:.5rem .75rem;background:#000;color:#fff;z-index:10000;border-radius:6px}
+
+    /* Sticky Top Nav */
+    .sticky-nav{position:fixed;top:0;left:0;right:0;background:var(--brand-2);z-index:9999;box-shadow:0 2px 5px rgba(0,0,0,.08)}
+    .sticky-nav ul{display:flex;gap:.75rem;margin:0;padding:.75rem 1rem;overflow-x:auto;white-space:nowrap;list-style:none}
+    .sticky-nav a{color:#fff;font-weight:600;text-decoration:none;padding:.4rem .6rem;border-radius:6px}
+    .sticky-nav a:hover,.sticky-nav a:focus{text-decoration:underline;outline:none}
+
+    /* Article container */
+    .container{max-width:740px;margin:1.25rem auto;background:#fff;border:1px solid var(--card-b);border-radius:12px;padding:1.25rem;box-shadow:0 2px 12px rgba(0,0,0,.06)}
+    img.feature{width:100%;max-height:420px;object-fit:cover;border-radius:10px;margin:0 0 1rem}
+    h1{font-size:clamp(1.6rem,2.2vw + 1rem,2.2rem);margin:.2rem 0 .6rem;font-weight:800}
+    .meta{font-size:.92rem;color:#5b6470;margin:-.25rem 0 1.1rem}
+    .meta a{color:#0b63f6;text-decoration:underline}
+    .content p{margin:0 0 1rem}
+    .content a{color:#0b63f6;text-decoration:underline}
+    .content h2,.content h3{margin:1.2rem 0 .5rem}
+
+    .cta{background:#0b63f6;color:#fff;padding:1rem;border-radius:10px;margin:1.5rem 0;text-align:center}
+    .cta a{background:#fff;color:#0b63f6;padding:.5rem 1rem;border-radius:8px;font-weight:800;text-decoration:none}
+
+    /* Helper: headline/CTA slots for A/B */
+    .hero-ctas{display:flex;justify-content:center;gap:.6rem;flex-wrap:wrap;margin-top:.6rem}
+    .btn{display:inline-flex;align-items:center;gap:.4rem;border-radius:10px;padding:.6rem .9rem;font-weight:800;text-decoration:none}
+    .btn.btn-primary{background:#0b63f6;color:#fff;box-shadow:var(--shadow)}
+    .btn.btn-outline{background:transparent;color:#0b63f6;border:2px solid #0b63f6}
+
+    /* Mobile dual-action bar */
+    .mobile-bar{position:fixed;left:0;right:0;bottom:0;background:#0b1220;color:#fff;display:flex;gap:8px;padding:.6rem;z-index:9998}
+    .mobile-bar a{flex:1;text-align:center;border-radius:10px;padding:.75rem .5rem;font-weight:900;text-decoration:none}
+    .mobile-call{background:var(--ok);color:#fff}
+    .mobile-est{background:#0b63f6;color:#fff}
+    @media (min-width:769px){.mobile-bar{display:none}}
+
+    /* Desktop sticky phone pill */
+    .desk-call{
+      position:fixed;right:14px;bottom:14px;z-index:10002;display:none;align-items:center;gap:.4rem;
+      padding:.7rem 1rem;border-radius:999px;background:#007b55;color:#fff;font-weight:900;text-decoration:none;
+      box-shadow:0 10px 24px rgba(0,0,0,.18);
+    }
+    @media (min-width:769px){.desk-call{display:inline-flex}}
+
+    /* Floating bottom sitemap (sticky like top) */
+    .sticky-menu{
+      position:fixed;left:0;right:0;
+      bottom: calc(var(--callbar-h) + env(safe-area-inset-bottom));
+      background:#004488;color:#fff;z-index:9997;border-top:2px solid #2563eb;
+      height:var(--sitemap-h);display:flex;align-items:center;
+    }
+    @media (min-width:769px){.sticky-menu{bottom:0}}
+    .sticky-menu nav{display:flex;gap:1rem;overflow-x:auto;white-space:nowrap;padding:0 .75rem;width:100%;align-items:center;scrollbar-width:none}
+    .sticky-menu nav::-webkit-scrollbar{display:none}
+    .sticky-menu nav a{color:#ffdd00;text-decoration:none;padding:.35rem .55rem;border-radius:6px;font-weight:700;font-size:.92rem;flex:0 0 auto}
+    .sticky-menu nav a:hover,.sticky-menu nav a:focus{background:rgba(255,255,255,.1);outline:none}
+
+    @media (max-width:768px){
+      body, main { padding-bottom: calc(var(--callbar-h) + var(--sitemap-h) + env(safe-area-inset-bottom) + 14px); }
     }
   </style>
+
+  <!-- =========================
+       STRUCTURED DATA (JSON-LD)
+       ========================= -->
+  <script type="application/ld+json">
+  {"@context":"https://schema.org","@type":"WebSite","name":"DebtReliefGuard","url":"https://debtreliefguard.com/","publisher":{"@id":"https://gatewaydebthelp.com/#gfsr"}}
+  </script>
+  <script type="application/ld+json">
+  {"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[
+    {"@type":"ListItem","position":1,"name":"Home","item":"https://debtreliefguard.com/"},
+    {"@type":"ListItem","position":2,"name":"Blog","item":"https://debtreliefguard.com/blog.index.html"},
+    {"@type":"ListItem","position":3,"name":"{{title}}","item":"https://debtreliefguard.com/blog/{{slug}}.html"}
+  ]}
+  </script>
+  <script type="application/ld+json">
+  {
+    "@context":"https://schema.org",
+    "@type":"BlogPosting",
+    "headline":"{{title}}",
+    "description":"{{excerpt}}",
+    "image":"{{image}}",
+    "url":"https://debtreliefguard.com/blog/{{slug}}.html",
+    "datePublished":"{{date}}",
+    "author":{"@type":"Organization","name":"{{authorName}}","url":"{{authorLink}}"},
+    "publisher":{"@type":"Organization","name":"DebtReliefGuard.com","logo":{"@type":"ImageObject","url":"https://debtreliefguard.com/logo.png"}}
+  }
+  </script>
+  <!-- Unified Organization/FinancialService (shared @id; disambiguation) -->
+  <script type="application/ld+json">
+  {
+    "@context":"https://schema.org",
+    "@type":["Organization","FinancialService"],
+    "@id":"https://gatewaydebthelp.com/#gfsr",
+    "name":"Gateway Financial Settlement Relief, LLC",
+    "legalName":"Gateway Financial Settlement Relief, LLC",
+    "alternateName":["Gateway Debt Help","GFSR"],
+    "url":"https://gatewaydebthelp.com/",
+    "logo":"https://debtreliefguard.com/og-cover.jpg",
+    "telephone":"+1-888-437-7141",
+    "address":{"@type":"PostalAddress","addressCountry":"US","addressRegion":"FL"},
+    "areaServed":{"@type":"Country","name":"United States"},
+    "sameAs":[
+      "https://gatewayfinancialsettlementrelief.com/",
+      "https://debthelpform.com/",
+      "https://debtreliefguard.com/",
+      "https://gatewaydebthelp.com/"
+    ],
+    "contactPoint":{
+      "@type":"ContactPoint","telephone":"+1-888-437-7141","contactType":"customer service","areaServed":"US","availableLanguage":["English"]
+    },
+    "disambiguatingDescription":"Florida-operated, Wyoming-registered debt relief company using 'Gateway Debt Help' as a marketing tagline. Not affiliated with Gateway Debt Relief of Costa Mesa, CA."
+  }
+  </script>
 </head>
 
 <body>
+  <a href="#main" class="skip-link">Skip to content</a>
 
-  <!-- Sticky Header -->
-  <header>
-    <div class="nav">
-      <div class="text-lg font-bold text-gray-800">DebtReliefGuard<span style="color:#2563eb">.com</span></div>
-      <nav>
-        <a href="/">Home</a>
-        <a href="/blog.index.html">Blog</a>
-        <a href="/faq.index.html">FAQ</a>
-        <a href="/contact.index.html">Contact</a>
-        <a href="https://debthelpform.com/#lead-form" class="bg-blue-600 text-white px-2 py-1 rounded hover:bg-blue-700">Estimate</a>
-      </nav>
-    </div>
-  </header>
+  <!-- Sticky Top Nav (full site) -->
+  <nav class="sticky-nav" role="navigation" aria-label="Main navigation">
+    <ul>
+      <li><a href="/" title="Home">Home</a></li>
+      <li><a href="/compare.us.html" title="Compare Options">Compare</a></li>
+      <li><a href="/how.it.works.index.html" title="How It Works">How It Works</a></li>
+      <li><a href="/debt.relief.option.index.html" title="Debt Relief Options">Debt Relief Options</a></li>
+      <li><a href="/credit.card.relief.index.html" title="Credit Card Relief">Credit Card Relief</a></li>
+      <li><a href="/savings.calculator.html" title="Savings Calculator">Calculator</a></li>
+      <li><a href="/reviews.index.html" title="Reviews">Reviews</a></li>
+      <li><a href="/blog.index.html" title="Blog">Blog</a></li>
+      <li><a href="/scam.warning.index.html" title="Scam Warnings">Scam Warnings</a></li>
+      <li><a href="/faq.index.html" title="FAQ">FAQ</a></li>
+      <li><a href="/contact.index.html" title="Contact">Contact</a></li>
+      <li><a href="/privacy.policy.index.html" title="Privacy">Privacy</a></li>
+      <li><a href="/terms.index.html" title="Terms">Terms</a></li>
+      <li><a href="https://debthelpform.com/#lead-form" target="_blank" rel="noopener" title="Get Your Free Secure Estimate">Get Estimate</a></li>
+      <li><a href="https://gatewaydebthelp.com" target="_blank" rel="noopener" title="Gateway Debt Help">GatewayDebtHelp.com</a></li>
+      <li><a href="https://gatewayfinancialsettlementrelief.com" target="_blank" rel="noopener" title="GFSR Owner"><strong>GFSR Owner</strong></a></li>
+    </ul>
+  </nav>
 
-  <!-- Blog Content -->
-  <div class="container">
-    <img src="{{image}}" alt="{{title}}" class="feature" />
-    <h1>{{title}}</h1>
-    <div class="meta">
-      Published on {{date}} by 
-      <a href="{{authorLink}}" target="_blank">{{authorName}}</a>
-      | Tagged: {{tags}}
-    </div>
-
-    <div class="content">
-      {{body}}
-
-      <div class="cta">
-        <p>Want a personalized estimate for your credit card or personal loan debt?</p>
-        <a href="https://debthelpform.com/#lead-form">Get My Free Estimate</a>
+  <!-- MAIN ARTICLE -->
+  <main id="main">
+    <article class="container" itemscope itemtype="https://schema.org/BlogPosting">
+      <img src="{{image}}" alt="{{title}}" class="feature" itemprop="image" />
+      <h1 id="ab-cta-text" itemprop="headline">{{title}}</h1>
+      <div class="meta">
+        Published on <time itemprop="datePublished" datetime="{{date}}">{{date}}</time> by
+        <a href="{{authorLink}}" target="_blank" rel="noopener" itemprop="author">{{authorName}}</a>
+        &nbsp;|&nbsp; Tagged: {{tags}}
       </div>
+      <div class="content" itemprop="articleBody">
+        {{body}}
 
-      <p class="text-sm text-gray-600">
-        For more educational resources, visit our sister sites:
-        <a href="https://gatewaydebthelp.com" target="_blank">GatewayDebtHelp.com</a> and
-        <a href="https://debthelpform.com" target="_blank">DebtHelpForm.com</a>.
-      </p>
-    </div>
+        <div class="cta">
+          <p>Want a personalized estimate for your credit card or personal loan debt?</p>
+          <a class="btn btn-light" href="https://debthelpform.com/#lead-form" target="_blank" rel="noopener">Get My Free Estimate</a>
+        </div>
+
+        <p class="text-sm" style="color:#5b6470">
+          More educational resources:
+          <a href="https://gatewaydebthelp.com" target="_blank" rel="noopener">GatewayDebtHelp.com</a> &
+          <a href="https://debthelpform.com" target="_blank" rel="noopener">DebtHelpForm.com</a>.
+        </p>
+
+        <div class="hero-ctas">
+          <a class="btn btn-primary" href="https://debthelpform.com/#lead-form" target="_blank" rel="noopener">🔒 Start Secure Estimate</a>
+          <a class="btn btn-outline" href="tel:+18884377141">📞 Talk to a Specialist</a>
+        </div>
+      </div>
+    </article>
+  </main>
+
+  <!-- Mobile dual action bar -->
+  <div id="drgMobileBar" class="mobile-bar" aria-label="Quick actions">
+    <a class="mobile-call" href="tel:+18884377141">📞 Call 888-437-7141</a>
+    <a class="mobile-est" href="https://debthelpform.com/#lead-form" target="_blank" rel="noopener">🔒 Start Secure Estimate</a>
   </div>
 
-  <!-- Sticky Bottom Menu -->
-  <div class="sticky-menu">
+  <!-- Floating bottom sitemap (matches site) -->
+  <footer class="sticky-menu" role="navigation" aria-label="Site map">
     <nav>
-      <a href="/blog.index.html">Blog Home</a>
-      <a href="/debt.relief.option.index.html">Relief Options</a>
-      <a href="/faq.index.html">FAQ</a>
+      <a href="/">Home</a>
+      <a href="/compare.us.html">Compare</a>
+      <a href="/how.it.works.index.html">How It Works</a>
+      <a href="/debt.relief.option.index.html">Debt Relief Options</a>
+      <a href="/credit.card.relief.index.html">Credit Card Relief</a>
+      <a href="/savings.calculator.html">Calculator</a>
+      <a href="/reviews.index.html">Reviews</a>
+      <a href="/blog.index.html">Blog</a>
       <a href="/scam.warning.index.html">Scam Warnings</a>
+      <a href="/faq.index.html">FAQ</a>
       <a href="/contact.index.html">Contact</a>
-      <a href="https://gatewaydebthelp.com" target="_blank">GatewayDebtHelp.com</a>
-      <a href="https://debthelpform.com" target="_blank">DebtHelpForm.com</a>
+      <a href="/privacy.policy.index.html">Privacy</a>
+      <a href="/terms.index.html">Terms</a>
+      <a href="/geo-blocked.html" rel="nofollow">Geo-Blocked</a>
+      <a href="https://debthelpform.com" target="_blank" rel="noopener">DebtHelpForm.com</a>
+      <a href="https://gatewaydebthelp.com" target="_blank" rel="noopener">GatewayDebtHelp.com</a>
     </nav>
-  </div>
+  </footer>
 
-  <!-- BlogPosting Schema -->
-  <script type="application/ld+json">
-  {
-    "@context": "https://schema.org",
-    "@type": "BlogPosting",
-    "headline": "{{title}}",
-    "description": "{{excerpt}}",
-    "image": "{{image}}",
-    "url": "https://debtreliefguard.com/blog/{{slug}}/",
-    "datePublished": "{{date}}",
-    "author": {
-      "@type": "Organization",
-      "name": "{{authorName}}",
-      "url": "{{authorLink}}"
-    },
-    "publisher": {
-      "@type": "Organization",
-      "name": "DebtReliefGuard.com",
-      "logo": {
-        "@type": "ImageObject",
-        "url": "https://debtreliefguard.com/logo.png"
-      }
-    }
-  }
+  <!-- Footer legal / brand lines -->
+  <footer style="max-width:960px;margin:1rem auto 5.5rem;text-align:center;color:#666">
+    <p>&copy; 2025 DebtReliefGuard.com — Independent, FTC-Aligned Reviews & Guides.</p>
+    <p>Website operated by <a href="https://gatewayfinancialsettlementrelief.com" target="_blank" rel="noopener">Gateway Financial Settlement Relief</a></p>
+    <p style="font-size:.82rem;color:#999">
+      “Gateway Debt Help” is the marketing brand of <strong>Gateway Financial Settlement Relief, LLC</strong>.
+      Not affiliated with “Gateway Debt Relief” of Costa Mesa, CA.
+    </p>
+  </footer>
+
+  <!-- Bot honeypot -->
+  <script>
+    (function(){
+      const honeypot=document.createElement("input");
+      honeypot.type="text";honeypot.name="website";honeypot.autocomplete="off";
+      honeypot.hidden=true;honeypot.setAttribute("aria-hidden","true");
+      document.body.appendChild(honeypot);
+      let u=false,t=0; addEventListener('mousemove',()=>u=true,{passive:true});
+      addEventListener('keydown',()=>u=true,{passive:true});
+      setInterval(()=>t++,1000);
+      window.validateBotProtections=()=> (honeypot.value==="" && u && t>=3);
+    })();
   </script>
+
+  <!-- Dynamic spacing for mobile bar -->
+  <script>
+    (function(){
+      const root=document.documentElement, mb=document.getElementById('drgMobileBar');
+      function setH(){ const h=mb && getComputedStyle(mb).display!=='none' ? mb.offsetHeight : 0; root.style.setProperty('--callbar-h', h+'px'); }
+      setH(); addEventListener('resize', setH, {passive:true}); setTimeout(setH,250); setTimeout(setH,1000);
+    })();
+  </script>
+
+  <!-- 015: Telemetry ping -->
+  <script>
+    (function(){
+      try{
+        const key='drg:sess:v1'; let sid=sessionStorage.getItem(key);
+        if(!sid){ sid=crypto.randomUUID(); sessionStorage.setItem(key, sid); }
+        const payload={ v:1, ts:Date.now(), sid, url:location.href, ref:document.referrer||null, w:innerWidth, h:innerHeight };
+        const blob=new Blob([JSON.stringify(payload)],{type:'application/json'});
+        if(navigator.sendBeacon){ navigator.sendBeacon('/ingest', blob); }
+        else { fetch('/ingest',{ method:'POST', body:blob, keepalive:true, headers:{'Content-Type':'application/json'} }).catch(()=>{}); }
+      }catch(_){}
+    })();
+  </script>
+
+  <!-- 016 Chat Markup -->
+  <button id="gfsrChatFab" class="gfsr-chat-fab" aria-haspopup="dialog" aria-expanded="false" aria-controls="gfsrChatSheet"
+          style="position:fixed; right:14px; bottom:calc(var(--callbar-h) + var(--sitemap-h) + 14px); z-index:10003; display:inline-flex; align-items:center; gap:.5rem; padding:.8rem 1rem; border-radius:999px; border:1px solid rgba(0,0,0,.06); background:#0b63f6; color:#fff; box-shadow:0 10px 30px rgba(0,0,0,.18); font:600 14px/1.1 system-ui,-apple-system,Segoe UI,Roboto,Arial">💬 Chat</button>
+
+  <section id="gfsrChatSheet" class="gfsr-chat-sheet" role="dialog" aria-modal="true"
+           aria-labelledby="gfsrChatTitle" aria-describedby="gfsrChatDesc" hidden
+           style="position:fixed; inset:auto 0 0 0; margin:auto; width:100%; max-width:420px; right:12px; left:auto;
+                  border-radius:18px 18px 0 0; background:#fff; box-shadow:0 10px 30px rgba(0,0,0,.18);
+                  transform:translateY(110%); transition:transform .28s ease; border:1px solid rgba(0,0,0,.06); z-index:10004">
+    <header class="gfsr-chat-head" style="display:flex; align-items:center; justify-content:space-between; padding:12px 14px; border-bottom:1px solid rgba(0,0,0,.06); background:#f9fafb; border-radius:inherit">
+      <div>
+        <div id="gfsrChatTitle" class="gfsr-chat-title" style="font-weight:700; font-size:15px">Debt Help Assistant</div>
+        <div id="gfsrChatDesc" class="sr-only">Chat with our assistant. Press Escape to close.</div>
+      </div>
+      <button id="gfsrChatClose" class="gfsr-chat-close" aria-label="Close chat" style="background:transparent; border:none; padding:8px; border-radius:10px; cursor:pointer">✕</button>
+    </header>
+
+    <div id="gfsrChatBody" class="gfsr-chat-body" tabindex="0" style="display:flex; flex-direction:column; gap:8px; padding:12px; height:min(70vh, 520px); overflow:auto; -webkit-overflow-scrolling:touch"></div>
+
+    <form id="gfsrChatForm" class="gfsr-chat-input" style="display:flex; gap:8px; padding:10px; border-top:1px solid rgba(0,0,0,.06); background:#fff; border-radius:0 0 18px 18px">
+      <label class="sr-only" for="gfsrChatInput">Type your message</label>
+      <textarea id="gfsrChatInput" rows="1" placeholder="Type a message…" aria-label="Message" style="flex:1; resize:none; min-height:42px; max-height:120px; padding:10px 12px; border:1px solid #e5e7eb; border-radius:12px; font-size:14px; line-height:1.35"></textarea>
+      <button id="gfsrChatSend" class="gfsr-chat-send" type="submit" style="background:#0b63f6; color:#fff; border:none; padding:12px 14px; border-radius:12px; font-weight:700">Send</button>
+    </form>
+  </section>
+
+  <!-- 016 Chat Script -->
+  <script>
+    (function(){
+      const el = {
+        fab:   document.getElementById('gfsrChatFab'),
+        sheet: document.getElementById('gfsrChatSheet'),
+        close: document.getElementById('gfsrChatClose'),
+        body:  document.getElementById('gfsrChatBody'),
+        form:  document.getElementById('gfsrChatForm'),
+        input: document.getElementById('gfsrChatInput'),
+        send:  document.getElementById('gfsrChatSend'),
+      };
+      const openChat = () => { el.sheet.removeAttribute('hidden'); el.sheet.classList.add('open'); el.sheet.style.transform='translateY(0)'; el.fab.setAttribute('aria-expanded','true'); setTimeout(()=>el.input.focus(),120); };
+      const closeChat = () => { el.sheet.classList.remove('open'); el.sheet.style.transform='translateY(110%)'; el.fab.setAttribute('aria-expanded','false'); el.sheet.setAttribute('hidden',''); el.fab.focus(); };
+      el.fab.addEventListener('click', openChat);
+      el.close.addEventListener('click', closeChat);
+      addEventListener('keydown', e => { if (e.key==='Escape' && !el.sheet.hasAttribute('hidden')) closeChat(); });
+
+      const addMsg = (text, who='bot') => {
+        const div = document.createElement('div'); div.className = `gfsr-msg ${who}`;
+        div.style.maxWidth='88%'; div.style.padding='10px 12px'; div.style.borderRadius='14px'; div.style.fontSize='14px'; div.style.lineHeight='1.35';
+        if (who==='user'){ div.style.marginLeft='auto'; div.style.background='#0b63f6'; div.style.color='#fff'; div.style.borderTopRightRadius='4px'; }
+        else if (who==='bot'){ div.style.background='#eef2ff'; div.style.color='#111'; div.style.borderTopLeftRadius='4px'; }
+        else { div.style.background:'#f3f4f6'; div.style.color:'#444'; div.style.fontSize='12px'; div.style.margin='4px auto'; }
+        div.textContent = (text??'').toString(); el.body.appendChild(div); el.body.scrollTop = el.body.scrollHeight;
+      };
+
+      const KEY='drg:chat-history';
+      try { (JSON.parse(localStorage.getItem(KEY)||'[]')).slice(-20).forEach(m=>addMsg(m.text,m.who)); } catch {}
+      const remember=(t,w)=>{ try{ const h=JSON.parse(localStorage.getItem(KEY)||'[]'); h.push({text:t,who:w,t:Date.now()}); localStorage.setItem(KEY, JSON.stringify(h).slice(-8000)); }catch{} };
+
+      let interacted=false;
+      addEventListener('mousemove',()=>interacted=true,{once:true,passive:true});
+      addEventListener('keydown', ()=>interacted=true,{once:true,passive:true});
+      const nonce = () => Array.from(crypto.getRandomValues(new Uint8Array(12))).map(b=>b.toString(16).padStart(2,'0')).join('');
+      const API = `${location.origin}/chat`; let busy = false;
+
+      el.form.addEventListener('submit', async (e) => {
+        e.preventDefault(); if (!interacted || busy) return;
+        const message = (el.input.value||'').trim(); if (!message) return;
+        addMsg(message,'user'); remember(message,'user');
+        el.input.value=''; busy=true; el.send.disabled=true;
+        try{
+          const r = await fetch(API, { method:'POST',
+            headers:{ 'Content-Type':'application/json','Accept':'application/json','X-Requested-With':'XMLHttpRequest','X-Client-Nonce': nonce() },
+            body: JSON.stringify({ messages:[{ role:'user', content: message }], source:'frontend', url: location.href })
+          });
+          if(!r.ok){ const t=await r.text().catch(()=> ''); addMsg(`Service error ${r.status}.`,'meta'); console.error('CHAT ERROR', r.status, t); return; }
+          const ct = r.headers.get('content-type')||''; let reply='';
+          reply = ct.includes('application/json') ? (await r.json()).reply || '' : await r.text();
+          addMsg(reply || 'Thanks — how else can I help?','bot'); remember(reply||'','bot');
+        }catch(err){ console.error('CHAT NET', err); addMsg('Network error — please try again.','meta'); }
+        finally{ busy=false; el.send.disabled=false; el.input.focus(); }
+      });
+
+      if (!el.body.children.length) addMsg('Have questions about this post? I can explain or suggest next steps.');
+    })();
+  </script>
+
+  <noscript><p style="text-align:center;color:#666">Enable JavaScript to view dynamic features and chat.</p></noscript>
 </body>
 </html>
