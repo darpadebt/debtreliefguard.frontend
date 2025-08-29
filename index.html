@@ -41,6 +41,8 @@
       --ink:#222; --bg:#f9fafe; --brand:#004477; --brand-2:#003057;
       --cta:#2563eb; --ok:#007b55; --card:#fff; --card-b:#e5e7eb;
       --shadow:0 10px 30px rgba(0,0,0,.12);
+      /* NEW: call bar height used to position FAB & bottom padding */
+      --callbar-h: 64px;
     }
     *{box-sizing:border-box} html,body{margin:0;padding:0}
     body{font-family:'Inter',system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;background:var(--bg);color:var(--ink);line-height:1.55;padding-top:76px}
@@ -92,12 +94,32 @@
 
     /* 016 chat (bottom sheet) */
     :root{ --chat-radius:16px; --chat-shadow:0 10px 30px rgba(0,0,0,.18); --chat-border:1px solid rgba(0,0,0,.06) }
-    .gfsr-chat-fab{ position:fixed; right:14px; bottom:74px; z-index:10003; display:inline-flex; align-items:center; gap:.5rem; padding:.8rem 1rem; border-radius:999px; border:var(--chat-border); background:#0b63f6; color:#fff; box-shadow:var(--chat-shadow); font:600 14px/1.1 system-ui,-apple-system,Segoe UI,Roboto,Arial }
+    .gfsr-chat-fab{
+      position:fixed; right:14px;
+      /* NEW: keep above sticky call bar using variable */
+      bottom: calc(var(--callbar-h) + 10px);
+      z-index:10003; display:inline-flex; align-items:center; gap:.5rem;
+      padding:.8rem 1rem; border-radius:999px; border:var(--chat-border);
+      background:#0b63f6; color:#fff; box-shadow:var(--chat-shadow);
+      font:600 14px/1.1 system-ui,-apple-system,Segoe UI,Roboto,Arial
+    }
     .gfsr-chat-fab:focus-visible{ outline:3px solid #b9d3ff; outline-offset:3px }
-    .gfsr-chat-sheet{ position:fixed; inset:auto 0 0 0; margin:auto; width:100%; max-width:420px; right:12px; left:auto; border-radius:18px 18px 0 0; background:#fff; box-shadow:var(--chat-shadow); transform:translateY(110%); transition:transform .28s ease; border:var(--chat-border); z-index:10004 }
-    @media (min-width:720px){ .gfsr-chat-sheet{ bottom:auto; top:calc(12px + env(safe-area-inset-top)); right:12px; left:auto; border-radius:18px; max-height:78vh; width:380px } .gfsr-chat-fab{ bottom:14px } }
+
+    .gfsr-chat-sheet{
+      position:fixed; inset:auto 0 0 0; margin:auto; width:100%; max-width:420px; right:12px; left:auto;
+      border-radius:18px 18px 0 0; background:#fff; box-shadow:var(--chat-shadow);
+      transform:translateY(110%); transition:transform .28s ease; border:var(--chat-border); z-index:10004
+    }
+    /* keep fully hidden when [hidden] */
+    .gfsr-chat-sheet[hidden]{ display:none !important; }
+
+    @media (min-width:720px){
+      .gfsr-chat-sheet{ bottom:auto; top:calc(12px + env(safe-area-inset-top)); right:12px; left:auto; border-radius:18px; max-height:78vh; width:380px }
+      .gfsr-chat-fab{ bottom:14px } /* desktop has no mobile call bar at bottom */
+    }
     .gfsr-chat-sheet.open{ transform:translateY(0) }
     @media (min-width:720px){ .gfsr-chat-sheet.open{ transform:none; position:fixed; bottom:12px } }
+
     .gfsr-chat-head{ display:flex; align-items:center; justify-content:space-between; padding:12px 14px; border-bottom:var(--chat-border); background:#f9fafb; border-radius:inherit }
     .gfsr-chat-title{ font-weight:700; font-size:15px }
     .gfsr-chat-close{ background:transparent; border:none; padding:8px; border-radius:10px; cursor:pointer }
@@ -144,6 +166,11 @@
       box-shadow:0 10px 24px rgba(0,0,0,.18);
     }
     @media (min-width:769px){ .desk-call{ display:inline-flex } }
+
+    /* NEW: keep page content above the sticky call bar on mobile */
+    @media (max-width: 768px){
+      body, main { padding-bottom: calc(var(--callbar-h) + env(safe-area-inset-bottom) + 10px); }
+    }
   </style>
 
   <!-- Structured Data: Website + Breadcrumbs + FAQ (unchanged) -->
@@ -340,7 +367,8 @@
   <!-- 016 Chat Markup -->
   <button id="gfsrChatFab" class="gfsr-chat-fab" aria-haspopup="dialog" aria-expanded="false" aria-controls="gfsrChatSheet">💬 Chat</button>
 
-  <section id="gfsrChatSheet" class="gfsr-chat-sheet" role="dialog" aria-modal="true" aria-labelledby="gfsrChatTitle" aria-describedby="gfsrChatDesc">
+  <section id="gfsrChatSheet" class="gfsr-chat-sheet" role="dialog" aria-modal="true"
+           aria-labelledby="gfsrChatTitle" aria-describedby="gfsrChatDesc" hidden>
     <header class="gfsr-chat-head">
       <div>
         <div id="gfsrChatTitle" class="gfsr-chat-title">Debt Help Assistant</div>
@@ -371,11 +399,21 @@
       send:  document.getElementById('gfsrChatSend'),
     };
 
-    const openChat = () => { el.sheet.classList.add('open'); el.fab.setAttribute('aria-expanded','true'); setTimeout(()=>el.input.focus(),120); };
-    const closeChat = () => { el.sheet.classList.remove('open'); el.fab.setAttribute('aria-expanded','false'); el.fab.focus(); };
+    const openChat = () => {
+      el.sheet.removeAttribute('hidden');          // NEW: make visible
+      el.sheet.classList.add('open');
+      el.fab.setAttribute('aria-expanded','true');
+      setTimeout(()=>el.input.focus(),120);
+    };
+    const closeChat = () => {
+      el.sheet.classList.remove('open');
+      el.fab.setAttribute('aria-expanded','false');
+      el.sheet.setAttribute('hidden','');          // NEW: fully hide & remove from a11y tree
+      el.fab.focus();
+    };
     el.fab.addEventListener('click', openChat);
     el.close.addEventListener('click', closeChat);
-    window.addEventListener('keydown', e => { if (e.key==='Escape' && el.sheet.classList.contains('open')) closeChat(); });
+    window.addEventListener('keydown', e => { if (e.key==='Escape' && !el.sheet.hasAttribute('hidden')) closeChat(); });
 
     const addMsg = (text, who='bot') => {
       const div = document.createElement('div'); div.className = `gfsr-msg ${who}`; div.textContent = (text??'').toString();
