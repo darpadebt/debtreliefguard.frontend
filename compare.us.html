@@ -198,14 +198,14 @@
 <body>
   <a href="#main" class="skip-link">Skip to content</a>
 
-  <!-- Sticky Header (expanded to all pages) -->
+  <!-- Sticky Header (expanded to all pages; Calculator points to .html) -->
   <nav class="sticky-nav" role="navigation" aria-label="Main navigation">
     <a href="/">Home</a>
     <a href="/compare.us.html" aria-current="page">Compare Us</a>
     <a href="/how.it.works.index.html">How It Works</a>
     <a href="/debt.relief.option.index.html">Relief Options</a>
     <a href="/credit.card.relief.index.html">Credit Card Relief</a>
-    <a id="link-savings-top" href="/savings.calculator.index.html">Calculator</a>
+    <a href="/savings.calculator.html">Calculator</a>
     <a href="/reviews.index.html">Reviews</a>
     <a href="/blog.index.html">Blog</a>
     <a href="/scam.warning.index.html">Scam Warnings</a>
@@ -274,7 +274,7 @@
     <a class="mobile-est" href="https://debthelpform.com/#lead-form" target="_blank" rel="noopener">🔒 Start Secure Estimate</a>
   </div>
 
-  <!-- Sticky bottom menu (expanded to all pages) -->
+  <!-- Sticky bottom menu (expanded; Calculator points to .html) -->
   <footer class="sticky-menu" role="contentinfo" aria-label="Footer navigation">
     <nav>
       <a href="/">Home</a>
@@ -282,7 +282,7 @@
       <a href="/how.it.works.index.html">How It Works</a>
       <a href="/debt.relief.option.index.html">Relief Options</a>
       <a href="/credit.card.relief.index.html">Credit Card Relief</a>
-      <a id="link-savings-foot" href="/savings.calculator.index.html">Calculator</a>
+      <a href="/savings.calculator.html">Calculator</a>
       <a href="/reviews.index.html">Reviews</a>
       <a href="/blog.index.html">Blog</a>
       <a href="/scam.warning.index.html">Scam Warnings</a>
@@ -314,26 +314,6 @@
       addEventListener('keydown',()=>u=true,{passive:true});
       setInterval(()=>t++,1000);
       window.validateBotProtections=()=> (honeypot.value==="" && u && t>=3);
-    })();
-  </script>
-
-  <!-- Savings Calculator link fallback (index → non-index if needed) -->
-  <script>
-    (function(){
-      async function safeNav(e, preferred, fallback){
-        try{
-          e.preventDefault();
-          const r = await fetch(preferred, {method:'HEAD', cache:'no-store', redirect:'manual'});
-          if (r && (r.ok || r.status===304)) location.href = preferred;
-          else location.href = fallback;
-        }catch(_){ location.href = fallback; }
-      }
-      const preferred = '/savings.calculator.index.html';
-      const fallback  = '/savings.calculator.html';
-      const aTop = document.getElementById('link-savings-top');
-      const aFoot = document.getElementById('link-savings-foot');
-      if (aTop)  aTop.addEventListener('click',  (e)=>safeNav(e, preferred, fallback));
-      if (aFoot) aFoot.addEventListener('click', (e)=>safeNav(e, preferred, fallback));
     })();
   </script>
 
@@ -522,7 +502,7 @@
         const payload={ v:1, ts:now(), sid, url:location.href, ref:document.referrer||null, w:innerWidth, h:innerHeight };
         const blob=new Blob([JSON.stringify(payload)],{type:'application/json'});
         if(navigator.sendBeacon) navigator.sendBeacon('/ingest', blob);
-        else fetch('/ingest',{ method:'POST', body:blob, keepalive:true, headers:{'Content-Type':'application/json'} }).catch(()=>{});
+        else fetch('/ingest'){ /* no-op */ }
       }catch(_){}
     })();
   })();
