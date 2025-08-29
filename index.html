@@ -18,71 +18,54 @@
   <meta name="robots" content="index,follow,max-image-preview:large" />
   <link rel="canonical" href="https://debtreliefguard.com/" />
 
-  <!-- Open Graph -->
+  <!-- Open Graph / Twitter -->
   <meta property="og:type" content="website" />
   <meta property="og:url" content="https://debtreliefguard.com/" />
   <meta property="og:title" content="DebtReliefGuard — Scam-Free Debt Relief Reviews & Secure Estimate" />
   <meta property="og:description" content="Trusted reviews and a secure estimate. Learn how to spot scams and compare legitimate debt relief options." />
   <meta property="og:site_name" content="DebtReliefGuard.com" />
-
-  <!-- Twitter -->
+  <meta property="og:image" content="https://debtreliefguard.com/og-cover.jpg" />
   <meta name="twitter:card" content="summary" />
   <meta name="twitter:title" content="DebtReliefGuard — Scam-Free Debt Relief Reviews & Secure Estimate" />
   <meta name="twitter:description" content="Consumer-first debt help. Compare legitimate options and request a secure estimate." />
+  <meta name="twitter:image" content="https://debtreliefguard.com/og-cover.jpg" />
 
-  <!-- Preconnects (perf) -->
+  <!-- Perf hints -->
   <link rel="preconnect" href="https://fonts.googleapis.com" crossorigin>
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-
-  <!-- Google Fonts (swap) -->
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet" />
 
   <!-- Styles -->
   <style>
-    :root {
-      --ink:#222; --bg:#f9fafe;
-      --brand:#004477; --brand-2:#003057; --cta:#2563eb; --ok:#007b55;
-    }
-    *{box-sizing:border-box}
-    html,body{margin:0;padding:0}
-    body{
-      font-family:'Inter',system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;
-      background:var(--bg); color:var(--ink); line-height:1.55;
-      padding-top:76px; /* sticky nav */
-    }
+    :root { --ink:#222; --bg:#f9fafe; --brand:#004477; --brand-2:#003057; --cta:#2563eb; --ok:#007b55; }
+    *{box-sizing:border-box} html,body{margin:0;padding:0}
+    body{ font-family:'Inter',system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif; background:var(--bg); color:var(--ink); line-height:1.55; padding-top:76px; }
 
-    /* Skip link */
     .skip-link{position:absolute;left:-999px;top:auto;width:1px;height:1px;overflow:hidden}
     .skip-link:focus{position:fixed;left:12px;top:12px;padding:.5rem .75rem;background:#000;color:#fff;z-index:10000;border-radius:6px}
 
-    /* Sticky Nav (optimized) */
     .sticky-nav{position:fixed;top:0;left:0;right:0;background:var(--brand-2);z-index:9999;box-shadow:0 2px 5px rgba(0,0,0,.08)}
     .sticky-nav ul{display:flex;gap:.75rem;margin:0;padding:.75rem 1rem;overflow-x:auto;white-space:nowrap;list-style:none}
     .sticky-nav a{color:#fff;font-weight:600;text-decoration:none;padding:.4rem .6rem;border-radius:6px}
     .sticky-nav a:hover,.sticky-nav a:focus{text-decoration:underline;outline:none}
 
-    /* Hero */
     header{max-width:960px;margin:0 auto;text-align:center;background:var(--brand);color:#fff;padding:2rem 1rem 1.5rem;border-radius:10px}
     header h1{margin:0 0 .5rem;font-size:clamp(1.6rem,3vw + 1rem,2.4rem)}
     header p{margin:.25rem 0 .5rem}
     header a{color:#ffdd00;font-weight:700;text-decoration:none}
     header a:hover{text-decoration:underline}
 
-    /* Sections */
     section{max-width:960px;margin:1.5rem auto;background:#fff;border-radius:10px;padding:1.25rem;box-shadow:0 2px 12px rgba(0,0,0,.07)}
     section h2{margin-top:0;font-size:clamp(1.25rem,2vw + .8rem,1.75rem)}
     .lead{margin:.25rem 0 1rem;color:#444}
-
     .cta{display:inline-block;background:var(--cta);color:#fff;padding:.75rem 1.25rem;border-radius:8px;font-weight:700;text-decoration:none}
     .cta:hover,.cta:focus{filter:brightness(1.08)}
 
-    /* Trust links */
     .trust-links{margin-top:1.25rem;font-size:.96rem}
     .trust-links ul{padding-left:1.1rem}
     .trust-links a{color:#0055aa;text-decoration:none}
     .trust-links a:hover{text-decoration:underline}
 
-    /* Mobile call */
     .mobile-call{display:none;position:fixed;bottom:0;left:0;right:0;background:var(--ok);color:#fff;text-align:center;padding:.9rem;z-index:9998}
     .mobile-call a{color:#fff;font-weight:800;text-decoration:none}
     @media (max-width:768px){.mobile-call{display:block}}
@@ -90,22 +73,28 @@
     footer{max-width:960px;margin:1.25rem auto 3.5rem;text-align:center;color:#666}
     footer a{color:#0055aa;text-decoration:none}
     footer a:hover{text-decoration:underline}
+
+    /* Chat widget */
+    #chatbox{position:fixed;bottom:20px;right:20px;width:320px;max-width:92vw;background:#fff;border:1px solid #e5e7eb;border-radius:12px;box-shadow:0 12px 32px rgba(0,0,0,.16);overflow:hidden;font:14px/1.45 system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif}
+    #chatbox header{background:#003366;color:#fff;padding:.6rem .8rem;font-weight:700}
+    #chatlog{height:260px;overflow:auto;padding:.6rem .8rem;background:#fafafa}
+    #chatlog .msg{margin:.35rem 0;word-wrap:break-word}
+    #chatlog .user{text-align:right;color:#111}
+    #chatlog .ai{text-align:left;color:#111}
+    #chatform{display:flex;gap:.45rem;padding:.6rem;border-top:1px solid #e5e7eb;background:#fff}
+    #chatform input{flex:1;padding:.55rem .6rem;border:1px solid #e5e7eb;border-radius:8px}
+    #chatform button{padding:.55rem .8rem;background:#2563eb;color:#fff;border:0;border-radius:8px;font-weight:700;cursor:pointer}
+    #chatform button:disabled{opacity:.6;cursor:not-allowed}
+    @media (max-width:420px){#chatbox{right:12px;left:12px;width:auto}}
   </style>
 
   <!-- Structured Data: Website + Breadcrumbs + FAQ -->
   <script type="application/ld+json">
-  {
-    "@context":"https://schema.org",
-    "@type":"WebSite",
-    "name":"DebtReliefGuard",
-    "url":"https://debtreliefguard.com/",
-    "publisher":{"@type":"Organization","name":"Gateway Financial Settlement Relief","url":"https://gatewayfinancialsettlementrelief.com"}
-  }
+  { "@context":"https://schema.org","@type":"WebSite","name":"DebtReliefGuard","url":"https://debtreliefguard.com/","publisher":{"@type":"Organization","name":"Gateway Financial Settlement Relief","url":"https://gatewayfinancialsettlementrelief.com"} }
   </script>
   <script type="application/ld+json">
   {
-    "@context":"https://schema.org",
-    "@type":"BreadcrumbList",
+    "@context":"https://schema.org","@type":"BreadcrumbList",
     "itemListElement":[
       {"@type":"ListItem","position":1,"name":"Home","item":"https://debtreliefguard.com/"},
       {"@type":"ListItem","position":2,"name":"Compare Debt Relief Options","item":"https://debtreliefguard.com/compare.us.html"},
@@ -117,8 +106,7 @@
   </script>
   <script type="application/ld+json">
   {
-    "@context":"https://schema.org",
-    "@type":"FAQPage",
+    "@context":"https://schema.org","@type":"FAQPage",
     "mainEntity":[
       {"@type":"Question","name":"How do I avoid debt relief scams?","acceptedAnswer":{"@type":"Answer","text":"Check FTC guidance, avoid upfront fees, and verify written disclosures. We link to official resources so you can validate claims."}},
       {"@type":"Question","name":"Can I get a secure savings estimate here?","acceptedAnswer":{"@type":"Answer","text":"Yes. Use the secure form at DebtHelpForm.com to receive a no-pressure estimate in about a minute."}},
@@ -160,11 +148,13 @@
   <main id="main">
     <section>
       <h2>Compare Legitimate Programs. Avoid Red Flags. Take Control.</h2>
-      <p class="lead">We’re a consumer-first review and trust resource backed by <a href="https://gatewayfinancialsettlementrelief.com" target="_blank" rel="noopener">Gateway Financial Settlement Relief</a>. Learn key differences between debt settlement, consolidation, and counseling—and get a secure savings estimate.</p>
-
+      <p class="lead">
+        We’re a consumer-first review and trust resource backed by
+        <a href="https://gatewayfinancialsettlementrelief.com" target="_blank" rel="noopener">Gateway Financial Settlement Relief</a>.
+        Learn key differences between debt settlement, consolidation, and counseling—and get a secure savings estimate.
+      </p>
       <p><a class="cta" href="https://debthelpform.com/#lead-form" target="_blank" rel="noopener">Get Your Secure Estimate</a></p>
 
-      <!-- Trust & resources -->
       <div class="trust-links">
         <h3>Official Guidance & Consumer Protection</h3>
         <ul>
@@ -186,7 +176,7 @@
     <p style="font-size:.82rem;color:#999">Last updated: August 2025</p>
   </footer>
 
-  <!-- Lightweight bot heuristic -->
+  <!-- Bot heuristic (simple honeypot) -->
   <script>
     (function(){
       const honeypot=document.createElement("input");
@@ -200,26 +190,125 @@
     })();
   </script>
 
-  <!-- ✅ Worker 050 hook (relative path; apex + www) -->
+  <!-- 050: hardened headline fetch -->
   <script>
     (async () => {
       const el = document.getElementById("ab-cta-text");
       const fallback = el?.textContent || "Trusted Debt Relief Reviews — Learn to Spot Scams & Get a Secure Estimate";
       if (!el) return;
 
+      // Try localStorage SWR cache first (10 min max age)
+      const CACHE_KEY = "drg:savings:v1", MAX_AGE_MS = 10 * 60 * 1000;
       try {
-        const r = await fetch('/api/savings-message', { headers: { 'Accept': 'application/json' } });
-        if (!r.ok) throw new Error(`HTTP ${r.status}`);
-        const data = await r.json();
-        el.textContent = data?.message ?? fallback;
-      } catch (err) {
-        console.warn('DRG savings message fetch failed:', err);
-        el.textContent = fallback;
-      }
+        const raw = localStorage.getItem(CACHE_KEY);
+        if (raw) {
+          const { ts, message } = JSON.parse(raw);
+          if (ts && (Date.now()-ts) < MAX_AGE_MS && message) el.textContent = message;
+        }
+      } catch(_) {}
 
-      // placeholder if you later add a conversion endpoint
+      const timeout = (ms) => { const c=new AbortController(); setTimeout(()=>c.abort(), ms); return c; };
+      let ok=false, data;
+      for(let attempt=0; attempt<2 && !ok; attempt++){
+        try {
+          let r = await fetch('/api/savings-message', {
+            headers: { 'Accept':'application/json', 'X-Requested-With':'XMLHttpRequest' },
+            cache:'no-store', credentials:'omit', signal: timeout(attempt?4500:3500).signal
+          });
+          if(!r.ok || !r.headers.get('content-type')?.includes('application/json')) throw new Error('HTTP '+r.status);
+          data = await r.json();
+          if(data && data.message){
+            el.textContent = data.message;
+            ok=true; try{ localStorage.setItem(CACHE_KEY, JSON.stringify({ ts: Date.now(), message: data.message })); }catch(_){}
+          }
+        } catch(e){ await new Promise(res=>setTimeout(res,200)); }
+      }
+      if(!ok) el.textContent = fallback;
       window.trackConversion = () => {};
     })();
+  </script>
+
+  <!-- Chatbot Widget (016) -->
+  <div id="chatbox" aria-live="polite" aria-label="Debt Relief Chatbot" hidden>
+    <header>Ask about debt relief</header>
+    <div id="chatlog" role="log" aria-label="Chat transcript"></div>
+    <form id="chatform" autocomplete="off">
+      <input id="chatinput" type="text" placeholder="Type your question…" aria-label="Chat input" maxlength="500"/>
+      <button id="chatsend" type="submit">Send</button>
+    </form>
+  </div>
+
+  <!-- 016: tightened chat + 015 telemetry -->
+  <script>
+  (() => {
+    const now = () => Date.now();
+    const timeoutFetch = (url, opts = {}, ms = 15000) => {
+      const ctrl = new AbortController(); const t=setTimeout(()=>ctrl.abort(), ms);
+      return fetch(url, { ...opts, signal: ctrl.signal }).finally(()=>clearTimeout(t));
+    };
+    const safeText = (s) => (s ?? '').toString();
+
+    /* Chat init */
+    (function initChat(){
+      const box = document.getElementById('chatbox');
+      const log = document.getElementById('chatlog');
+      const form= document.getElementById('chatform');
+      const input= document.getElementById('chatinput');
+      const send = document.getElementById('chatsend');
+      if (!box || !log || !form || !input || !send) return;
+      box.hidden = false;
+
+      let last=0, tokens=4; setInterval(()=>{ tokens = Math.min(4, tokens+1); }, 2000);
+      const add = (role, text) => { 
+        const maxLen = 1200; // Truncate very long messages to prevent overflow in log
+        const d=document.createElement('div'); 
+        d.className='msg '+role; 
+        d.textContent=safeText(text).slice(0,maxLen); 
+        log.appendChild(d); log.scrollTop = log.scrollHeight; 
+      };
+
+      let interacted=false;
+      addEventListener('mousemove',()=>interacted=true,{once:true,passive:true});
+      addEventListener('keydown', ()=>interacted=true,{once:true,passive:true});
+      const gate=()=>{ send.disabled = !interacted; };
+      gate(); const iv=setInterval(gate,400); addEventListener('click',()=>{ if(interacted) clearInterval(iv); }, {once:true});
+
+      form.addEventListener('submit', async (e)=>{
+        e.preventDefault();
+        let q=(input.value||'').trim().replace(/\s+/g,' '); if(!q) return;
+        const t=now(); if(tokens<=0 || (t-last)<1200){ add('ai','Please slow down a bit so I can help.'); return; }
+        tokens--; last=t;
+
+        add('user', q); input.value=''; send.disabled=true;
+        try{
+          const r = await timeoutFetch('/chat',{
+            method:'POST',
+            headers:{ 'Content-Type':'application/json','Accept':'application/json','X-Requested-With':'XMLHttpRequest' },
+            body: JSON.stringify({ messages:[{ role:'user', content:q }] })
+          }, 15000);
+          if(!r.ok){ add('ai','Sorry — chat is unavailable right now.'); return; }
+          const j = await r.json().catch(()=>({}));
+          const reply = (j.reply || j.message || '').toString().trim();
+          add('ai', reply || 'Thanks—how else can I help?');
+        }catch(err){
+          console.error('chat error', err);
+          add('ai','Network issue — try again.');
+        }finally{ send.disabled=false; }
+      });
+    })();
+
+    /* Telemetry ping (015) */
+    (function telemetry(){
+      try{
+        const key='drg:sess:v1'; let sid=sessionStorage.getItem(key);
+        if(!sid){ sid=crypto.randomUUID(); sessionStorage.setItem(key, sid); }
+        const payload={ v:1, ts:now(), sid, url:location.href, ref:document.referrer||null, w:innerWidth, h:innerHeight };
+        const blob=new Blob([JSON.stringify(payload)],{type:'application/json'});
+        if(navigator.sendBeacon) navigator.sendBeacon('/ingest', blob);
+        else fetch('/ingest',{ method:'POST', body:blob, keepalive:true, headers:{'Content-Type':'application/json'} }).catch(()=>{});
+      }catch(_){}
+    })();
+  })();
   </script>
 
   <noscript><p style="text-align:center;color:#666">Enable JavaScript to load your personalized savings message.</p></noscript>
