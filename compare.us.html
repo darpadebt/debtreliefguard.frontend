@@ -43,8 +43,9 @@
       --ink:#222; --bg:#f9fafe; --brand:#004477; --brand-2:#003057;
       --cta:#2563eb; --ok:#007b55; --card:#fff; --card-b:#e5e7eb;
       --shadow:0 10px 30px rgba(0,0,0,.12);
-      --callbar-h: 64px; /* mobile dual action bar height */
-      /* NEW: floating sitemap height for consistent spacing */
+      /* Will be updated dynamically based on the actual mobile bar height */
+      --callbar-h: 64px; 
+      /* Floating sitemap height for consistent spacing */
       --sitemap-h: 52px;
     }
     *{box-sizing:border-box}
@@ -103,7 +104,7 @@
     /* Mobile dual action bar */
     .mobile-bar{
       position:fixed; left:0; right:0; bottom:0; background:#0b1220; color:#fff;
-      display:flex; gap:8px; padding:.6rem; z-index:9998
+      display:flex; gap:8px; padding:.6rem; z-index:9998; /* sits above sitemap */
     }
     .mobile-bar a{ flex:1; text-align:center; border-radius:10px; padding:.75rem .5rem; font-weight:900; text-decoration:none }
     .mobile-call{ background:var(--ok); color:#fff }
@@ -122,7 +123,7 @@
     .sticky-menu{
       position:fixed; left:0; right:0;
       bottom: calc(var(--callbar-h) + env(safe-area-inset-bottom));
-      background:#004488; color:#fff; z-index:9997;
+      background:#004488; color:#fff; z-index:9997; /* under the mobile bar, but offset above it */
       border-top:2px solid #2563eb;
       height: var(--sitemap-h);
       display:flex; align-items:center;
@@ -286,8 +287,8 @@
     </p>
   </main>
 
-  <!-- Mobile dual action bar (optional per design) -->
-  <div class="mobile-bar" aria-label="Quick actions">
+  <!-- Mobile dual action bar (shows on small screens) -->
+  <div id="drgMobileBar" class="mobile-bar" aria-label="Quick actions">
     <a class="mobile-call" href="tel:+18884377141">📞 Call 888-437-7141</a>
     <a class="mobile-est" href="https://debthelpform.com/#lead-form" target="_blank" rel="noopener">🔒 Start Secure Estimate</a>
   </div>
@@ -332,6 +333,23 @@
       addEventListener('keydown',()=>u=true,{passive:true});
       setInterval(()=>t++,1000);
       window.validateBotProtections=()=> (honeypot.value==="" && u && t>=3);
+    })();
+  </script>
+
+  <!-- Dynamic spacing: measure mobile bar and set --callbar-h so sitemap never overlaps -->
+  <script>
+    (function(){
+      const root = document.documentElement;
+      const mb = document.getElementById('drgMobileBar');
+      const setH = () => {
+        const h = mb && getComputedStyle(mb).display !== 'none' ? mb.offsetHeight : 0;
+        root.style.setProperty('--callbar-h', h + 'px');
+      };
+      setH();
+      addEventListener('resize', setH, {passive:true});
+      // Some devices change viewport height after load
+      setTimeout(setH, 250);
+      setTimeout(setH, 1000);
     })();
   </script>
 
