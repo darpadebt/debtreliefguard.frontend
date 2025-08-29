@@ -58,11 +58,18 @@
       --ink:#222; --bg:#f9fafe; --brand:#004477; --brand-2:#003057;
       --cta:#2563eb; --ok:#007b55; --card:#fff; --card-b:#e5e7eb;
       --shadow:0 10px 30px rgba(0,0,0,.12);
-      /* NEW: call bar height used to position FAB & bottom padding */
-      --callbar-h: 64px;
+      /* Heights for fixed bars */
+      --callbar-h: 64px;       /* mobile dual-action bar */
+      --sitemap-h: 52px;       /* bottom floating sitemap bar */
     }
     *{box-sizing:border-box} html,body{margin:0;padding:0}
-    body{font-family:'Inter',system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;background:var(--bg);color:var(--ink);line-height:1.55;padding-top:76px}
+    body{
+      font-family:'Inter',system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;
+      background:var(--bg);color:var(--ink);line-height:1.55;
+      padding-top:76px; /* space for sticky top nav */
+      /* keep content clear of the bottom floating sitemap on desktop too */
+      padding-bottom: calc(var(--sitemap-h) + 14px);
+    }
 
     .skip-link{position:absolute;left:-999px;top:auto;width:1px;height:1px;overflow:hidden}
     .skip-link:focus{position:fixed;left:12px;top:12px;padding:.5rem .75rem;background:#000;color:#fff;z-index:10000;border-radius:6px}
@@ -105,6 +112,33 @@
     .mobile-est{background:#0b63f6;color:#fff}
     @media (min-width:769px){.mobile-bar{display:none}}
 
+    /* Floating bottom sitemap (sticky like top) */
+    .sticky-menu{
+      position:fixed; left:0; right:0; bottom:0;
+      /* sit above the mobile call bar */
+      bottom: calc(var(--callbar-h) + env(safe-area-inset-bottom));
+      background:#004488; color:#fff; z-index:9997;
+      border-top:2px solid #2563eb;
+      height: var(--sitemap-h);
+      display:flex; align-items:center;
+    }
+    @media (min-width:769px){
+      .sticky-menu{ bottom:0 } /* no mobile call bar on desktop */
+    }
+    .sticky-menu nav{
+      display:flex; gap:1rem; overflow-x:auto; white-space:nowrap;
+      padding:0 .75rem; width:100%; align-items:center;
+      scrollbar-width:none;
+    }
+    .sticky-menu nav::-webkit-scrollbar{ display:none }
+    .sticky-menu nav a{
+      color:#ffdd00; text-decoration:none; padding:.35rem .55rem; border-radius:6px;
+      font-weight:700; font-size:.92rem; flex:0 0 auto;
+    }
+    .sticky-menu nav a:hover, .sticky-menu nav a:focus{
+      background:rgba(255,255,255,.1); outline:none;
+    }
+
     footer{max-width:960px;margin:1.25rem auto 4.5rem;text-align:center;color:#666}
     footer a{color:#0055aa;text-decoration:none}
     footer a:hover{text-decoration:underline}
@@ -113,8 +147,8 @@
     :root{ --chat-radius:16px; --chat-shadow:0 10px 30px rgba(0,0,0,.18); --chat-border:1px solid rgba(0,0,0,.06) }
     .gfsr-chat-fab{
       position:fixed; right:14px;
-      /* NEW: keep above sticky call bar using variable */
-      bottom: calc(var(--callbar-h) + 10px);
+      /* keep above sticky bars */
+      bottom: calc(var(--callbar-h) + var(--sitemap-h) + 14px);
       z-index:10003; display:inline-flex; align-items:center; gap:.5rem;
       padding:.8rem 1rem; border-radius:999px; border:var(--chat-border);
       background:#0b63f6; color:#fff; box-shadow:var(--chat-shadow);
@@ -127,12 +161,11 @@
       border-radius:18px 18px 0 0; background:#fff; box-shadow:var(--chat-shadow);
       transform:translateY(110%); transition:transform .28s ease; border:var(--chat-border); z-index:10004
     }
-    /* keep fully hidden when [hidden] */
     .gfsr-chat-sheet[hidden]{ display:none !important; }
 
     @media (min-width:720px){
       .gfsr-chat-sheet{ bottom:auto; top:calc(12px + env(safe-area-inset-top)); right:12px; left:auto; border-radius:18px; max-height:78vh; width:380px }
-      .gfsr-chat-fab{ bottom:14px } /* desktop has no mobile call bar at bottom */
+      .gfsr-chat-fab{ bottom:14px } /* desktop has no mobile call bar; sitemap stays but FAB clears it */
     }
     .gfsr-chat-sheet.open{ transform:translateY(0) }
     @media (min-width:720px){ .gfsr-chat-sheet.open{ transform:none; position:fixed; bottom:12px } }
@@ -184,9 +217,9 @@
     }
     @media (min-width:769px){ .desk-call{ display:inline-flex } }
 
-    /* NEW: keep page content above the sticky call bar on mobile */
+    /* NEW: keep page content above the sticky bars on mobile */
     @media (max-width: 768px){
-      body, main { padding-bottom: calc(var(--callbar-h) + env(safe-area-inset-bottom) + 10px); }
+      body, main { padding-bottom: calc(var(--callbar-h) + var(--sitemap-h) + env(safe-area-inset-bottom) + 14px); }
     }
   </style>
 
@@ -245,7 +278,7 @@
 <body>
   <a href="#main" class="skip-link">Skip to content</a>
 
-  <!-- Sticky Nav (now includes every main page) -->
+  <!-- Sticky Nav (top) -->
   <nav class="sticky-nav" role="navigation" aria-label="Main navigation">
     <ul>
       <li><a href="/" title="DebtReliefGuard Home">Home</a></li>
@@ -253,7 +286,7 @@
       <li><a href="/how.it.works.index.html" title="How It Works">How It Works</a></li>
       <li><a href="/debt.relief.option.index.html" title="Debt Relief Options">Debt Relief Options</a></li>
       <li><a href="/credit.card.relief.index.html" title="Credit Card Relief">Credit Card Relief</a></li>
-      <li><a id="link-savings" href="/savings.calculator.index.html" title="Savings Calculator">Savings Calculator</a></li>
+      <li><a href="/savings.calculator.html" title="Savings Calculator">Savings Calculator</a></li>
       <li><a href="/reviews.index.html" title="Reviews">Reviews</a></li>
       <li><a href="/blog.index.html" title="Debt Help Blog">Blog</a></li>
       <li><a href="/scam.warning.index.html" title="Debt Relief Scam Warnings & Tips">Scam Warnings</a></li>
@@ -346,32 +379,38 @@
     </section>
   </main>
 
-  <!-- Footer -->
+  <!-- Floating bottom sitemap -->
+  <footer class="sticky-menu" role="navigation" aria-label="Site map">
+    <nav>
+      <a href="/">Home</a>
+      <a href="/compare.us.html">Compare</a>
+      <a href="/how.it.works.index.html">How It Works</a>
+      <a href="/debt.relief.option.index.html">Debt Relief Options</a>
+      <a href="/credit.card.relief.index.html">Credit Card Relief</a>
+      <a href="/savings.calculator.html">Calculator</a>
+      <a href="/reviews.index.html">Reviews</a>
+      <a href="/blog.index.html">Blog</a>
+      <a href="/scam.warning.index.html">Scam Warnings</a>
+      <a href="/faq.index.html">FAQ</a>
+      <a href="/contact.index.html">Contact</a>
+      <a href="/privacy.policy.index.html">Privacy</a>
+      <a href="/terms.index.html">Terms</a>
+      <a href="/geo-blocked.html" rel="nofollow">Geo-Blocked</a>
+      <a href="https://debthelpform.com" target="_blank" rel="noopener">DebtHelpForm.com</a>
+      <a href="https://gatewaydebthelp.com" target="_blank" rel="noopener">GatewayDebtHelp.com</a>
+    </nav>
+  </footer>
+
+  <!-- Footer (legal & brand disambiguation) -->
   <footer>
     <p>&copy; 2025 DebtReliefGuard.com — Trust-First. Scam-Free. GFSR Verified.</p>
     <p>Website operated by <a href="https://gatewayfinancialsettlementrelief.com" target="_blank" rel="noopener">Gateway Financial Settlement Relief</a></p>
     <p style="font-size:.82rem;color:#999">This site provides educational information, not legal, tax, or financial advice. Results vary and are not guaranteed. Programs may affect creditworthiness and involve fees disclosed in writing; no fees until your first debt is settled.</p>
     <p style="font-size:.82rem;color:#999">Last updated: August 2025</p>
-    <p style="font-size:.82rem;color:#999">“Gateway Debt Help” is the marketing brand of <strong>Gateway Financial Settlement Relief, LLC</strong>. Not affiliated with “Gateway Debt Relief” of Costa Mesa, CA.</p>
-
-    <!-- Mini Site Map (makes every page one click away) -->
-    <div style="margin-top:12px;font-size:.92rem">
-      <strong>Site Map:</strong>
-      <a href="/">Home</a> •
-      <a href="/compare.us.html">Compare</a> •
-      <a href="/how.it.works.index.html">How It Works</a> •
-      <a href="/debt.relief.option.index.html">Debt Relief Options</a> •
-      <a href="/credit.card.relief.index.html">Credit Card Relief</a> •
-      <a id="link-savings-footer" href="/savings.calculator.index.html">Savings Calculator</a> •
-      <a href="/reviews.index.html">Reviews</a> •
-      <a href="/blog.index.html">Blog</a> •
-      <a href="/scam.warning.index.html">Scam Warnings</a> •
-      <a href="/faq.index.html">FAQ</a> •
-      <a href="/contact.index.html">Contact</a> •
-      <a href="/privacy.policy.index.html">Privacy</a> •
-      <a href="/terms.index.html">Terms</a> •
-      <a href="/geo-blocked.html" rel="nofollow">Geo-Blocked</a>
-    </div>
+    <p style="font-size:.82rem;color:#999">
+      “Gateway Debt Help” is the marketing brand of <strong>Gateway Financial Settlement Relief, LLC</strong>.
+      Not affiliated with “Gateway Debt Relief” of Costa Mesa, CA.
+    </p>
   </footer>
 
   <!-- Bot heuristic (simple honeypot) -->
@@ -385,26 +424,6 @@
       addEventListener('keydown',()=>u=true,{passive:true});
       setInterval(()=>t++,1000);
       window.validateBotProtections=()=> (honeypot.value==="" && u && t>=3);
-    })();
-  </script>
-
-  <!-- Savings Calculator link fallback (ensures it works even if route differs) -->
-  <script>
-    (function(){
-      async function safeNav(e, preferred, fallback){
-        try{
-          e.preventDefault();
-          const r = await fetch(preferred, {method:'HEAD', cache:'no-store', redirect:'manual'});
-          if (r && (r.ok || r.status===304)) location.href = preferred;
-          else location.href = fallback;
-        }catch(_){ location.href = fallback; }
-      }
-      const a1 = document.getElementById('link-savings');
-      const a2 = document.getElementById('link-savings-footer');
-      const preferred = '/savings.calculator.index.html';
-      const fallback  = '/savings.calculator.html';
-      if (a1) a1.addEventListener('click', (e)=>safeNav(e, preferred, fallback));
-      if (a2) a2.addEventListener('click', (e)=>safeNav(e, preferred, fallback));
     })();
   </script>
 
