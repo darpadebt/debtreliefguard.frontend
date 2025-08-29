@@ -159,7 +159,7 @@
       .gfsr-chat-head{ background:#111216; color:#eaeaea }
       .gfsr-chat-body{ background:#0b0b0d }
       .gfsr-msg.bot{ background:#1a2236; color:#eaeaea }
-      .gfsr-msg.meta{ background:#121318; color:#c9c9c9 }
+      .gfsr-chat-msg.meta{ background:#121318; color:#c9c9c9 }
       .gfsr-chat-input{ background:#0b0b0d; border-color:#1e1e22 }
       .gfsr-chat-input textarea{ background:#0f0f12; color:#eaeaea; border-color:#1f2532 }
       .gfsr-chat-send{ background:#2d6bf6 }
@@ -190,40 +190,28 @@
     }
   </style>
 
-  <!-- Structured Data: Website + Breadcrumbs + FAQ (WebSite publisher now references shared @id) -->
+  <!-- Structured Data: Website + Breadcrumbs + FAQ -->
   <script type="application/ld+json">
-  {
-    "@context":"https://schema.org",
-    "@type":"WebSite",
-    "name":"DebtReliefGuard",
-    "url":"https://debtreliefguard.com/",
-    "publisher": { "@id": "https://gatewaydebthelp.com/#gfsr" }
-  }
+  {"@context":"https://schema.org","@type":"WebSite","name":"DebtReliefGuard","url":"https://debtreliefguard.com/","publisher":{"@id":"https://gatewaydebthelp.com/#gfsr"}}
   </script>
   <script type="application/ld+json">
-  {
-    "@context":"https://schema.org","@type":"BreadcrumbList",
-    "itemListElement":[
-      {"@type":"ListItem","position":1,"name":"Home","item":"https://debtreliefguard.com/"},
-      {"@type":"ListItem","position":2,"name":"Compare Debt Relief Options","item":"https://debtreliefguard.com/compare.us.html"},
-      {"@type":"ListItem","position":3,"name":"Scam Warnings","item":"https://debtreliefguard.com/scam.warning.index.html"},
-      {"@type":"ListItem","position":4,"name":"FAQ","item":"https://debtreliefguard.com/faq.index.html"},
-      {"@type":"ListItem","position":5,"name":"Contact","item":"https://debtreliefguard.com/contact.index.html"}
-    ]
-  }
+  {"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[
+    {"@type":"ListItem","position":1,"name":"Home","item":"https://debtreliefguard.com/"},
+    {"@type":"ListItem","position":2,"name":"Compare Debt Relief Options","item":"https://debtreliefguard.com/compare.us.html"},
+    {"@type":"ListItem","position":3,"name":"Scam Warnings","item":"https://debtreliefguard.com/scam.warning.index.html"},
+    {"@type":"ListItem","position":4,"name":"FAQ","item":"https://debtreliefguard.com/faq.index.html"},
+    {"@type":"ListItem","position":5,"name":"Contact","item":"https://debtreliefguard.com/contact.index.html"}
+  ]}
   </script>
   <script type="application/ld+json">
-  {
-    "@context":"https://schema.org","@type":"FAQPage",
-    "mainEntity":[
-      {"@type":"Question","name":"How do I avoid debt relief scams?","acceptedAnswer":{"@type":"Answer","text":"Check FTC guidance, avoid upfront fees, and verify written disclosures. We link to official resources so you can validate claims."}},
-      {"@type":"Question","name":"Can I get a secure savings estimate here?","acceptedAnswer":{"@type":"Answer","text":"Yes. Use the secure form at DebtHelpForm.com to receive a no-pressure estimate in about a minute."}},
-      {"@type":"Question","name":"Is this site a provider?","acceptedAnswer":{"@type":"Answer","text":"No. We’re a consumer-first review and trust resource. We help you compare legitimate options and spot red flags."}}
-    ]
-  }
+  {"@context":"https://schema.org","@type":"FAQPage","mainEntity":[
+    {"@type":"Question","name":"How do I avoid debt relief scams?","acceptedAnswer":{"@type":"Answer","text":"Check FTC guidance, avoid upfront fees, and verify written disclosures. We link to official resources so you can validate claims."}},
+    {"@type":"Question","name":"Can I get a secure savings estimate here?","acceptedAnswer":{"@type":"Answer","text":"Yes. Use the secure form at DebtHelpForm.com to receive a no-pressure estimate in about a minute."}},
+    {"@type":"Question","name":"Is this site a provider?","acceptedAnswer":{"@type":"Answer","text":"No. We’re a consumer-first review and trust resource. We help you compare legitimate options and spot red flags."}}
+  ]}
   </script>
 
-  <!-- NEW: Unified Organization/FinancialService JSON-LD (shared @id; disambiguation) -->
+  <!-- Unified Organization JSON-LD -->
   <script type="application/ld+json">
   {
     "@context":"https://schema.org",
@@ -257,15 +245,22 @@
 <body>
   <a href="#main" class="skip-link">Skip to content</a>
 
-  <!-- Sticky Nav -->
+  <!-- Sticky Nav (now includes every main page) -->
   <nav class="sticky-nav" role="navigation" aria-label="Main navigation">
     <ul>
       <li><a href="/" title="DebtReliefGuard Home">Home</a></li>
       <li><a href="/compare.us.html" title="Compare Legitimate Debt Relief Options">Compare Options</a></li>
+      <li><a href="/how.it.works.index.html" title="How It Works">How It Works</a></li>
+      <li><a href="/debt.relief.option.index.html" title="Debt Relief Options">Debt Relief Options</a></li>
+      <li><a href="/credit.card.relief.index.html" title="Credit Card Relief">Credit Card Relief</a></li>
+      <li><a href="/savings.calculator.index.html" title="Savings Calculator">Savings Calculator</a></li>
+      <li><a href="/reviews.index.html" title="Reviews">Reviews</a></li>
+      <li><a href="/blog.index.html" title="Debt Help Blog">Blog</a></li>
       <li><a href="/scam.warning.index.html" title="Debt Relief Scam Warnings & Tips">Scam Warnings</a></li>
       <li><a href="/faq.index.html" title="Debt Relief FAQ">FAQ</a></li>
-      <li><a href="/blog.index.html" title="Debt Help Reviews & Guides">Debt Help Blog</a></li>
       <li><a href="/contact.index.html" title="Contact DebtReliefGuard">Contact</a></li>
+      <li><a href="/privacy.policy.index.html" title="Privacy Policy">Privacy</a></li>
+      <li><a href="/terms.index.html" title="Terms of Use">Terms</a></li>
       <li><a href="https://debthelpform.com/#lead-form" target="_blank" rel="noopener" title="Get Your Free Secure Estimate">Get Estimate</a></li>
       <li><a href="https://gatewaydebthelp.com" target="_blank" rel="noopener" title="Gateway Debt Help">GatewayDebtHelp.com</a></li>
       <li><a href="https://gatewayfinancialsettlementrelief.com" target="_blank" rel="noopener" title="Gateway Financial Settlement Relief Official"><strong>GFSR Owner</strong></a></li>
@@ -357,11 +352,26 @@
     <p>Website operated by <a href="https://gatewayfinancialsettlementrelief.com" target="_blank" rel="noopener">Gateway Financial Settlement Relief</a></p>
     <p style="font-size:.82rem;color:#999">This site provides educational information, not legal, tax, or financial advice. Results vary and are not guaranteed. Programs may affect creditworthiness and involve fees disclosed in writing; no fees until your first debt is settled.</p>
     <p style="font-size:.82rem;color:#999">Last updated: August 2025</p>
-    <!-- NEW: visible disambiguation line -->
-    <p style="font-size:.82rem;color:#999">
-      “Gateway Debt Help” is the marketing brand of <strong>Gateway Financial Settlement Relief, LLC</strong>.
-      Not affiliated with “Gateway Debt Relief” of Costa Mesa, CA.
-    </p>
+    <p style="font-size:.82rem;color:#999">“Gateway Debt Help” is the marketing brand of <strong>Gateway Financial Settlement Relief, LLC</strong>. Not affiliated with “Gateway Debt Relief” of Costa Mesa, CA.</p>
+
+    <!-- Mini Site Map (makes every page one click away) -->
+    <div style="margin-top:12px;font-size:.92rem">
+      <strong>Site Map:</strong>
+      <a href="/">Home</a> •
+      <a href="/compare.us.html">Compare</a> •
+      <a href="/how.it.works.index.html">How It Works</a> •
+      <a href="/debt.relief.option.index.html">Debt Relief Options</a> •
+      <a href="/credit.card.relief.index.html">Credit Card Relief</a> •
+      <a href="/savings.calculator.index.html">Savings Calculator</a> •
+      <a href="/reviews.index.html">Reviews</a> •
+      <a href="/blog.index.html">Blog</a> •
+      <a href="/scam.warning.index.html">Scam Warnings</a> •
+      <a href="/faq.index.html">FAQ</a> •
+      <a href="/contact.index.html">Contact</a> •
+      <a href="/privacy.policy.index.html">Privacy</a> •
+      <a href="/terms.index.html">Terms</a> •
+      <a href="/geo-blocked.html" rel="nofollow">Geo-Blocked</a>
+    </div>
   </footer>
 
   <!-- Bot heuristic (simple honeypot) -->
@@ -378,7 +388,7 @@
     })();
   </script>
 
-  <!-- 050: Savings message (IDENTICAL to DHF; targets #ab-cta-text) -->
+  <!-- 050: Savings message -->
   <script>
   (() => {
     const now = () => Date.now();
@@ -459,7 +469,7 @@
     };
 
     const openChat = () => {
-      el.sheet.removeAttribute('hidden');          // make visible
+      el.sheet.removeAttribute('hidden');
       el.sheet.classList.add('open');
       el.fab.setAttribute('aria-expanded','true');
       setTimeout(()=>el.input.focus(),120);
@@ -467,7 +477,7 @@
     const closeChat = () => {
       el.sheet.classList.remove('open');
       el.fab.setAttribute('aria-expanded','false');
-      el.sheet.setAttribute('hidden','');          // fully hide & remove from a11y tree
+      el.sheet.setAttribute('hidden','');
       el.fab.focus();
     };
     el.fab.addEventListener('click', openChat);
@@ -542,7 +552,7 @@
   })();
   </script>
 
-  <!-- 015: Telemetry ping (same pattern as DHF; scoped to DRG) -->
+  <!-- 015: Telemetry ping -->
   <script>
   (() => {
     const now = () => Date.now();
