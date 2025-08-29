@@ -253,7 +253,7 @@
       <li><a href="/how.it.works.index.html" title="How It Works">How It Works</a></li>
       <li><a href="/debt.relief.option.index.html" title="Debt Relief Options">Debt Relief Options</a></li>
       <li><a href="/credit.card.relief.index.html" title="Credit Card Relief">Credit Card Relief</a></li>
-      <li><a href="/savings.calculator.index.html" title="Savings Calculator">Savings Calculator</a></li>
+      <li><a id="link-savings" href="/savings.calculator.index.html" title="Savings Calculator">Savings Calculator</a></li>
       <li><a href="/reviews.index.html" title="Reviews">Reviews</a></li>
       <li><a href="/blog.index.html" title="Debt Help Blog">Blog</a></li>
       <li><a href="/scam.warning.index.html" title="Debt Relief Scam Warnings & Tips">Scam Warnings</a></li>
@@ -362,7 +362,7 @@
       <a href="/how.it.works.index.html">How It Works</a> •
       <a href="/debt.relief.option.index.html">Debt Relief Options</a> •
       <a href="/credit.card.relief.index.html">Credit Card Relief</a> •
-      <a href="/savings.calculator.index.html">Savings Calculator</a> •
+      <a id="link-savings-footer" href="/savings.calculator.index.html">Savings Calculator</a> •
       <a href="/reviews.index.html">Reviews</a> •
       <a href="/blog.index.html">Blog</a> •
       <a href="/scam.warning.index.html">Scam Warnings</a> •
@@ -385,6 +385,26 @@
       addEventListener('keydown',()=>u=true,{passive:true});
       setInterval(()=>t++,1000);
       window.validateBotProtections=()=> (honeypot.value==="" && u && t>=3);
+    })();
+  </script>
+
+  <!-- Savings Calculator link fallback (ensures it works even if route differs) -->
+  <script>
+    (function(){
+      async function safeNav(e, preferred, fallback){
+        try{
+          e.preventDefault();
+          const r = await fetch(preferred, {method:'HEAD', cache:'no-store', redirect:'manual'});
+          if (r && (r.ok || r.status===304)) location.href = preferred;
+          else location.href = fallback;
+        }catch(_){ location.href = fallback; }
+      }
+      const a1 = document.getElementById('link-savings');
+      const a2 = document.getElementById('link-savings-footer');
+      const preferred = '/savings.calculator.index.html';
+      const fallback  = '/savings.calculator.html';
+      if (a1) a1.addEventListener('click', (e)=>safeNav(e, preferred, fallback));
+      if (a2) a2.addEventListener('click', (e)=>safeNav(e, preferred, fallback));
     })();
   </script>
 
