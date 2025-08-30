@@ -45,6 +45,7 @@
     };
   </script>
 
+  <!-- Styles (mobile-first, polished like DHF) -->
   <style>
     :root {
       --ink:#222; --bg:#f9fafe; --brand:#004477; --brand-2:#003057;
@@ -58,8 +59,8 @@
     body{
       font-family:'Inter',system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;
       background:var(--bg);color:var(--ink);line-height:1.55;
-      padding-top:76px;
-      padding-bottom: calc(var(--sitemap-h) + 14px); /* desktop */
+      padding-top:76px; /* sticky top nav */
+      padding-bottom: calc(var(--sitemap-h) + 14px); /* desktop spacing */
     }
 
     .skip-link{position:absolute;left:-999px;top:auto;width:1px;height:1px;overflow:hidden}
@@ -84,6 +85,7 @@
     section{max-width:960px;margin:1.25rem auto;background:var(--card);border:1px solid var(--card-b);border-radius:12px;padding:1.1rem;box-shadow:0 2px 12px rgba(0,0,0,.06)}
     section h2{margin-top:0;font-size:clamp(1.25rem,2vw + .9rem,1.7rem)}
     .lead{margin:.25rem 0 1rem;color:#444}
+
     .process{display:grid;gap:.8rem}
     .row{display:grid;gap:.35rem;border:1px dashed #d1d5db;border-radius:12px;padding:.8rem;background:#fafafa}
 
@@ -106,20 +108,27 @@
     .mobile-est{background:#0b63f6;color:#fff}
     @media (min-width:769px){.mobile-bar{display:none}}
 
-    /* Floating bottom sitemap — sits directly above the mobile bar */
+    /* Floating bottom sitemap — sits directly above the mobile bar (always at bottom; lifted via transform) */
     .sticky-menu{
-      position:fixed; left:0; right:0;
-      bottom: var(--callbar-h); /* ← no env() here to avoid double counting */
+      position:fixed; left:0; right:0; bottom:0;
+      transform: translateY(calc(-1 * var(--callbar-h)));
       background:#004488; color:#fff; z-index:9997;
       border-top:2px solid #2563eb;
       height: var(--sitemap-h);
       display:flex; align-items:center;
     }
-    @media (min-width:769px){ .sticky-menu{ bottom:0 } } /* no mobile bar on desktop */
+    @media (min-width:769px){ .sticky-menu{ transform:none } } /* no lift on desktop */
 
-    .sticky-menu nav{display:flex; gap:1rem; overflow-x:auto; white-space:nowrap; padding:0 .75rem; width:100%; align-items:center; scrollbar-width:none}
+    .sticky-menu nav{
+      display:flex; gap:1rem; overflow-x:auto; white-space:nowrap;
+      padding:0 .75rem; width:100%; align-items:center;
+      scrollbar-width:none;
+    }
     .sticky-menu nav::-webkit-scrollbar{ display:none }
-    .sticky-menu nav a{color:#ffdd00; text-decoration:none; padding:.35rem .55rem; border-radius:6px; font-weight:700; font-size:.92rem; flex:0 0 auto}
+    .sticky-menu nav a{
+      color:#ffdd00; text-decoration:none; padding:.35rem .55rem; border-radius:6px;
+      font-weight:700; font-size:.92rem; flex:0 0 auto;
+    }
     .sticky-menu nav a:hover, .sticky-menu nav a:focus{ background:rgba(255,255,255,.1); outline:none }
 
     footer{max-width:960px;margin:1.25rem auto 4.5rem;text-align:center;color:#666}
@@ -396,16 +405,23 @@
     (function(){
       const root = document.documentElement;
       const mb   = document.querySelector('.mobile-bar');
+
       function setH(){
-        const shown = mb && getComputedStyle(mb).display !== 'none';
-        root.style.setProperty('--callbar-h', (shown ? mb.offsetHeight : 0) + 'px');
+        if(!mb){ root.style.setProperty('--callbar-h','0px'); return; }
+        const shown = getComputedStyle(mb).display !== 'none';
+        const h = shown ? Math.round(mb.getBoundingClientRect().height) : 0;
+        root.style.setProperty('--callbar-h', h + 'px');
       }
+
       setH();
       addEventListener('resize', setH, {passive:true});
-      // re-check after viewport/keyboard/safe-area settles on mobile
-      requestAnimationFrame(()=>setH());
+      requestAnimationFrame(setH);
       setTimeout(setH, 250);
       setTimeout(setH, 1000);
+
+      if('ResizeObserver' in window){
+        try{ new ResizeObserver(setH).observe(mb); }catch(_){}
+      }
     })();
   </script>
 
