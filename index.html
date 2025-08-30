@@ -47,20 +47,19 @@
 
   <!-- Styles (mobile-first, polished like DHF) -->
   <style>
-    :root {
+    :root{
       --ink:#222; --bg:#f9fafe; --brand:#004477; --brand-2:#003057;
-      --cta:#2563eb; --ok:#007b55; --card:#fff; --card-b:#e5e7eb;
+      --cta:#0b63f6; --ok:#007b55; --card:#fff; --card-b:#e5e7eb;
       --shadow:0 10px 30px rgba(0,0,0,.12);
-      /* Heights for fixed bars (callbar-h is set by JS) */
-      --callbar-h: 64px;
-      --sitemap-h: 52px;
+      /* heights for fixed bars; --callbar-h set by JS */
+      --callbar-h:64px; --sitemap-h:52px;
     }
     *{box-sizing:border-box} html,body{margin:0;padding:0}
     body{
       font-family:'Inter',system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;
       background:var(--bg);color:var(--ink);line-height:1.55;
       padding-top:76px; /* sticky top nav */
-      padding-bottom: calc(var(--sitemap-h) + 14px); /* desktop spacing */
+      padding-bottom:calc(var(--sitemap-h) + 14px); /* desktop spacing */
     }
 
     .skip-link{position:absolute;left:-999px;top:auto;width:1px;height:1px;overflow:hidden}
@@ -77,7 +76,7 @@
     header .sub{margin:0 0 .8rem;opacity:.95}
     .hero-ctas{display:flex;justify-content:center;gap:.6rem;flex-wrap:wrap}
     .btn{display:inline-flex;align-items:center;justify-content:center;gap:.4rem;border-radius:10px;padding:.7rem 1.05rem;font-weight:800;text-decoration:none}
-    .btn-primary{background:#0b63f6;color:#fff;box-shadow:var(--shadow)}
+    .btn-primary{background:var(--cta);color:#fff;box-shadow:var(--shadow)}
     .btn-outline{background:transparent;color:#fff;border:2px solid rgba(255,255,255,0.75)}
     .badge{display:inline-flex;gap:.35rem;align-items:center;justify-content:center;background:#0f172a;color:#e5e7eb;border:1px solid rgba(255,255,255,.18);border-radius:999px;padding:.35rem .6rem;font-size:.82rem}
 
@@ -88,6 +87,25 @@
 
     .process{display:grid;gap:.8rem}
     .row{display:grid;gap:.35rem;border:1px dashed #d1d5db;border-radius:12px;padding:.8rem;background:#fafafa}
+
+    /* Fintech small actions */
+    .actions{display:flex;gap:.5rem;margin-top:.6rem;flex-wrap:wrap}
+    .btn-sm{
+      display:inline-flex;align-items:center;justify-content:center;gap:.4rem;
+      padding:.55rem .9rem;border-radius:12px;font-weight:800;font-size:.95rem;line-height:1;
+      text-decoration:none;transition:transform .06s ease,box-shadow .2s ease;
+    }
+    .btn-sm:active{transform:translateY(1px)}
+    .btn-sm.btn-primary{
+      background:var(--cta);color:#fff;
+      box-shadow:0 8px 18px rgba(11,99,246,.25);
+      border:1px solid #0a58da;
+    }
+    .btn-sm.btn-primary:hover{box-shadow:0 10px 22px rgba(11,99,246,.35)}
+    .btn-sm.btn-outline{
+      background:#eef2ff;color:#0b63f6;border:1.5px solid #c7d2fe;
+    }
+    .btn-sm.btn-outline:hover{background:#e0e7ff}
 
     .trust-links{margin-top:1rem;font-size:.96rem}
     .trust-links ul{padding-left:1.1rem}
@@ -102,17 +120,17 @@
       position:fixed;left:0;right:0;bottom:0;background:#0b1220;color:#fff;
       display:flex;gap:8px;padding:.6rem;z-index:9998;
       padding-bottom: calc(.6rem + env(safe-area-inset-bottom));
-      margin:0; /* ensure no accidental gap */
+      margin:0;
     }
     .mobile-bar a{flex:1;text-align:center;border-radius:10px;padding:.75rem .5rem;font-weight:900;text-decoration:none}
     .mobile-call{background:var(--ok);color:#fff}
-    .mobile-est{background:#0b63f6;color:#fff}
+    .mobile-est{background:var(--cta);color:#fff}
     @media (min-width:769px){.mobile-bar{display:none}}
 
-    /* Floating bottom sitemap — sits directly above the mobile bar ("kiss") */
+    /* Floating bottom sitemap — “kisses” CTA bar */
     .sticky-menu{
       position:fixed; left:0; right:0;
-      bottom: calc(var(--callbar-h) + env(safe-area-inset-bottom)); /* ← kiss, with safe-area */
+      bottom: var(--callbar-h); /* exact measured height of the CTA bar */
       background:#004488; color:#fff; z-index:9997;
       border-top:2px solid #2563eb;
       height: var(--sitemap-h);
@@ -142,7 +160,7 @@
       bottom: calc(var(--callbar-h) + var(--sitemap-h) + 14px);
       z-index:10003; display:inline-flex; align-items:center; gap:.5rem;
       padding:.8rem 1rem; border-radius:999px; border:var(--chat-border);
-      background:#0b63f6; color:#fff; box-shadow:var(--chat-shadow);
+      background:var(--cta); color:#fff; box-shadow:var(--chat-shadow);
       font:600 14px/1.1 system-ui,-apple-system,Segoe UI,Roboto,Arial
     }
     .gfsr-chat-fab:focus-visible{ outline:3px solid #b9d3ff; outline-offset:3px }
@@ -154,22 +172,22 @@
     .gfsr-chat-head{ display:flex; align-items:center; justify-content:space-between; padding:12px 14px; border-bottom:var(--chat-border); background:#f9fafb; border-radius:inherit }
     .gfsr-chat-title{ font-weight:700; font-size:15px }
     .gfsr-chat-close{ background:transparent; border:none; padding:8px; border-radius:10px; cursor:pointer }
-    .gfsr-chat-close:focus-visible{ outline:3px solid #0b63f6 }
+    .gfsr-chat-close:focus-visible{ outline:3px solid var(--cta) }
     .gfsr-chat-body{ display:flex; flex-direction:column; gap:8px; padding:12px; height:min(70vh, 520px); overflow:auto; -webkit-overflow-scrolling:touch }
     @media (min-width:720px){ .gfsr-chat-body{ height:56vh } }
     .gfsr-msg{ max-width:88%; padding:10px 12px; border-radius:14px; font-size:14px; line-height:1.35 }
-    .gfsr-msg.user{ margin-left:auto; background:#0b63f6; color:#fff; border-top-right-radius:4px }
+    .gfsr-msg.user{ margin-left:auto; background:var(--cta); color:#fff; border-top-right-radius:4px }
     .gfsr-msg.bot{ background:#eef2ff; color:#111; border-top-left-radius:4px }
     .gfsr-msg.meta{ background:#f3f4f6; color:#444; font-size:12px; margin:4px auto }
 
     .gfsr-chat-input{ display:flex; gap:8px; padding:10px; border-top:var(--chat-border); background:#fff; border-radius:0 0 18px 18px }
     .gfsr-chat-input textarea{ flex:1; resize:none; min-height:42px; max-height:120px; padding:10px 12px; border:1px solid #e5e7eb; border-radius:12px; font-size:14px; line-height:1.35 }
-    .gfsr-chat-send{ background:#0b63f6; color:#fff; border:none; padding:12px 14px; border-radius:12px; font-weight:700 }
+    .gfsr-chat-send{ background:var(--cta); color:#fff; border:none; padding:12px 14px; border-radius:12px; font-weight:700 }
     .gfsr-chat-send[disabled]{ opacity:.6; cursor:not-allowed }
 
     /* Keep content above bars on mobile */
     @media (max-width:768px){
-      body, main { padding-bottom: calc(var(--callbar-h) + var(--sitemap-h) + env(safe-area-inset-bottom) + 14px); }
+      body, main { padding-bottom: calc(var(--callbar-h) + var(--sitemap-h) + 14px); }
     }
   </style>
 
@@ -405,23 +423,18 @@
     (function(){
       const root = document.documentElement;
       const mb   = document.querySelector('.mobile-bar');
-
       function setH(){
         if(!mb){ root.style.setProperty('--callbar-h','0px'); return; }
         const shown = getComputedStyle(mb).display !== 'none';
         const h = shown ? Math.round(mb.getBoundingClientRect().height) : 0;
         root.style.setProperty('--callbar-h', h + 'px');
       }
-
       setH();
       addEventListener('resize', setH, {passive:true});
       requestAnimationFrame(setH);
       setTimeout(setH, 250);
       setTimeout(setH, 1000);
-
-      if('ResizeObserver' in window){
-        try{ new ResizeObserver(setH).observe(mb); }catch(_){}
-      }
+      if('ResizeObserver' in window){ try{ new ResizeObserver(setH).observe(mb); }catch(_){ } }
     })();
   </script>
 
