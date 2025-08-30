@@ -88,7 +88,7 @@
     .process{display:grid;gap:.8rem}
     .row{display:grid;gap:.35rem;border:1px dashed #d1d5db;border-radius:12px;padding:.8rem;background:#fafafa}
 
-    /* Fintech small actions */
+    /* FinTech small actions */
     .actions{display:flex;gap:.5rem;margin-top:.6rem;flex-wrap:wrap}
     .btn-sm{
       display:inline-flex;align-items:center;justify-content:center;gap:.4rem;
@@ -115,10 +115,11 @@
     .faq p{margin:.6rem 0}
     .faq strong{font-weight:800}
 
-    /* Mobile dual-action bar */
+    /* Mobile dual-action bar (CTA) */
     .mobile-bar{
       position:fixed;left:0;right:0;bottom:0;background:#0b1220;color:#fff;
       display:flex;gap:8px;padding:.6rem;z-index:9998;
+      /* safe-area padding lives INSIDE the CTA bar */
       padding-bottom: calc(.6rem + env(safe-area-inset-bottom));
       margin:0;
     }
@@ -127,10 +128,11 @@
     .mobile-est{background:var(--cta);color:#fff}
     @media (min-width:769px){.mobile-bar{display:none}}
 
-    /* Floating bottom sitemap — “kisses” CTA bar */
+    /* Floating bottom sitemap — must “kiss” CTA bar
+       IMPORTANT: bottom uses ONLY the measured height (no extra env()) */
     .sticky-menu{
       position:fixed; left:0; right:0;
-      bottom: calc(var(--callbar-h) + env(safe-area-inset-bottom)); /* technique from working page */
+      bottom: var(--callbar-h);
       background:#004488; color:#fff; z-index:9997;
       border-top:2px solid #2563eb;
       height: var(--sitemap-h);
@@ -184,9 +186,10 @@
     .gfsr-chat-send{ background:var(--cta); color:#fff; border:none; padding:12px 14px; border-radius:12px; font-weight:700 }
     .gfsr-chat-send[disabled]{ opacity:.6; cursor:not-allowed }
 
-    /* Keep content above bars on mobile */
+    /* Keep content above bars on mobile
+       IMPORTANT: no extra env() here—offsetHeight already includes safe-area */
     @media (max-width:768px){
-      body, main { padding-bottom: calc(var(--callbar-h) + var(--sitemap-h) + env(safe-area-inset-bottom) + 14px); }
+      body, main { padding-bottom: calc(var(--callbar-h) + var(--sitemap-h) + 14px); }
     }
   </style>
 
@@ -220,7 +223,7 @@
     </ul>
   </nav>
 
-  <!-- Mobile dual-action bar (ID added for measurement parity) -->
+  <!-- Mobile dual-action bar (ID added for measurement) -->
   <div id="drgMobileBar" class="mobile-bar" aria-label="Quick actions">
     <a class="mobile-call" href="tel:+18884377141">📞 Call 888-437-7141</a>
     <a class="mobile-est" href="https://debthelpform.com/#lead-form" target="_blank" rel="noopener">🔒 Start Secure Estimate</a>
@@ -416,14 +419,14 @@
   })();
   </script>
 
-  <!-- Dynamic spacing: measure mobile bar and set --callbar-h (technique from working page) -->
+  <!-- Dynamic spacing: set --callbar-h to REAL mobile bar height -->
   <script>
     (function(){
       const root = document.documentElement;
       const mb   = document.getElementById('drgMobileBar');
       function setH(){
         const shown = mb && getComputedStyle(mb).display !== 'none';
-        const h = shown ? mb.offsetHeight : 0;
+        const h = shown ? mb.offsetHeight : 0;   // includes safe-area padding already
         root.style.setProperty('--callbar-h', h + 'px');
       }
       setH();
