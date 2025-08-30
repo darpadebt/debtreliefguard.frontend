@@ -102,22 +102,22 @@
       position:fixed;left:0;right:0;bottom:0;background:#0b1220;color:#fff;
       display:flex;gap:8px;padding:.6rem;z-index:9998;
       padding-bottom: calc(.6rem + env(safe-area-inset-bottom));
+      margin:0; /* ensure no accidental gap */
     }
     .mobile-bar a{flex:1;text-align:center;border-radius:10px;padding:.75rem .5rem;font-weight:900;text-decoration:none}
     .mobile-call{background:var(--ok);color:#fff}
     .mobile-est{background:#0b63f6;color:#fff}
     @media (min-width:769px){.mobile-bar{display:none}}
 
-    /* Floating bottom sitemap — sits directly above the mobile bar (always at bottom; lifted via transform) */
+    /* Floating bottom sitemap — sits directly above the mobile bar ("kiss") */
     .sticky-menu{
-      position:fixed; left:0; right:0; bottom:0;
-      transform: translateY(calc(-1 * var(--callbar-h)));
+      position:fixed; left:0; right:0;
+      bottom: var(--callbar-h); /* <- this is the kiss */
       background:#004488; color:#fff; z-index:9997;
       border-top:2px solid #2563eb;
       height: var(--sitemap-h);
       display:flex; align-items:center;
     }
-    @media (min-width:769px){ .sticky-menu{ transform:none } } /* no lift on desktop */
 
     .sticky-menu nav{
       display:flex; gap:1rem; overflow-x:auto; white-space:nowrap;
@@ -340,7 +340,7 @@
       const FALLBACK = el.textContent || "Trusted Debt Relief Reviews — Learn to Spot Scams & Get a Secure Estimate";
       const CACHE_KEY = 'drg:savings:v1'; const MAX_AGE_MS = 10 * 60 * 1000;
       try { const raw = localStorage.getItem(CACHE_KEY);
-        if (raw) { const { ts, message } = JSON.parse(raw); if (ts && (now()-ts) < MAX_AGE_MS && message) el.textContent = safeText(message); }
+        if (raw) { const { ts, message } = JSON.parse(raw); if (ts && (Date.now()-ts) < MAX_AGE_MS && message) el.textContent = safeText(message); }
       } catch(_) {}
       let ok=false, data;
       for(let attempt=0; attempt<2 && !ok; attempt++){
@@ -348,7 +348,7 @@
           let r = await timeoutFetch('/api/savings-message', { headers: { 'Accept':'application/json','X-Requested-With':'XMLHttpRequest' }, cache:'no-store', credentials:'omit' }, attempt ? 4500 : 3500);
           if(!r.ok || !r.headers.get('content-type')?.includes('application/json')) throw new Error('HTTP '+r.status);
           data = await r.json();
-          if(data && data.message){ el.textContent = safeText(data.message); ok=true; try{ localStorage.setItem(CACHE_KEY, JSON.stringify({ ts: now(), message: data.message })); }catch(_){}}}
+          if(data && data.message){ el.textContent = safeText(data.message); ok=true; try{ localStorage.setItem(CACHE_KEY, JSON.stringify({ ts: Date.now(), message: data.message })); }catch(_){}}}
         catch(e){ await sleep(200); }
       }
       if(!ok) el.textContent = FALLBACK;
