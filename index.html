@@ -45,7 +45,7 @@
     };
   </script>
 
-  <!-- Styles (mobile-first, polished like DHF) -->
+  <!-- Styles -->
   <style>
     :root{
       --ink:#222; --bg:#f9fafe; --brand:#004477; --brand-2:#003057;
@@ -115,7 +115,7 @@
     .faq p{margin:.6rem 0}
     .faq strong{font-weight:800}
 
-    /* Mobile dual-action bar (safe-area padding applied HERE) */
+    /* Mobile dual-action bar */
     .mobile-bar{
       position:fixed;left:0;right:0;bottom:0;background:#0b1220;color:#fff;
       display:flex;gap:8px;padding:.6rem;z-index:9998;
@@ -130,13 +130,12 @@
     /* Floating bottom sitemap — “kisses” CTA bar */
     .sticky-menu{
       position:fixed; left:0; right:0;
-      bottom: var(--callbar-h); /* exact measured height of the CTA bar */
+      bottom: calc(var(--callbar-h) + env(safe-area-inset-bottom)); /* technique from working page */
       background:#004488; color:#fff; z-index:9997;
       border-top:2px solid #2563eb;
       height: var(--sitemap-h);
       display:flex; align-items:center;
     }
-
     .sticky-menu nav{
       display:flex; gap:1rem; overflow-x:auto; white-space:nowrap;
       padding:0 .75rem; width:100%; align-items:center;
@@ -187,14 +186,13 @@
 
     /* Keep content above bars on mobile */
     @media (max-width:768px){
-      body, main { padding-bottom: calc(var(--callbar-h) + var(--sitemap-h) + 14px); }
+      body, main { padding-bottom: calc(var(--callbar-h) + var(--sitemap-h) + env(safe-area-inset-bottom) + 14px); }
     }
   </style>
 
-  <!-- Structured Data (same as before) -->
+  <!-- Structured Data -->
   <script type="application/ld+json">{"@context":"https://schema.org","@type":"WebSite","name":"DebtReliefGuard","url":"https://debtreliefguard.com/","publisher":{"@id":"https://gatewaydebthelp.com/#gfsr"}}</script>
   <script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://debtreliefguard.com/"},{"@type":"ListItem","position":2,"name":"Compare Debt Relief Options","item":"https://debtreliefguard.com/compare.us.html"},{"@type":"ListItem","position":3,"name":"Scam Warnings","item":"https://debtreliefguard.com/scam.warning.index.html"},{"@type":"ListItem","position":4,"name":"FAQ","item":"https://debtreliefguard.com/faq.index.html"},{"@type":"ListItem","position":5,"name":"Contact","item":"https://debtreliefguard.com/contact.index.html"}]}</script>
-  <script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"How do I avoid debt relief scams?","acceptedAnswer":{"@type":"Answer","text":"Check FTC guidance, avoid upfront fees, and verify written disclosures. We link to official resources so you can validate claims."}},{"@type":"Question","name":"Can I get a secure savings estimate here?","acceptedAnswer":{"@type":"Answer","text":"Yes. Use the secure form at DebtHelpForm.com to receive a no-pressure estimate in about a minute."}},{"@type":"Question","name":"Is this site a provider?","acceptedAnswer":{"@type":"Answer","text":"No. We’re a consumer-first review and trust resource. We help you compare legitimate options and spot red flags."}}]}</script>
   <script type="application/ld+json">{"@context":"https://schema.org","@type":["Organization","FinancialService"],"@id":"https://gatewaydebthelp.com/#gfsr","name":"Gateway Financial Settlement Relief, LLC","legalName":"Gateway Financial Settlement Relief, LLC","alternateName":["Gateway Debt Help","GFSR"],"url":"https://gatewaydebthelp.com/","logo":"https://debtreliefguard.com/og-cover.jpg","telephone":"+1-888-437-7141","address":{"@type":"PostalAddress","addressCountry":"US","addressRegion":"FL"},"areaServed":{"@type":"Country","name":"United States"},"sameAs":["https://gatewayfinancialsettlementrelief.com/","https://debthelpform.com/","https://debtreliefguard.com/","https://gatewaydebthelp.com/"],"contactPoint":{"@type":"ContactPoint","telephone":"+1-888-437-7141","contactType":"customer service","areaServed":"US","availableLanguage":["English"]},"disambiguatingDescription":"Florida-operated, Wyoming-registered debt relief company using 'Gateway Debt Help' as a marketing tagline. Not affiliated with Gateway Debt Relief of Costa Mesa, CA."}</script>
 </head>
 <body>
@@ -222,8 +220,8 @@
     </ul>
   </nav>
 
-  <!-- Mobile dual-action bar -->
-  <div class="mobile-bar" aria-label="Quick actions">
+  <!-- Mobile dual-action bar (ID added for measurement parity) -->
+  <div id="drgMobileBar" class="mobile-bar" aria-label="Quick actions">
     <a class="mobile-call" href="tel:+18884377141">📞 Call 888-437-7141</a>
     <a class="mobile-est" href="https://debthelpform.com/#lead-form" target="_blank" rel="noopener">🔒 Start Secure Estimate</a>
   </div>
@@ -418,23 +416,21 @@
   })();
   </script>
 
-  <!-- Dynamic spacing: set --callbar-h to the REAL mobile bar height -->
+  <!-- Dynamic spacing: measure mobile bar and set --callbar-h (technique from working page) -->
   <script>
     (function(){
       const root = document.documentElement;
-      const mb   = document.querySelector('.mobile-bar');
+      const mb   = document.getElementById('drgMobileBar');
       function setH(){
-        if(!mb){ root.style.setProperty('--callbar-h','0px'); return; }
-        const shown = getComputedStyle(mb).display !== 'none';
-        const h = shown ? Math.round(mb.getBoundingClientRect().height) : 0;
+        const shown = mb && getComputedStyle(mb).display !== 'none';
+        const h = shown ? mb.offsetHeight : 0;
         root.style.setProperty('--callbar-h', h + 'px');
       }
       setH();
       addEventListener('resize', setH, {passive:true});
-      requestAnimationFrame(setH);
+      // Some devices change viewport height after load
       setTimeout(setH, 250);
       setTimeout(setH, 1000);
-      if('ResizeObserver' in window){ try{ new ResizeObserver(setH).observe(mb); }catch(_){ } }
     })();
   </script>
 
