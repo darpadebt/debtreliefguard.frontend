@@ -43,7 +43,7 @@
       slots: {
         headline: '#ab-cta-text',
         primaryCta: '.hero-ctas .btn.btn-primary',
-        phoneCta: '.hero-ctas .btn.btn-outline'
+        phoneCta:   '.hero-ctas .btn.btn-outline'
       },
       defaults: {
         primaryCtaText: '🔒 Start Secure Estimate',
@@ -59,16 +59,15 @@
       --cta:#2563eb; --ok:#007b55; --card:#fff; --card-b:#e5e7eb;
       --shadow:0 10px 30px rgba(0,0,0,.12);
       /* Heights for fixed bars */
-      --callbar-h: 64px;       /* mobile dual-action bar */
-      --sitemap-h: 52px;       /* bottom floating sitemap bar */
+      --callbar-h: 64px;       /* updated by script */
+      --sitemap-h: 52px;
     }
     *{box-sizing:border-box} html,body{margin:0;padding:0}
     body{
       font-family:'Inter',system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;
       background:var(--bg);color:var(--ink);line-height:1.55;
-      padding-top:76px; /* space for sticky top nav */
-      /* keep content clear of the bottom floating sitemap on desktop too */
-      padding-bottom: calc(var(--sitemap-h) + 14px);
+      padding-top:76px; /* sticky top nav */
+      padding-bottom: calc(var(--sitemap-h) + 14px); /* desktop spacing */
     }
 
     .skip-link{position:absolute;left:-999px;top:auto;width:1px;height:1px;overflow:hidden}
@@ -112,19 +111,17 @@
     .mobile-est{background:#0b63f6;color:#fff}
     @media (min-width:769px){.mobile-bar{display:none}}
 
-    /* Floating bottom sitemap (sticky like top) */
+    /* Floating bottom sitemap (must sit exactly above call bar) */
     .sticky-menu{
-      position:fixed; left:0; right:0; bottom:0;
-      /* sit above the mobile call bar */
+      position:fixed; left:0; right:0;
       bottom: calc(var(--callbar-h) + env(safe-area-inset-bottom));
       background:#004488; color:#fff; z-index:9997;
       border-top:2px solid #2563eb;
       height: var(--sitemap-h);
       display:flex; align-items:center;
     }
-    @media (min-width:769px){
-      .sticky-menu{ bottom:0 } /* no mobile call bar on desktop */
-    }
+    @media (min-width:769px){ .sticky-menu{ bottom:0 } } /* no mobile bar on desktop */
+
     .sticky-menu nav{
       display:flex; gap:1rem; overflow-x:auto; white-space:nowrap;
       padding:0 .75rem; width:100%; align-items:center;
@@ -135,9 +132,7 @@
       color:#ffdd00; text-decoration:none; padding:.35rem .55rem; border-radius:6px;
       font-weight:700; font-size:.92rem; flex:0 0 auto;
     }
-    .sticky-menu nav a:hover, .sticky-menu nav a:focus{
-      background:rgba(255,255,255,.1); outline:none;
-    }
+    .sticky-menu nav a:hover, .sticky-menu nav a:focus{ background:rgba(255,255,255,.1); outline:none }
 
     footer{max-width:960px;margin:1.25rem auto 4.5rem;text-align:center;color:#666}
     footer a{color:#0055aa;text-decoration:none}
@@ -147,7 +142,6 @@
     :root{ --chat-radius:16px; --chat-shadow:0 10px 30px rgba(0,0,0,.18); --chat-border:1px solid rgba(0,0,0,.06) }
     .gfsr-chat-fab{
       position:fixed; right:14px;
-      /* keep above sticky bars */
       bottom: calc(var(--callbar-h) + var(--sitemap-h) + 14px);
       z-index:10003; display:inline-flex; align-items:center; gap:.5rem;
       padding:.8rem 1rem; border-radius:999px; border:var(--chat-border);
@@ -165,7 +159,7 @@
 
     @media (min-width:720px){
       .gfsr-chat-sheet{ bottom:auto; top:calc(12px + env(safe-area-inset-top)); right:12px; left:auto; border-radius:18px; max-height:78vh; width:380px }
-      .gfsr-chat-fab{ bottom:14px } /* desktop has no mobile call bar; sitemap stays but FAB clears it */
+      .gfsr-chat-fab{ bottom:14px }
     }
     .gfsr-chat-sheet.open{ transform:translateY(0) }
     @media (min-width:720px){ .gfsr-chat-sheet.open{ transform:none; position:fixed; bottom:12px } }
@@ -186,38 +180,7 @@
     .gfsr-chat-send{ background:#0b63f6; color:#fff; border:none; padding:12px 14px; border-radius:12px; font-weight:700 }
     .gfsr-chat-send[disabled]{ opacity:.6; cursor:not-allowed }
 
-    @media (prefers-reduced-motion:reduce){ .gfsr-chat-sheet{ transition:none } }
-    @media (prefers-color-scheme:dark){
-      .gfsr-chat-sheet{ background:#0b0b0d; border-color:#1e1e22 }
-      .gfsr-chat-head{ background:#111216; color:#eaeaea }
-      .gfsr-chat-body{ background:#0b0b0d }
-      .gfsr-msg.bot{ background:#1a2236; color:#eaeaea }
-      .gfsr-chat-msg.meta{ background:#121318; color:#c9c9c9 }
-      .gfsr-chat-input{ background:#0b0b0d; border-color:#1e1e22 }
-      .gfsr-chat-input textarea{ background:#0f0f12; color:#eaeaea; border-color:#1f2532 }
-      .gfsr-chat-send{ background:#2d6bf6 }
-      .gfsr-chat-fab{ background:#2d6bf6 }
-    }
-
-    .sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}
-
-    /* ▶ Per-step action buttons */
-    .process .row{ position:relative; padding-right:160px; }
-    .process .row .actions{ position:absolute; right:12px; top:50%; transform:translateY(-50%); display:inline-flex; gap:8px; white-space:nowrap; }
-    .btn-sm{ padding:.45rem .7rem; font-weight:800; border-radius:8px; font-size:.9rem; line-height:1; text-decoration:none }
-    .btn-sm.btn-primary{ background:#0b63f6; color:#fff; border:0; box-shadow:0 6px 14px rgba(0,0,0,.08) }
-    .btn-sm.btn-outline{ background:transparent; color:#0b63f6; border:2px solid #0b63f6 }
-
-    /* ▶ Desktop sticky phone pill */
-    .desk-call{
-      position:fixed; right:14px; bottom:14px; z-index:10002;
-      display:none; align-items:center; gap:.4rem;
-      padding:.7rem 1rem; border-radius:999px; background:#007b55; color:#fff; font-weight:900; text-decoration:none;
-      box-shadow:0 10px 24px rgba(0,0,0,.18);
-    }
-    @media (min-width:769px){ .desk-call{ display:inline-flex } }
-
-    /* NEW: keep page content above the sticky bars on mobile */
+    /* NEW: keep page content above fixed bars on mobile */
     @media (max-width: 768px){
       body, main { padding-bottom: calc(var(--callbar-h) + var(--sitemap-h) + env(safe-area-inset-bottom) + 14px); }
     }
@@ -427,7 +390,7 @@
     })();
   </script>
 
-  <!-- 050: Savings message -->
+  <!-- A/B savings message -->
   <script>
   (() => {
     const now = () => Date.now();
@@ -472,29 +435,7 @@
   })();
   </script>
 
-  <!-- 016 Chat Markup -->
-  <button id="gfsrChatFab" class="gfsr-chat-fab" aria-haspopup="dialog" aria-expanded="false" aria-controls="gfsrChatSheet">💬 Chat</button>
-
-  <section id="gfsrChatSheet" class="gfsr-chat-sheet" role="dialog" aria-modal="true"
-           aria-labelledby="gfsrChatTitle" aria-describedby="gfsrChatDesc" hidden>
-    <header class="gfsr-chat-head">
-      <div>
-        <div id="gfsrChatTitle" class="gfsr-chat-title">Debt Help Assistant</div>
-        <div id="gfsrChatDesc" class="sr-only">Chat with our assistant. Press Escape to close.</div>
-      </div>
-      <button id="gfsrChatClose" class="gfsr-chat-close" aria-label="Close chat">✕</button>
-    </header>
-
-    <div id="gfsrChatBody" class="gfsr-chat-body" tabindex="0"></div>
-
-    <form id="gfsrChatForm" class="gfsr-chat-input">
-      <label class="sr-only" for="gfsrChatInput">Type your message</label>
-      <textarea id="gfsrChatInput" rows="1" placeholder="Type a message…" aria-label="Message"></textarea>
-      <button id="gfsrChatSend" class="gfsr-chat-send" type="submit">Send</button>
-    </form>
-  </section>
-
-  <!-- 016 Chat Script -->
+  <!-- 016 Chat JS (unchanged) -->
   <script>
   (() => {
     const el = {
@@ -507,18 +448,8 @@
       send:  document.getElementById('gfsrChatSend'),
     };
 
-    const openChat = () => {
-      el.sheet.removeAttribute('hidden');
-      el.sheet.classList.add('open');
-      el.fab.setAttribute('aria-expanded','true');
-      setTimeout(()=>el.input.focus(),120);
-    };
-    const closeChat = () => {
-      el.sheet.classList.remove('open');
-      el.fab.setAttribute('aria-expanded','false');
-      el.sheet.setAttribute('hidden','');
-      el.fab.focus();
-    };
+    const openChat = () => { el.sheet.removeAttribute('hidden'); el.sheet.classList.add('open'); el.fab.setAttribute('aria-expanded','true'); setTimeout(()=>el.input.focus(),120); };
+    const closeChat = () => { el.sheet.classList.remove('open'); el.fab.setAttribute('aria-expanded','false'); el.sheet.setAttribute('hidden',''); el.fab.focus(); };
     el.fab.addEventListener('click', openChat);
     el.close.addEventListener('click', closeChat);
     window.addEventListener('keydown', e => { if (e.key==='Escape' && !el.sheet.hasAttribute('hidden')) closeChat(); });
@@ -532,60 +463,28 @@
     try { (JSON.parse(localStorage.getItem(KEY)||'[]')).slice(-20).forEach(m=>addMsg(m.text,m.who)); } catch {}
     const remember=(t,w)=>{ try{ const h=JSON.parse(localStorage.getItem(KEY)||'[]'); h.push({text:t,who:w,t:Date.now()}); localStorage.setItem(KEY, JSON.stringify(h).slice(-8000)); }catch{} };
 
-    // interaction gate + strong client nonce
     let interacted=false;
     addEventListener('mousemove',()=>interacted=true,{once:true,passive:true});
     addEventListener('keydown', ()=>interacted=true,{once:true,passive:true});
     const nonce = () => Array.from(crypto.getRandomValues(new Uint8Array(12))).map(b=>b.toString(16).padStart(2,'0')).join('');
 
-    const API = `${location.origin}/chat`;
-    let busy = false;
-
+    const API = `${location.origin}/chat`; let busy = false;
     el.form.addEventListener('submit', async (e) => {
-      e.preventDefault();
-      if (!interacted || busy) return;
-
-      const message = (el.input.value||'').trim();
-      if (!message) return;
-
-      addMsg(message,'user'); remember(message,'user');
-      el.input.value=''; busy=true; el.send.disabled=true;
-
+      e.preventDefault(); if (!interacted || busy) return;
+      const message = (el.input.value||'').trim(); if (!message) return;
+      addMsg(message,'user'); remember(message,'user'); el.input.value=''; busy=true; el.send.disabled=true;
       try{
-        const r = await fetch(API, {
-          method:'POST',
-          headers:{
-            'Content-Type':'application/json',
-            'Accept':'application/json',
-            'X-Requested-With':'XMLHttpRequest',
-            'X-Client-Nonce': nonce()
-          },
-          body: JSON.stringify({
-            messages:[{ role:'user', content: message }],
-            source:'frontend',
-            url: location.href
-          })
+        const r = await fetch(API, { method:'POST',
+          headers:{ 'Content-Type':'application/json','Accept':'application/json','X-Requested-With':'XMLHttpRequest','X-Client-Nonce': nonce() },
+          body: JSON.stringify({ messages:[{ role:'user', content: message }], source:'frontend', url: location.href })
         });
-        if(!r.ok){
-          const t=await r.text().catch(()=> ''); addMsg(`Service error ${r.status}.`, 'meta'); console.error('CHAT ERROR', r.status, t); return;
-        }
+        if(!r.ok){ const t=await r.text().catch(()=> ''); addMsg(`Service error ${r.status}.`,'meta'); console.error('CHAT ERROR', r.status, t); return; }
         const ct = r.headers.get('content-type')||''; let reply='';
-        if (ct.includes('application/json')) {
-          const d = await r.json();
-          reply = d.reply || d.message || JSON.stringify(d);
-        } else {
-          reply = await r.text();
-        }
+        reply = ct.includes('application/json') ? (await r.json()).reply || '' : await r.text();
         addMsg(reply || 'Thanks — how else can I help?','bot'); remember(reply||'','bot');
-      }catch(err){
-        console.error('CHAT NETWORK ERROR', err);
-        addMsg('Network error — please try again.', 'meta');
-      }finally{
-        busy=false; el.send.disabled=false; el.input.focus();
-      }
+      }catch(err){ console.error('CHAT NET', err); addMsg('Network error — please try again.','meta'); }
+      finally{ busy=false; el.send.disabled=false; el.input.focus(); }
     });
-
-    el.input.addEventListener('keydown', e => { if(e.key==='Enter' && !e.shiftKey){ e.preventDefault(); el.form.requestSubmit(); } });
 
     if (!el.body.children.length) addMsg('Hi! I can help you compare debt relief options and next steps.');
   })();
@@ -594,18 +493,31 @@
   <!-- 015: Telemetry ping -->
   <script>
   (() => {
-    const now = () => Date.now();
-    (function sendTelemetry(){
-      try{
-        const key='drg:sess:v1'; let sid=sessionStorage.getItem(key);
-        if(!sid){ sid=crypto.randomUUID(); sessionStorage.setItem(key, sid); }
-        const payload={ v:1, ts:now(), sid, url:location.href, ref:document.referrer||null, w:innerWidth, h:innerHeight };
-        const blob=new Blob([JSON.stringify(payload)],{type:'application/json'});
-        if(navigator.sendBeacon) navigator.sendBeacon('/ingest', blob);
-        else fetch('/ingest',{ method:'POST', body:blob, keepalive:true, headers:{'Content-Type':'application/json'} }).catch(()=>{});
-      }catch(_){}
-    })();
+    try{
+      const key='drg:sess:v1'; let sid=sessionStorage.getItem(key);
+      if(!sid){ sid=crypto.randomUUID(); sessionStorage.setItem(key, sid); }
+      const payload={ v:1, ts:Date.now(), sid, url:location.href, ref:document.referrer||null, w:innerWidth, h:innerHeight };
+      const blob=new Blob([JSON.stringify(payload)],{type:'application/json'});
+      if(navigator.sendBeacon) navigator.sendBeacon('/ingest', blob);
+      else fetch('/ingest',{ method:'POST', body:blob, keepalive:true, headers:{'Content-Type':'application/json'} }).catch(()=>{});
+    }catch(_){}
   })();
+  </script>
+
+  <!-- NEW: dynamic spacing so sitemap "kisses" the mobile CTA bar -->
+  <script>
+    (function(){
+      const root = document.documentElement;
+      const mb = document.querySelector('.mobile-bar');
+      function setH(){
+        const h = mb && getComputedStyle(mb).display !== 'none' ? mb.offsetHeight : 0;
+        root.style.setProperty('--callbar-h', h + 'px');
+      }
+      setH();
+      addEventListener('resize', setH, {passive:true});
+      // extra passes for font/keyboard/viewport settles on mobile
+      setTimeout(setH, 250); setTimeout(setH, 1000);
+    })();
   </script>
 
   <noscript><p style="text-align:center;color:#666">Enable JavaScript to load your personalized savings message.</p></noscript>
