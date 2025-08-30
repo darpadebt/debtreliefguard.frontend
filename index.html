@@ -112,7 +112,7 @@
     /* Floating bottom sitemap — sits directly above the mobile bar ("kiss") */
     .sticky-menu{
       position:fixed; left:0; right:0;
-      bottom: var(--callbar-h); /* <- this is the kiss */
+      bottom: calc(var(--callbar-h) + env(safe-area-inset-bottom)); /* ← kiss, with safe-area */
       background:#004488; color:#fff; z-index:9997;
       border-top:2px solid #2563eb;
       height: var(--sitemap-h);
@@ -169,7 +169,7 @@
 
     /* Keep content above bars on mobile */
     @media (max-width:768px){
-      body, main { padding-bottom: calc(var(--callbar-h) + var(--sitemap-h) + 14px); }
+      body, main { padding-bottom: calc(var(--callbar-h) + var(--sitemap-h) + env(safe-area-inset-bottom) + 14px); }
     }
   </style>
 
