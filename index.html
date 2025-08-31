@@ -89,11 +89,7 @@
 
     /* FinTech small actions */
     .actions{display:flex;gap:.5rem;margin-top:.6rem;flex-wrap:wrap}
-    .btn-sm{
-      display:inline-flex;align-items:center;justify-content:center;gap:.4rem;
-      padding:.55rem .9rem;border-radius:12px;font-weight:800;font-size:.95rem;line-height:1;
-      text-decoration:none;transition:transform .06s ease,box-shadow .2s ease;
-    }
+    .btn-sm{display:inline-flex;align-items:center;justify-content:center;gap:.4rem;padding:.55rem .9rem;border-radius:12px;font-weight:800;font-size:.95rem;line-height:1;text-decoration:none;transition:transform .06s ease,box-shadow .2s ease}
     .btn-sm:active{transform:translateY(1px)}
     .btn-sm.btn-primary{background:var(--cta);color:#fff;box-shadow:0 8px 18px rgba(11,99,246,.25);border:1px solid #0a58da}
     .btn-sm.btn-outline{background:#eef2ff;color:#0b63f6;border:1.5px solid #c7d2fe}
@@ -107,17 +103,10 @@
     .faq strong{font-weight:800}
 
     /* === unified bottom stack – CTA + sticky menu === */
-    .bottom-stack{
-      position:fixed; left:0; right:0; bottom:0;
-      display:flex; flex-direction:column-reverse;
-      z-index:9996; pointer-events:none;
-    }
-    .bottom-stack > *{ pointer-events:auto; width:100%; }
+    .bottom-stack{position:fixed; left:0; right:0; bottom:0; display:flex; flex-direction:column-reverse; z-index:9996; pointer-events:none}
+    .bottom-stack > *{ pointer-events:auto; width:100% }
 
-    .mobile-bar{
-      position:relative; background:#0b1220; color:#fff;
-      display:flex; gap:8px; padding:.6rem;
-    }
+    .mobile-bar{position:relative; background:#0b1220; color:#fff; display:flex; gap:8px; padding:.6rem}
     .mobile-bar a{flex:1;text-align:center;border-radius:10px;padding:.75rem .5rem;font-weight:900;text-decoration:none}
     .mobile-call{background:var(--ok);color:#fff}
     .mobile-est{background:var(--cta);color:#fff}
@@ -133,58 +122,26 @@
       height: var(--sitemap-h);
       display:flex; align-items:center;
     }
-    @media (min-width:769px){
-      .sticky-menu{ bottom:0 }
-    }
+    @media (min-width:769px){ .sticky-menu{ bottom:0 } }
 
-    .sticky-menu nav{
-      display:flex; gap:1rem; overflow-x:auto; white-space:nowrap;
-      padding:0 .75rem; width:100%; align-items:center;
-      scrollbar-width:none;
-    }
+    .sticky-menu nav{display:flex; gap:1rem; overflow-x:auto; white-space:nowrap; padding:0 .75rem; width:100%; align-items:center; scrollbar-width:none}
     .sticky-menu nav::-webkit-scrollbar{ display:none }
-    .sticky-menu nav a{
-      color:#ffdd00; text-decoration:none; padding:.35rem .55rem; border-radius:6px;
-      font-weight:700; font-size:.92rem; flex:0 0 auto;
-    }
+    .sticky-menu nav a{color:#ffdd00; text-decoration:none; padding:.35rem .55rem; border-radius:6px; font-weight:700; font-size:.92rem; flex:0 0 auto}
     .sticky-menu nav a:hover, .sticky-menu nav a:focus{ background:rgba(255,255,255,.1); outline:none }
 
     footer{max-width:960px;margin:1.25rem auto 4.5rem;text-align:center;color:#666}
     footer a{color:#0055aa;text-decoration:none}
     footer a:hover{text-decoration:underline}
 
-    /* Chat */
+    /* Chat visuals (IDs/classes are used; core positioning is inline on elements like the working page) */
     :root{ --chat-radius:16px; --chat-shadow:0 10px 30px rgba(0,0,0,.18); --chat-border:1px solid rgba(0,0,0,.06) }
-    .gfsr-chat-fab{
-      position:fixed; right:14px;
-      bottom: calc(var(--callbar-h) + var(--sitemap-h) + 14px);
-      z-index:10003; display:inline-flex; align-items:center; gap:.5rem;
-      padding:.8rem 1rem; border-radius:999px; border:var(--chat-border);
-      background:var(--cta); color:#fff; box-shadow:var(--chat-shadow);
-      font:600 14px/1.1 system-ui,-apple-system,Segoe UI,Roboto,Arial
-    }
-    .gfsr-chat-sheet{
-      position:fixed; inset:auto 0 0 0; margin:auto; width:100%; max-width:420px; right:12px; left:auto;
-      border-radius:18px 18px 0 0; background:#fff; box-shadow:var(--chat-shadow);
-      transform:translateY(110%); transition:transform .28s ease; border:var(--chat-border); z-index:10004
-    }
-    /* ✅ FIX: when .open is added, slide the panel up */
-    .gfsr-chat-sheet.open{ transform:translateY(0) }
-    .gfsr-chat-sheet[hidden]{ display:none !important; }
-
-    /* readable chat message bubbles */
-    .gfsr-chat-head{display:flex; align-items:center; justify-content:space-between; padding:12px 14px; border-bottom:1px solid rgba(0,0,0,.06); background:#f9fafb; border-radius:inherit}
-    .gfsr-chat-input{display:flex; gap:8px; padding:10px; border-top:1px solid rgba(0,0,0,.06); background:#fff; border-radius:0 0 18px 18px}
-    .gfsr-chat-input textarea{flex:1; resize:none; min-height:42px; max-height:120px; padding:10px 12px; border:1px solid #e5e7eb; border-radius:12px; font-size:14px; line-height:1.35}
-    .gfsr-chat-send{background:#0b63f6; color:#fff; border:none; padding:12px 14px; border-radius:12px; font-weight:700}
-    .gfsr-chat-body{display:flex; flex-direction:column; gap:8px; padding:12px; height:min(70vh, 520px); overflow:auto; -webkit-overflow-scrolling:touch}
     .gfsr-msg{max-width:88%; padding:10px 12px; border-radius:14px; font-size:14px; line-height:1.35}
     .gfsr-msg.user{margin-left:auto; background:#0b63f6; color:#fff; border-top-right-radius:4px}
     .gfsr-msg.bot{background:#eef2ff; color:#111; border-top-left-radius:4px}
     .gfsr-msg.meta{background:#f3f4f6; color:#444; font-size:12px; margin:4px auto}
 
     @media (max-width:768px){
-      body, main { padding-bottom: calc(var(--callbar-h) + var(--sitemap-h) + 14px); }
+      body, main { padding-bottom: calc(var(--callbar-h) + var(--sitemap-h) + 14px) }
     }
   </style>
 
@@ -337,7 +294,7 @@
     })();
   </script>
 
-  <!-- Savings message (unchanged) -->
+  <!-- Savings message -->
   <script>
   (() => {
     const now = () => Date.now();
@@ -368,80 +325,152 @@
   })();
   </script>
 
-  <!-- 016: Chatbot FAB + Panel -->
-  <button id="gfsrChatFab" class="gfsr-chat-fab" aria-haspopup="dialog" aria-expanded="false" aria-controls="gfsrChatSheet">💬 Chat</button>
-  <section id="gfsrChatSheet" class="gfsr-chat-sheet" role="dialog" aria-modal="true" hidden>
-    <header class="gfsr-chat-head">
-      <div class="gfsr-chat-title">Debt Help Assistant</div>
-      <button id="gfsrChatClose" class="gfsr-chat-close" aria-label="Close chat">✕</button>
+  <!-- 016 Chat Markup (mirrors working example with inline styles) -->
+  <button id="gfsrChatFab" class="gfsr-chat-fab" aria-haspopup="dialog" aria-expanded="false" aria-controls="gfsrChatSheet"
+          style="position:fixed; right:14px; bottom:calc(var(--callbar-h) + var(--sitemap-h) + 14px); z-index:10003; display:inline-flex; align-items:center; gap:.5rem; padding:.8rem 1rem; border-radius:999px; border:1px solid rgba(0,0,0,.06); background:#0b63f6; color:#fff; box-shadow:0 10px 30px rgba(0,0,0,.18); font:600 14px/1.1 system-ui,-apple-system,Segoe UI,Roboto,Arial">💬 Chat</button>
+
+  <section id="gfsrChatSheet" class="gfsr-chat-sheet" role="dialog" aria-modal="true"
+           aria-labelledby="gfsrChatTitle" aria-describedby="gfsrChatDesc" hidden
+           style="position:fixed; inset:auto 0 0 0; margin:auto; width:100%; max-width:420px; right:12px; left:auto;
+                  border-radius:18px 18px 0 0; background:#fff; box-shadow:0 10px 30px rgba(0,0,0,.18);
+                  transform:translateY(110%); transition:transform .28s ease; border:1px solid rgba(0,0,0,.06); z-index:10004">
+    <header class="gfsr-chat-head" style="display:flex; align-items:center; justify-content:space-between; padding:12px 14px; border-bottom:1px solid rgba(0,0,0,.06); background:#f9fafb; border-radius:inherit">
+      <div>
+        <div id="gfsrChatTitle" class="gfsr-chat-title" style="font-weight:700; font-size:15px">Debt Help Assistant</div>
+        <div id="gfsrChatDesc" class="sr-only">Chat with our assistant. Press Escape to close.</div>
+      </div>
+      <button id="gfsrChatClose" class="gfsr-chat-close" aria-label="Close chat" style="background:transparent; border:none; padding:8px; border-radius:10px; cursor:pointer">✕</button>
     </header>
-    <div id="gfsrChatBody" class="gfsr-chat-body" tabindex="0"></div>
-    <form id="gfsrChatForm" class="gfsr-chat-input">
+    <div id="gfsrChatBody" class="gfsr-chat-body" tabindex="0" style="display:flex; flex-direction:column; gap:8px; padding:12px; height:min(70vh, 520px); overflow:auto; -webkit-overflow-scrolling:touch"></div>
+
+    <form id="gfsrChatForm" class="gfsr-chat-input" style="display:flex; gap:8px; padding:10px; border-top:1px solid rgba(0,0,0,.06); background:#fff; border-radius:0 0 18px 18px">
       <label class="sr-only" for="gfsrChatInput">Type your message</label>
-      <textarea id="gfsrChatInput" rows="1" placeholder="Type a message…" aria-label="Message"></textarea>
-      <button id="gfsrChatSend" class="gfsr-chat-send" type="submit">Send</button>
+      <textarea id="gfsrChatInput" rows="1" placeholder="Type a message…" aria-label="Message"
+                style="flex:1; resize:none; min-height:42px; max-height:120px; padding:10px 12px; border:1px solid #e5e7eb; border-radius:12px; font-size:14px; line-height:1.35"></textarea>
+      <button id="gfsrChatSend" class="gfsr-chat-send" type="submit"
+              style="background:#0b63f6; color:#fff; border:none; padding:12px 14px; border-radius:12px; font-weight:700">Send</button>
     </form>
   </section>
 
-  <!-- Chat JS -->
+  <!-- 016 Chat Script (mirrors working example: inline transform toggling) -->
   <script>
   (() => {
-    const el = { fab:document.getElementById('gfsrChatFab'), sheet:document.getElementById('gfsrChatSheet'), close:document.getElementById('gfsrChatClose'), body:document.getElementById('gfsrChatBody'), form:document.getElementById('gfsrChatForm'), input:document.getElementById('gfsrChatInput'), send:document.getElementById('gfsrChatSend') };
+    const el = {
+      fab:   document.getElementById('gfsrChatFab'),
+      sheet: document.getElementById('gfsrChatSheet'),
+      close: document.getElementById('gfsrChatClose'),
+      body:  document.getElementById('gfsrChatBody'),
+      form:  document.getElementById('gfsrChatForm'),
+      input: document.getElementById('gfsrChatInput'),
+      send:  document.getElementById('gfsrChatSend'),
+    };
 
     const openChat = () => {
       el.sheet.removeAttribute('hidden');
-      el.sheet.classList.add('open');              // adds .open -> CSS slides up
+      el.sheet.classList.add('open');
+      el.sheet.style.transform='translateY(0)';      // inline transform just like working page
       el.fab.setAttribute('aria-expanded','true');
       setTimeout(()=>el.input.focus(),120);
     };
     const closeChat = () => {
-      el.sheet.classList.remove('open');           // removes .open -> CSS slides down
+      el.sheet.classList.remove('open');
+      el.sheet.style.transform='translateY(110%)';   // inline transform back down
       el.fab.setAttribute('aria-expanded','false');
       el.sheet.setAttribute('hidden','');
       el.fab.focus();
     };
-
     el.fab.addEventListener('click', openChat);
     el.close.addEventListener('click', closeChat);
-    addEventListener('keydown', e => { if (e.key==='Escape' && !el.sheet.hasAttribute('hidden')) closeChat(); });
+    window.addEventListener('keydown', e => { if (e.key==='Escape' && !el.sheet.hasAttribute('hidden')) closeChat(); });
 
-    const addMsg = (t,w='bot') => {
-      const d=document.createElement('div'); d.className=`gfsr-msg ${w}`; d.textContent=(t??'').toString();
-      el.body.appendChild(d); el.body.scrollTop=el.body.scrollHeight;
+    const addMsg = (text, who='bot') => {
+      const div = document.createElement('div'); div.className = `gfsr-msg ${who}`;
+      div.style.maxWidth='88%'; div.style.padding='10px 12px'; div.style.borderRadius='14px';
+      div.style.fontSize='14px'; div.style.lineHeight='1.35';
+      if (who==='user'){ div.style.marginLeft='auto'; div.style.background='#0b63f6'; div.style.color='#fff'; div.style.borderTopRightRadius='4px'; }
+      else if (who==='bot'){ div.style.background='#eef2ff'; div.style.color='#111'; div.style.borderTopLeftRadius='4px'; }
+      else { div.style.background='#f3f4f6'; div.style.color='#444'; div.style.fontSize='12px'; div.style.margin='4px auto'; }
+      div.textContent = (text??'').toString();
+      el.body.appendChild(div); el.body.scrollTop = el.body.scrollHeight;
     };
 
     const KEY='gfsr-chat-history';
-    try{ (JSON.parse(localStorage.getItem(KEY)||'[]')).slice(-20).forEach(m=>addMsg(m.text,m.who)); } catch {}
-    const remember=(t,w)=>{ try{ const h=JSON.parse(localStorage.getItem(KEY)||'[]'); h.push({text:t,who:w,t:Date.now()}); localStorage.setItem(KEY, JSON.stringify(h).slice(-8000)); }catch{} }
+    try { (JSON.parse(localStorage.getItem(KEY)||'[]')).slice(-20).forEach(m=>addMsg(m.text,m.who)); } catch {}
+    const remember=(t,w)=>{ try{ const h=JSON.parse(localStorage.getItem(KEY)||'[]'); h.push({text:t,who:w,t:Date.now()}); localStorage.setItem(KEY, JSON.stringify(h).slice(-8000)); }catch{} };
 
-    let interacted=false; addEventListener('mousemove',()=>interacted=true,{once:true,passive:true}); addEventListener('keydown', ()=>interacted=true,{once:true,passive:true});
+    let interacted=false;
+    addEventListener('mousemove',()=>interacted=true,{once:true,passive:true});
+    addEventListener('keydown', ()=>interacted=true,{once:true,passive:true});
     const nonce = () => Array.from(crypto.getRandomValues(new Uint8Array(12))).map(b=>b.toString(16).padStart(2,'0')).join('');
 
-    const API = `${location.origin}/chat`; let busy=false;
+    const API = `${location.origin}/chat`;
+    let busy = false;
+
     el.form.addEventListener('submit', async (e) => {
-      e.preventDefault(); if (!interacted || busy) return;
-      const message = (el.input.value||'').trim(); if (!message) return;
-      addMsg(message,'user'); remember(message,'user'); el.input.value=''; busy=true; el.send.disabled=true;
+      e.preventDefault();
+      if (!interacted || busy) return;
+
+      const message = (el.input.value||'').trim();
+      if (!message) return;
+
+      addMsg(message,'user'); remember(message,'user');
+      el.input.value=''; busy=true; el.send.disabled=true;
+
       try{
-        const r = await fetch(API,{
+        const r = await fetch(API, {
           method:'POST',
-          headers:{'Content-Type':'application/json','Accept':'application/json','X-Requested-With':'XMLHttpRequest','X-Client-Nonce':nonce()},
-          body: JSON.stringify({messages:[{role:'user',content:message}],source:'frontend',url:location.href})
+          headers:{
+            'Content-Type':'application/json',
+            'Accept':'application/json',
+            'X-Requested-With':'XMLHttpRequest',
+            'X-Client-Nonce': nonce()
+          },
+          body: JSON.stringify({
+            messages:[{ role:'user', content: message }],
+            source:'frontend',
+            url: location.href
+          })
         });
         if(!r.ok){
-          const t=await r.text().catch(()=> ''); addMsg(`Service error ${r.status}.`,'meta'); console.error('CHAT ERROR', r.status, t); return;
+          const t=await r.text().catch(()=> ''); addMsg(`Service error ${r.status}.`, 'meta'); console.error('CHAT ERROR', r.status, t); return;
         }
-        const ct=r.headers.get('content-type')||'';
-        const reply=ct.includes('application/json')?((await r.json()).reply||''):(await r.text());
-        addMsg(reply||'Thanks — how else can I help?','bot'); remember(reply||'','bot');
+        const ct = r.headers.get('content-type')||''; let reply='';
+        if (ct.includes('application/json')) {
+          const d = await r.json();
+          reply = d.reply || d.message || JSON.stringify(d);
+        } else {
+          reply = await r.text();
+        }
+        addMsg(reply || 'Thanks — how else can I help?','bot'); remember(reply||'','bot');
       }catch(err){
-        console.error('CHAT NETWORK ERROR', err); addMsg('Network error — please try again.','meta');
+        console.error('CHAT NETWORK ERROR', err);
+        addMsg('Network error — please try again.','meta');
       }finally{
         busy=false; el.send.disabled=false; el.input.focus();
       }
     });
+
+    el.input.addEventListener('keydown', e => { if(e.key==='Enter' && !e.shiftKey){ e.preventDefault(); el.form.requestSubmit(); } });
+
     if (!el.body.children.length) addMsg('Hi! I can help you compare debt relief options and next steps.');
   })();
+  </script>
+
+  <!-- Measure CTA height (for content padding & chat FAB only) -->
+  <script>
+    (function(){
+      const root = document.documentElement;
+      const mb   = document.getElementById('drgMobileBar');
+      function setH(){
+        const shown = mb && getComputedStyle(mb).display !== 'none';
+        const h = shown ? Math.ceil(mb.getBoundingClientRect().height) : 0;
+        root.style.setProperty('--callbar-h', h + 'px');
+      }
+      setH();
+      addEventListener('resize', setH, {passive:true});
+      setTimeout(setH, 250);
+      setTimeout(setH, 1000);
+    })();
   </script>
 
   <!-- 057: Telemetry session beacon -->
