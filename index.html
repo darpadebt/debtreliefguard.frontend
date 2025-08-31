@@ -106,7 +106,7 @@
     .faq p{margin:.6rem 0}
     .faq strong{font-weight:800}
 
-    /* === NEW: unified bottom stack so the bars always "kiss" === */
+    /* === unified bottom stack – CTA + sticky menu === */
     .bottom-stack{
       position:fixed; left:0; right:0; bottom:0;
       display:flex; flex-direction:column-reverse;
@@ -123,12 +123,20 @@
     .mobile-est{background:var(--cta);color:#fff}
     @media (min-width:769px){.mobile-bar{display:none}}
 
+    /* sticky-menu fixed & offset like reference */
     .sticky-menu{
-      position:relative; background:#004488; color:#fff;
+      position:fixed; left:0; right:0;
+      bottom: calc(var(--callbar-h) + env(safe-area-inset-bottom));
+      z-index:9997;
+      background:#004488; color:#fff;
       border-top:2px solid #2563eb;
       height: var(--sitemap-h);
       display:flex; align-items:center;
     }
+    @media (min-width:769px){
+      .sticky-menu{ bottom:0 }
+    }
+
     .sticky-menu nav{
       display:flex; gap:1rem; overflow-x:auto; white-space:nowrap;
       padding:0 .75rem; width:100%; align-items:center;
@@ -145,7 +153,7 @@
     footer a{color:#0055aa;text-decoration:none}
     footer a:hover{text-decoration:underline}
 
-    /* Chat (unchanged) */
+    /* Chat */
     :root{ --chat-radius:16px; --chat-shadow:0 10px 30px rgba(0,0,0,.18); --chat-border:1px solid rgba(0,0,0,.06) }
     .gfsr-chat-fab{
       position:fixed; right:14px;
@@ -263,15 +271,13 @@
     </section>
   </main>
 
-  <!-- === NEW: unified bottom stack (CTA + sticky menu) === -->
+  <!-- unified bottom stack (CTA stays); menu fixed/offset -->
   <div class="bottom-stack" aria-label="Site controls">
-    <!-- First child (column-reverse) = bottommost: CTA bar -->
     <div id="drgMobileBar" class="mobile-bar" aria-label="Quick actions">
       <a class="mobile-call" href="tel:+18884377141">📞 Call 888-437-7141</a>
       <a class="mobile-est" href="https://debthelpform.com/#lead-form" target="_blank" rel="noopener">🔒 Start Secure Estimate</a>
     </div>
 
-    <!-- Second child = directly above CTA: sticky sitemap -->
     <footer class="sticky-menu" role="navigation" aria-label="Site map">
       <nav>
         <a href="/">Home</a>
@@ -309,7 +315,7 @@
   <!-- Honeypot -->
   <script>
     (function(){ const hp=document.createElement("input"); hp.type="text"; hp.name="website"; hp.autocomplete="off"; hp.hidden=true; hp.setAttribute("aria-hidden","true"); document.body.appendChild(hp);
-      let u=false,t=0; addEventListener('mousemove',()=>u=true,{passive:true}); addEventListener('keydown',()=>u=true,{passive:true}); setInterval(()=>t++,1000);
+      let u=false,t=0; addEventListener('mousemove',()=>u=true,{passive:true}); addEventListener('keydown', ()=>u=true,{passive:true}); setInterval(()=>t++,1000);
       window.validateBotProtections=()=> (hp.value==="" && u && t>=3);
     })();
   </script>
@@ -345,7 +351,7 @@
   })();
   </script>
 
-  <!-- 016: Chatbot FAB + Panel (inserted so existing Chat JS can bind) -->
+  <!-- 016: Chatbot FAB + Panel -->
   <button id="gfsrChatFab" class="gfsr-chat-fab" aria-haspopup="dialog" aria-expanded="false" aria-controls="gfsrChatSheet">💬 Chat</button>
   <section id="gfsrChatSheet" class="gfsr-chat-sheet" role="dialog" aria-modal="true" hidden>
     <header class="gfsr-chat-head">
@@ -360,7 +366,7 @@
     </form>
   </section>
 
-  <!-- Chat JS (unchanged) -->
+  <!-- Chat JS -->
   <script>
   (() => {
     const el = { fab:document.getElementById('gfsrChatFab'), sheet:document.getElementById('gfsrChatSheet'), close:document.getElementById('gfsrChatClose'), body:document.getElementById('gfsrChatBody'), form:document.getElementById('gfsrChatForm'), input:document.getElementById('gfsrChatInput'), send:document.getElementById('gfsrChatSend') };
@@ -372,7 +378,7 @@
     const KEY='gfsr-chat-history'; try{ (JSON.parse(localStorage.getItem(KEY)||'[]')).slice(-20).forEach(m=>addMsg(m.text,m.who)); } catch {}
     const remember=(t,w)=>{ try{ const h=JSON.parse(localStorage.getItem(KEY)||'[]'); h.push({text:t,who:w,t:Date.now()}); localStorage.setItem(KEY, JSON.stringify(h).slice(-8000)); }catch{} }
     let interacted=false; addEventListener('mousemove',()=>interacted=true,{once:true,passive:true}); addEventListener('keydown', ()=>interacted=true,{once:true,passive:true});
-    const nonce = () => Array.from(crypto.getRandomValues(new Uint8Array(12))).map(b=>b.toString(16).padStart(2,'0')).join('');
+    const nonce = () => Array.from(crypto.getRandomValues(new Uint8Array(12))).map(b=>b.toString(16)).join('');
 
     const API = `${location.origin}/chat`; let busy=false;
     el.form.addEventListener('submit', async (e) => {
@@ -435,6 +441,42 @@
       if(a.matches('.hero-ctas .btn.btn-primary, .mobile-est, .btn-sm.btn-primary')) send('cta:start_click', { url: location.href });
       if(a.matches('.hero-ctas .btn.btn-outline, .mobile-call, a[href^="tel:"] , .btn-sm.btn-outline')) send('cta:call_click', { url: location.href });
     }, { passive:true });
+  })();
+  </script>
+
+  <!-- === NEW: GFSR page bridge (015/016/050/057) === -->
+  <script>
+  (function(){
+    if (window.GFSR && window.GFSR.bridgeReady) return;
+    const $ = (sel) => document.querySelector(sel);
+    const api = {
+      bridgeReady: true,
+      page: document.querySelector('meta[name="x-ai-optimizer-page"]')?.content || null,
+      slots: (window.__ab && window.__ab.slots) ? window.__ab.slots : {},
+      setHeadline(text){ const h=$('#ab-cta-text'); if(h && typeof text==='string') h.textContent = text; },
+      setPrimaryCta({text, href}={}) {
+        const a = document.querySelector('.hero-ctas .btn.btn-primary');
+        if(!a) return;
+        if (typeof text==='string') a.textContent = text;
+        if (typeof href==='string') a.href = href;
+      },
+      log(name, data={}) {
+        try{
+          const b=new Blob([JSON.stringify({ name, ts:Date.now(), url:location.href, ...data })],{type:'application/json'});
+          if(navigator.sendBeacon) navigator.sendBeacon('/ingest', b);
+          else fetch('/ingest',{ method:'POST', body:b, keepalive:true, headers:{'Content-Type':'application/json'} }).catch(()=>{});
+        }catch{}
+      },
+      chatSend(text){
+        const input = document.getElementById('gfsrChatInput');
+        const form  = document.getElementById('gfsrChatForm');
+        if(input && form){
+          input.value = text || '';
+          form.requestSubmit();
+        }
+      }
+    };
+    window.GFSR = Object.assign(window.GFSR || {}, api);
   })();
   </script>
 
