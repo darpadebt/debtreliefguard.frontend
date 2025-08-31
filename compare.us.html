@@ -74,7 +74,7 @@
     /* Hero-ish page header (home parity) */
     header{
       max-width:960px; margin:0 auto; text-align:center; background:var(--brand);
-      color:#fff; padding:1.5rem 1rem; border-radius:12px; box-shadow:0 6px 18px rgba(0,0,0,.08)
+      color:#fff; padding:1.5rem 1rem; border-radius:12px; box-shadow:0 6px 18px rgba(0,0,0,0.08)
     }
     header h1{ margin:.2rem 0 .4rem; font-size:clamp(1.6rem,3vw + 1rem,2.3rem); font-weight:800 }
     header .sub{ margin:0 0 .8rem; opacity:.95 }
@@ -86,7 +86,7 @@
     /* Main container */
     .container{
       max-width:960px; margin:1.25rem auto 4rem; background:#fff;
-      padding:1.25rem; border-radius:12px; box-shadow:0 2px 12px rgba(0,0,0,.06);
+      padding:1.25rem; border-radius:12px; box-shadow:0 2px 12px rgba(0,0,0,0.06);
       border:1px solid var(--card-b)
     }
     h1,h2{text-align:center}
@@ -99,7 +99,7 @@
     tbody td, tbody th{ padding:.75rem; border-top:1px solid #eef0f4; vertical-align:top }
     tbody tr:nth-child(odd){ background:#fafbff }
     .cta{ text-align:center; margin-top:2rem }
-    .cta a{ background:var(--cta); color:#fff; padding:.75rem 1.5rem; border-radius:8px; font-weight:800; text-decoration:none; box-shadow:0 6px 14px rgba(0,0,0,.08) }
+    .cta a{ background:var(--cta); color:#fff; padding:.75rem 1.5rem; border-radius:8px; font-weight:800; text-decoration:none; box-shadow:0 6px 14px rgba(0,0,0,0.08) }
 
     /* Mobile dual action bar */
     .mobile-bar{
@@ -115,7 +115,7 @@
     .desk-call{
       position:fixed; right:14px; bottom:14px; z-index:10002; display:none; align-items:center; gap:.4rem;
       padding:.7rem 1rem; border-radius:999px; background:#007b55; color:#fff; font-weight:900; text-decoration:none;
-      box-shadow:0 10px 24px rgba(0,0,0,.18);
+      box-shadow:0 10px 24px rgba(0,0,0,0.18);
     }
     @media (min-width:769px){ .desk-call{ display:inline-flex } }
 
@@ -398,158 +398,66 @@
   })();
   </script>
 
-  <!-- 016 Chat Markup -->
-  <button id="gfsrChatFab" class="gfsr-chat-fab" aria-haspopup="dialog" aria-expanded="false" aria-controls="gfsrChatSheet" style="position:fixed; right:14px; bottom:calc(var(--callbar-h) + var(--sitemap-h) + 14px); z-index:10003; display:inline-flex; align-items:center; gap:.5rem; padding:.8rem 1rem; border-radius:999px; border:1px solid rgba(0,0,0,.06); background:#0b63f6; color:#fff; box-shadow:0 10px 30px rgba(0,0,0,.18); font:600 14px/1.1 system-ui,-apple-system,Segoe UI,Roboto,Arial">💬 Chat</button>
-
-  <section id="gfsrChatSheet" class="gfsr-chat-sheet" role="dialog" aria-modal="true"
-           aria-labelledby="gfsrChatTitle" aria-describedby="gfsrChatDesc" hidden
-           style="position:fixed; inset:auto 0 0 0; margin:auto; width:100%; max-width:420px; right:12px; left:auto;
-                  border-radius:18px 18px 0 0; background:#fff; box-shadow:0 10px 30px rgba(0,0,0,.18);
-                  transform:translateY(110%); transition:transform .28s ease; border:1px solid rgba(0,0,0,.06); z-index:10004">
-    <header class="gfsr-chat-head" style="display:flex; align-items:center; justify-content:space-between; padding:12px 14px; border-bottom:1px solid rgba(0,0,0,.06); background:#f9fafb; border-radius:inherit">
-      <div>
-        <div id="gfsrChatTitle" class="gfsr-chat-title" style="font-weight:700; font-size:15px">Debt Help Assistant</div>
-        <div id="gfsrChatDesc" class="sr-only">Chat with our assistant. Press Escape to close.</div>
-      </div>
-      <button id="gfsrChatClose" class="gfsr-chat-close" aria-label="Close chat" style="background:transparent; border:none; padding:8px; border-radius:10px; cursor:pointer">✕</button>
+  <!-- 016 Chat Markup (added so existing JS can bind) -->
+  <button id="gfsrChatFab" class="gfsr-chat-fab" aria-haspopup="dialog" aria-expanded="false" aria-controls="gfsrChatSheet">💬 Chat</button>
+  <section id="gfsrChatSheet" class="gfsr-chat-sheet" role="dialog" aria-modal="true" hidden>
+    <header class="gfsr-chat-head">
+      <div class="gfsr-chat-title">Debt Help Assistant</div>
+      <button id="gfsrChatClose" class="gfsr-chat-close" aria-label="Close chat">✕</button>
     </header>
-
-    <div id="gfsrChatBody" class="gfsr-chat-body" tabindex="0" style="display:flex; flex-direction:column; gap:8px; padding:12px; height:min(70vh, 520px); overflow:auto; -webkit-overflow-scrolling:touch"></div>
-
-    <form id="gfsrChatForm" class="gfsr-chat-input" style="display:flex; gap:8px; padding:10px; border-top:1px solid rgba(0,0,0,.06); background:#fff; border-radius:0 0 18px 18px">
+    <div id="gfsrChatBody" class="gfsr-chat-body" tabindex="0"></div>
+    <form id="gfsrChatForm" class="gfsr-chat-input">
       <label class="sr-only" for="gfsrChatInput">Type your message</label>
-      <textarea id="gfsrChatInput" rows="1" placeholder="Type a message…" aria-label="Message" style="flex:1; resize:none; min-height:42px; max-height:120px; padding:10px 12px; border:1px solid #e5e7eb; border-radius:12px; font-size:14px; line-height:1.35"></textarea>
-      <button id="gfsrChatSend" class="gfsr-chat-send" type="submit" style="background:#0b63f6; color:#fff; border:none; padding:12px 14px; border-radius:12px; font-weight:700">Send</button>
+      <textarea id="gfsrChatInput" rows="1" placeholder="Type a message…" aria-label="Message"></textarea>
+      <button id="gfsrChatSend" class="gfsr-chat-send" type="submit">Send</button>
     </form>
   </section>
 
-  <!-- 016 Chat Script -->
+  <!-- 057: Telemetry session beacon -->
   <script>
-  (() => {
-    const el = {
-      fab:   document.getElementById('gfsrChatFab'),
-      sheet: document.getElementById('gfsrChatSheet'),
-      close: document.getElementById('gfsrChatClose'),
-      body:  document.getElementById('gfsrChatBody'),
-      form:  document.getElementById('gfsrChatForm'),
-      input: document.getElementById('gfsrChatInput'),
-      send:  document.getElementById('gfsrChatSend'),
-    };
-
-    const openChat = () => {
-      el.sheet.removeAttribute('hidden');
-      el.sheet.classList.add('open');
-      el.sheet.style.transform='translateY(0)';
-      el.fab.setAttribute('aria-expanded','true');
-      setTimeout(()=>el.input.focus(),120);
-    };
-    const closeChat = () => {
-      el.sheet.classList.remove('open');
-      el.sheet.style.transform='translateY(110%)';
-      el.fab.setAttribute('aria-expanded','false');
-      el.sheet.setAttribute('hidden','');
-      el.fab.focus();
-    };
-    el.fab.addEventListener('click', openChat);
-    el.close.addEventListener('click', closeChat);
-    window.addEventListener('keydown', e => { if (e.key==='Escape' && !el.sheet.hasAttribute('hidden')) closeChat(); });
-
-    const addMsg = (text, who='bot') => {
-      const div = document.createElement('div'); div.className = `gfsr-msg ${who}`;
-      div.style.maxWidth='88%'; div.style.padding='10px 12px'; div.style.borderRadius='14px';
-      div.style.fontSize='14px'; div.style.lineHeight='1.35';
-      if (who==='user'){ div.style.marginLeft='auto'; div.style.background='#0b63f6'; div.style.color='#fff'; div.style.borderTopRightRadius='4px'; }
-      else if (who==='bot'){ div.style.background='#eef2ff'; div.style.color='#111'; div.style.borderTopLeftRadius='4px'; }
-      else { div.style.background='#f3f4f6'; div.style.color='#444'; div.style.fontSize='12px'; div.style.margin='4px auto'; }
-      div.textContent = (text??'').toString();
-      el.body.appendChild(div); el.body.scrollTop = el.body.scrollHeight;
-    };
-
-    const KEY='gfsr-chat-history';
-    try { (JSON.parse(localStorage.getItem(KEY)||'[]')).slice(-20).forEach(m=>addMsg(m.text,m.who)); } catch {}
-    const remember=(t,w)=>{ try{ const h=JSON.parse(localStorage.getItem(KEY)||'[]'); h.push({text:t,who:w,t:Date.now()}); localStorage.setItem(KEY, JSON.stringify(h).slice(-8000)); }catch{} };
-
-    let interacted=false;
-    addEventListener('mousemove',()=>interacted=true,{once:true,passive:true});
-    addEventListener('keydown', ()=>interacted=true,{once:true,passive:true});
-    const nonce = () => Array.from(crypto.getRandomValues(new Uint8Array(12))).map(b=>b.toString(16).padStart(2,'0')).join('');
-
-    const API = `${location.origin}/chat`;
-    let busy = false;
-
-    el.form.addEventListener('submit', async (e) => {
-      e.preventDefault();
-      if (!interacted || busy) return;
-
-      const message = (el.input.value||'').trim();
-      if (!message) return;
-
-      addMsg(message,'user'); remember(message,'user');
-      el.input.value=''; busy=true; el.send.disabled=true;
-
-      try{
-        const r = await fetch(API, {
-          method:'POST',
-          headers:{
-            'Content-Type':'application/json',
-            'Accept':'application/json',
-            'X-Requested-With':'XMLHttpRequest',
-            'X-Client-Nonce': nonce()
-          },
-          body: JSON.stringify({
-            messages:[{ role:'user', content: message }],
-            source:'frontend',
-            url: location.href
-          })
-        });
-        if(!r.ok){
-          const t=await r.text().catch(()=> ''); addMsg(`Service error ${r.status}.`, 'meta'); console.error('CHAT ERROR', r.status, t); return;
-        }
-        const ct = r.headers.get('content-type')||''; let reply='';
-        if (ct.includes('application/json')) {
-          const d = await r.json();
-          reply = d.reply || d.message || JSON.stringify(d);
-        } else {
-          reply = await r.text();
-        }
-        addMsg(reply || 'Thanks — how else can I help?','bot'); remember(reply||'','bot');
-      }catch(err){
-        console.error('CHAT NETWORK ERROR', err);
-        addMsg('Network error — please try again.','meta');
-      }finally{
-        busy=false; el.send.disabled=false; el.input.focus();
-      }
-    });
-
-    el.input.addEventListener('keydown', e => { if(e.key==='Enter' && !e.shiftKey){ e.preventDefault(); el.form.requestSubmit(); } });
-
-    if (!el.body.children.length) addMsg('Hi! I can help you compare debt relief options and next steps.');
-  })();
+  (() => { try {
+    const k='drg:compare:sid';
+    let sid=sessionStorage.getItem(k);
+    if(!sid){ sid=crypto.randomUUID(); sessionStorage.setItem(k, sid); }
+    const payload={ v:1, ts:Date.now(), sid, url:location.href, ref:document.referrer||null, w:innerWidth, h:innerHeight };
+    const blob=new Blob([JSON.stringify(payload)],{type:'application/json'});
+    if(navigator.sendBeacon){ navigator.sendBeacon('/ingest', blob); }
+    else { fetch('/ingest',{ method:'POST', body:blob, keepalive:true, headers:{'Content-Type':'application/json'} }).catch(()=>{}); }
+  } catch(_){} })();
   </script>
 
-  <!-- 015: Telemetry ping (scoped to DRG) -->
+  <!-- 057: CTA click-intent events -->
   <script>
   (() => {
-    const now = () => Date.now();
-    (function sendTelemetry(){
+    function send(name, data){
       try{
-        const key='drg:sess:v1'; let sid=sessionStorage.getItem(key);
-        if(!sid){ sid=crypto.randomUUID(); sessionStorage.setItem(key, sid); }
-        const payload={ v:1, ts:now(), sid, url:location.href, ref:document.referrer||null, w:innerWidth, h:innerHeight };
-        const blob=new Blob([JSON.stringify(payload)],{type:'application/json'});
-        if(navigator.sendBeacon) navigator.sendBeacon('/ingest', blob);
-        else fetch('/ingest'){ /* no-op */ }
-      }catch(_){}
-    })();
-  })();
-  </script>
-
-  <!-- Mobile dual action bar (ensure shown on small screens) -->
-  <div class="mobile-bar" aria-label="Quick actions" style="display:none"></div>
-  <script>
-    if (window.matchMedia && window.matchMedia('(max-width: 768px)').matches) {
-      document.querySelectorAll('.mobile-bar').forEach(el=>el.style.display='flex');
+        const b=new Blob([JSON.stringify({ name, ts:Date.now(), ...data })],{type:'application/json'});
+        if(navigator.sendBeacon) navigator.sendBeacon('/ingest', b);
+        else fetch('/ingest',{ method:'POST', body:b, keepalive:true, headers:{'Content-Type':'application/json'} }).catch(()=>{});
+      }catch{}
     }
+    document.addEventListener('click', e => {
+      const a = e.target.closest('a,button'); if(!a) return;
+      if(a.matches('.hero-ctas .btn.btn-primary, .mobile-est')) send('cta:start_click', { url: location.href });
+      if(a.matches('.hero-ctas .btn.btn-outline, .mobile-call, a[href^="tel:"]')) send('cta:call_click', { url: location.href });
+    }, { passive:true });
+  })();
+  </script>
+
+  <!-- Dynamic spacing: measure mobile bar and set --callbar-h so sitemap never overlaps -->
+  <script>
+    (function(){
+      const root = document.documentElement;
+      const mb = document.getElementById('drgMobileBar');
+      const setH = () => {
+        const h = mb && getComputedStyle(mb).display !== 'none' ? mb.offsetHeight : 0;
+        root.style.setProperty('--callbar-h', h + 'px');
+      };
+      setH();
+      addEventListener('resize', setH, {passive:true});
+      setTimeout(setH, 250);
+      setTimeout(setH, 1000);
+    })();
   </script>
 
   <noscript><p style="text-align:center;color:#666">Enable JavaScript to view dynamic comparisons and chat.</p></noscript>
