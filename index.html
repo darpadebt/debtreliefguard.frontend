@@ -163,8 +163,25 @@
       background:var(--cta); color:#fff; box-shadow:var(--chat-shadow);
       font:600 14px/1.1 system-ui,-apple-system,Segoe UI,Roboto,Arial
     }
-    .gfsr-chat-sheet{ position:fixed; inset:auto 0 0 0; margin:auto; width:100%; max-width:420px; right:12px; left:auto; border-radius:18px 18px 0 0; background:#fff; box-shadow:var(--chat-shadow); transform:translateY(110%); transition:transform .28s ease; border:var(--chat-border); z-index:10004 }
+    .gfsr-chat-sheet{
+      position:fixed; inset:auto 0 0 0; margin:auto; width:100%; max-width:420px; right:12px; left:auto;
+      border-radius:18px 18px 0 0; background:#fff; box-shadow:var(--chat-shadow);
+      transform:translateY(110%); transition:transform .28s ease; border:var(--chat-border); z-index:10004
+    }
+    /* ✅ FIX: when .open is added, slide the panel up */
+    .gfsr-chat-sheet.open{ transform:translateY(0) }
     .gfsr-chat-sheet[hidden]{ display:none !important; }
+
+    /* readable chat message bubbles */
+    .gfsr-chat-head{display:flex; align-items:center; justify-content:space-between; padding:12px 14px; border-bottom:1px solid rgba(0,0,0,.06); background:#f9fafb; border-radius:inherit}
+    .gfsr-chat-input{display:flex; gap:8px; padding:10px; border-top:1px solid rgba(0,0,0,.06); background:#fff; border-radius:0 0 18px 18px}
+    .gfsr-chat-input textarea{flex:1; resize:none; min-height:42px; max-height:120px; padding:10px 12px; border:1px solid #e5e7eb; border-radius:12px; font-size:14px; line-height:1.35}
+    .gfsr-chat-send{background:#0b63f6; color:#fff; border:none; padding:12px 14px; border-radius:12px; font-weight:700}
+    .gfsr-chat-body{display:flex; flex-direction:column; gap:8px; padding:12px; height:min(70vh, 520px); overflow:auto; -webkit-overflow-scrolling:touch}
+    .gfsr-msg{max-width:88%; padding:10px 12px; border-radius:14px; font-size:14px; line-height:1.35}
+    .gfsr-msg.user{margin-left:auto; background:#0b63f6; color:#fff; border-top-right-radius:4px}
+    .gfsr-msg.bot{background:#eef2ff; color:#111; border-top-left-radius:4px}
+    .gfsr-msg.meta{background:#f3f4f6; color:#444; font-size:12px; margin:4px auto}
 
     @media (max-width:768px){
       body, main { padding-bottom: calc(var(--callbar-h) + var(--sitemap-h) + 14px); }
@@ -370,15 +387,35 @@
   <script>
   (() => {
     const el = { fab:document.getElementById('gfsrChatFab'), sheet:document.getElementById('gfsrChatSheet'), close:document.getElementById('gfsrChatClose'), body:document.getElementById('gfsrChatBody'), form:document.getElementById('gfsrChatForm'), input:document.getElementById('gfsrChatInput'), send:document.getElementById('gfsrChatSend') };
-    const openChat = () => { el.sheet.removeAttribute('hidden'); el.sheet.classList.add('open'); el.fab.setAttribute('aria-expanded','true'); setTimeout(()=>el.input.focus(),120); };
-    const closeChat = () => { el.sheet.classList.remove('open'); el.fab.setAttribute('aria-expanded','false'); el.sheet.setAttribute('hidden',''); el.fab.focus(); };
-    el.fab.addEventListener('click', openChat); el.close.addEventListener('click', closeChat);
+
+    const openChat = () => {
+      el.sheet.removeAttribute('hidden');
+      el.sheet.classList.add('open');              // adds .open -> CSS slides up
+      el.fab.setAttribute('aria-expanded','true');
+      setTimeout(()=>el.input.focus(),120);
+    };
+    const closeChat = () => {
+      el.sheet.classList.remove('open');           // removes .open -> CSS slides down
+      el.fab.setAttribute('aria-expanded','false');
+      el.sheet.setAttribute('hidden','');
+      el.fab.focus();
+    };
+
+    el.fab.addEventListener('click', openChat);
+    el.close.addEventListener('click', closeChat);
     addEventListener('keydown', e => { if (e.key==='Escape' && !el.sheet.hasAttribute('hidden')) closeChat(); });
-    const addMsg = (t,w='bot') => { const d=document.createElement('div'); d.className=`gfsr-msg ${w}`; d.textContent=(t??'').toString(); el.body.appendChild(d); el.body.scrollTop=el.body.scrollHeight; };
-    const KEY='gfsr-chat-history'; try{ (JSON.parse(localStorage.getItem(KEY)||'[]')).slice(-20).forEach(m=>addMsg(m.text,m.who)); } catch {}
+
+    const addMsg = (t,w='bot') => {
+      const d=document.createElement('div'); d.className=`gfsr-msg ${w}`; d.textContent=(t??'').toString();
+      el.body.appendChild(d); el.body.scrollTop=el.body.scrollHeight;
+    };
+
+    const KEY='gfsr-chat-history';
+    try{ (JSON.parse(localStorage.getItem(KEY)||'[]')).slice(-20).forEach(m=>addMsg(m.text,m.who)); } catch {}
     const remember=(t,w)=>{ try{ const h=JSON.parse(localStorage.getItem(KEY)||'[]'); h.push({text:t,who:w,t:Date.now()}); localStorage.setItem(KEY, JSON.stringify(h).slice(-8000)); }catch{} }
+
     let interacted=false; addEventListener('mousemove',()=>interacted=true,{once:true,passive:true}); addEventListener('keydown', ()=>interacted=true,{once:true,passive:true});
-    const nonce = () => Array.from(crypto.getRandomValues(new Uint8Array(12))).map(b=>b.toString(16)).join('');
+    const nonce = () => Array.from(crypto.getRandomValues(new Uint8Array(12))).map(b=>b.toString(16).padStart(2,'0')).join('');
 
     const API = `${location.origin}/chat`; let busy=false;
     el.form.addEventListener('submit', async (e) => {
@@ -386,32 +423,25 @@
       const message = (el.input.value||'').trim(); if (!message) return;
       addMsg(message,'user'); remember(message,'user'); el.input.value=''; busy=true; el.send.disabled=true;
       try{
-        const r = await fetch(API,{method:'POST',headers:{'Content-Type':'application/json','Accept':'application/json','X-Requested-With':'XMLHttpRequest','X-Client-Nonce':nonce()},body: JSON.stringify({messages:[{role:'user',content:message}],source:'frontend',url:location.href})});
-        if(!r.ok){ const t=await r.text().catch(()=> ''); addMsg(`Service error ${r.status}.`,'meta'); console.error('CHAT ERROR', r.status, t); return; }
-        const ct=r.headers.get('content-type')||''; const reply=ct.includes('application/json')?((await r.json()).reply||''):(await r.text());
+        const r = await fetch(API,{
+          method:'POST',
+          headers:{'Content-Type':'application/json','Accept':'application/json','X-Requested-With':'XMLHttpRequest','X-Client-Nonce':nonce()},
+          body: JSON.stringify({messages:[{role:'user',content:message}],source:'frontend',url:location.href})
+        });
+        if(!r.ok){
+          const t=await r.text().catch(()=> ''); addMsg(`Service error ${r.status}.`,'meta'); console.error('CHAT ERROR', r.status, t); return;
+        }
+        const ct=r.headers.get('content-type')||'';
+        const reply=ct.includes('application/json')?((await r.json()).reply||''):(await r.text());
         addMsg(reply||'Thanks — how else can I help?','bot'); remember(reply||'','bot');
-      }catch(err){ console.error('CHAT NETWORK ERROR', err); addMsg('Network error — please try again.','meta'); }
-      finally{ busy=false; el.send.disabled=false; el.input.focus(); }
+      }catch(err){
+        console.error('CHAT NETWORK ERROR', err); addMsg('Network error — please try again.','meta');
+      }finally{
+        busy=false; el.send.disabled=false; el.input.focus();
+      }
     });
     if (!el.body.children.length) addMsg('Hi! I can help you compare debt relief options and next steps.');
   })();
-  </script>
-
-  <!-- Measure CTA height (for content padding & chat FAB only) -->
-  <script>
-    (function(){
-      const root = document.documentElement;
-      const mb   = document.getElementById('drgMobileBar');
-      function setH(){
-        const shown = mb && getComputedStyle(mb).display !== 'none';
-        const h = shown ? Math.ceil(mb.getBoundingClientRect().height) : 0;
-        root.style.setProperty('--callbar-h', h + 'px');
-      }
-      setH();
-      addEventListener('resize', setH, {passive:true});
-      setTimeout(setH, 250);
-      setTimeout(setH, 1000);
-    })();
   </script>
 
   <!-- 057: Telemetry session beacon -->
@@ -444,7 +474,7 @@
   })();
   </script>
 
-  <!-- === NEW: GFSR page bridge (015/016/050/057) === -->
+  <!-- GFSR page bridge (015/016/050/057) -->
   <script>
   (function(){
     if (window.GFSR && window.GFSR.bridgeReady) return;
