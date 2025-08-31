@@ -366,7 +366,7 @@
         div.style.maxWidth='88%'; div.style.padding='10px 12px'; div.style.borderRadius='14px'; div.style.fontSize='14px'; div.style.lineHeight='1.35';
         if (who==='user'){ div.style.marginLeft='auto'; div.style.background='#0b63f6'; div.style.color='#fff'; div.style.borderTopRightRadius='4px'; }
         else if (who==='bot'){ div.style.background='#eef2ff'; div.style.color='#111'; div.style.borderTopLeftRadius='4px'; }
-        else { div.style.background:'#f3f4f6'; div.style.color:'#444'; div.style.fontSize='12px'; div.style.margin='4px auto'; }
+        else { div.style.background='#f3f4f6'; div.style.color='#444'; div.style.fontSize='12px'; div.style.margin='4px auto'; }
         div.textContent = (text??'').toString(); el.body.appendChild(div); el.body.scrollTop = el.body.scrollHeight;
       };
 
@@ -401,6 +401,87 @@
       if (!el.body.children.length) addMsg('Have questions about this post? I can explain or suggest next steps.');
     })();
   </script>
+
+  <!-- === BEGIN: Worker Bridges (added) ===================================== -->
+
+  <!-- 050: Savings message loader (updates #ab-cta-text if API is present) -->
+  <script>
+    (function(){
+      const el = document.querySelector('#ab-cta-text'); if(!el) return;
+      const FALLBACK = el.textContent || '';
+      const CACHE_KEY = 'drg:savings:v1'; const MAX_AGE_MS = 10*60*1000;
+
+      try{
+        const raw = localStorage.getItem(CACHE_KEY);
+        if(raw){
+          const { ts, message } = JSON.parse(raw);
+          if(ts && (Date.now()-ts) < MAX_AGE_MS && message) el.textContent = (message ?? '').toString();
+        }
+      }catch{}
+
+      (async ()=>{
+        const sleep = (ms)=>new Promise(r=>setTimeout(r,ms));
+        const attempt = async (ms) => {
+          const ctrl=new AbortController(); const to=setTimeout(()=>ctrl.abort(), ms);
+          try{
+            const r = await fetch('/api/savings-message', { headers:{'Accept':'application/json','X-Requested-With':'XMLHttpRequest'}, cache:'no-store', credentials:'omit', signal:ctrl.signal });
+            clearTimeout(to);
+            if(!r.ok || !((r.headers.get('content-type')||'').includes('application/json'))) throw new Error();
+            const data = await r.json();
+            if(data && data.message){
+              el.textContent = (data.message ?? '').toString();
+              try{ localStorage.setItem(CACHE_KEY, JSON.stringify({ ts: Date.now(), message: data.message })); }catch{}
+              return true;
+            }
+          }catch{}
+          return false;
+        };
+        let ok = await attempt(3500);
+        if(!ok){ await sleep(180); ok = await attempt(4500); }
+        if(!ok) el.textContent = FALLBACK;
+      })();
+    })();
+  </script>
+
+  <!-- Page bridge for 015 / 016 / 057 (non-visual; no-ops unless called) -->
+  <script>
+    (function(){
+      if (window.GFSR && window.GFSR.bridgeReady) return;
+      const $ = (s)=>document.querySelector(s);
+      const api = {
+        bridgeReady: true,
+        page: document.querySelector('meta[name="x-ai-optimizer-page"]')?.content || null,
+        slots: (window.__ab && window.__ab.slots) ? window.__ab.slots : {},
+        // 050/015: controlled content setters
+        setHeadline(txt){ const h = $('#ab-cta-text'); if(h && typeof txt==='string') h.textContent = txt; },
+        setPrimaryCta({text, href}={}){ const a=$('.hero-ctas .btn.btn-primary'); if(a){ if(typeof text==='string') a.textContent=text; if(typeof href==='string') a.href=href; } },
+        // 057: log helper
+        log(name, data={}){
+          try{
+            const b=new Blob([JSON.stringify({ name, ts:Date.now(), url:location.href, ...data })],{type:'application/json'});
+            if(navigator.sendBeacon) navigator.sendBeacon('/ingest', b);
+            else fetch('/ingest',{ method:'POST', body:b, keepalive:true, headers:{'Content-Type':'application/json'} }).catch(()=>{});
+          }catch{}
+        },
+        // 016: programmatic chat send
+        chatSend(text){
+          const input=document.getElementById('gfsrChatInput');
+          const form =document.getElementById('gfsrChatForm');
+          if(input && form){ input.value = text || ''; form.requestSubmit(); }
+        }
+      };
+      // 015: optional client API (safe if server exposes /ab/*)
+      api.w015 = {
+        decide: (experimentKey, context={}) =>
+          fetch('/ab/decide', { method:'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify({ experimentKey, context }) }).then(r=>r.json()),
+        report: (experimentKey, variant, outcome, meta={}) =>
+          fetch('/ab/report', { method:'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify({ experimentKey, variant, outcome, meta }) }).then(r=>r.ok)
+      };
+      window.GFSR = Object.assign(window.GFSR || {}, api);
+    })();
+  </script>
+
+  <!-- === END: Worker Bridges ============================================== -->
 
   <noscript><p style="text-align:center;color:#666">Enable JavaScript to view dynamic features and chat.</p></noscript>
 </body>
