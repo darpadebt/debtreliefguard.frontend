@@ -455,21 +455,62 @@
   
     if (!el.body.children.length) addMsg('Hi! I can help you compare debt relief options and next steps.');  
   })();  
-  </script>    <!-- 015: Telemetry ping (scoped to DRG) -->    <script>  
+  </script>    <!-- 057: Telemetry ping (scoped to DRG) -->    <script>  
   (() => {  
-    const now = () => Date.now();  
-    (function sendTelemetry(){  
-      try{  
-        const key='drg:sess:v1'; let sid=sessionStorage.getItem(key);  
-        if(!sid){ sid=crypto.randomUUID(); sessionStorage.setItem(key, sid); }  
-        const payload={ v:1, ts:now(), sid, url:location.href, ref:document.referrer||null, w:innerWidth, h:innerHeight };  
-        const blob=new Blob([JSON.stringify(payload)],{type:'application/json'});  
-        if(navigator.sendBeacon) navigator.sendBeacon('/ingest', blob);  
-        else fetch('/ingest'){ /* no-op */ }  
-      }catch(_){}  
-    })();  
+    try{  
+      const key='drg:sess:v1'; let sid=sessionStorage.getItem(key);  
+      if(!sid){ sid=crypto.randomUUID(); sessionStorage.setItem(key, sid); }  
+      const payload={ v:1, ts:Date.now(), sid, url:location.href, ref:document.referrer||null, w:innerWidth, h:innerHeight };  
+      const blob=new Blob([JSON.stringify(payload)],{type:'application/json'});  
+      if(navigator.sendBeacon){ navigator.sendBeacon('/ingest', blob); }  
+      else {  
+        fetch('/ingest', { method:'POST', body: blob, keepalive:true, headers:{'Content-Type':'application/json'} }).catch(()=>{});  
+      }  
+    }catch(_){}  
   })();  
-  </script>    <!-- Mobile dual action bar (ensure shown on small screens) -->    <div class="mobile-bar" aria-label="Quick actions" style="display:none"></div>  
+  </script>
+
+  <!-- GFSR page bridge for 015/016/050/057 (non-visual; no-op unless called) -->
+  <script>
+  (function(){
+    if (window.GFSR && window.GFSR.bridgeReady) return;
+    const $ = (sel) => document.querySelector(sel);
+    const api = {
+      bridgeReady: true,
+      // Expose page key & known slots so 050/015 logic can reference them if needed
+      page: document.querySelector('meta[name="x-ai-optimizer-page"]')?.content || null,
+      slots: (window.__ab && window.__ab.slots) ? window.__ab.slots : {},
+      // 050 / 015: content slot setters (safe, minimal)
+      setHeadline(text){ const h=$('#ab-cta-text'); if(h && typeof text==='string') h.textContent = text; },
+      setPrimaryCta({text, href}={}) {
+        const a = document.querySelector('.hero-ctas .btn.btn-primary');
+        if(!a) return;
+        if (typeof text==='string') a.textContent = text;
+        if (typeof href==='string') a.href = href;
+      },
+      // 057: lightweight event logger
+      log(name, data={}) {
+        try{
+          const b=new Blob([JSON.stringify({ name, ts:Date.now(), url:location.href, ...data })],{type:'application/json'});
+          if(navigator.sendBeacon) navigator.sendBeacon('/ingest', b);
+          else fetch('/ingest',{ method:'POST', body:b, keepalive:true, headers:{'Content-Type':'application/json'} }).catch(()=>{});
+        }catch{}
+      },
+      // 016: programmatic chat send (useful for scripted prompts)
+      chatSend(text){
+        const input = document.getElementById('gfsrChatInput');
+        const form  = document.getElementById('gfsrChatForm');
+        if(input && form){
+          input.value = text || '';
+          form.requestSubmit();
+        }
+      }
+    };
+    window.GFSR = Object.assign(window.GFSR || {}, api);
+  })();
+  </script>
+
+  <!-- Mobile dual action bar (ensure shown on small screens) -->    <div class="mobile-bar" aria-label="Quick actions" style="display:none"></div>  
   <script>  
     if (window.matchMedia && window.matchMedia('(max-width: 768px)').matches) {  
       document.querySelectorAll('.mobile-bar').forEach(el=>el.style.display='flex');  
