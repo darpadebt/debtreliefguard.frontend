@@ -109,13 +109,11 @@
     /* === NEW: unified bottom stack so the bars always "kiss" === */
     .bottom-stack{
       position:fixed; left:0; right:0; bottom:0;
-      display:flex; flex-direction:column-reverse;  /* CTA at the very bottom, menu directly above */
-      z-index:9996; /* below chat FAB, above page */
-      pointer-events:none; /* children re-enable */
+      display:flex; flex-direction:column-reverse;
+      z-index:9996; pointer-events:none;
     }
     .bottom-stack > *{ pointer-events:auto; width:100%; }
 
-    /* Mobile dual-action bar (CTA) now relative inside the stack */
     .mobile-bar{
       position:relative; background:#0b1220; color:#fff;
       display:flex; gap:8px; padding:.6rem;
@@ -125,7 +123,6 @@
     .mobile-est{background:var(--cta);color:#fff}
     @media (min-width:769px){.mobile-bar{display:none}}
 
-    /* Sticky sitemap now relative inside the stack */
     .sticky-menu{
       position:relative; background:#004488; color:#fff;
       border-top:2px solid #2563eb;
@@ -161,7 +158,6 @@
     .gfsr-chat-sheet{ position:fixed; inset:auto 0 0 0; margin:auto; width:100%; max-width:420px; right:12px; left:auto; border-radius:18px 18px 0 0; background:#fff; box-shadow:var(--chat-shadow); transform:translateY(110%); transition:transform .28s ease; border:var(--chat-border); z-index:10004 }
     .gfsr-chat-sheet[hidden]{ display:none !important; }
 
-    /* Keep content above bars on mobile — no extra env() (CTA height includes its own padding) */
     @media (max-width:768px){
       body, main { padding-bottom: calc(var(--callbar-h) + var(--sitemap-h) + 14px); }
     }
@@ -349,6 +345,21 @@
   })();
   </script>
 
+  <!-- 016: Chatbot FAB + Panel (inserted so existing Chat JS can bind) -->
+  <button id="gfsrChatFab" class="gfsr-chat-fab" aria-haspopup="dialog" aria-expanded="false" aria-controls="gfsrChatSheet">💬 Chat</button>
+  <section id="gfsrChatSheet" class="gfsr-chat-sheet" role="dialog" aria-modal="true" hidden>
+    <header class="gfsr-chat-head">
+      <div class="gfsr-chat-title">Debt Help Assistant</div>
+      <button id="gfsrChatClose" class="gfsr-chat-close" aria-label="Close chat">✕</button>
+    </header>
+    <div id="gfsrChatBody" class="gfsr-chat-body" tabindex="0"></div>
+    <form id="gfsrChatForm" class="gfsr-chat-input">
+      <label class="sr-only" for="gfsrChatInput">Type your message</label>
+      <textarea id="gfsrChatInput" rows="1" placeholder="Type a message…" aria-label="Message"></textarea>
+      <button id="gfsrChatSend" class="gfsr-chat-send" type="submit">Send</button>
+    </form>
+  </section>
+
   <!-- Chat JS (unchanged) -->
   <script>
   (() => {
@@ -395,6 +406,36 @@
       setTimeout(setH, 250);
       setTimeout(setH, 1000);
     })();
+  </script>
+
+  <!-- 057: Telemetry session beacon -->
+  <script>
+  (() => { try {
+    const k='drg:sess:v1';
+    let sid=sessionStorage.getItem(k); if(!sid){ sid=crypto.randomUUID(); sessionStorage.setItem(k, sid); }
+    const payload={ v:1, ts:Date.now(), sid, url:location.href, ref:document.referrer||null, w:innerWidth, h:innerHeight };
+    const blob=new Blob([JSON.stringify(payload)],{type:'application/json'});
+    if(navigator.sendBeacon){ navigator.sendBeacon('/ingest', blob); }
+    else { fetch('/ingest',{ method:'POST', body:blob, keepalive:true, headers:{'Content-Type':'application/json'} }).catch(()=>{}); }
+  } catch(_){} })();
+  </script>
+
+  <!-- 057: CTA click-intent events -->
+  <script>
+  (() => {
+    function send(name, data){
+      try{
+        const b=new Blob([JSON.stringify({ name, ts:Date.now(), ...data })],{type:'application/json'});
+        if(navigator.sendBeacon) navigator.sendBeacon('/ingest', b);
+        else fetch('/ingest',{ method:'POST', body:b, keepalive:true, headers:{'Content-Type':'application/json'} }).catch(()=>{});
+      }catch{}
+    }
+    document.addEventListener('click', e => {
+      const a=e.target.closest('a,button'); if(!a) return;
+      if(a.matches('.hero-ctas .btn.btn-primary, .mobile-est, .btn-sm.btn-primary')) send('cta:start_click', { url: location.href });
+      if(a.matches('.hero-ctas .btn.btn-outline, .mobile-call, a[href^="tel:"] , .btn-sm.btn-outline')) send('cta:call_click', { url: location.href });
+    }, { passive:true });
+  })();
   </script>
 
   <noscript><p style="text-align:center;color:#666">Enable JavaScript to load your personalized savings message.</p></noscript>
