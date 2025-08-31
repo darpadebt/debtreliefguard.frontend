@@ -330,14 +330,14 @@
 
   <!-- 016 Chat Markup -->
   <button id="gfsrChatFab" class="gfsr-chat-fab" aria-haspopup="dialog" aria-expanded="false" aria-controls="gfsrChatSheet"
-          style="position:fixed; right:14px; bottom:calc(var(--callbar-h) + var(--sitemap-h) + 14px); z-index:10003; display:inline-flex; align-items:center; gap:.5rem; padding:.8rem 1rem; border-radius:999px; border:1px solid rgba(0,0,0,.06); background:#0b63f6; color:#fff; box-shadow:0 10px 30px rgba(0,0,0,.18); font:600 14px/1.1 system-ui,-apple-system,Segoe UI,Roboto,Arial">💬 Chat</button>
+          style="position:fixed; right:14px; bottom:calc(var(--callbar-h) + var(--sitemap-h) + 14px); z-index:10003; display:inline-flex; align-items:center; gap:.5rem; padding:.8rem 1rem; border-radius:999px; border:1px solid #e5e7eb; background:#0b63f6; color:#fff; box-shadow:0 10px 30px rgba(0,0,0,.18); font:600 14px/1.1 system-ui,-apple-system,Segoe UI,Roboto,Arial">💬 Chat</button>
 
   <section id="gfsrChatSheet" class="gfsr-chat-sheet" role="dialog" aria-modal="true"
            aria-labelledby="gfsrChatTitle" aria-describedby="gfsrChatDesc" hidden
            style="position:fixed; inset:auto 0 0 0; margin:auto; width:100%; max-width:420px; right:12px; left:auto;
                   border-radius:18px 18px 0 0; background:#fff; box-shadow:0 10px 30px rgba(0,0,0,.18);
-                  transform:translateY(110%); transition:transform .28s ease; border:1px solid rgba(0,0,0,.06); z-index:10004">
-    <header class="gfsr-chat-head" style="display:flex; align-items:center; justify-content:space-between; padding:12px 14px; border-bottom:1px solid rgba(0,0,0,.06); background:#f9fafb; border-radius:inherit">
+                  transform:translateY(110%); transition:transform .28s ease; border:1px solid #e5e7eb; z-index:10004">
+    <header class="gfsr-chat-head" style="display:flex; align-items:center; justify-content:space-between; padding:12px 14px; border-bottom:1px solid #e5e7eb; background:#f9fafb; border-radius:inherit">
       <div>
         <div id="gfsrChatTitle" class="gfsr-chat-title" style="font-weight:700; font-size:15px">Debt Help Assistant</div>
         <div id="gfsrChatDesc" class="sr-only">Chat with our assistant. Press Escape to close.</div>
@@ -347,9 +347,9 @@
 
     <div id="gfsrChatBody" class="gfsr-chat-body" tabindex="0" style="display:flex; flex-direction:column; gap:8px; padding:12px; height:min(70vh, 520px); overflow:auto; -webkit-overflow-scrolling:touch"></div>
 
-    <form id="gfsrChatForm" class="gfsr-chat-input" style="display:flex; gap:8px; padding:10px; border-top:1px solid rgba(0,0,0,.06); background:#fff; border-radius:0 0 18px 18px">
+    <form id="gfsrChatForm" class="gfsr-chat-input" style="display:flex; gap:8px; padding:10px; border-top:1px solid #e5e7eb; background:#fff; border-radius:0 0 18px 18px">
       <label class="sr-only" for="gfsrChatInput">Type your message</label>
-      <textarea id="gfsrChatInput" rows="1" placeholder="Type a message…" aria-label="Message" style="flex:1; resize:none; min-height:42px; max-height:120px; padding:10px 12px; border:1px solid #e5e7eb; border-radius:12px; font-size:14px; line-height:1.35"></textarea>
+      <textarea id="gfsrChatInput" rows="1" placeholder="Type a message…" aria-label="Message" style="flex:1; resize:none; min-height:42px; max-height:120px; padding:10px 12px; border:1px solid #d1d5db; border-radius:12px; font-size:14px; line-height:1.35"></textarea>
       <button id="gfsrChatSend" class="gfsr-chat-send" type="submit" style="background:#0b63f6; color:#fff; border:none; padding:12px 14px; border-radius:12px; font-weight:700">Send</button>
     </form>
   </section>
@@ -412,6 +412,87 @@
       if (!el.body.children.length) addMsg('Want an independent take on your options? I can help.');
     })();
   </script>
+
+  <!-- === BEGIN: Worker Bridges (added) ===================================== -->
+
+  <!-- 050: Savings message loader (updates #ab-cta-text if API is present) -->
+  <script>
+    (function(){
+      const el = document.querySelector('#ab-cta-text'); if(!el) return;
+      const FALLBACK = el.textContent || '';
+      const CACHE_KEY = 'drg:savings:v1'; const MAX_AGE_MS = 10*60*1000;
+
+      try{
+        const raw = localStorage.getItem(CACHE_KEY);
+        if(raw){
+          const { ts, message } = JSON.parse(raw);
+          if(ts && (Date.now()-ts) < MAX_AGE_MS && message) el.textContent = (message ?? '').toString();
+        }
+      }catch{}
+
+      (async ()=>{
+        const sleep = (ms)=>new Promise(r=>setTimeout(r,ms));
+        const attempt = async (ms) => {
+          const ctrl=new AbortController(); const to=setTimeout(()=>ctrl.abort(), ms);
+          try{
+            const r = await fetch('/api/savings-message', { headers:{'Accept':'application/json','X-Requested-With':'XMLHttpRequest'}, cache:'no-store', credentials:'omit', signal:ctrl.signal });
+            clearTimeout(to);
+            if(!r.ok || !((r.headers.get('content-type')||'').includes('application/json'))) throw new Error();
+            const data = await r.json();
+            if(data && data.message){
+              el.textContent = (data.message ?? '').toString();
+              try{ localStorage.setItem(CACHE_KEY, JSON.stringify({ ts: Date.now(), message: data.message })); }catch{}
+              return true;
+            }
+          }catch{}
+          return false;
+        };
+        let ok = await attempt(3500);
+        if(!ok){ await sleep(180); ok = await attempt(4500); }
+        if(!ok) el.textContent = FALLBACK;
+      })();
+    })();
+  </script>
+
+  <!-- Page bridge for 015 / 016 / 057 (non-visual; no-ops unless called) -->
+  <script>
+    (function(){
+      if (window.GFSR && window.GFSR.bridgeReady) return;
+      const $ = (s)=>document.querySelector(s);
+      const api = {
+        bridgeReady: true,
+        page: document.querySelector('meta[name="x-ai-optimizer-page"]')?.content || null,
+        slots: (window.__ab && window.__ab.slots) ? window.__ab.slots : {},
+        // 050/015: controlled content setters
+        setHeadline(txt){ const h = $('#ab-cta-text'); if(h && typeof txt==='string') h.textContent = txt; },
+        setPrimaryCta({text, href}={}){ const a=$('.hero-ctas .btn.btn-primary'); if(a){ if(typeof text==='string') a.textContent=text; if(typeof href==='string') a.href=href; } },
+        // 057: log helper
+        log(name, data={}){
+          try{
+            const b=new Blob([JSON.stringify({ name, ts:Date.now(), url:location.href, ...data })],{type:'application/json'});
+            if(navigator.sendBeacon) navigator.sendBeacon('/ingest', b);
+            else fetch('/ingest',{ method:'POST', body:b, keepalive:true, headers:{'Content-Type':'application/json'} }).catch(()=>{});
+          }catch{}
+        },
+        // 016: programmatic chat send
+        chatSend(text){
+          const input=document.getElementById('gfsrChatInput');
+          const form =document.getElementById('gfsrChatForm');
+          if(input && form){ input.value = text || ''; form.requestSubmit(); }
+        }
+      };
+      // 015: optional client API (safe if server exposes /ab/*)
+      api.w015 = {
+        decide: (experimentKey, context={}) =>
+          fetch('/ab/decide', { method:'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify({ experimentKey, context }) }).then(r=>r.json()),
+        report: (experimentKey, variant, outcome, meta={}) =>
+          fetch('/ab/report', { method:'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify({ experimentKey, variant, outcome, meta }) }).then(r=>r.ok)
+      };
+      window.GFSR = Object.assign(window.GFSR || {}, api);
+    })();
+  </script>
+
+  <!-- === END: Worker Bridges ============================================== -->
 
   <noscript><p style="text-align:center;color:#666">Enable JavaScript to view dynamic content and chat.</p></noscript>
 </body>
