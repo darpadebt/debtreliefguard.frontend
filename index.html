@@ -106,28 +106,32 @@
     .faq p{margin:.6rem 0}
     .faq strong{font-weight:800}
 
-    /* Mobile dual-action bar (CTA) — NOTE: no env() here (matches DHF) */
+    /* === NEW: unified bottom stack so the bars always "kiss" === */
+    .bottom-stack{
+      position:fixed; left:0; right:0; bottom:0;
+      display:flex; flex-direction:column-reverse;  /* CTA at the very bottom, menu directly above */
+      z-index:9996; /* below chat FAB, above page */
+      pointer-events:none; /* children re-enable */
+    }
+    .bottom-stack > *{ pointer-events:auto; width:100%; }
+
+    /* Mobile dual-action bar (CTA) now relative inside the stack */
     .mobile-bar{
-      position:fixed;left:0;right:0;bottom:0;background:#0b1220;color:#fff;
-      display:flex;gap:8px;padding:.6rem;z-index:10000; /* high so it stays above sitemap */
-      margin:0;
+      position:relative; background:#0b1220; color:#fff;
+      display:flex; gap:8px; padding:.6rem;
     }
     .mobile-bar a{flex:1;text-align:center;border-radius:10px;padding:.75rem .5rem;font-weight:900;text-decoration:none}
     .mobile-call{background:var(--ok);color:#fff}
     .mobile-est{background:var(--cta);color:#fff}
     @media (min-width:769px){.mobile-bar{display:none}}
 
-    /* Sticky sitemap — EXACT DHF technique; removed top border to avoid a "gap" line */
+    /* Sticky sitemap now relative inside the stack */
     .sticky-menu{
-      position:fixed; left:0; right:0;
-      bottom: calc(var(--callbar-h) + env(safe-area-inset-bottom));
-      background:#004488; color:#fff; z-index:9997;
-      /* border-top:2px solid #2563eb;  <-- removed to prevent seam */
+      position:relative; background:#004488; color:#fff;
+      border-top:2px solid #2563eb;
       height: var(--sitemap-h);
       display:flex; align-items:center;
     }
-    @media (min-width:769px){ .sticky-menu{ bottom:0 } }
-
     .sticky-menu nav{
       display:flex; gap:1rem; overflow-x:auto; white-space:nowrap;
       padding:0 .75rem; width:100%; align-items:center;
@@ -151,15 +155,15 @@
       bottom: calc(var(--callbar-h) + var(--sitemap-h) + 14px);
       z-index:10003; display:inline-flex; align-items:center; gap:.5rem;
       padding:.8rem 1rem; border-radius:999px; border:var(--chat-border);
-      background:var(--cta); color:#fff; box-shadow:var(--shadow);
+      background:var(--cta); color:#fff; box-shadow:var(--chat-shadow);
       font:600 14px/1.1 system-ui,-apple-system,Segoe UI,Roboto,Arial
     }
-    .gfsr-chat-sheet{ position:fixed; inset:auto 0 0 0; margin:auto; width:100%; max-width:420px; right:12px; left:auto; border-radius:18px 18px 0 0; background:#fff; box-shadow:var(--shadow); transform:translateY(110%); transition:transform .28s ease; border:var(--chat-border); z-index:10004 }
+    .gfsr-chat-sheet{ position:fixed; inset:auto 0 0 0; margin:auto; width:100%; max-width:420px; right:12px; left:auto; border-radius:18px 18px 0 0; background:#fff; box-shadow:var(--chat-shadow); transform:translateY(110%); transition:transform .28s ease; border:var(--chat-border); z-index:10004 }
     .gfsr-chat-sheet[hidden]{ display:none !important; }
 
-    /* Keep content above bars on mobile — matches DHF */
+    /* Keep content above bars on mobile — no extra env() (CTA height includes its own padding) */
     @media (max-width:768px){
-      body, main { padding-bottom: calc(var(--callbar-h) + var(--sitemap-h) + env(safe-area-inset-bottom) + 14px); }
+      body, main { padding-bottom: calc(var(--callbar-h) + var(--sitemap-h) + 14px); }
     }
   </style>
 
@@ -192,15 +196,6 @@
       <li><a href="https://gatewayfinancialsettlementrelief.com" target="_blank" rel="noopener" title="Gateway Financial Settlement Relief Official"><strong>GFSR Owner</strong></a></li>
     </ul>
   </nav>
-
-  <!-- Mobile dual-action bar (ID for measurement; mirrors DHF) -->
-  <div id="drgMobileBar" class="mobile-bar" aria-label="Quick actions">
-    <a class="mobile-call" href="tel:+18884377141">📞 Call 888-437-7141</a>
-    <a class="mobile-est" href="https://debthelpform.com/#lead-form" target="_blank" rel="noopener">🔒 Start Secure Estimate</a>
-  </div>
-
-  <!-- Desktop sticky phone pill -->
-  <a class="desk-call" href="tel:+18884377141">📞 888-437-7141</a>
 
   <!-- HERO -->
   <header>
@@ -272,27 +267,36 @@
     </section>
   </main>
 
-  <!-- Floating bottom sitemap -->
-  <footer class="sticky-menu" role="navigation" aria-label="Site map">
-    <nav>
-      <a href="/">Home</a>
-      <a href="/compare.us.html">Compare</a>
-      <a href="/how.it.works.index.html">How It Works</a>
-      <a href="/debt.relief.option.index.html">Debt Relief Options</a>
-      <a href="/credit.card.relief.index.html">Credit Card Relief</a>
-      <a href="/savings.calculator.html">Calculator</a>
-      <a href="/reviews.index.html">Reviews</a>
-      <a href="/blog.index.html">Blog</a>
-      <a href="/scam.warning.index.html">Scam Warnings</a>
-      <a href="/faq.index.html">FAQ</a>
-      <a href="/contact.index.html">Contact</a>
-      <a href="/privacy.policy.index.html">Privacy</a>
-      <a href="/terms.index.html">Terms</a>
-      <a href="/geo-blocked.html" rel="nofollow">Geo-Blocked</a>
-      <a href="https://debthelpform.com" target="_blank" rel="noopener">DebtHelpForm.com</a>
-      <a href="https://gatewaydebthelp.com" target="_blank" rel="noopener">GatewayDebtHelp.com</a>
-    </nav>
-  </footer>
+  <!-- === NEW: unified bottom stack (CTA + sticky menu) === -->
+  <div class="bottom-stack" aria-label="Site controls">
+    <!-- First child (column-reverse) = bottommost: CTA bar -->
+    <div id="drgMobileBar" class="mobile-bar" aria-label="Quick actions">
+      <a class="mobile-call" href="tel:+18884377141">📞 Call 888-437-7141</a>
+      <a class="mobile-est" href="https://debthelpform.com/#lead-form" target="_blank" rel="noopener">🔒 Start Secure Estimate</a>
+    </div>
+
+    <!-- Second child = directly above CTA: sticky sitemap -->
+    <footer class="sticky-menu" role="navigation" aria-label="Site map">
+      <nav>
+        <a href="/">Home</a>
+        <a href="/compare.us.html">Compare</a>
+        <a href="/how.it.works.index.html">How It Works</a>
+        <a href="/debt.relief.option.index.html">Debt Relief Options</a>
+        <a href="/credit.card.relief.index.html">Credit Card Relief</a>
+        <a href="/savings.calculator.html">Calculator</a>
+        <a href="/reviews.index.html">Reviews</a>
+        <a href="/blog.index.html">Blog</a>
+        <a href="/scam.warning.index.html">Scam Warnings</a>
+        <a href="/faq.index.html">FAQ</a>
+        <a href="/contact.index.html">Contact</a>
+        <a href="/privacy.policy.index.html">Privacy</a>
+        <a href="/terms.index.html">Terms</a>
+        <a href="/geo-blocked.html" rel="nofollow">Geo-Blocked</a>
+        <a href="https://debthelpform.com" target="_blank" rel="noopener">DebtHelpForm.com</a>
+        <a href="https://gatewaydebthelp.com" target="_blank" rel="noopener">GatewayDebtHelp.com</a>
+      </nav>
+    </footer>
+  </div>
 
   <!-- Footer (legal & brand disambiguation) -->
   <footer>
@@ -358,6 +362,7 @@
     const remember=(t,w)=>{ try{ const h=JSON.parse(localStorage.getItem(KEY)||'[]'); h.push({text:t,who:w,t:Date.now()}); localStorage.setItem(KEY, JSON.stringify(h).slice(-8000)); }catch{} }
     let interacted=false; addEventListener('mousemove',()=>interacted=true,{once:true,passive:true}); addEventListener('keydown', ()=>interacted=true,{once:true,passive:true});
     const nonce = () => Array.from(crypto.getRandomValues(new Uint8Array(12))).map(b=>b.toString(16).padStart(2,'0')).join('');
+
     const API = `${location.origin}/chat`; let busy=false;
     el.form.addEventListener('submit', async (e) => {
       e.preventDefault(); if (!interacted || busy) return;
@@ -375,14 +380,14 @@
   })();
   </script>
 
-  <!-- Measure CTA height (same pattern as DHF with gentle retries) -->
+  <!-- Measure CTA height (for content padding & chat FAB only) -->
   <script>
     (function(){
       const root = document.documentElement;
       const mb   = document.getElementById('drgMobileBar');
       function setH(){
         const shown = mb && getComputedStyle(mb).display !== 'none';
-        const h = shown ? mb.offsetHeight : 0;
+        const h = shown ? Math.ceil(mb.getBoundingClientRect().height) : 0;
         root.style.setProperty('--callbar-h', h + 'px');
       }
       setH();
