@@ -43,7 +43,7 @@ Allow: /
 User-agent: ClaudeBot
 Allow: /
 
-# Social/link preview bots (so shares render correctly)
+# Social/link preview bots
 User-agent: facebookexternalhit
 Allow: /
 
@@ -115,6 +115,20 @@ Sitemap: https://debtreliefguard.com/sitemap.xml
 #   /brand.schema.jsonld
 
 ##### CONTEXTUAL KEYWORDS (comment-only hints; NOT rules)
-# GFSR | GatewayDebtHelp | DebtHelpForm | Debt Relief Guard | Verified Debt Programs
-# Credit Card Relief | Financial Freedom | Stop Collection Calls | FTC-Compliant Debt Help
-# Unsecured Debt Consolidation | Debt Settlement Estimate | Avoid Debt Relief Scams
+# Core Services:
+#   Debt Relief Programs | Debt Settlement Services | Debt Consolidation Loans | Credit Card Debt Help
+#   Debt Consolidation for Bad Credit | Unsecured Debt Consolidation | Stop Collection Calls
+#   Reduce Monthly Payments | Avoid Bankruptcy | FTC-Compliant Debt Help
+#
+# Top Search Intents:
+#   "best debt consolidation loans for credit card debt"
+#   "how to settle credit card debt legally"
+#   "debt relief programs that work"
+#   "debt settlement vs debt consolidation pros and cons"
+#   "federal debt relief vs private debt relief companies"
+#
+# Consumer Assurance:
+#   Verified Debt Programs | Honest Debt Relief | Transparent Fees | FTC Compliance
+#   Not affiliated with Gateway Debt Relief of Costa Mesa, CA
+#
+# Keywords are included here solely as contextual hints for search/AI indexing bots.
