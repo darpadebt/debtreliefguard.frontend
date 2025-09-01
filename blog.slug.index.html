@@ -338,7 +338,7 @@
 
     <form id="gfsrChatForm" class="gfsr-chat-input" style="display:flex; gap:8px; padding:10px; border-top:1px solid rgba(0,0,0,.06); background:#fff; border-radius:0 0 18px 18px">
       <label class="sr-only" for="gfsrChatInput">Type your message</label>
-      <textarea id="gfsrChatInput" rows="1" placeholder="Type a message…" aria-label="Message" style="flex:1; resize:none; min-height:42px; max-height:120px; padding:10px 12px; border:1px solid #e5e7eb; border-radius:12px; font-size:14px; line-height:1.35"></textarea>
+      <textarea id="gfsrChatInput" rows="1" placeholder="Type a message…" aria-label="Message" style="flex:1; resize:none; min-height:42px; max-height:120px; padding:10px 12px; border:1px solid #d1d5db; border-radius:12px; font-size:14px; line-height:1.35"></textarea>
       <button id="gfsrChatSend" class="gfsr-chat-send" type="submit" style="background:#0b63f6; color:#fff; border:none; padding:12px 14px; border-radius:12px; font-weight:700">Send</button>
     </form>
   </section>
@@ -482,6 +482,118 @@
   </script>
 
   <!-- === END: Worker Bridges ============================================== -->
+
+  <!-- Drop-in script to resolve slug, fetch /blogs.json, and fill placeholders -->
+  <script>
+  (async () => {
+    try {
+      // 1) Resolve slug from /blog/<slug>.html
+      const path = location.pathname;
+      const last = path.split('/').filter(Boolean).pop() || '';
+      const slug = last.endsWith('.html') ? last.slice(0, -5) : last;
+
+      // 2) Load blogs.json
+      const res = await fetch('/blogs.json', { cache: 'no-store' });
+      if (!res.ok) throw new Error('blogs.json ' + res.status);
+      const posts = await res.json();
+      const post = Array.isArray(posts)
+        ? posts.find(p => p.slug === slug || (p.url && (p.url.endsWith('/' + slug) || p.url.endsWith('/' + slug + '.html'))))
+        : null;
+
+      if (!post) {
+        // Minimal graceful fallback if not found
+        document.title = 'Post not found | DebtReliefGuard Blog';
+        const container = document.querySelector('.container');
+        if (container) container.innerHTML = '<p>Post not found.</p>';
+        return;
+      }
+
+      // 3) Resolve fields with safe fallbacks
+      const title = post.title || 'Untitled';
+      const excerpt = (post.excerpt || '').toString();
+      const dateIso = post.published_at || post.date || '';
+      const dateText = dateIso ? new Date(dateIso).toLocaleDateString() : '';
+      const image = post.thumbnail || `/images/${slug}.png`;
+      const authorName = post.author || 'DebtReliefGuard';
+      const authorLink = post.authorLink || 'https://debtreliefguard.com';
+      const tags = Array.isArray(post.tags) ? post.tags.join(', ') : (post.tags || '');
+
+      // 4) Fill visible content
+      const img = document.querySelector('img.feature');
+      if (img) { img.src = image; img.alt = title; }
+
+      const h1 = document.querySelector('h1#ab-cta-text');
+      if (h1) h1.textContent = title;
+
+      const timeEl = document.querySelector('time[datetime]');
+      if (timeEl) {
+        if (dateIso) timeEl.setAttribute('datetime', dateIso);
+        timeEl.textContent = dateText || (dateIso || '');
+      }
+
+      const metaDiv = document.querySelector('.meta');
+      if (metaDiv) {
+        metaDiv.innerHTML = `
+          Published on <time itemprop="datePublished" datetime="${dateIso}">${dateText || (dateIso || '')}</time> by
+          <a href="${authorLink}" target="_blank" rel="noopener" itemprop="author">${authorName}</a>
+          ${tags ? `&nbsp;|&nbsp; Tagged: ${tags}` : ''}
+        `;
+      }
+
+      // 5) Update SEO meta tags (description + social)
+      const setMeta = (sel, attr, val) => { const el = document.querySelector(sel); if (el && val) el.setAttribute(attr, val); };
+
+      document.title = `${title} | DebtReliefGuard Blog`;
+      setMeta('meta[name="description"]', 'content', excerpt);
+
+      // canonical/og/twitter use the current URL
+      const canonicalHref = location.origin + `/blog/${slug}.html`;
+      setMeta('link[rel="canonical"]', 'href', canonicalHref);
+      setMeta('meta[property="og:url"]', 'content', canonicalHref);
+      setMeta('meta[property="og:title"]', 'content', `${title} | DebtReliefGuard Blog`);
+      setMeta('meta[property="og:description"]', 'content', excerpt);
+      setMeta('meta[property="og:image"]', 'content', image);
+      setMeta('meta[name="twitter:title"]', 'content', `${title} | DebtReliefGuard Blog`);
+      setMeta('meta[name="twitter:description"]', 'content', excerpt);
+      setMeta('meta[name="twitter:image"]', 'content', image);
+
+      // 6) Update JSON-LD blocks that used {{placeholders}}
+      const ldBlocks = document.querySelectorAll('script[type="application/ld+json"]');
+      ldBlocks.forEach(block => {
+        try {
+          const j = JSON.parse(block.textContent || '{}');
+
+          if (j['@type'] === 'BlogPosting') {
+            j.headline = title;
+            j.description = excerpt;
+            j.image = image;
+            j.url = canonicalHref;
+            if (dateIso) j.datePublished = dateIso;
+            if (j.author && typeof j.author === 'object') {
+              j.author.name = authorName;
+              j.author.url = authorLink;
+            }
+            block.textContent = JSON.stringify(j);
+          }
+
+          // Update breadcrumb entry for the current post (position 3)
+          if (j['@type'] === 'BreadcrumbList' && Array.isArray(j.itemListElement) && j.itemListElement.length >= 3) {
+            const lastCrumb = j.itemListElement[2];
+            if (lastCrumb && lastCrumb['@type'] === 'ListItem') {
+              lastCrumb.name = title;
+              lastCrumb.item = canonicalHref;
+            }
+            block.textContent = JSON.stringify(j);
+          }
+        } catch { /* ignore parse errors on non-matching blocks */ }
+      });
+
+    } catch (e) {
+      // Soft-fail: keep template literals if fetch fails
+      console.error('Post load error:', e);
+    }
+  })();
+  </script>
 
   <noscript><p style="text-align:center;color:#666">Enable JavaScript to view dynamic features and chat.</p></noscript>
 </body>
