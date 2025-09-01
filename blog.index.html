@@ -335,21 +335,30 @@
         }finally{ clearTimeout(id); }
       }
 
+      // PATCHED render(posts) function below
       function render(posts){
-        LIST.innerHTML='';
-        if(!Array.isArray(posts) || posts.length===0){ EMPTY.hidden=false; return; }
-        EMPTY.hidden=true;
-        posts.forEach(p=>{
-          const a = document.createElement('article');
-          a.className='entry';
-          const date = p.date ? new Date(p.date).toLocaleDateString() : '';
-          a.innerHTML = `
-            ${p.thumbnail ? `<img src="${p.thumbnail}" alt="${(p.title||'').replace(/"/g,'&quot;')}">` : ''}
-            <h2><a href="/blog/${p.slug}.html" style="text-decoration:none;color:inherit">${p.title||'Untitled'}</a></h2>
-            <p><em>${date}</em></p>
-            <p>${p.excerpt||''}</p>
+        LIST.innerHTML = '';
+        if (!Array.isArray(posts) || posts.length === 0) { EMPTY.hidden = false; return; }
+        EMPTY.hidden = true;
+
+        posts.forEach(p => {
+          const article = document.createElement('article');
+          article.className = 'entry';
+
+          // Resolve fields from blogs.json with safe fallbacks
+          const title = p.title || 'Untitled';
+          const href  = (p.url && typeof p.url === 'string') ? p.url : (p.slug ? `/blog/${p.slug}.html` : '#');
+          const dateIso = p.published_at || p.date || null;
+          const dateTxt = dateIso ? new Date(dateIso).toLocaleDateString() : '';
+          const thumb = p.thumbnail || (p.slug ? `/images/${p.slug}.png` : '');
+
+          article.innerHTML = `
+            ${thumb ? `<img src="${thumb}" alt="${title.replace(/"/g,'&quot;')}" loading="lazy">` : ''}
+            <h2><a href="${href}" style="text-decoration:none;color:inherit">${title}</a></h2>
+            ${dateTxt ? `<p><em>${dateTxt}</em></p>` : ''}
+            <p>${p.excerpt || ''}</p>
           `;
-          LIST.appendChild(a);
+          LIST.appendChild(article);
         });
       }
 
