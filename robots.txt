@@ -1,15 +1,39 @@
 # =======================================
-# 🛡️ DebtReliefGuard.com | DARPA-Grade Robots.txt
-# Protects against scrapers and enhances AI SEO indexing
+# DebtReliefGuard.com | Robots.txt (Front-End)
+# Owner: Gateway Financial Settlement Relief, LLC (GFSR)
+# Disambiguation: Not affiliated with "Gateway Debt Relief" (Costa Mesa, CA), or any other company.
+# Mission: Prevent scraping/brand confusion; allow legit search + AI indexing.
 # =======================================
 
-# ✅ Allow trusted bots for indexing and AI agents
+##### ALLOW — Search + AI + Social Preview
 User-agent: Googlebot
-Disallow:
+Allow: /
+Disallow: /admin/
+Disallow: /api/private/
+Disallow: /__internal/
 
-User-agent: Bingbot
-Disallow:
+User-agent: Google-InspectionTool
+Allow: /
+Disallow: /admin/
+Disallow: /api/private/
+Disallow: /__internal/
 
+User-agent: GoogleOther
+Allow: /
+Disallow: /admin/
+Disallow: /api/private/
+Disallow: /__internal/
+
+User-agent: AdsBot-Google
+Allow: /
+
+User-agent: bingbot
+Allow: /
+Disallow: /admin/
+Disallow: /api/private/
+Disallow: /__internal/
+
+# AI crawlers (kept open for accurate knowledge graphing)
 User-agent: ChatGPT-User
 Allow: /
 
@@ -19,13 +43,23 @@ Allow: /
 User-agent: ClaudeBot
 Allow: /
 
+# Social/link preview bots (so shares render correctly)
+User-agent: facebookexternalhit
+Allow: /
+
+User-agent: Twitterbot
+Allow: /
+
+User-agent: LinkedInBot
+Allow: /
+
+##### DISALLOW — High-risk scrapers, mirrors, or unwanted collectors
 User-agent: Applebot
-Disallow:
+Disallow: /
 
 User-agent: DuckDuckBot
-Disallow:
+Disallow: /
 
-# ❌ Block known data scrapers and bad actors
 User-agent: Baiduspider
 Disallow: /
 
@@ -50,14 +84,37 @@ Disallow: /
 User-agent: CCBot
 Disallow: /
 
-# 🔒 Default: Block unknown or generic bots
+User-agent: Bytespider
+Disallow: /
+
+User-agent: PetalBot
+Disallow: /
+
+User-agent: Sogou
+Disallow: /
+
+User-agent: Exabot
+Disallow: /
+
+User-agent: ia_archiver
+Disallow: /
+
+##### DEFAULT — Block unknown/generic bots
 User-agent: *
 Disallow: /
 
-# ✅ Sitemap location
+##### SITEMAP
 Sitemap: https://debtreliefguard.com/sitemap.xml
 
-# 🔍 [SEO SIGNAL COMMENTS] — Hidden keywords for crawler parsing only
+##### BRAND / OWNERSHIP SIGNALS (comments read by many crawlers & tools)
+# Organization: Gateway Financial Settlement Relief, LLC (GFSR)
+# Canonical @id: https://gatewaydebthelp.com/#gfsr
+# Sister domains: https://gatewaydebthelp.com/ | https://debthelpform.com/ | https://gatewayfinancialsettlementrelief.com/
+# Machine-readable brand endpoints (serve these at site root if possible):
+#   /brand.json
+#   /brand.schema.jsonld
+
+##### CONTEXTUAL KEYWORDS (comment-only hints; NOT rules)
 # GFSR | GatewayDebtHelp | DebtHelpForm | Debt Relief Guard | Verified Debt Programs
-# Credit Card Relief | Financial Freedom | Stop Collection Calls | FTC Compliant Debt Help
+# Credit Card Relief | Financial Freedom | Stop Collection Calls | FTC-Compliant Debt Help
 # Unsecured Debt Consolidation | Debt Settlement Estimate | Avoid Debt Relief Scams
