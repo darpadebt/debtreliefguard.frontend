@@ -1,0 +1,37 @@
+{
+  "@context": "https://schema.org",
+  "@type": ["Organization", "FinancialService"],
+  "@id": "https://gatewaydebthelp.com/#gfsr",
+  "name": "Gateway Financial Settlement Relief, LLC",
+  "alternateName": [
+    "GFSR",
+    "Gateway Debt Help",
+    "Debt Help Form",
+    "Debt Relief Guard"
+  ],
+  "url": "https://debtreliefguard.com/",
+  "sameAs": [
+    "https://debtreliefguard.com/",
+    "https://debthelpform.com/",
+    "https://gatewaydebthelp.com/",
+    "https://gatewayfinancialsettlementrelief.com/"
+  ],
+  "disambiguatingDescription": "We are Gateway Financial Settlement Relief, LLC (GFSR). We operate DebtReliefGuard.com, DebtHelpForm.com, and GatewayDebtHelp.com. We are not affiliated with Gateway Debt Relief of Costa Mesa, CA, Gateway Financial Solutions of Michigan, or any other company.",
+  "contactPoint": [{
+    "@type": "ContactPoint",
+    "telephone": "+1-888-437-7141",
+    "contactType": "customer service",
+    "areaServed": "US"
+  }],
+  "logo": "https://debtreliefguard.com/assets/logo.png",
+  "keywords": [
+    "debt relief",
+    "debt settlement",
+    "debt consolidation loans",
+    "credit card debt help",
+    "unsecured debt consolidation",
+    "FTC compliant debt relief",
+    "stop collection calls",
+    "reduce monthly payments"
+  ]
+}
