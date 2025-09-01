@@ -266,8 +266,8 @@
     <h1 id="ab-cta-text">Scam-Free Debt Relief Reviews & Secure Estimate</h1>
     <p class="sub">Transparent, FTC-aligned comparisons so you can choose confidently.</p>
     <div class="hero-ctas">
-      <a class="btn btn-primary" href="https://debthelpform.com/#lead-form" target="_blank" rel="noopener" aria-label="Start secure savings estimate">🔒 Start Secure Estimate</a>
-      <a class="btn btn-outline" href="tel:+18884377141" aria-label="Call now for help">📞 Talk to a Specialist</a>
+      <a class="btn btn-primary" href="https://debthelpform.com/#lead-form" target="_blank" rel="noopener" aria-label="Start secure savings estimate" onclick="window.GFSR?.log('hero_primary_cta')">🔒 Start Secure Estimate</a>
+      <a class="btn btn-outline" href="tel:+18884377141" aria-label="Call now for help" onclick="window.GFSR?.log('hero_phone_cta')">📞 Talk to a Specialist</a>
     </div>
   </header>
 
@@ -282,12 +282,29 @@
 
   <!-- MAIN -->
   <main id="main" class="container" role="main">
-    <h2>Why People Use DebtReliefGuard</h2>
-    <p class="muted-text" style="text-align:center">
-      Our reviews and tools help you compare verified programs vs high-risk offers — before you share any info.
-    </p>
 
-    <div class="table-wrap" aria-label="At-a-glance protections">
+    <!-- How It Works (fast clarity) -->
+    <section aria-label="How it works" style="text-align:center">
+      <h2>How It Works</h2>
+      <ol style="max-width:800px;margin:0 auto;text-align:left">
+        <li>Answer a few secure questions (no upfront fees, no pressure).</li>
+        <li>See your estimated payment and timeline.</li>
+        <li>Connect with a verified, FTC-aligned provider.</li>
+      </ol>
+    </section>
+
+    <!-- Savings Snapshot (proof + CTA) -->
+    <section aria-label="Savings snapshot" style="margin-top:1.5rem;text-align:center">
+      <h2>What People Typically See</h2>
+      <p class="muted-text">Ranges vary by debt amount, state, and program. No guarantees—just honest estimates.</p>
+      <div class="cta" style="margin-top:.75rem">
+        <a class="btn btn-primary" href="https://debthelpform.com/#lead-form" target="_blank" rel="noopener" onclick="window.GFSR?.log('savings_cta')">Estimate My Savings — 60 Seconds</a>
+      </div>
+      <p class="muted-text" style="margin-top:.6rem"><a href="/savings.calculator.html">Prefer a calculator?</a></p>
+    </section>
+
+    <!-- Quick Comparison (compact; link to full page) -->
+    <section aria-label="Quick comparison" class="table-wrap" style="margin-top:1.5rem">
       <table>
         <thead>
           <tr>
@@ -303,18 +320,41 @@
           <tr><td>Transparency</td><td>✅ Side-by-side comparisons you control</td><td>❌ Vague terms, hard to cancel</td></tr>
         </tbody>
       </table>
-    </div>
+      <p class="muted-text" style="text-align:center;margin-top:.6rem"><a href="/compare.us.html">See full comparison</a></p>
+    </section>
 
-    <div class="cta" style="text-align:center; margin-top:2rem">
-      <p class="muted-text">See your options in ~60 seconds. No cost. No pressure. No surprises.</p>
-      <a class="btn btn-primary" href="https://debthelpform.com/#lead-form" target="_blank" rel="noopener">Start My Free Estimate</a>
-    </div>
+    <!-- Legitimacy & Affiliation FAQ (visible text for models + humans) -->
+    <section aria-label="Legitimacy" style="margin-top:1.5rem">
+      <h2>Legitimacy & Affiliation</h2>
+      <details open onclick="window.GFSR?.log('faq_legit_open')">
+        <summary>Is Gateway Financial Settlement Relief (GFSR) legitimate?</summary>
+        <p>
+          Yes. We operate GatewayDebtHelp.com, DebtHelpForm.com, and DebtReliefGuard.com. We follow FTC rules
+          (no upfront fees, clear disclosures) and connect consumers to verified providers. BBB accreditation is
+          optional and not required for legitimacy.
+        </p>
+      </details>
+      <details onclick="window.GFSR?.log('faq_affiliation_open')">
+        <summary>Are you the same as “Gateway Debt Relief”?</summary>
+        <p>
+          No. GFSR is not affiliated with “Gateway Debt Relief” of Costa Mesa, CA, or any other company. “Gateway Debt Help”
+          is a marketing alias used by GFSR. Help line: <a href="tel:+18884377141">888-437-7141</a>.
+        </p>
+      </details>
+    </section>
+
+    <!-- Final CTA -->
+    <section class="cta" aria-label="Get started" style="margin-top:2rem;text-align:center">
+      <h2>See Your Options Today</h2>
+      <a class="btn btn-primary" href="https://debthelpform.com/#lead-form" target="_blank" rel="noopener" onclick="window.GFSR?.log('final_cta')">🔒 Start Secure Estimate</a>
+    </section>
+
   </main>
 
   <!-- Mobile dual action bar -->
   <div id="drgMobileBar" class="mobile-bar" aria-label="Quick actions">
-    <a class="mobile-call" href="tel:+18884377141">📞 Call 888-437-7141</a>
-    <a class="mobile-est" href="https://debthelpform.com/#lead-form" target="_blank" rel="noopener">🔒 Start Secure Estimate</a>
+    <a class="mobile-call" href="tel:+18884377141" onclick="window.GFSR?.log('mobile_call_cta')">📞 Call 888-437-7141</a>
+    <a class="mobile-est" href="https://debthelpform.com/#lead-form" target="_blank" rel="noopener" onclick="window.GFSR?.log('mobile_estimate_cta')">🔒 Start Secure Estimate</a>
   </div>
 
   <!-- Bottom sticky sitemap -->
@@ -420,9 +460,7 @@
   })();
   </script>
 
-  <!-- 016 Chat FAB + Sheet already below via markup -->
-
-  <!-- 016 Chat Script (kept) -->
+  <!-- 016 Chat FAB + Sheet + Script (kept) -->
   <button id="gfsrChatFab" class="gfsr-chat-fab" aria-haspopup="dialog" aria-expanded="false" aria-controls="gfsrChatSheet" style="position:fixed; right:14px; bottom:calc(var(--callbar-h) + var(--sitemap-h) + 14px); z-index:10003; display:inline-flex; align-items:center; gap:.5rem; padding:.8rem 1rem; border-radius:999px; border:1px solid rgba(0,0,0,.06); background:#0b63f6; color:#fff; box-shadow:0 10px 30px rgba(0,0,0,.18); font:600 14px/1.1 system-ui,-apple-system,Segoe UI,Roboto,Arial">💬 Chat</button>
 
   <section id="gfsrChatSheet" class="gfsr-chat-sheet" role="dialog" aria-modal="true"
@@ -534,7 +572,7 @@
         } else {
           reply = await r.text();
         }
-        addMsg(reply || 'Thanks — how else can I help?','bot'); remember(reply||'','bot');
+        addMsg(reply || 'Hi — how else can I help?','bot'); remember(reply||'','bot');
       }catch(err){
         console.error('CHAT NETWORK ERROR', err);
         addMsg('Network error — please try again.','meta');
