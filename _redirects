@@ -1,15 +1,15 @@
 # Root
 /                 /index.html                 200
 
-# Blog index
+# Blog index (3 helpful aliases)
 /blog             /blog.index.html            200
 /blog/            /blog.index.html            200
 /blog/index.html  /blog.index.html            200
 
-# Blog detail
+# Blog detail slugs
 /blog/*           /blog.slug.index.html       200
 
-# Blog feed
+# Blog feed (JSON must be raw)
 /blogs.json       /blogs.json                 200
 
 # Static assets
