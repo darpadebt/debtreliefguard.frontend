@@ -1,9 +1,23 @@
-/             /index.html        200
-/blog/*       /blog.index.html   200
-/blogs.json   /blogs.json        200
-/images/*     /images/:splat     200
-/*.css        /:splat            200
-/*.js         /:splat            200
-/*.png        /:splat            200
-/*.jpg        /:splat            200
-/*.svg        /:splat            200
+# must-serve assets (no rewrites)
+/robots.txt                  /robots.txt                  200
+/brand.json                  /brand.json                  200
+/brand.schema.jsonld         /brand.schema.jsonld         200
+/blogs.json                  /blogs.json                  200
+/images/*                    /images/:splat               200
+/*.css                       /:splat                      200
+/*.js                        /:splat                      200
+/*.png                       /:splat                      200
+/*.jpg                       /:splat                      200
+/*.svg                       /:splat                      200
+/*.ico                       /:splat                      200
+
+# blog routes
+/blog/*                      /blog.index.html             200
+
+# homepage
+/                            /index.html                  200
+
+# catch-all (put LAST)
+# If your site is truly single-page elsewhere, keep this;
+# otherwise remove it to let 404s be 404s.
+/*                           /index.html                  200
