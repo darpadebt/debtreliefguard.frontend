@@ -2,3 +2,4 @@
 /blog/*         /blog.index.html 200
 /blogs.json     /blogs.json      200
 /images/*       /images/:splat   200
+
