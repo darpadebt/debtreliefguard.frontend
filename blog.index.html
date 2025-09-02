@@ -231,6 +231,59 @@
   <!-- MAIN -->
   <main id="main" class="container" aria-live="polite">
     <h2 style="margin:.1rem 0 1rem">Latest Posts</h2>
+
+    <!-- BEGIN: Blog links (auto from blogs.json, with safe fallback) -->
+    <section id="post-links" aria-label="Blog posts" style="margin-top:1rem">
+      <ul id="postList" style="list-style: none; padding-left: 0; display: grid; gap: .6rem">
+        <!-- Fallback link (shows until JSON loads or if it fails) -->
+        <li class="post-link">
+          <a href="/blog/your-guide-to-debt-relief-navigating-debt-consolidation-and-settlement" style="font-weight:700; text-decoration:none">
+            Your Guide to Debt Relief: Navigating Debt Consolidation and Settlement
+          </a>
+          <div style="color:#64748b; font-size:.9rem">Published: 2025-08-07</div>
+          <p style="margin:.2rem 0 0; color:#475569">
+            Understand how consolidation and settlement work, key pros and cons, costs, timelines, and how to choose safe help.
+          </p>
+        </li>
+      </ul>
+      <div id="postError" hidden style="color:#b91c1c; margin-top:.5rem">Couldn’t load the latest posts right now.</div>
+    </section>
+
+    <script>
+    (function(){
+      const UL   = document.getElementById('postList');
+      const ERR  = document.getElementById('postError');
+
+      // Try to replace the fallback list with items from /blogs.json
+      fetch('/blogs.json', { cache: 'no-store', headers: { 'Accept': 'application/json' }})
+        .then(r => { if (!r.ok) throw 0; return r.json(); })
+        .then(items => {
+          if (!Array.isArray(items) || !items.length) return; // keep fallback
+          // Replace fallback
+          UL.innerHTML = '';
+          items.forEach(p => {
+            const li = document.createElement('li');
+            li.className = 'post-link';
+            li.style.margin = '0';
+            li.innerHTML = `
+              <a href="${p.url || (p.slug ? '/blog/' + p.slug + '.html' : '#')}"
+                 style="font-weight:700; text-decoration:none">${p.title || 'Untitled'}</a>
+              <div style="color:#64748b; font-size:.9rem">
+                ${p.published_at ? new Date(p.published_at).toLocaleDateString() : ''}
+              </div>
+              ${p.excerpt ? `<p style="margin:.2rem 0 0; color:#475569">${p.excerpt}</p>` : ''}
+            `;
+            UL.appendChild(li);
+          });
+        })
+        .catch(() => { /* keep fallback, optionally show a small message */
+          if (ERR) ERR.hidden = false;
+        });
+    })();
+    </script>
+    <!-- END: Blog links -->
+
+    <!-- Your existing grid (kept intact) -->
     <div id="blogList" class="blog-list"></div>
     <div id="empty" class="empty" hidden>No posts yet. Check back soon.</div>
   </main>
