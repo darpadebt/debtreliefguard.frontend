@@ -1,21 +1,21 @@
-# Root
-/                 /index.html                 200
+# Home
+/                /index.html                200
 
-# Blog index (3 helpful aliases)
-/blog             /blog.index.html            200
-/blog/            /blog.index.html            200
-/blog/index.html  /blog.index.html            200
+# Blog index
+/blog            /blog.index.html           200
+/blog/           /blog.index.html           200
 
-# Blog detail slugs
-/blog/*           /blog.slug.index.html       200
+# Blog posts (serve the slug template for every /blog/*.html)
+# This is the critical fix so slug pages resolve correctly
+/blog/*.html     /blog.slug.index.html      200
 
-# Blog feed (JSON must be raw)
-/blogs.json       /blogs.json                 200
+# Feed (must be served as-is)
+/blogs.json      /blogs.json                200
 
-# Static assets
-/images/*         /images/:splat              200
-/*.css            /:splat                     200
-/*.js             /:splat                     200
-/*.png            /:splat                     200
-/*.jpg            /:splat                     200
-/*.svg            /:splat                     200
+# Static assets (normally automatic on Cloudflare Pages; safe to keep)
+/images/*        /images/:splat             200
+/*.css           /:splat                    200
+/*.js            /:splat                    200
+/*.png           /:splat                    200
+/*.jpg           /:splat                    200
+/*.svg           /:splat                    200
