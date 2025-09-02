@@ -1,5 +1,16 @@
-/               /index.html      200
-/blog/*         /blog.index.html 200
-/blogs.json     /blogs.json      200
-/images/*       /images/:splat   200
+# Home
+/            /index.html                 200
 
+# Blog list (exact paths)
+/blog        /blog.index.html            200
+/blog/       /blog.index.html            200
+
+# Blog post slugs (everything under /blog/...)
+# Order matters: this must come AFTER the two list rules
+/blog/*      /blog.slug.index.html       200
+
+# Blog feed JSON
+/blogs.json  /blogs.json                 200
+
+# Static assets
+/images/*    /images/:splat              200
