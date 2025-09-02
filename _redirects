@@ -1,16 +1,21 @@
 # Root
-/             /index.html          200
+/                 /index.html                 200
 
-# Blog index (all slugs served by blog.index.html)
-/blog/*       /blog.index.html     200
+# Blog index
+/blog             /blog.index.html            200
+/blog/            /blog.index.html            200
+/blog/index.html  /blog.index.html            200
 
-# Blog feed (JSON must be served raw)
-/blogs.json   /blogs.json          200
+# Blog detail
+/blog/*           /blog.slug.index.html       200
 
-# Static assets (images, CSS, JS, etc.)
-/images/*     /images/:splat       200
-/*.css        /:splat              200
-/*.js         /:splat              200
-/*.png        /:splat              200
-/*.jpg        /:splat              200
-/*.svg        /:splat              200
+# Blog feed
+/blogs.json       /blogs.json                 200
+
+# Static assets
+/images/*         /images/:splat              200
+/*.css            /:splat                     200
+/*.js             /:splat                     200
+/*.png            /:splat                     200
+/*.jpg            /:splat                     200
+/*.svg            /:splat                     200
