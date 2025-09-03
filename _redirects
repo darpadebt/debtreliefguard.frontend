@@ -1,11 +1,10 @@
 /                 /index.html                 200
 
-# Blog list (both /blog and /blog/)
-# (These must come before the slug rules)
+# Blog list (must come before slug rules)
 /blog             /blog.index.html            200
 /blog/            /blog.index.html            200
 
-# Blog post slugs (rewrite both with and without .html to the slug template)
+# Blog post slugs — always rewrite to the slug template file (no redirect)
 /blog/*.html      /blog.slug.index.html       200
 /blog/*           /blog.slug.index.html       200
 
