@@ -22,7 +22,7 @@
   <meta property="og:title" content="{{title}} | DebtReliefGuard Blog" />
   <meta property="og:description" content="{{excerpt}}" />
   <meta property="og:site_name" content="DebtReliefGuard.com" />
-  <meta property="og:image" content="{{image}}" />
+  <meta property="og:image" content="{{image}}"/>
   <meta name="twitter:card" content="summary_large_image" />
   <meta name="twitter:title" content="{{title}} | DebtReliefGuard Blog" />
   <meta name="twitter:description" content="{{excerpt}}" />
@@ -387,25 +387,66 @@
   </script>
   <!-- === END: Worker Bridges ============================================== -->
 
-  <!-- === FINAL loader: supports dated/undated + content_url (with fallbacks) = -->
+  <!-- === FINAL loader: **BARE MODE** capable (no blogs.json required) ======= -->
   <script>
   (async () => {
-    try {
-      const last = location.pathname.split('/').filter(Boolean).pop() || '';
-      const rawSlug = last.endsWith('.html') ? last.slice(0, -5) : last;
-      const normalizedSlug = rawSlug.replace(/^\d{4}-\d{2}-\d{2}-/, '');
+    // ---------- helpers ----------
+    const sel = (s)=>document.querySelector(s);
+    const setAttr = (q, a, v)=>{ const el=sel(q); if(el && v) el.setAttribute(a, v); };
+    const extractArticle = (html) => {
+      const m = html.match(/<article[\s\S]*<\/article>/i);
+      if (m) return m[0];
+      const b = html.match(/<body[^>]*>([\s\S]*)<\/body>/i);
+      return b ? `<article>${b[1]}</article>` : `<article>${html}</article>`;
+    };
+    const deriveTitleFrom = (html, fallback) => {
+      const h1 = html.match(/<h1[^>]*>([^<]+)<\/h1>/i);
+      if (h1 && h1[1]) return h1[1].trim();
+      return (fallback||'')
+        .replace(/[-_]+/g,' ')
+        .replace(/\b\w/g, c => c.toUpperCase()) || 'Article';
+    };
 
-      const res = await fetch('/blogs.json', { cache: 'no-store' });
-      if (!res.ok) throw new Error('blogs.json ' + res.status);
+    const injectBody = (html) => {
+      const host = document.createElement('div');
+      host.id = 'postBody';
+      const bodyContainer = sel('.content');
+      const cta = bodyContainer?.querySelector('.cta');
+      if (cta && cta.parentNode) cta.parentNode.insertBefore(host, cta);
+      else bodyContainer?.prepend(host);
+      host.innerHTML = html.replace(/\{\{[^}]+\}\}/g,'');
+    };
+
+    const setCoreMeta = ({title, excerpt, image, canonicalHref}) => {
+      document.title = `${title} | DebtReliefGuard Blog`;
+      setAttr('meta[name="description"]','content', excerpt);
+      setAttr('link[rel="canonical"]','href', canonicalHref);
+      setAttr('meta[property="og:url"]','content', canonicalHref);
+      setAttr('meta[property="og:title"]','content', `${title} | DebtReliefGuard Blog`);
+      setAttr('meta[property="og:description"]','content', excerpt);
+      setAttr('meta[property="og:image"]','content', image);
+      setAttr('meta[name="twitter:title"]','content', `${title} | DebtReliefGuard Blog`);
+      setAttr('meta[name="twitter:description"]','content', excerpt);
+      setAttr('meta[name="twitter:image"]','content', image);
+    };
+
+    const last = location.pathname.split('/').filter(Boolean).pop() || '';
+    const rawSlug = last.endsWith('.html') ? last.slice(0,-5) : last;
+    const normalizedSlug = rawSlug.replace(/^\d{4}-\d{2}-\d{2}-/, '');
+    const canonicalUndated = `/blog/${normalizedSlug}.html`;
+
+    // ---------- PLAN A: blogs.json (normal flow) ----------
+    let usedBareMode = false;
+    try {
+      const res = await fetch('/blogs.json?ts=' + Date.now(), { cache: 'no-store', headers:{'Accept':'application/json'} });
+      if (!res.ok) throw new Error('blogs.json '+res.status);
       const posts = await res.json();
 
-      const matchBySuffix = (val, target) =>
-        typeof val === 'string' && (val.endsWith('/' + target) || val.endsWith('/' + target + '.html'));
-
+      const matchBySuffix = (val, target) => typeof val === 'string' && (val.endsWith('/'+target) || val.endsWith('/'+target+'.html'));
       const post = Array.isArray(posts) ? posts.find(p => {
-        const ps = String(p.slug || '').trim();
-        const pu = String(p.url || '').trim();
-        const pc = String(p.content_url || '').trim();
+        const ps = String(p.slug||'').trim();
+        const pu = String(p.url||'').trim();
+        const pc = String(p.content_url||'').trim();
         return (
           ps === normalizedSlug ||
           matchBySuffix(pu, rawSlug) || matchBySuffix(pu, normalizedSlug) ||
@@ -413,110 +454,82 @@
         );
       }) : null;
 
-      if (!post) {
-        const container = document.querySelector('.container');
-        if (container) container.innerHTML = '<p>Post not found.</p>';
-        document.title = 'Post not found | DebtReliefGuard Blog';
-        console.warn('Slug loader: no post matched', { rawSlug, normalizedSlug });
-        return;
-      }
+      if (!post) throw new Error('post not found in blogs.json');
 
-      // --- Fill meta/hero ---
-      const title      = post.title || 'Untitled';
-      const excerpt    = String(post.excerpt || '');
-      const dateIso    = post.published_at || post.date || '';
-      const dateText   = dateIso ? new Date(dateIso).toLocaleDateString(undefined, {year:'numeric',month:'short',day:'numeric'}) : '';
-      const image      = post.thumbnail || `/images/${normalizedSlug}.png`;
+      // Fill meta/hero
+      const title   = post.title || deriveTitleFrom(post.slug||normalizedSlug);
+      const excerpt = String(post.excerpt||'').trim();
+      const dateIso = post.published_at || post.date || '';
+      const dateTxt = dateIso ? new Date(dateIso).toLocaleDateString(undefined,{year:'numeric',month:'short',day:'numeric'}) : '';
+      const image   = post.thumbnail || `/images/${normalizedSlug}.png`;
       const authorName = post.author || 'DebtReliefGuard';
       const authorLink = post.authorLink || 'https://debtreliefguard.com';
-      const tags       = Array.isArray(post.tags) ? post.tags.join(', ') : (post.tags || '');
 
-      const hasUndatedUrl = typeof post.url === 'string' && /\/blog\/[^/]+\.html$/.test(post.url);
-      const canonicalPath = hasUndatedUrl
-        ? post.url
-        : (post.content_url && /\/blog\/.+\.html$/.test(post.content_url) ? post.content_url : `/blog/${normalizedSlug}.html`);
+      const hasUndatedUrl = typeof post.url === 'string' && /\/blog\/[^/]+\.html$/i.test(post.url);
+      const canonicalPath = hasUndatedUrl ? post.url : (post.content_url && /\/blog\/.+\.html$/i.test(post.content_url) ? post.content_url : canonicalUndated);
       const canonicalHref = location.origin + canonicalPath.replace(/^https?:\/\/[^/]+/, '');
 
-      const img = document.querySelector('img.feature');
-      if (img) { img.src = image; img.alt = title; }
-      const h1 = document.querySelector('h1#ab-cta-text');
-      if (h1) h1.textContent = title;
-
-      const metaDiv = document.querySelector('.meta');
+      const img = sel('img.feature'); if (img){ img.src=image; img.alt=title; }
+      const h1  = sel('h1#ab-cta-text'); if (h1) h1.textContent = title;
+      const metaDiv = sel('.meta');
       if (metaDiv) {
-        metaDiv.innerHTML = `
-          Published on <time itemprop="datePublished" datetime="${dateIso}">${dateText || (dateIso || '')}</time> by
+        metaDiv.innerHTML = `Published on <time itemprop="datePublished" datetime="${dateIso}">${dateTxt || (dateIso||'')}</time> by
           <a href="${authorLink}" target="_blank" rel="noopener" itemprop="author">${authorName}</a>
-          ${tags ? `&nbsp;|&nbsp; Tagged: ${tags}` : ''}
-        `;
+          ${Array.isArray(post.tags)&&post.tags.length ? ` &nbsp;|&nbsp; Tagged: ${post.tags.join(', ')}` : ''}`;
       }
 
-      const setAttr = (sel, attr, val) => { const el = document.querySelector(sel); if (el && val) el.setAttribute(attr, val); };
-      document.title = `${title} | DebtReliefGuard Blog`;
-      setAttr('meta[name="description"]', 'content', excerpt);
-      setAttr('link[rel="canonical"]', 'href', canonicalHref);
-      setAttr('meta[property="og:url"]', 'content', canonicalHref);
-      setAttr('meta[property="og:title"]', 'content', `${title} | DebtReliefGuard Blog`);
-      setAttr('meta[property="og:description"]', 'content', excerpt);
-      setAttr('meta[property="og:image"]', 'content', image);
-      setAttr('meta[name="twitter:title"]', 'content', `${title} | DebtReliefGuard Blog`);
-      setAttr('meta[name="twitter:description"]', 'content', excerpt);
-      setAttr('meta[name="twitter:image"]', 'content', image);
+      setCoreMeta({ title, excerpt, image, canonicalHref });
 
-      // --- Inject body with robust fallbacks ---
-      const bodyContainer = document.querySelector('.content');
-      if (!bodyContainer) return;
-
-      const host = document.createElement('div'); host.id = 'postBody';
-      const cta  = bodyContainer.querySelector('.cta');
-      (cta && cta.parentNode ? cta.parentNode.insertBefore(host, cta) : bodyContainer.prepend(host));
-
-      async function fetchHtml(path){
-        const r = await fetch(path, { cache: 'no-store' });
-        if (!r.ok) throw new Error('fetch ' + path + ' -> ' + r.status);
-        return await r.text();
-      }
-
-      function extractArticle(html){
-        const article = html.match(/<article[\s\S]*<\/article>/i);
-        if (article) return article[0];
-        const body = html.match(/<body[^>]*>([\s\S]*)<\/body>/i);
-        return body ? `<article>${body[1]}</article>` : `<article>${html}</article>`;
-      }
-
+      // Fetch body via content_url with fallbacks
       let injected = '';
+      const fetchHtml = async (path)=>{ const r=await fetch(path,{cache:'no-store'}); if(!r.ok) throw new Error('fetch '+path+' -> '+r.status); return await r.text(); };
+
       try {
-        if (post.content_url) {
-          injected = extractArticle(await fetchHtml(post.content_url));
-        } else {
-          throw new Error('no content_url');
-        }
-      } catch (e1) {
-        console.warn('Slug loader: primary content_url failed', { content_url: post.content_url, error: ''+e1 });
-        // Fallback 1: undated normalized
-        try {
-          injected = extractArticle(await fetchHtml(`/blog/${normalizedSlug}.html`));
-        } catch (e2) {
-          console.warn('Slug loader: normalized fallback failed', { normalizedSlug, error: ''+e2 });
-          // Fallback 2: raw slug path
-          try {
-            injected = extractArticle(await fetchHtml(`/blog/${rawSlug}.html`));
-          } catch (e3) {
-            console.warn('Slug loader: raw fallback failed', { rawSlug, error: ''+e3 });
-            injected = '';
-          }
+        if (post.content_url) injected = extractArticle(await fetchHtml(post.content_url));
+        else throw new Error('no content_url');
+      } catch {
+        try { injected = extractArticle(await fetchHtml(`/blog/${normalizedSlug}.html`)); }
+        catch {
+          try { injected = extractArticle(await fetchHtml(`/blog/${rawSlug}.html`)); }
+          catch { injected=''; }
         }
       }
 
-      if (injected) {
-        injected = injected.replace(/\{\{[^}]+\}\}/g, '');
-        host.innerHTML = injected;
-      } else {
-        host.innerHTML = `<p>Sorry — this article’s full content isn’t available yet. Please check back soon.</p>`;
-      }
+      if (injected) injectBody(injected);
+      else throw new Error('body injection failed');
     } catch (e) {
-      console.error('Post load error:', e);
+      // ---------- PLAN B: Bare Mode (no blogs.json needed) ----------
+      usedBareMode = true;
+      try {
+        const tryPaths = [`/blog/${rawSlug}.html`, `/blog/${normalizedSlug}.html`];
+        let html = '';
+        for (const p of tryPaths) {
+          try {
+            const r = await fetch(p, { cache: 'no-store' });
+            if (r.ok) { html = await r.text(); break; }
+          } catch {}
+        }
+        if (!html) throw new Error('no article file found');
+
+        const article = extractArticle(html);
+        injectBody(article);
+
+        // derive title/meta
+        const title = deriveTitleFrom(html, normalizedSlug);
+        const image = `/images/${normalizedSlug}.png`;
+        const h1 = sel('#ab-cta-text'); if (h1) h1.textContent = title;
+        setCoreMeta({ title, excerpt: '', image, canonicalHref: location.origin + (canonicalUndated) });
+
+        const metaDiv = sel('.meta'); if (metaDiv) metaDiv.innerHTML = '';
+      } catch (e2) {
+        const container = sel('.container');
+        if (container) container.innerHTML = '<p>Post not found.</p>';
+        document.title = 'Post not found | DebtReliefGuard Blog';
+        console.warn('Slug bare-mode failed:', e2);
+      }
     }
+
+    console.log('[slug] mode =', usedBareMode ? 'BARE (no blogs.json)' : 'NORMAL (blogs.json)');
   })();
   </script>
 
