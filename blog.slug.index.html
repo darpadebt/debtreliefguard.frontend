@@ -316,9 +316,9 @@
       const addMsg = (text, who='bot') => {
         const div = document.createElement('div'); div.className = `gfsr-msg ${who}`;
         div.style.maxWidth='88%'; div.style.padding='10px 12px'; div.style.borderRadius='14px'; div.style.fontSize='14px'; div.style.lineHeight='1.35';
-        if (who==='user'){ div.style.marginLeft='auto'; div.style.background='#0b63f6'; div.style.color='#fff'; div.style.borderTopRightRadius='4px'; }
-        else if (who==='bot'){ div.style.background='#eef2ff'; div.style.color='#111'; div.style.borderTopLeftRadius='4px'; }
-        else { div.style.background='#f3f4f6'; div.style.color:'#444'; div.style.fontSize:'12px'; div.style.margin:'4px auto'; }
+        if (who==='user'){ div.style.marginLeft='auto'; div.style.background:'#0b63f6'; div.style.color:'#fff'; div.style.borderTopRightRadius='4px'; }
+        else if (who==='bot'){ div.style.background:'#eef2ff'; div.style.color:'#111'; div.style.borderTopLeftRadius='4px'; }
+        else { div.style.background:'#f3f4f6'; div.style.color:'#444'; div.style.fontSize:'12px'; div.style.margin:'4px auto'; }
         div.textContent = (text??'').toString(); el.body.appendChild(div); el.body.scrollTop = el.body.scrollHeight;
       };
 
@@ -481,7 +481,7 @@
             const html = await r.text();
             const match = html.match(/<article[\s\S]*<\/article>/i);
             let injected = match ? match[0] : `<article>${html}</article>`;
-            injected = injected.replace(/\{\{[^}]+\}\}/g, ''); // strip any {{...}} tokens
+            injected = injected.replace(/\{\{[^}]+\}\}/g, ''); /* strip any {{...}} tokens */
             host.innerHTML = injected;
           } else {
             host.innerHTML = `<p>Sorry — this article is temporarily unavailable.</p>`;
