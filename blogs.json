@@ -8,7 +8,7 @@
     "url": "/blog/navigating-the-path-to-debt-relief-your-guide-to-debt-consolidation-and-settlement.html",
     "content_url": "/blog/2025-08-06-navigating-the-path-to-debt-relief-your-guide-to-debt-consolidation-and-settlement.html",
     "tags": ["debt relief", "consolidation", "settlement"],
-    "thumbnail": "/images/guide-thumb.png"
+    "thumbnail": "/images/guide-thumb.png"  // make sure this exact file exists
   },
   {
     "slug": "finding-your-path-to-debt-relief-a-guide-to-debt-consolidation-and-settlement",
