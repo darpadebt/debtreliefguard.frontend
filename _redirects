@@ -2,7 +2,6 @@
 /                 /index.html                  200
 
 # --- Dated article files (serve static; must be ABOVE slug rules) ---
-# Matches /blog/YYYY-MM-DD-<rest>.html and no-extension form
 /blog/:year-:month-:day-:rest.html   /blog/:year-:month-:day-:rest.html   200
 /blog/:year-:month-:day-:rest        /blog/:year-:month-:day-:rest.html   200
 
@@ -10,9 +9,9 @@
 /blog             /blog.index.html             200
 /blog/            /blog.index.html             200
 
-# Blog post slugs (with and without .html) -> slug template
-/blog/:slug.html  /blogs.slug.index.html       200
-/blog/:slug       /blogs.slug.index.html       200
+# Blog post slugs (with and without .html) -> slug template (SINGULAR!)
+/blog/:slug.html  /blog.slug.index.html        200
+/blog/:slug       /blog.slug.index.html        200
 
 # Blog feed JSON (served as-is)
 /blogs.json       /blogs.json                  200
@@ -22,7 +21,7 @@
 /robots.txt       /robots.txt                  200
 /sitemap.xml      /sitemap.xml                 200
 
-# Static assets passthrough (images + static bundles)
+# Static assets passthrough
 /images/*         /images/:splat               200
 /*.css            /:splat                      200
 /*.js             /:splat                      200
