@@ -2,16 +2,21 @@
 /                 /index.html                 200
 
 # Blog list (both /blog and /blog/)
+# (These must come before the slug rules)
 /blog             /blog.index.html            200
 /blog/            /blog.index.html            200
 
 # Blog post slugs (match *.html first, then everything else)
-# This ensures /blog/<slug>.html and /blog/<slug> both render the slug template
 /blog/*.html      /blog.slug.index.html       200
 /blog/*           /blog.slug.index.html       200
 
 # Blog feed JSON (served as-is)
 /blogs.json       /blogs.json                 200
+
+# Standard assets
+/favicon.ico      /favicon.ico                200
+/robots.txt       /robots.txt                 200
+/sitemap.xml      /sitemap.xml                200
 
 # Static assets passthrough
 /images/*         /images/:splat              200
