@@ -79,7 +79,7 @@
     .sticky-nav a:hover,.sticky-nav a:focus{text-decoration:underline;outline:none}
 
     /* Hero */
-    header.hero{max-width:960px;margin:0 auto;text-align:center;background:var(--brand);color:#fff;padding:1.5rem 1rem;border-radius:12px;box-shadow:0 6px 18px rgba(0,0,0,.08)}
+    header.hero{max-width:960px;margin:0 auto;text-align:center;background:var(--brand);color:#fff;padding:1.5rem 1rem;border-radius:12px;box-shadow:var(--shadow)}
     header.hero h1{margin:.2rem 0 .4rem;font-size:clamp(1.6rem,3vw + 1rem,2.3rem);font-weight:800}
     header.hero .sub{margin:0 0 .8rem;opacity:.95}
     .hero-ctas{display:flex;justify-content:center;gap:.6rem;flex-wrap:wrap}
@@ -248,39 +248,6 @@
       </ul>
       <div id="postError" hidden style="color:#b91c1c; margin-top:.5rem">Couldn’t load the latest posts right now.</div>
     </section>
-
-    <script>
-    (function(){
-      const UL   = document.getElementById('postList');
-      const ERR  = document.getElementById('postError');
-
-      // Try to replace the fallback list with items from /blogs.json
-      fetch('/blogs.json', { cache: 'no-store', headers: { 'Accept': 'application/json' }})
-        .then(r => { if (!r.ok) throw 0; return r.json(); })
-        .then(items => {
-          if (!Array.isArray(items) || !items.length) return; // keep fallback
-          // Replace fallback
-          UL.innerHTML = '';
-          items.forEach(p => {
-            const li = document.createElement('li');
-            li.className = 'post-link';
-            li.style.margin = '0';
-            li.innerHTML = `
-              <a href="${p.url || (p.slug ? '/blog/' + p.slug + '.html' : '#')}"
-                 style="font-weight:700; text-decoration:none">${p.title || 'Untitled'}</a>
-              <div style="color:#64748b; font-size:.9rem">
-                ${p.published_at ? new Date(p.published_at).toLocaleDateString() : ''}
-              </div>
-              ${p.excerpt ? `<p style="margin:.2rem 0 0; color:#475569">${p.excerpt}</p>` : ''}
-            `;
-            UL.appendChild(li);
-          });
-        })
-        .catch(() => { /* keep fallback, optionally show a small message */
-          if (ERR) ERR.hidden = false;
-        });
-    })();
-    </script>
     <!-- END: Blog links -->
 
     <!-- Your existing grid (kept intact) -->
@@ -361,49 +328,6 @@
         else { fetch('/ingest',{ method:'POST', body:blob, keepalive:true, headers:{'Content-Type':'application/json'} }).catch(()=>{}); }
       }catch(_){}
     })();
-  </script>
-
-  <!-- ===== Blog feed & Worker integration ===== -->
-  <script>
-(async () => {
-  const LIST  = document.getElementById('blogList') || document.getElementById('blogGrid');
-  const EMPTY = document.getElementById('empty') || document.getElementById('blogFallback');
-
-  function render(posts){
-    const grid = LIST; grid.innerHTML='';
-    const fmt = d => { try { return new Date(d).toLocaleDateString(undefined,{year:'numeric',month:'short',day:'numeric'}); } catch { return d||''; } };
-    if (!Array.isArray(posts) || !posts.length) { if (EMPTY) EMPTY.hidden ? EMPTY.hidden=false : EMPTY.style.display='block'; return; }
-
-    posts.forEach(p=>{
-      const title = p.title || 'Untitled';
-      const href  = (p.url && typeof p.url==='string') ? p.url : (p.slug ? `/blog/${p.slug}.html` : '#');
-      const dateIso = p.published_at || p.date || '';
-      const dateTxt = dateIso ? fmt(dateIso) : '';
-      const excerpt = p.excerpt || '';
-      const thumb   = p.thumbnail || (p.slug ? `/images/${p.slug}.png` : '');
-
-      const a = document.createElement('article');
-      a.className = 'entry post';
-      a.innerHTML = `
-        ${thumb ? `<img src="${thumb}" alt="${title.replace(/"/g,'&quot;')}" loading="lazy" style="width:100%;max-height:220px;object-fit:cover;border-radius:10px">` : ''}
-        <h2><a href="${href}" style="text-decoration:none;color:inherit">${title}</a></h2>
-        ${dateTxt ? `<p class="meta"><em>${dateTxt}</em></p>` : ''}
-        <p>${excerpt}</p>
-        ${href && href !== '#' ? `<a class="cta-primary" href="${href}" rel="noopener">Read article</a>` : ''}
-      `;
-      grid.appendChild(a);
-    });
-  }
-
-  try {
-    const r = await fetch('/blogs.json', { headers:{'Accept':'application/json'}, cache:'no-store' });
-    if (!r.ok) throw 0;
-    const posts = await r.json();
-    render(posts);
-  } catch {
-    if (EMPTY) EMPTY.hidden ? EMPTY.hidden=false : EMPTY.style.display='block';
-  }
-})();
   </script>
 
   <!-- 016 Chat Markup -->
@@ -571,6 +495,90 @@
   </script>
 
   <!-- === END: Worker Bridges ============================================== -->
+
+  <!-- === SINGLE CONSOLIDATED BLOG RENDERER (replaces prior two scripts) === -->
+  <script>
+  (async () => {
+    const UL     = document.getElementById('postList');          // simple list (optional)
+    const ERR    = document.getElementById('postError');         // small error line (optional)
+    const GRID   = document.getElementById('blogList');          // card grid (optional)
+    const EMPTY  = document.getElementById('empty') || document.getElementById('blogFallback'); // fallback note
+
+    const fmt = (d) => {
+      try { return new Date(d).toLocaleDateString(undefined, { year:'numeric', month:'short', day:'numeric' }); }
+      catch { return d || ''; }
+    };
+
+    function hrefFor(p){
+      if (p && typeof p.url === 'string' && p.url.trim()) return p.url;
+      if (p && typeof p.slug === 'string' && p.slug.trim()) return `/blog/${p.slug}.html`;
+      return '#';
+    }
+
+    function renderList(posts){
+      if (!UL) return;
+      if (!Array.isArray(posts) || posts.length === 0) return; // keep fallback item
+      UL.innerHTML = '';
+      posts.forEach(p => {
+        const li = document.createElement('li');
+        li.className = 'post-link';
+        li.style.margin = '0';
+        const title = p.title || 'Untitled';
+        const date  = p.published_at || p.date || '';
+        const dateTxt = date ? fmt(date) : '';
+        const link = hrefFor(p);
+        li.innerHTML = `
+          <a href="${link}" style="font-weight:700; text-decoration:none">${title}</a>
+          ${dateTxt ? `<div style="color:#64748b; font-size:.9rem">${dateTxt}</div>` : ''}
+          ${p.excerpt ? `<p style="margin:.2rem 0 0; color:#475569">${p.excerpt}</p>` : ''}
+        `;
+        UL.appendChild(li);
+      });
+    }
+
+    function renderGrid(posts){
+      if (!GRID) return;
+      GRID.innerHTML = '';
+      if (!Array.isArray(posts) || posts.length === 0) {
+        if (EMPTY) EMPTY.hidden ? EMPTY.hidden = false : EMPTY.style.display = 'block';
+        return;
+      }
+      if (EMPTY) EMPTY.hidden = true;
+
+      posts.forEach(p => {
+        const title = p.title || 'Untitled';
+        const link  = hrefFor(p);
+        const date  = p.published_at || p.date || '';
+        const dateTxt = date ? fmt(date) : '';
+        const thumb = (p.thumbnail && String(p.thumbnail).trim()) || (p.slug ? `/images/${p.slug}.png` : '');
+        const excerpt = p.excerpt || '';
+
+        const card = document.createElement('article');
+        card.className = 'entry post';
+        card.innerHTML = `
+          ${thumb ? `<img src="${thumb}" alt="${title.replace(/"/g,'&quot;')}" loading="lazy" style="width:100%;max-height:220px;object-fit:cover;border-radius:10px">` : ''}
+          <h2><a href="${link}" style="text-decoration:none;color:inherit">${title}</a></h2>
+          ${dateTxt ? `<p class="meta"><em>${dateTxt}</em></p>` : ''}
+          <p>${excerpt}</p>
+          ${link !== '#' ? `<a class="cta-primary" href="${link}" rel="noopener">Read article</a>` : ''}
+        `;
+        GRID.appendChild(card);
+      });
+    }
+
+    try {
+      const r = await fetch('/blogs.json', { headers: { 'Accept':'application/json' }, cache: 'no-store' });
+      if (!r.ok) throw new Error('blogs.json ' + r.status);
+      const posts = await r.json();
+      renderList(posts);
+      renderGrid(posts);
+    } catch (e) {
+      if (ERR) ERR.hidden = false;
+      if (EMPTY) EMPTY.hidden ? EMPTY.hidden = false : EMPTY.style.display = 'block';
+    }
+  })();
+  </script>
+  <!-- === END SINGLE CONSOLIDATED BLOG RENDERER === -->
 
   <noscript><p style="text-align:center;color:#666">Enable JavaScript to view dynamic posts and chat.</p></noscript>
 </body>
