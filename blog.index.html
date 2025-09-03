@@ -112,6 +112,12 @@
     .sticky-menu nav::-webkit-scrollbar{display:none}
     .sticky-menu nav a{color:#ffdd00;text-decoration:none;padding:.35rem .55rem;border-radius:6px;font-weight:700;font-size:.92rem;flex:0 0 auto}
     .sticky-menu nav a:hover,.sticky-menu nav a:focus{background:rgba(255,255,255,.1);outline:none}
+    @media (max-width:768px){
+  body, main {
+    padding-bottom: calc(var(--callbar-h) + var(--sitemap-h) + env(safe-area-inset-bottom) + 14px);
+  }
+}
+
   </style>
 
   <!-- =========================
