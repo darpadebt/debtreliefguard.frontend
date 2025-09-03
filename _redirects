@@ -1,13 +1,13 @@
 /                 /index.html                 200
 
 # Blog list (both /blog and /blog/)
-# These must come before the slug rules
+# (These must come before the slug rules)
 /blog             /blog.index.html            200
 /blog/            /blog.index.html            200
 
-# Blog post slugs (match *.html first, then without extension)
-/blog/*.html      /blog.slug.index.html       200
-/blog/*           /blog.slug.index.html       200
+# Blog post slugs (rewrite both with and without .html to the slug template *without* extension)
+/blog/*.html      /blog.slug.index            200
+/blog/*           /blog.slug.index            200
 
 # Blog feed JSON (served as-is)
 /blogs.json       /blogs.json                 200
@@ -24,4 +24,3 @@
 /*.png            /:splat                     200
 /*.jpg            /:splat                     200
 /*.svg            /:splat                     200
-
