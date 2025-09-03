@@ -1,12 +1,11 @@
-# Home
 /                 /index.html                 200
 
 # Blog list (both /blog and /blog/)
-# (These must come before the slug rules)
+# These must come before the slug rules
 /blog             /blog.index.html            200
 /blog/            /blog.index.html            200
 
-# Blog post slugs (match *.html first, then everything else)
+# Blog post slugs (match *.html first, then without extension)
 /blog/*.html      /blog.slug.index.html       200
 /blog/*           /blog.slug.index.html       200
 
@@ -25,4 +24,3 @@
 /*.png            /:splat                     200
 /*.jpg            /:splat                     200
 /*.svg            /:splat                     200
-
