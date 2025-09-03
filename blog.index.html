@@ -112,12 +112,14 @@
     .sticky-menu nav::-webkit-scrollbar{display:none}
     .sticky-menu nav a{color:#ffdd00;text-decoration:none;padding:.35rem .55rem;border-radius:6px;font-weight:700;font-size:.92rem;flex:0 0 auto}
     .sticky-menu nav a:hover,.sticky-menu nav a:focus{background:rgba(255,255,255,.1);outline:none}
-    @media (max-width:768px){
-  body, main {
-    padding-bottom: calc(var(--callbar-h) + var(--sitemap-h) + env(safe-area-inset-bottom) + 14px);
-  }
-}
 
+    /* ===== Mobile safe-areas: keep cards above footer & clear sticky header ===== */
+    @media (max-width:768px){
+      body, main {
+        padding-bottom: calc(var(--callbar-h) + var(--sitemap-h) + env(safe-area-inset-bottom) + 14px);
+      }
+      .wrap { padding-top: 8px; } /* keep first card clear of sticky top nav */
+    }
   </style>
 
   <!-- =========================
@@ -337,9 +339,9 @@
       const addMsg = (text, who='bot') => {
         const div = document.createElement('div'); div.className = `gfsr-msg ${who}`;
         div.style.maxWidth='88%'; div.style.padding='10px 12px'; div.style.borderRadius='14px'; div.style.fontSize='14px'; div.style.lineHeight='1.35';
-        if (who==='user'){ div.style.marginLeft='auto'; div.style.background='#0b63f6'; div.style.color='#fff'; div.style.borderTopRightRadius='4px'; }
-        else if (who==='bot'){ div.style.background='#eef2ff'; div.style.color='#111'; div.style.borderTopLeftRadius='4px'; }
-        else { div.style.background='#f3f4f6'; div.style.color:'#444'; div.style.fontSize:'12px'; div.style.margin:'4px auto'; }
+        if (who==='user'){ div.style.marginLeft='auto'; div.style.background:'#0b63f6'; div.style.color:'#fff'; div.style.borderTopRightRadius='4px'; }
+        else if (who==='bot'){ div.style.background:'#eef2ff'; div.style.color:'#111'; div.style.borderTopLeftRadius='4px'; }
+        else { div.style.background:'#f3f4f6'; div.style.color:'#444'; div.style.fontSize:'12px'; div.style.margin:'4px auto'; }
         div.textContent = (text??'').toString(); el.body.appendChild(div); el.body.scrollTop = el.body.scrollHeight;
       };
 
