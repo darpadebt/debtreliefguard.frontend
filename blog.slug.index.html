@@ -157,6 +157,7 @@
     "publisher":{"@type":"Organization","name":"DebtReliefGuard.com","logo":{"@type":"ImageObject","url":"https://debtreliefguard.com/logo.png"}}
   }
   </script>
+
   <!-- Unified Organization/FinancialService (shared @id; disambiguation) -->
   <script type="application/ld+json">
   {
@@ -192,7 +193,7 @@
   <nav class="sticky-nav" role="navigation" aria-label="Main navigation">
     <ul>
       <li><a href="/" title="Home">Home</a></li>
-      <li><a href="/compare.us.html" title="Compare Options">Compare</a></li>
+      <li><a href="/compare.us.html" title="Compare Options">Compare Options</a></li>
       <li><a href="/how.it.works.index.html" title="How It Works">How It Works</a></li>
       <li><a href="/debt.relief.option.index.html" title="Debt Relief Options">Debt Relief Options</a></li>
       <li><a href="/credit.card.relief.index.html" title="Credit Card Relief">Credit Card Relief</a></li>
@@ -403,47 +404,6 @@
   </script>
 
   <!-- === BEGIN: Worker Bridges (added) ===================================== -->
-
-  <!-- 050: Savings message loader (updates #ab-cta-text if API is present) -->
-  <script>
-    (function(){
-      const el = document.querySelector('#ab-cta-text'); if(!el) return;
-      const FALLBACK = el.textContent || '';
-      const CACHE_KEY = 'drg:savings:v1'; const MAX_AGE_MS = 10*60*1000;
-
-      try{
-        const raw = localStorage.getItem(CACHE_KEY);
-        if(raw){
-          const { ts, message } = JSON.parse(raw);
-          if(ts && (Date.now()-ts) < MAX_AGE_MS && message) el.textContent = (message ?? '').toString();
-        }
-      }catch{}
-
-      (async ()=>{
-        const sleep = (ms)=>new Promise(r=>setTimeout(r,ms));
-        const attempt = async (ms) => {
-          const ctrl=new AbortController(); const to=setTimeout(()=>ctrl.abort(), ms);
-          try{
-            const r = await fetch('/api/savings-message', { headers:{'Accept':'application/json','X-Requested-With':'XMLHttpRequest'}, cache:'no-store', credentials:'omit', signal:ctrl.signal });
-            clearTimeout(to);
-            if(!r.ok || !((r.headers.get('content-type')||'').includes('application/json'))) throw new Error();
-            const data = await r.json();
-            if(data && data.message){
-              el.textContent = (data.message ?? '').toString();
-              try{ localStorage.setItem(CACHE_KEY, JSON.stringify({ ts: Date.now(), message: data.message })); }catch{}
-              return true;
-            }
-          }catch{}
-          return false;
-        };
-        let ok = await attempt(3500);
-        if(!ok){ await sleep(180); ok = await attempt(4500); }
-        if(!ok) el.textContent = FALLBACK;
-      })();
-    })();
-  </script>
-
-  <!-- Page bridge for 015 / 016 / 057 (non-visual; no-ops unless called) -->
   <script>
     (function(){
       if (window.GFSR && window.GFSR.bridgeReady) return;
@@ -452,10 +412,8 @@
         bridgeReady: true,
         page: document.querySelector('meta[name="x-ai-optimizer-page"]')?.content || null,
         slots: (window.__ab && window.__ab.slots) ? window.__ab.slots : {},
-        // 050/015: controlled content setters
         setHeadline(txt){ const h = $('#ab-cta-text'); if(h && typeof txt==='string') h.textContent = txt; },
         setPrimaryCta({text, href}={}){ const a=$('.hero-ctas .btn.btn-primary'); if(a){ if(typeof text==='string') a.textContent=text; if(typeof href==='string') a.href=href; } },
-        // 057: log helper
         log(name, data={}){
           try{
             const b=new Blob([JSON.stringify({ name, ts:Date.now(), url:location.href, ...data })],{type:'application/json'});
@@ -463,14 +421,12 @@
             else fetch('/ingest',{ method:'POST', body:b, keepalive:true, headers:{'Content-Type':'application/json'} }).catch(()=>{});
           }catch{}
         },
-        // 016: programmatic chat send
         chatSend(text){
           const input=document.getElementById('gfsrChatInput');
           const form =document.getElementById('gfsrChatForm');
           if(input && form){ input.value = text || ''; form.requestSubmit(); }
         }
       };
-      // 015: optional client API (safe if server exposes /ab/*)
       api.w015 = {
         decide: (experimentKey, context={}) =>
           fetch('/ab/decide', { method:'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify({ experimentKey, context }) }).then(r=>r.json()),
@@ -480,48 +436,47 @@
       window.GFSR = Object.assign(window.GFSR || {}, api);
     })();
   </script>
-
   <!-- === END: Worker Bridges ============================================== -->
 
-  <!-- Drop-in script to resolve slug, fetch /blogs.json, and fill placeholders -->
+  <!-- Drop-in script to resolve slug, fetch /blogs.json, and render the post body if content_url exists -->
   <script>
   (async () => {
     try {
-      // 1) Resolve slug from /blog/<slug>.html
-      const path = location.pathname;
-      const last = path.split('/').filter(Boolean).pop() || '';
+      // 1) Resolve slug from /blog/<slug> or /blog/<slug>.html
+      const last = location.pathname.split('/').filter(Boolean).pop() || '';
       const slug = last.endsWith('.html') ? last.slice(0, -5) : last;
 
-      // 2) Load blogs.json
+      // 2) Load blogs.json and find matching post
       const res = await fetch('/blogs.json', { cache: 'no-store' });
       if (!res.ok) throw new Error('blogs.json ' + res.status);
       const posts = await res.json();
       const post = Array.isArray(posts)
-        ? posts.find(p => p.slug === slug || (p.url && (p.url.endsWith('/' + slug) || p.url.endsWith('/' + slug + '.html'))))
+        ? posts.find(p =>
+            p.slug === slug ||
+            (p.url && (p.url.endsWith('/' + slug) || p.url.endsWith('/' + slug + '.html')))
+          )
         : null;
 
       if (!post) {
-        // Minimal graceful fallback if not found
-        document.title = 'Post not found | DebtReliefGuard Blog';
         const container = document.querySelector('.container');
         if (container) container.innerHTML = '<p>Post not found.</p>';
+        document.title = 'Post not found | DebtReliefGuard Blog';
         return;
       }
 
       // 3) Resolve fields with safe fallbacks
-      const title = post.title || 'Untitled';
-      const excerpt = (post.excerpt || '').toString();
-      const dateIso = post.published_at || post.date || '';
-      const dateText = dateIso ? new Date(dateIso).toLocaleDateString() : '';
-      const image = post.thumbnail || `/images/${slug}.png`;
+      const title      = post.title || 'Untitled';
+      const excerpt    = String(post.excerpt || '');
+      const dateIso    = post.published_at || post.date || '';
+      const dateText   = dateIso ? new Date(dateIso).toLocaleDateString() : '';
+      const image      = post.thumbnail || `/images/${slug}.png`;
       const authorName = post.author || 'DebtReliefGuard';
       const authorLink = post.authorLink || 'https://debtreliefguard.com';
-      const tags = Array.isArray(post.tags) ? post.tags.join(', ') : (post.tags || '');
+      const tags       = Array.isArray(post.tags) ? post.tags.join(', ') : (post.tags || '');
 
-      // 4) Fill visible content
+      // 4) Fill visible content (title, image, meta line)
       const img = document.querySelector('img.feature');
       if (img) { img.src = image; img.alt = title; }
-
       const h1 = document.querySelector('h1#ab-cta-text');
       if (h1) h1.textContent = title;
 
@@ -542,12 +497,9 @@
 
       // 5) Update SEO meta tags (description + social)
       const setMeta = (sel, attr, val) => { const el = document.querySelector(sel); if (el && val) el.setAttribute(attr, val); };
-
+      const canonicalHref = location.origin + `/blog/${slug}.html`;
       document.title = `${title} | DebtReliefGuard Blog`;
       setMeta('meta[name="description"]', 'content', excerpt);
-
-      // canonical/og/twitter use the current URL
-      const canonicalHref = location.origin + `/blog/${slug}.html`;
       setMeta('link[rel="canonical"]', 'href', canonicalHref);
       setMeta('meta[property="og:url"]', 'content', canonicalHref);
       setMeta('meta[property="og:title"]', 'content', `${title} | DebtReliefGuard Blog`);
@@ -557,12 +509,10 @@
       setMeta('meta[name="twitter:description"]', 'content', excerpt);
       setMeta('meta[name="twitter:image"]', 'content', image);
 
-      // 6) Update JSON-LD blocks that used {{placeholders}}
-      const ldBlocks = document.querySelectorAll('script[type="application/ld+json"]');
-      ldBlocks.forEach(block => {
+      // 6) Update JSON-LD blocks (BlogPosting & Breadcrumbs)
+      document.querySelectorAll('script[type="application/ld+json"]').forEach(block => {
         try {
           const j = JSON.parse(block.textContent || '{}');
-
           if (j['@type'] === 'BlogPosting') {
             j.headline = title;
             j.description = excerpt;
@@ -574,10 +524,7 @@
               j.author.url = authorLink;
             }
             block.textContent = JSON.stringify(j);
-          }
-
-          // Update breadcrumb entry for the current post (position 3)
-          if (j['@type'] === 'BreadcrumbList' && Array.isArray(j.itemListElement) && j.itemListElement.length >= 3) {
+          } else if (j['@type'] === 'BreadcrumbList' && Array.isArray(j.itemListElement) && j.itemListElement.length >= 3) {
             const lastCrumb = j.itemListElement[2];
             if (lastCrumb && lastCrumb['@type'] === 'ListItem') {
               lastCrumb.name = title;
@@ -585,11 +532,32 @@
             }
             block.textContent = JSON.stringify(j);
           }
-        } catch { /* ignore parse errors on non-matching blocks */ }
+        } catch {}
       });
 
+      // 7) Render the article body from /blog/*.html if content_url is provided
+      const bodyContainer = document.querySelector('.content');
+      if (post.content_url && bodyContainer) {
+        const cta = bodyContainer.querySelector('.cta');
+        const host = document.createElement('div');
+        host.id = 'postBody';
+        if (cta && cta.parentNode) cta.parentNode.insertBefore(host, cta);
+        else bodyContainer.prepend(host);
+
+        try {
+          const r = await fetch(post.content_url, { cache: 'no-store' });
+          if (r.ok) {
+            const html = await r.text();
+            const match = html.match(/<article[\s\S]*<\/article>/i);
+            host.innerHTML = match ? match[0] : `<article>${html}</article>`;
+          } else {
+            host.innerHTML = `<p>Sorry — this article is temporarily unavailable.</p>`;
+          }
+        } catch {
+          host.innerHTML = `<p>Sorry — this article is temporarily unavailable.</p>`;
+        }
+      }
     } catch (e) {
-      // Soft-fail: keep template literals if fetch fails
       console.error('Post load error:', e);
     }
   })();
