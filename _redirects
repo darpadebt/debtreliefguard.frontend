@@ -1,6 +1,11 @@
 # Home
 /                 /index.html                  200
 
+# --- Dated article files (serve static; must be ABOVE slug rules) ---
+# Matches /blog/YYYY-MM-DD-<rest>.html and no-extension form
+/blog/:year-:month-:day-:rest.html   /blog/:year-:month-:day-:rest.html   200
+/blog/:year-:month-:day-:rest        /blog/:year-:month-:day-:rest.html   200
+
 # Blog list (must come before slug rules)
 /blog             /blog.index.html             200
 /blog/            /blog.index.html             200
