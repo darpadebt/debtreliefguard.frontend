@@ -69,16 +69,11 @@
       padding-bottom: calc(var(--sitemap-h) + 14px); /* clear floating sitemap */
     }
 
-    .skip-link{position:absolute;left:-999px;top:auto;width:1px;height:1px;overflow:hidden}
-    .skip-link:focus{position:fixed;left:12px;top:12px;padding:.5rem .75rem;background:#000;color:#fff;z-index:10000;border-radius:6px}
-
-    /* Sticky Top Nav */
     .sticky-nav{position:fixed;top:0;left:0;right:0;background:var(--brand-2);z-index:9999;box-shadow:0 2px 5px rgba(0,0,0,.08)}
     .sticky-nav ul{display:flex;gap:.75rem;margin:0;padding:.75rem 1rem;overflow-x:auto;white-space:nowrap;list-style:none}
     .sticky-nav a{color:#fff;font-weight:600;text-decoration:none;padding:.4rem .6rem;border-radius:6px}
     .sticky-nav a:hover,.sticky-nav a:focus{text-decoration:underline;outline:none}
 
-    /* Hero */
     header.hero{max-width:960px;margin:0 auto;text-align:center;background:var(--brand);color:#fff;padding:1.5rem 1rem;border-radius:12px;box-shadow:var(--shadow)}
     header.hero h1{margin:.2rem 0 .4rem;font-size:clamp(1.6rem,3vw + 1rem,2.3rem);font-weight:800}
     header.hero .sub{margin:0 0 .8rem;opacity:.95}
@@ -88,14 +83,15 @@
     .btn-outline{background:transparent;color:#fff;border:2px solid rgba(255,255,255,0.75)}
     .badge{display:inline-flex;gap:.35rem;align-items:center;justify-content:center;background:#0f172a;color:#e5e7eb;border:1px solid rgba(255,255,255,.18);border-radius:999px;padding:.35rem .6rem;font-size:.82rem}
 
-    /* Blog list */
-    .container{max-width:960px;margin:1.25rem auto;background:#fff;border:1px solid var(--card-b);border-radius:12px;padding:1.1rem;box-shadow:0 2px 12px rgba(0,0,0,.06)}
-    .blog-list{display:grid;gap:.9rem}
-    .entry{background:#fff;border:1px solid #e5e7eb;border-left:4px solid var(--brand);border-radius:10px;padding:1rem;box-shadow:0 2px 12px rgba(0,0,0,.06)}
-    .entry h2{margin:.15rem 0 .25rem;font-size:1.15rem}
-    .entry p{margin:.2rem 0;color:#444}
-    .entry img{width:100%;max-height:200px;object-fit:cover;border-radius:8px;margin:.4rem 0}
-    .empty{color:#666;text-align:center;padding:1rem}
+    .wrap{max-width:1000px;margin:1rem auto;padding:0 1rem}
+    .grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:16px}
+    .card{background:#fff;border:1px solid var(--card-b);border-radius:12px;overflow:hidden;box-shadow:0 2px 12px rgba(0,0,0,.06)}
+    .card img{width:100%;height:180px;object-fit:cover;display:block}
+    .card .body{padding:12px 14px}
+    .card h3{margin:.2rem 0 .35rem;font-size:1.08rem}
+    .card p{margin:0 0 .5rem;color:#555}
+    .meta{font-size:.86rem;color:#667}
+    .card a.btn{display:inline-block;margin-top:.5rem;padding:.5rem .75rem;border-radius:8px;background:#0b63f6;color:#fff;text-decoration:none;font-weight:800}
 
     /* Mobile dual-action bar */
     .mobile-bar{position:fixed;left:0;right:0;bottom:0;background:#0b1220;color:#fff;display:flex;gap:8px;padding:.6rem;z-index:9998}
@@ -103,14 +99,6 @@
     .mobile-call{background:var(--ok);color:#fff}
     .mobile-est{background:#0b63f6;color:#fff}
     @media (min-width:769px){.mobile-bar{display:none}}
-
-    /* Desktop sticky phone pill */
-    .desk-call{
-      position:fixed;right:14px;bottom:14px;z-index:10002;display:none;align-items:center;gap:.4rem;
-      padding:.7rem 1rem;border-radius:999px;background:#007b55;color:#fff;font-weight:900;text-decoration:none;
-      box-shadow:0 10px 24px rgba(0,0,0,.18);
-    }
-    @media (min-width:769px){.desk-call{display:inline-flex}}
 
     /* Floating bottom sitemap (sticky like top) */
     .sticky-menu{
@@ -124,15 +112,6 @@
     .sticky-menu nav::-webkit-scrollbar{display:none}
     .sticky-menu nav a{color:#ffdd00;text-decoration:none;padding:.35rem .55rem;border-radius:6px;font-weight:700;font-size:.92rem;flex:0 0 auto}
     .sticky-menu nav a:hover,.sticky-menu nav a:focus{background:rgba(255,255,255,.1);outline:none}
-
-    @media (max-width:768px){
-      body, main { padding-bottom: calc(var(--callbar-h) + var(--sitemap-h) + env(safe-area-inset-bottom) + 14px); }
-    }
-
-    /* Admin controls (hidden unless admin param present) */
-    #adminBar{display:none;max-width:960px;margin:.5rem auto;padding:.5rem;border-radius:10px;background:#fff7ed;border:1px solid #f59e0b;color:#92400e}
-    #adminBar .btn{padding:.4rem .7rem;border-radius:8px}
-    #adminBar .btn-primary{background:#f59e0b;color:#111}
   </style>
 
   <!-- =========================
@@ -157,37 +136,9 @@
     "publisher":{"@id":"https://gatewaydebthelp.com/#gfsr"}
   }
   </script>
-  <!-- Unified Organization/FinancialService (shared @id; disambiguation) -->
-  <script type="application/ld+json">
-  {
-    "@context":"https://schema.org",
-    "@type":["Organization","FinancialService"],
-    "@id":"https://gatewaydebthelp.com/#gfsr",
-    "name":"Gateway Financial Settlement Relief, LLC",
-    "legalName":"Gateway Financial Settlement Relief, LLC",
-    "alternateName":["Gateway Debt Help","GFSR"],
-    "url":"https://gatewaydebthelp.com/",
-    "logo":"https://debtreliefguard.com/og-cover.jpg",
-    "telephone":"+1-888-437-7141",
-    "address":{"@type":"PostalAddress","addressCountry":"US","addressRegion":"FL"},
-    "areaServed":{"@type":"Country","name":"United States"},
-    "sameAs":[
-      "https://gatewayfinancialsettlementrelief.com/",
-      "https://debthelpform.com/",
-      "https://debtreliefguard.com/",
-      "https://gatewaydebthelp.com/"
-    ],
-    "contactPoint":{
-      "@type":"ContactPoint","telephone":"+1-888-437-7141","contactType":"customer service","areaServed":"US","availableLanguage":["English"]
-    },
-    "disambiguatingDescription":"Florida-operated, Wyoming-registered debt relief company using 'Gateway Debt Help' as a marketing tagline. Not affiliated with Gateway Debt Relief of Costa Mesa, CA."
-  }
-  </script>
 </head>
 
 <body>
-  <a href="#main" class="skip-link">Skip to content</a>
-
   <!-- Sticky Top Nav -->
   <nav class="sticky-nav" role="navigation" aria-label="Main navigation">
     <ul>
@@ -196,7 +147,7 @@
       <li><a href="/how.it.works.index.html" title="How It Works">How It Works</a></li>
       <li><a href="/debt.relief.option.index.html" title="Debt Relief Options">Debt Relief Options</a></li>
       <li><a href="/credit.card.relief.index.html" title="Credit Card Relief">Credit Card Relief</a></li>
-      <li><a href="/savings.calculator.html" title="Savings Calculator">Calculator</a></li>
+      <li><a href="/savings.calculator.html" title="Calculator">Calculator</a></li>
       <li><a href="/reviews.index.html" title="Reviews">Reviews</a></li>
       <li><a href="/blog.index.html" aria-current="page" title="Blog">Blog</a></li>
       <li><a href="/scam.warning.index.html" title="Scam Warnings">Scam Warnings</a></li>
@@ -221,38 +172,12 @@
     </div>
   </header>
 
-  <!-- Admin bar (hidden unless admin param) -->
-  <div id="adminBar">
-    <strong>Admin Tools:</strong>
-    <button id="rebuildBtn" class="btn btn-primary">Rebuild Feed (trigger workers)</button>
-    <span id="rebuildMsg" style="margin-left:.6rem"></span>
-  </div>
-
   <!-- MAIN -->
-  <main id="main" class="container" aria-live="polite">
-    <h2 style="margin:.1rem 0 1rem">Latest Posts</h2>
-
-    <!-- BEGIN: Blog links (auto from blogs.json, with safe fallback) -->
-    <section id="post-links" aria-label="Blog posts" style="margin-top:1rem">
-      <ul id="postList" style="list-style: none; padding-left: 0; display: grid; gap: .6rem">
-        <!-- Fallback link (shows until JSON loads or if it fails) -->
-        <li class="post-link">
-          <a href="/blog/your-guide-to-debt-relief-navigating-debt-consolidation-and-settlement" style="font-weight:700; text-decoration:none">
-            Your Guide to Debt Relief: Navigating Debt Consolidation and Settlement
-          </a>
-          <div style="color:#64748b; font-size:.9rem">Published: 2025-08-07</div>
-          <p style="margin:.2rem 0 0; color:#475569">
-            Understand how consolidation and settlement work, key pros and cons, costs, timelines, and how to choose safe help.
-          </p>
-        </li>
-      </ul>
-      <div id="postError" hidden style="color:#b91c1c; margin-top:.5rem">Couldn’t load the latest posts right now.</div>
-    </section>
-    <!-- END: Blog links -->
-
-    <!-- Your existing grid (kept intact) -->
-    <div id="blogList" class="blog-list"></div>
-    <div id="empty" class="empty" hidden>No posts yet. Check back soon.</div>
+  <main class="wrap" aria-live="polite">
+    <h2 style="margin:.6rem 0 1rem">Latest Posts</h2>
+    <div id="grid" class="grid"></div>
+    <div id="empty" class="empty" hidden style="text-align:center;color:#666;margin:1rem 0">No posts yet. Check back soon.</div>
+    <div id="err" hidden style="text-align:center;color:#b91c1c;margin:1rem 0">Couldn’t load the latest posts right now.</div>
   </main>
 
   <!-- Mobile dual action bar -->
@@ -281,16 +206,6 @@
       <a href="https://debthelpform.com" target="_blank" rel="noopener">DebtHelpForm.com</a>
       <a href="https://gatewaydebthelp.com" target="_blank" rel="noopener">GatewayDebtHelp.com</a>
     </nav>
-  </footer>
-
-  <!-- Footer legal / brand lines -->
-  <footer style="max-width:960px;margin:1rem auto 5.5rem;text-align:center;color:#666">
-    <p>&copy; 2025 DebtReliefGuard.com — Independent, FTC-Aligned Reviews & Guides.</p>
-    <p>Website operated by <a href="https://gatewayfinancialsettlementrelief.com" target="_blank" rel="noopener">Gateway Financial Settlement Relief</a></p>
-    <p style="font-size:.82rem;color:#999">
-      “Gateway Debt Help” is the marketing brand of <strong>Gateway Financial Settlement Relief, LLC</strong>.
-      Not affiliated with “Gateway Debt Relief” of Costa Mesa, CA.
-    </p>
   </footer>
 
   <!-- Bot honeypot -->
@@ -327,6 +242,45 @@
         if(navigator.sendBeacon){ navigator.sendBeacon('/ingest', blob); }
         else { fetch('/ingest',{ method:'POST', body:blob, keepalive:true, headers:{'Content-Type':'application/json'} }).catch(()=>{}); }
       }catch(_){}
+    })();
+  </script>
+
+  <!-- 050: Savings message loader (updates #ab-cta-text if API is present) -->
+  <script>
+    (function(){
+      const el = document.querySelector('#ab-cta-text'); if(!el) return;
+      const FALLBACK = el.textContent || '';
+      const CACHE_KEY = 'drg:savings:v1'; const MAX_AGE_MS = 10*60*1000;
+
+      try{
+        const raw = localStorage.getItem(CACHE_KEY);
+        if(raw){
+          const { ts, message } = JSON.parse(raw);
+          if(ts && (Date.now()-ts) < MAX_AGE_MS && message) el.textContent = (message ?? '').toString();
+        }
+      }catch{}
+
+      (async ()=>{
+        const sleep = (ms)=>new Promise(r=>setTimeout(r,ms));
+        const attempt = async (ms) => {
+          const ctrl=new AbortController(); const to=setTimeout(()=>ctrl.abort(), ms);
+          try{
+            const r = await fetch('/api/savings-message', { headers:{'Accept':'application/json','X-Requested-With':'XMLHttpRequest'}, cache:'no-store', credentials:'omit', signal:ctrl.signal });
+            clearTimeout(to);
+            if(!r.ok || !((r.headers.get('content-type')||'').includes('application/json'))) throw new Error();
+            const data = await r.json();
+            if(data && data.message){
+              el.textContent = (data.message ?? '').toString();
+              try{ localStorage.setItem(CACHE_KEY, JSON.stringify({ ts: Date.now(), message: data.message })); }catch{}
+              return true;
+            }
+          }catch{}
+          return false;
+        };
+        let ok = await attempt(3500);
+        if(!ok){ await sleep(180); ok = await attempt(4500); }
+        if(!ok) el.textContent = FALLBACK;
+      })();
     })();
   </script>
 
@@ -368,7 +322,7 @@
         input: document.getElementById('gfsrChatInput'),
         send:  document.getElementById('gfsrChatSend'),
       };
-      const openChat = () => { el.sheet.removeAttribute('hidden'); el.sheet.classList.add('open'); el.sheet.style.transform='translateY(110%)'; el.sheet.style.transform='translateY(0)'; el.fab.setAttribute('aria-expanded','true'); setTimeout(()=>el.input.focus(),120); };
+      const openChat = () => { el.sheet.removeAttribute('hidden'); el.sheet.classList.add('open'); el.sheet.style.transform='translateY(0)'; el.fab.setAttribute('aria-expanded','true'); setTimeout(()=>el.input.focus(),120); };
       const closeChat = () => { el.sheet.classList.remove('open'); el.sheet.style.transform='translateY(110%)'; el.fab.setAttribute('aria-expanded','false'); el.sheet.setAttribute('hidden',''); el.fab.focus(); };
       el.fab.addEventListener('click', openChat);
       el.close.addEventListener('click', closeChat);
@@ -379,7 +333,7 @@
         div.style.maxWidth='88%'; div.style.padding='10px 12px'; div.style.borderRadius='14px'; div.style.fontSize='14px'; div.style.lineHeight='1.35';
         if (who==='user'){ div.style.marginLeft='auto'; div.style.background='#0b63f6'; div.style.color='#fff'; div.style.borderTopRightRadius='4px'; }
         else if (who==='bot'){ div.style.background='#eef2ff'; div.style.color='#111'; div.style.borderTopLeftRadius='4px'; }
-        else { div.style.background='#f3f4f6'; div.style.color='#444'; div.style.fontSize='12px'; div.style.margin='4px auto'; }
+        else { div.style.background='#f3f4f6'; div.style.color:'#444'; div.style.fontSize:'12px'; div.style.margin:'4px auto'; }
         div.textContent = (text??'').toString(); el.body.appendChild(div); el.body.scrollTop = el.body.scrollHeight;
       };
 
@@ -415,47 +369,6 @@
     })();
   </script>
 
-  <!-- === BEGIN: Worker Bridges (added) ===================================== -->
-
-  <!-- 050: Savings message loader (updates #ab-cta-text if API is present) -->
-  <script>
-    (function(){
-      const el = document.querySelector('#ab-cta-text'); if(!el) return;
-      const FALLBACK = el.textContent || '';
-      const CACHE_KEY = 'drg:savings:v1'; const MAX_AGE_MS = 10*60*1000;
-
-      try{
-        const raw = localStorage.getItem(CACHE_KEY);
-        if(raw){
-          const { ts, message } = JSON.parse(raw);
-          if(ts && (Date.now()-ts) < MAX_AGE_MS && message) el.textContent = (message ?? '').toString();
-        }
-      }catch{}
-
-      (async ()=>{
-        const sleep = (ms)=>new Promise(r=>setTimeout(r,ms));
-        const attempt = async (ms) => {
-          const ctrl=new AbortController(); const to=setTimeout(()=>ctrl.abort(), ms);
-          try{
-            const r = await fetch('/api/savings-message', { headers:{'Accept':'application/json','X-Requested-With':'XMLHttpRequest'}, cache:'no-store', credentials:'omit', signal:ctrl.signal });
-            clearTimeout(to);
-            if(!r.ok || !((r.headers.get('content-type')||'').includes('application/json'))) throw new Error();
-            const data = await r.json();
-            if(data && data.message){
-              el.textContent = (data.message ?? '').toString();
-              try{ localStorage.setItem(CACHE_KEY, JSON.stringify({ ts: Date.now(), message: data.message })); }catch{}
-              return true;
-            }
-          }catch{}
-          return false;
-        };
-        let ok = await attempt(3500);
-        if(!ok){ await sleep(180); ok = await attempt(4500); }
-        if(!ok) el.textContent = FALLBACK;
-      })();
-    })();
-  </script>
-
   <!-- Page bridge for 015 / 016 / 057 (non-visual; no-ops unless called) -->
   <script>
     (function(){
@@ -483,102 +396,91 @@
           if(input && form){ input.value = text || ''; form.requestSubmit(); }
         }
       };
-      // 015: optional client API (safe if server exposes /ab/*)
-      api.w015 = {
-        decide: (experimentKey, context={}) =>
-          fetch('/ab/decide', { method:'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify({ experimentKey, context }) }).then(r=>r.json()),
-        report: (experimentKey, variant, outcome, meta={}) =>
-          fetch('/ab/report', { method:'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify({ experimentKey, variant, outcome, meta }) }).then(r=>r.ok)
-      };
       window.GFSR = Object.assign(window.GFSR || {}, api);
     })();
   </script>
 
-  <!-- === END: Worker Bridges ============================================== -->
-
-  <!-- === SINGLE CONSOLIDATED BLOG RENDERER (replaces prior two scripts) === -->
+  <!-- === SINGLE CONSOLIDATED BLOG RENDERER === -->
   <script>
   (async () => {
-    const UL     = document.getElementById('postList');          // simple list (optional)
-    const ERR    = document.getElementById('postError');         // small error line (optional)
-    const GRID   = document.getElementById('blogList');          // card grid (optional)
-    const EMPTY  = document.getElementById('empty') || document.getElementById('blogFallback'); // fallback note
+    const GRID   = document.getElementById('grid');
+    const EMPTY  = document.getElementById('empty');
+    const ERR    = document.getElementById('err');
 
     const fmt = (d) => {
       try { return new Date(d).toLocaleDateString(undefined, { year:'numeric', month:'short', day:'numeric' }); }
       catch { return d || ''; }
     };
 
-    function hrefFor(p){
-      if (p && typeof p.url === 'string' && p.url.trim()) return p.url;
+    const hrefFor = (p) => {
+      if (p && typeof p.url === 'string' && p.url.trim()) return p.url;        // undated /blog/<slug>.html
       if (p && typeof p.slug === 'string' && p.slug.trim()) return `/blog/${p.slug}.html`;
       return '#';
-    }
+    };
 
-    function renderList(posts){
-      if (!UL) return;
-      if (!Array.isArray(posts) || posts.length === 0) return; // keep fallback item
-      UL.innerHTML = '';
-      posts.forEach(p => {
-        const li = document.createElement('li');
-        li.className = 'post-link';
-        li.style.margin = '0';
-        const title = p.title || 'Untitled';
-        const date  = p.published_at || p.date || '';
-        const dateTxt = date ? fmt(date) : '';
-        const link = hrefFor(p);
-        li.innerHTML = `
-          <a href="${link}" style="font-weight:700; text-decoration:none">${title}</a>
-          ${dateTxt ? `<div style="color:#64748b; font-size:.9rem">${dateTxt}</div>` : ''}
-          ${p.excerpt ? `<p style="margin:.2rem 0 0; color:#475569">${p.excerpt}</p>` : ''}
-        `;
-        UL.appendChild(li);
-      });
-    }
+    const safeExcerpt = (s) => (s || '').replace(/^#+\s*/, '');
 
-    function renderGrid(posts){
-      if (!GRID) return;
-      GRID.innerHTML = '';
-      if (!Array.isArray(posts) || posts.length === 0) {
-        if (EMPTY) EMPTY.hidden ? EMPTY.hidden = false : EMPTY.style.display = 'block';
-        return;
-      }
-      if (EMPTY) EMPTY.hidden = true;
-
-      posts.forEach(p => {
-        const title = p.title || 'Untitled';
-        const link  = hrefFor(p);
-        const date  = p.published_at || p.date || '';
-        const dateTxt = date ? fmt(date) : '';
-        const thumb = (p.thumbnail && String(p.thumbnail).trim()) || (p.slug ? `/images/${p.slug}.png` : '');
-        const excerpt = p.excerpt || '';
-
-        const card = document.createElement('article');
-        card.className = 'entry post';
-        card.innerHTML = `
-          ${thumb ? `<img src="${thumb}" alt="${title.replace(/"/g,'&quot;')}" loading="lazy" style="width:100%;max-height:220px;object-fit:cover;border-radius:10px">` : ''}
-          <h2><a href="${link}" style="text-decoration:none;color:inherit">${title}</a></h2>
-          ${dateTxt ? `<p class="meta"><em>${dateTxt}</em></p>` : ''}
-          <p>${excerpt}</p>
-          ${link !== '#' ? `<a class="cta-primary" href="${link}" rel="noopener">Read article</a>` : ''}
-        `;
-        GRID.appendChild(card);
-      });
-    }
+    const onImgError = (img, slug) => {
+      if (!img || img.dataset.fallback === '1') return;
+      img.dataset.fallback = '1';
+      img.src = `/images/${slug}.png`;  // worker 033 ensures this exists (or transparent png)
+    };
 
     try {
       const r = await fetch('/blogs.json', { headers: { 'Accept':'application/json' }, cache: 'no-store' });
       if (!r.ok) throw new Error('blogs.json ' + r.status);
-      const posts = await r.json();
-      renderList(posts);
-      renderGrid(posts);
+      let posts = await r.json();
+
+      // Domain-aware filter (fallback to all if empty)
+      const host = location.hostname;
+      const site = host.includes('debtreliefguard') ? 'debtreliefguard'
+                 : host.includes('debthelpform')    ? 'debthelpform'
+                 : null;
+      let filtered = Array.isArray(posts) ? posts.filter(p => !site || (p.site || '').toLowerCase() === site) : [];
+      if (!filtered.length) filtered = posts;
+
+      // Sort newest first
+      filtered.sort((a,b)=> new Date(b.published_at||0).getTime() - new Date(a.published_at||0).getTime());
+
+      // Render cards
+      GRID.innerHTML = '';
+      if (!filtered.length) {
+        if (EMPTY) EMPTY.hidden = false;
+        return;
+      } else if (EMPTY) EMPTY.hidden = true;
+
+      const cards = filtered.map(p => {
+        const slug = (p.slug||'').trim();
+        const img  = (p.thumbnail && String(p.thumbnail).trim()) || `/images/${slug}.png`;
+        const title = p.title || slug || 'Untitled';
+        const dateTxt = p.published_at ? fmt(p.published_at) : '';
+        const tags = Array.isArray(p.tags) && p.tags.length ? ` • ${p.tags.join(', ')}` : '';
+        const excerpt = safeExcerpt(p.excerpt || '');
+        const href = hrefFor(p);
+        return `
+          <article class="card">
+            <a href="${href}">
+              <img src="${img}" alt="${title.replace(/"/g,'&quot;')}" loading="lazy" onerror="(${onImgError.toString()})(this,'${slug.replace(/'/g,"\\'")}')">
+            </a>
+            <div class="body">
+              <h3><a href="${href}" style="text-decoration:none;color:#111">${title}</a></h3>
+              <p class="meta">${dateTxt}${tags}</p>
+              <p>${excerpt}</p>
+              <a class="btn" href="${href}">Read Article</a>
+            </div>
+          </article>
+        `;
+      }).join('');
+
+      GRID.innerHTML = cards;
     } catch (e) {
       if (ERR) ERR.hidden = false;
-      if (EMPTY) EMPTY.hidden ? EMPTY.hidden = false : EMPTY.style.display = 'block';
+      if (EMPTY) EMPTY.hidden = false;
+      console.error('blog.index load error:', e);
     }
   })();
   </script>
-  <!-- === END SINGLE CONSOLIDATED BLOG RENDERER === -->
+  <!-- === END BLOG RENDERER === -->
 
   <noscript><p style="text-align:center;color:#666">Enable JavaScript to view dynamic posts and chat.</p></noscript>
 </body>
