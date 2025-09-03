@@ -6,7 +6,7 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
 
   <!-- Viewport -->
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale:5.0" />
 
   <!-- =========================
        TITLE & DESCRIPTION (SEO)
@@ -317,8 +317,8 @@
         const div = document.createElement('div'); div.className = `gfsr-msg ${who}`;
         div.style.maxWidth='88%'; div.style.padding='10px 12px'; div.style.borderRadius='14px'; div.style.fontSize='14px'; div.style.lineHeight='1.35';
         if (who==='user'){ div.style.marginLeft='auto'; div.style.background='#0b63f6'; div.style.color='#fff'; div.style.borderTopRightRadius='4px'; }
-        else if (who==='bot'){ div.style.background:'#eef2ff'; div.style.color:'#111'; div.style.borderTopLeftRadius='4px'; }
-        else { div.style.background:'#f3f4f6'; div.style.color:'#444'; div.style.fontSize:'12px'; div.style.margin:'4px auto'; }
+        else if (who==='bot'){ div.style.background='#eef2ff'; div.style.color='#111'; div.style.borderTopLeftRadius='4px'; }
+        else { div.style.background='#f3f4f6'; div.style.color:'#444'; div.style.fontSize:'12px'; div.style.margin:'4px auto'; }
         div.textContent = (text??'').toString(); el.body.appendChild(div); el.body.scrollTop = el.body.scrollHeight;
       };
 
@@ -387,21 +387,18 @@
   </script>
   <!-- === END: Worker Bridges ============================================== -->
 
-  <!-- === FINAL loader: supports dated/undated + content_url ================= -->
+  <!-- === FINAL loader: supports dated/undated + content_url (with fallbacks) = -->
   <script>
   (async () => {
     try {
-      // 1) Resolve raw and normalized slug (strip optional YYYY-MM-DD-)
       const last = location.pathname.split('/').filter(Boolean).pop() || '';
       const rawSlug = last.endsWith('.html') ? last.slice(0, -5) : last;
       const normalizedSlug = rawSlug.replace(/^\d{4}-\d{2}-\d{2}-/, '');
 
-      // 2) Load blogs.json
       const res = await fetch('/blogs.json', { cache: 'no-store' });
       if (!res.ok) throw new Error('blogs.json ' + res.status);
       const posts = await res.json();
 
-      // 3) Match by slug, url, or content_url (dated or undated)
       const matchBySuffix = (val, target) =>
         typeof val === 'string' && (val.endsWith('/' + target) || val.endsWith('/' + target + '.html'));
 
@@ -420,14 +417,15 @@
         const container = document.querySelector('.container');
         if (container) container.innerHTML = '<p>Post not found.</p>';
         document.title = 'Post not found | DebtReliefGuard Blog';
+        console.warn('Slug loader: no post matched', { rawSlug, normalizedSlug });
         return;
       }
 
-      // 4) Fill visible content + SEO tags (canonical favors undated URL if present)
+      // --- Fill meta/hero ---
       const title      = post.title || 'Untitled';
       const excerpt    = String(post.excerpt || '');
       const dateIso    = post.published_at || post.date || '';
-      const dateText   = dateIso ? new Date(dateIso).toLocaleDateString() : '';
+      const dateText   = dateIso ? new Date(dateIso).toLocaleDateString(undefined, {year:'numeric',month:'short',day:'numeric'}) : '';
       const image      = post.thumbnail || `/images/${normalizedSlug}.png`;
       const authorName = post.author || 'DebtReliefGuard';
       const authorLink = post.authorLink || 'https://debtreliefguard.com';
@@ -439,7 +437,6 @@
         : (post.content_url && /\/blog\/.+\.html$/.test(post.content_url) ? post.content_url : `/blog/${normalizedSlug}.html`);
       const canonicalHref = location.origin + canonicalPath.replace(/^https?:\/\/[^/]+/, '');
 
-      // inject hero/meta
       const img = document.querySelector('img.feature');
       if (img) { img.src = image; img.alt = title; }
       const h1 = document.querySelector('h1#ab-cta-text');
@@ -466,38 +463,56 @@
       setAttr('meta[name="twitter:description"]', 'content', excerpt);
       setAttr('meta[name="twitter:image"]', 'content', image);
 
-      // 5) Render the article body from content_url when present (robust fallback)
+      // --- Inject body with robust fallbacks ---
       const bodyContainer = document.querySelector('.content');
-      if (post.content_url && bodyContainer) {
-        const cta = bodyContainer.querySelector('.cta');
-        const host = document.createElement('div');
-        host.id = 'postBody';
-        if (cta && cta.parentNode) cta.parentNode.insertBefore(host, cta);
-        else bodyContainer.prepend(host);
+      if (!bodyContainer) return;
 
-        try {
-          const r = await fetch(post.content_url, { cache: 'no-store' });
-          if (r.ok) {
-            const html = await r.text();
-            // try to extract <article>…</article> first
-            const match = html.match(/<article[\s\S]*<\/article>/i);
-            let injected = "";
-            if (match) {
-              injected = match[0];
-            } else {
-              // fallback to <body> content; final fallback to entire HTML
-              const bodyMatch = html.match(/<body[^>]*>([\s\S]*)<\/body>/i);
-              injected = bodyMatch ? `<article>${bodyMatch[1]}</article>` : `<article>${html}</article>`;
-            }
-            // strip any template tokens that may have slipped in
-            injected = injected.replace(/\{\{[^}]+\}\}/g, '');
-            host.innerHTML = injected;
-          } else {
-            host.innerHTML = `<p>Sorry — this article is temporarily unavailable.</p>`;
-          }
-        } catch {
-          host.innerHTML = `<p>Sorry — this article is temporarily unavailable.</p>`;
+      const host = document.createElement('div'); host.id = 'postBody';
+      const cta  = bodyContainer.querySelector('.cta');
+      (cta && cta.parentNode ? cta.parentNode.insertBefore(host, cta) : bodyContainer.prepend(host));
+
+      async function fetchHtml(path){
+        const r = await fetch(path, { cache: 'no-store' });
+        if (!r.ok) throw new Error('fetch ' + path + ' -> ' + r.status);
+        return await r.text();
+      }
+
+      function extractArticle(html){
+        const article = html.match(/<article[\s\S]*<\/article>/i);
+        if (article) return article[0];
+        const body = html.match(/<body[^>]*>([\s\S]*)<\/body>/i);
+        return body ? `<article>${body[1]}</article>` : `<article>${html}</article>`;
+      }
+
+      let injected = '';
+      try {
+        if (post.content_url) {
+          injected = extractArticle(await fetchHtml(post.content_url));
+        } else {
+          throw new Error('no content_url');
         }
+      } catch (e1) {
+        console.warn('Slug loader: primary content_url failed', { content_url: post.content_url, error: ''+e1 });
+        // Fallback 1: undated normalized
+        try {
+          injected = extractArticle(await fetchHtml(`/blog/${normalizedSlug}.html`));
+        } catch (e2) {
+          console.warn('Slug loader: normalized fallback failed', { normalizedSlug, error: ''+e2 });
+          // Fallback 2: raw slug path
+          try {
+            injected = extractArticle(await fetchHtml(`/blog/${rawSlug}.html`));
+          } catch (e3) {
+            console.warn('Slug loader: raw fallback failed', { rawSlug, error: ''+e3 });
+            injected = '';
+          }
+        }
+      }
+
+      if (injected) {
+        injected = injected.replace(/\{\{[^}]+\}\}/g, '');
+        host.innerHTML = injected;
+      } else {
+        host.innerHTML = `<p>Sorry — this article’s full content isn’t available yet. Please check back soon.</p>`;
       }
     } catch (e) {
       console.error('Post load error:', e);
