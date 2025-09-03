@@ -17,7 +17,7 @@
 /robots.txt       /robots.txt                  200
 /sitemap.xml      /sitemap.xml                 200
 
-# Static assets passthrough
+# Static assets passthrough (images + static bundles)
 /images/*         /images/:splat               200
 /*.css            /:splat                      200
 /*.js             /:splat                      200
