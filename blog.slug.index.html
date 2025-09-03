@@ -157,33 +157,6 @@
     "publisher":{"@type":"Organization","name":"DebtReliefGuard.com","logo":{"@type":"ImageObject","url":"https://debtreliefguard.com/logo.png"}}
   }
   </script>
-
-  <!-- Unified Organization/FinancialService (shared @id; disambiguation) -->
-  <script type="application/ld+json">
-  {
-    "@context":"https://schema.org",
-    "@type":["Organization","FinancialService"],
-    "@id":"https://gatewaydebthelp.com/#gfsr",
-    "name":"Gateway Financial Settlement Relief, LLC",
-    "legalName":"Gateway Financial Settlement Relief, LLC",
-    "alternateName":["Gateway Debt Help","GFSR"],
-    "url":"https://gatewaydebthelp.com/",
-    "logo":"https://debtreliefguard.com/og-cover.jpg",
-    "telephone":"+1-888-437-7141",
-    "address":{"@type":"PostalAddress","addressCountry":"US","addressRegion":"FL"},
-    "areaServed":{"@type":"Country","name":"United States"},
-    "sameAs":[
-      "https://gatewayfinancialsettlementrelief.com/",
-      "https://debthelpform.com/",
-      "https://debtreliefguard.com/",
-      "https://gatewaydebthelp.com/"
-    ],
-    "contactPoint":{
-      "@type":"ContactPoint","telephone":"+1-888-437-7141","contactType":"customer service","areaServed":"US","availableLanguage":["English"]
-    },
-    "disambiguatingDescription":"Florida-operated, Wyoming-registered debt relief company using 'Gateway Debt Help' as a marketing tagline. Not affiliated with Gateway Debt Relief of Costa Mesa, CA."
-  }
-  </script>
 </head>
 
 <body>
@@ -281,29 +254,6 @@
     </p>
   </footer>
 
-  <!-- Bot honeypot -->
-  <script>
-    (function(){
-      const honeypot=document.createElement("input");
-      honeypot.type="text";honeypot.name="website";honeypot.autocomplete="off";
-      honeypot.hidden=true;honeypot.setAttribute("aria-hidden","true");
-      document.body.appendChild(honeypot);
-      let u=false,t=0; addEventListener('mousemove',()=>u=true,{passive:true});
-      addEventListener('keydown',()=>u=true,{passive:true});
-      setInterval(()=>t++,1000);
-      window.validateBotProtections=()=> (honeypot.value==="" && u && t>=3);
-    })();
-  </script>
-
-  <!-- Dynamic spacing for mobile bar -->
-  <script>
-    (function(){
-      const root=document.documentElement, mb=document.getElementById('drgMobileBar');
-      function setH(){ const h=mb && getComputedStyle(mb).display!=='none' ? mb.offsetHeight : 0; root.style.setProperty('--callbar-h', h+'px'); }
-      setH(); addEventListener('resize', setH, {passive:true}); setTimeout(setH,250); setTimeout(setH,1000);
-    })();
-  </script>
-
   <!-- 015: Telemetry ping -->
   <script>
     (function(){
@@ -332,7 +282,7 @@
         <div id="gfsrChatTitle" class="gfsr-chat-title" style="font-weight:700; font-size:15px">Debt Help Assistant</div>
         <div id="gfsrChatDesc" class="sr-only">Chat with our assistant. Press Escape to close.</div>
       </div>
-      <button id="gfsrChatClose" class="gfsrChatClose" aria-label="Close chat" style="background:transparent; border:none; padding:8px; border-radius:10px; cursor:pointer">✕</button>
+      <button id="gfsrChatClose" class="gfsr-chat-close" aria-label="Close chat" style="background:transparent; border:none; padding:8px; border-radius:10px; cursor:pointer">✕</button>
     </header>
 
     <div id="gfsrChatBody" class="gfsr-chat-body" tabindex="0" style="display:flex; flex-direction:column; gap:8px; padding:12px; height:min(70vh, 520px); overflow:auto; -webkit-overflow-scrolling:touch"></div>
@@ -350,7 +300,7 @@
       const el = {
         fab:   document.getElementById('gfsrChatFab'),
         sheet: document.getElementById('gfsrChatSheet'),
-        close: document.querySelector('.gfsrChatClose'),
+        close: document.getElementById('gfsrChatClose'),
         body:  document.getElementById('gfsrChatBody'),
         form:  document.getElementById('gfsrChatForm'),
         input: document.getElementById('gfsrChatInput'),
@@ -367,7 +317,7 @@
         div.style.maxWidth='88%'; div.style.padding='10px 12px'; div.style.borderRadius='14px'; div.style.fontSize='14px'; div.style.lineHeight='1.35';
         if (who==='user'){ div.style.marginLeft='auto'; div.style.background='#0b63f6'; div.style.color='#fff'; div.style.borderTopRightRadius='4px'; }
         else if (who==='bot'){ div.style.background='#eef2ff'; div.style.color='#111'; div.style.borderTopLeftRadius='4px'; }
-        else { div.style.background='#f3f4f6'; div.style.color:'#444'; div.style.fontSize:'12px'; div.style.margin:'4px auto'; }
+        else { div.style.background:'#f3f4f6'; div.style.color:'#444'; div.style.fontSize:'12px'; div.style.margin:'4px auto'; }
         div.textContent = (text??'').toString(); el.body.appendChild(div); el.body.scrollTop = el.body.scrollHeight;
       };
 
