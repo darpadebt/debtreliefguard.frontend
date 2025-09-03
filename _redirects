@@ -30,5 +30,3 @@ Static assets passthrough
 /.png            /:splat                     200
 /.jpg            /:splat                     200
 /*.svg            /:splat                     200
-Does it look good or needs update?
-
