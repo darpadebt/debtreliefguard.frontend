@@ -1,38 +1,31 @@
-# --- Home ---------------------------------------------------------------
-/                          /index.html                                   200
+/                          /index.html                                     200
 
-# --- Dated posts (STATIC) -----------------------------------------------
-# 1) Normalize extensionless dated URLs -> real .html (SEO-friendly)
-/blog/:year-:month-:day-:rest            /blog/:year-:month-:day-:rest.html 301
-# 2) Serve actual dated HTML files directly
-/blog/:year-:month-:day-:rest.html       /blog/:year-:month-:day-:rest.html 200
+# --- Dated article files (serve static) — keep these ABOVE slug rules
+/blog/:year-:month-:day-:rest.html    /blog/:year-:month-:day-:rest.html   200
+/blog/:year-:month-:day-:rest         /blog/:year-:month-:day-:rest.html   200
 
-# --- Blog index ----------------------------------------------------------
-/blog                                    /blog.index.html                   200
-/blog/                                   /blog.index.html                   200
+# --- Blog list
+/blog                                  /blog.index.html                     200
+/blog/                                 /blog.index.html                     200
 
-# --- Slug posts (DYNAMIC LOADER) ----------------------------------------
-# e.g. /blog/BlogMyPostTitle or /blog/BlogMyPostTitle.html
-/blog/:slug                               /blog.slug.index.html             200
-/blog/:slug.html                          /blog.slug.index.html             200
+# --- Blog feed JSON
+/blogs.json                            /blogs.json                          200
 
-# The loader must ONLY fetch JSON here (never /blog/:slug to avoid loops):
-/api/blog/:slug                           /blog.slug.json                   200
+# --- Slug routes (undated) -> single slug template
+# (The loader must fetch the DATED content_url from blogs.json, never /blog/:slug)
+# Supports both /blog/my-slug and /blog/my-slug.html
+/blog/:slug.html                       /blog.slug.index.html                200
+/blog/:slug                            /blog.slug.index.html                200
 
-# --- Feed JSON -----------------------------------------------------------
-/blogs.json                               /blogs.json                       200
+# --- API endpoint the slug template fetches (JSON only)
+/api/blog/:slug                        /blog.slug.json                      200
 
-# --- Standard assets -----------------------------------------------------
-/favicon.ico                              /favicon.ico                      200
-/robots.txt                               /robots.txt                       200
-/sitemap.xml                              /sitemap.xml
+# --- Standard assets
+/favicon.ico                           /favicon.ico                         200
+/robots.txt                            /robots.txt                          200
+/sitemap.xml                           /sitemap.xml
 
-# --- Static assets passthrough ------------------------------------------
-/images/*                                 /images/:splat                    200
-/*.css                                    /:splat                           200
-/*.js                                     /:splat                           200
-/*.png                                    /:splat                           200
-/*.jpg                                    /:splat                           200
-/*.svg                                    /:splat                           200
-/*.webp                                   /:splat                           200
-/*.avif                                   /:splat                           200
+# --- Static assets passthroughs
+/images/*                              /images/:splat
+/css/*                                 /css/:splat
+/js/*                                  /js/:splat
