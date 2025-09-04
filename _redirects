@@ -1,20 +1,23 @@
-/blog.raw/:splat   /blog/:splat   200
-/                   /index.html   200
+/blog.raw/:splat           /blog/:splat           200
+/                          /index.html            200
 
 # --- Dated article files (static; MUST be ABOVE slug rules) ---
-/blog/:year-:month-:day-:rest.html   /blog/:year-:month-:day-:rest.html   200
-/blog/:year-:month-:day-:rest        /blog/:year-:month-:day-:rest.html   200
+/blog/:year-:month-:day-:rest.html  /blog/:year-:month-:day-:rest.html   200
+/blog/:year-:month-:day-:rest       /blog/:year-:month-:day-:rest.html   200
 
 # Blog list
 /blog             /blog.index.html   200
 /blog/            /blog.index.html   200
 
+# Blog feed JSON
+/blogs.json       /blogs.json       200
+
 # Blog post slugs (undated) -> slug template (single file)
 /blog/:slug.html  /blog.slug.index.html   200
-/blog/:slug       /blog.slug.index.html   200
 
-# Blog feed JSON
-/blogs.json       /blogs.json   200
+# API endpoint for slug content (prevents loop)
+# The slug template fetches JSON here instead of hitting /blog/:slug
+/api/blog/:slug    /blog.slug.json         200
 
 # Standard assets
 /favicon.ico      /favicon.ico   200
