@@ -4,12 +4,10 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
 
-  <!-- Defaults (will be replaced by JS once post loads) -->
   <title>Loading… | DebtReliefGuard</title>
   <meta name="description" content="Loading blog post…" />
   <meta name="robots" content="index,follow" />
 
-  <!-- Open Graph (will be replaced by JS) -->
   <meta property="og:type" content="article" />
   <meta property="og:title" content="Loading…" />
   <meta property="og:description" content="Loading blog post…" />
@@ -26,6 +24,7 @@
     article{line-height:1.65;font-size:1.05rem}
     .muted{color:#666}
     .hidden{display:none}
+    .err{color:#b00020}
   </style>
 </head>
 <body>
@@ -41,7 +40,7 @@
   <main class="wrap">
     <div id="notice" class="muted"></div>
     <article id="post-article" class="hidden" aria-live="polite"></article>
-    <p id="error" class="muted hidden">Sorry, we couldn’t load that post.</p>
+    <p id="error" class="muted err hidden">Sorry, we couldn’t load that post.</p>
   </main>
 
   <script>
@@ -51,71 +50,48 @@
     const setText = (sel, t) => { const el=qs(sel); if (el) el.textContent = t || ''; };
     const show = (sel) => { const el=qs(sel); if (el) el.classList.remove('hidden'); };
     const hide = (sel) => { const el=qs(sel); if (el) el.classList.add('hidden'); };
-    const byline = (p) => {
-      const d = p.date_published || p.published_at || '';
-      const dt = d ? new Date(d) : null;
-      const dateStr = dt ? dt.toLocaleDateString(undefined, {year:'numeric', month:'short', day:'numeric'}) : '';
-      const tags = Array.isArray(p.tags) && p.tags.length ? ' • ' + p.tags.join(', ') : '';
-      const author = p.author || 'DebtReliefGuard';
-      return [author, dateStr, tags].filter(Boolean).join(' • ');
-    };
     const normSlug = (s) => String(s||'').trim().replace(/(^\/+|\/+$)/g,'').replace(/\.html$/,'');
     const filename = (url) => {
       try { return normSlug(new URL(url, location.origin).pathname.split('/').pop()); }
       catch { return normSlug(String(url||'').split('/').pop()); }
     };
+    const fmtByline = (p) => {
+      const d = p?.date_published || p?.published_at || '';
+      const dt = d ? new Date(d) : null;
+      const dateStr = dt ? dt.toLocaleDateString(undefined, {year:'numeric', month:'short', day:'numeric'}) : '';
+      const tags = Array.isArray(p?.tags) && p.tags.length ? ' • ' + p.tags.join(', ') : '';
+      const author = p?.author || 'DebtReliefGuard';
+      return [author, dateStr, tags].filter(Boolean).join(' • ');
+    };
 
-    // ---------- 1) get slug from URL (/blog/<slug>[.html])
-    const path = location.pathname;
-    const slug = normSlug(path.replace(/^\/?blog\//,''));
+    // ---------- identify slug from URL
+    const slug = normSlug(location.pathname.replace(/^\/?blog\//,''));
+    setText('#crumb', slug || 'Loading…');
 
-    // ---------- 2) fetch blogs.json (no-cache)
-    async function loadCatalog() {
-      const res = await fetch('/blogs.json?ts=' + Date.now(), {
-        headers: { 'Accept': 'application/json' },
-        cache: 'no-store'
-      });
-      if (!res.ok) throw new Error('blogs.json HTTP ' + res.status);
-      const ct = (res.headers.get('content-type')||'').toLowerCase();
-      if (ct.includes('application/json')) return res.json();
-      return JSON.parse(await res.text());
-    }
-
-    // ---------- 3) choose the matching post
-    function findPost(list, slug) {
-      if (!Array.isArray(list)) list = Array.isArray(list?.items) ? list.items : [];
-      // direct slug match
-      let p = list.find(x => normSlug(x.slug) === slug);
-      if (p) return p;
-      // fallback: match by filename of content_url
-      p = list.find(x => filename(x.content_url) === slug || filename(x.url) === slug);
-      return p || null;
-    }
-
-    // ---------- 4) set SEO/meta from post record
+    // ---------- meta helpers
     function setMeta(p, href) {
-      const title = p.title || 'Blog Post';
-      const desc = p.excerpt || p.description || 'Debt relief insights and guides.';
-      const image = (p.image || p.thumbnail || '/og-cover.jpg');
+      const title = p?.title || 'Blog Post';
+      const desc = p?.excerpt || p?.description || 'Debt relief insights and guides.';
+      const image = (p?.image || p?.thumbnail || '/og-cover.jpg');
       const canonical = new URL(href || location.href, location.origin).href;
 
       document.title = `${title} | DebtReliefGuard`;
-      [
+      const pairs = [
         ['meta[name="description"]','content', desc],
         ['meta[property="og:title"]','content', title],
         ['meta[property="og:description"]','content', desc],
         ['meta[property="og:url"]','content', canonical],
         ['meta[property="og:image"]','content', image]
-      ].forEach(([sel, attr, val]) => { const el = qs(sel); if (el) el.setAttribute(attr, val); });
+      ];
+      pairs.forEach(([sel, attr, val]) => { const el = qs(sel); if (el) el.setAttribute(attr, val); });
 
-      // Article JSON-LD
       const orgId = "https://gatewaydebthelp.com/#gfsr";
       const ld = {
         "@context":"https://schema.org",
         "@type":"Article",
         "headline": title,
-        "datePublished": p.date_published || p.published_at || undefined,
-        "dateModified": p.date_modified || undefined,
+        "datePublished": p?.date_published || p?.published_at || undefined,
+        "dateModified": p?.date_modified || undefined,
         "image": image ? [image] : undefined,
         "author": {"@type":"Organization","name":"DebtReliefGuard"},
         "publisher": {"@type":"Organization","@id": orgId, "name":"Gateway Financial Settlement Relief, LLC"},
@@ -127,73 +103,115 @@
       tag.textContent = JSON.stringify(ld);
     }
 
-    // ---------- 5) fetch the real HTML file and inject its <article> (or fallback)
-    async function loadAndInject(url) {
+    // ---------- fetchers (resilient)
+    async function fetchJSON(url) {
+      const res = await fetch(url, { headers:{Accept:'application/json'}, cache:'no-store' });
+      if (!res.ok) throw new Error(url + ' HTTP ' + res.status);
+      const ct = (res.headers.get('content-type')||'').toLowerCase();
+      if (ct.includes('application/json')) return res.json();
+      return JSON.parse(await res.text());
+    }
+    async function tryFetch(url) {
       const res = await fetch(url, { cache:'no-store' });
-      if (!res.ok) throw new Error('post HTML HTTP ' + res.status);
-      const html = await res.text();
-      // try to extract <article> or <main>
+      if (!res.ok) throw new Error('HTTP ' + res.status);
+      return res.text();
+    }
+
+    // ---------- body injection
+    function injectArticle(html) {
       const doc = new DOMParser().parseFromString(html, 'text/html');
       let node = doc.querySelector('article, main');
-      // fallback: try body content
       if (!node) node = doc.body;
       const target = qs('#post-article');
       target.innerHTML = node ? node.innerHTML : html;
       show('#post-article');
     }
 
-    // ---------- 6) telemetry (best-effort; non-blocking; ignores errors)
-    function pingTelemetry(stage, extra) {
-      const base = (p) => ({
-        stage, slug,
-        title: p?.title || null,
-        at: new Date().toISOString(),
-        userAgent: navigator.userAgent,
-        ref: document.referrer || null,
-        ...extra
+    // ---------- telemetry (best-effort; non-blocking)
+    function ping(stage, extra) {
+      const payload = JSON.stringify({
+        stage, slug, at: new Date().toISOString(),
+        ua: navigator.userAgent, ref: document.referrer || null, ...extra
       });
-      const ents = [
-        ['/api/015-telemetry-collector', {}],
-        ['/api/016-telemetry-rollups', {}],
-        ['/api/050-ai-loop-optimizer', {}],
-        ['/api/057-heat-map-tracker', {}]
-      ];
-      ents.forEach(([url, opt]) => {
-        fetch(url, { method:'POST', body: JSON.stringify(base()), headers:{'content-type':'application/json'}, keepalive:true, ...opt })
-          .catch(()=>{});
-      });
+      ['/api/015-telemetry-collector','/api/016-telemetry-rollups','/api/050-ai-loop-optimizer','/api/057-heat-map-tracker']
+      .forEach(u => fetch(u, { method:'POST', body: payload, headers:{'content-type':'application/json'}, keepalive:true }).catch(()=>{}));
     }
 
-    try {
-      setText('#crumb', slug || 'Loading…');
-      const catalog = await loadCatalog();
-      const post = findPost(catalog, slug);
+    // ---------- sitemap fallback: find a blog URL that ends with "<slug>.html"
+    async function findInSitemap(slug) {
+      try {
+        const xml = await tryFetch('/sitemap.xml');
+        const locs = Array.from(xml.matchAll(/<loc>([^<]+)<\/loc>/g)).map(m => m[1]);
+        const hit = locs.find(u => /\/blog\/.+\.html$/i.test(u) && decodeURIComponent(u).endsWith(`${slug}.html`));
+        return hit ? new URL(hit, location.origin).pathname : null;
+      } catch { return null; }
+    }
 
-      if (!post) {
-        setText('#post-title', 'Post not found');
-        setText('#post-meta', '');
-        setText('#notice', 'We couldn’t find a post with that address. If this was a dated article, please verify the filename in /blog and the slug in blogs.json match.');
-        show('#error');
-        pingTelemetry('not_found');
-        return;
+    // ---------- main logic
+    try {
+      ping('view_start');
+      setText('#post-title', 'Loading…');
+      setText('#post-meta', 'Please wait while we load the article.');
+
+      let post = null, href = null;
+
+      // 1) Primary: blogs.json
+      try {
+        const raw = await fetchJSON('/blogs.json?ts=' + Date.now());
+        const list = Array.isArray(raw) ? raw : (Array.isArray(raw?.items) ? raw.items : []);
+        post = list.find(x => normSlug(x?.slug) === slug)
+            || list.find(x => filename(x?.content_url) === slug || filename(x?.url) === slug)
+            || null;
+        if (post) {
+          href = (post.content_url?.trim()) || (post.url?.trim()) || `/blog/${slug}.html`;
+        }
+      } catch (e) {
+        // swallow; we’ll try fallbacks
       }
 
-      const href = (post.content_url?.trim()) || (post.url?.trim()) || `/blog/${slug}.html`;
-      setText('#post-title', post.title || 'Untitled');
-      setText('#post-meta', byline(post));
-      setMeta(post, href);
-      pingTelemetry('view_start', {href});
+      // 2) Fallback A: direct undated file /blog/<slug>.html
+      if (!href) {
+        try {
+          const probe = await fetch(`/blog/${slug}.html`, { method:'HEAD', cache:'no-store' });
+          if (probe.ok) href = `/blog/${slug}.html`;
+        } catch {}
+      }
 
-      await loadAndInject(href);
+      // 3) Fallback B: sitemap.xml → dated post that ends with <slug>.html
+      if (!href) {
+        href = await findInSitemap(slug);
+      }
 
-      pingTelemetry('view_ok', {href});
+      if (!href) {
+        setText('#post-title', 'Post not found');
+        setText('#post-meta', '');
+        setText('#notice', 'We couldn’t locate this article via blogs.json, direct file, or sitemap. Please confirm the slug matches a file in /blog and/or an entry in /blogs.json.');
+        show('#error'); ping('not_found'); return;
+      }
+
+      // Meta from post if we have it; otherwise minimal meta
+      if (post) {
+        setText('#post-title', post.title || 'Untitled');
+        setText('#post-meta', fmtByline(post));
+        setMeta(post, href);
+      } else {
+        const titleFromSlug = slug.replace(/[-_]+/g,' ').replace(/\b\w/g, c=>c.toUpperCase());
+        setText('#post-title', titleFromSlug);
+        setText('#post-meta', '');
+        setMeta({ title: titleFromSlug }, href);
+      }
+
+      // Fetch and inject the actual article HTML
+      const html = await tryFetch(href);
+      injectArticle(html);
+      ping('view_ok', { href });
+
     } catch (err) {
       console.error(err);
       setText('#post-title', 'Error loading post');
       setText('#post-meta', '');
-      setText('#notice', String(err.message || err));
-      show('#error');
-      pingTelemetry('view_error', {error:String(err)});
+      setText('#notice', String(err?.message || err));
+      show('#error'); ping('view_error', { error: String(err) });
     }
   })();
   </script>
