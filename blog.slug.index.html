@@ -192,9 +192,7 @@
       <img src="{{image}}" alt="{{title}}" class="feature" itemprop="image" />
       <h1 id="ab-cta-text" itemprop="headline">{{title}}</h1>
       <div class="meta">
-        Published on <time itemprop="datePublished" datetime="{{date}}">{{date}}</time> by
-        <a href="{{authorLink}}" target="_blank" rel="noopener" itemprop="author">{{authorName}}</a>
-        &nbsp;|&nbsp; Tagged: {{tags}}
+        <!-- Meta will be injected by loader -->
       </div>
 
       <div class="content" itemprop="articleBody">
@@ -419,6 +417,20 @@
         .replace(/\b\w/g, c => c.toUpperCase()) || 'Article';
     };
 
+    // --- Always fetch articles via /blog.raw/... ---
+    const normalizePath = (p) => {
+      if (typeof p !== 'string') return p;
+      const rel = p.replace(/^https?:\/\/[^/]+/i, ''); // strip origin if present
+      return rel.replace(/^\/blog\//, '/blog.raw/');
+    };
+
+    const tryFetch = async (path) => {
+      const p = normalizePath(path);
+      const r = await fetch(p, { cache: 'no-store' });
+      if (!r.ok) throw 0;
+      return await r.text();
+    };
+
     const postBodyHost = document.getElementById('post-body');
 
     const setCoreMeta = ({title, excerpt, image, canonicalHref}) => {
@@ -443,9 +455,8 @@
     let usedBareMode = false;
     try {
       const res = await fetch('/blogs.json?ts=' + Date.now(), { cache: 'no-store', headers:{'Accept':'application/json'} });
-      if (!res.ok) throw new Error('blogs.json '+res.status);
-      const posts = await res.json();
-
+      const raw = await res.json();
+      const posts = Array.isArray(raw) ? raw : (Array.isArray(raw?.items) ? raw.items : []);
       const matchBySuffix = (val, target) => typeof val === 'string' && (val.endsWith('/'+target) || val.endsWith('/'+target+'.html'));
       const post = Array.isArray(posts) ? posts.find(p => {
         const ps = String(p.slug||'').trim();
@@ -466,20 +477,21 @@
       const dateIso = post.published_at || post.date || '';
       const dateTxt = dateIso ? new Date(dateIso).toLocaleDateString(undefined,{year:'numeric',month:'short',day:'numeric'}) : '';
       const image   = post.thumbnail || `/images/${normalizedSlug}.png`;
-      const authorName = post.author || 'DebtReliefGuard';
+      const authorName = post.author || '';
       const authorLink = post.authorLink || 'https://debtreliefguard.com';
 
-      const hasUndatedUrl = typeof post.url === 'string' && /\/blog\/[^/]+\.html$/i.test(post.url);
-      const canonicalPath = hasUndatedUrl ? post.url : (post.content_url && /\/blog\/.+\.html$/i.test(post.content_url) ? post.content_url : canonicalUndated);
-      const canonicalHref = location.origin + canonicalPath.replace(/^https?:\/\/[^/]+/, '');
+      // Always use undated canonical for SEO
+      const canonicalHref = location.origin + canonicalUndated;
 
       const img = document.querySelector('img.feature'); if (img){ img.src=image; img.alt=title; }
       const h1  = document.getElementById('ab-cta-text'); if (h1) h1.textContent = title;
       const metaDiv = document.querySelector('.meta');
       if (metaDiv) {
-        metaDiv.innerHTML = `Published on <time itemprop="datePublished" datetime="${dateIso}">${dateTxt || (dateIso||'')}</time> by
-          <a href="${authorLink}" target="_blank" rel="noopener" itemprop="author">${authorName}</a>
-          ${Array.isArray(post.tags)&&post.tags.length ? ` &nbsp;|&nbsp; Tagged: ${post.tags.join(', ')}` : ''}`;
+        const bits = [];
+        if (dateIso) bits.push(`<time itemprop="datePublished" datetime="${dateIso}">${dateTxt || dateIso}</time>`);
+        if (authorName) bits.push(`by <a href="${authorLink}" target="_blank" rel="noopener" itemprop="author">${authorName}</a>`);
+        if (Array.isArray(post.tags) && post.tags.length) bits.push(`Tagged: ${post.tags.join(', ')}`);
+        metaDiv.innerHTML = bits.length ? bits.join(' &nbsp;|&nbsp; ') : '';
       }
 
       setCoreMeta({ title, excerpt, image, canonicalHref });
@@ -490,8 +502,7 @@
       } else if (post.body) {
         postBodyHost.innerHTML = simpleMdToHtml(post.body);
       } else {
-        // fetch fallback content file
-        const tryFetch = async (path)=>{ const r=await fetch(path,{cache:'no-store'}); if(!r.ok) throw 0; return await r.text(); };
+        // fetch fallback content file (ALWAYS via /blog.raw/)
         let injected = '';
         try { injected = extractArticle(await tryFetch(post.content_url)); }
         catch { try { injected = extractArticle(await tryFetch(`/blog/${normalizedSlug}.html`)); }
@@ -506,8 +517,8 @@
         let html = '';
         for (const p of tryPaths) {
           try {
-            const r = await fetch(p, { cache: 'no-store' });
-            if (r.ok) { html = await r.text(); break; }
+            html = await tryFetch(p);  // <-- now goes via /blog.raw/...
+            if (html) break;
           } catch {}
         }
         if (!html) throw new Error('no article file found');
@@ -519,9 +530,9 @@
         const title = deriveTitleFrom(html, normalizedSlug);
         const image = `/images/${normalizedSlug}.png`;
         const h1 = document.getElementById('ab-cta-text'); if (h1) h1.textContent = title;
+        const metaDiv = document.querySelector('.meta');
+        if (metaDiv) metaDiv.innerHTML = '';
         setCoreMeta({ title, excerpt: '', image, canonicalHref: location.origin + (canonicalUndated) });
-
-        const metaDiv = document.querySelector('.meta'); if (metaDiv) metaDiv.innerHTML = '';
       } catch (e2) {
         const container = document.querySelector('.container');
         if (container) container.innerHTML = '<p>Post not found.</p>';
