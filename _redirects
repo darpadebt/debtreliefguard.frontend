@@ -9,28 +9,27 @@
 /blog/:year-:month-:day-:rest        /blog/:year-:month-:day-:rest.html   200
 
 # Blog list
-/blog             /blog.index.html             200
-/blog/            /blog.index.html             200
-
-# Raw pass-through so JS can fetch article files without hitting the slug template
-/blog.raw/:splat  /blog/:splat                200
+/blog             /blog.index.html   200
+/blog/            /blog.index.html   200
 
 # Blog post slugs (undated) -> slug template  (**SINGULAR** filename)
-/blog/:slug.html  /blog.slug.index.html        200
-/blog/:slug       /blog.slug.index.html        200
+/blog/:slug.html  /blog.slug.index.html   200
+/blog/:slug       /blog.slug.index.html   200
 
 # Blog feed JSON
-/blogs.json       /blogs.json                  200
+/blogs.json       /blogs.json   200
 
 # Standard assets
-/favicon.ico      /favicon.ico                 200
-/robots.txt       /robots.txt                  200
-/sitemap.xml      /sitemap.xml                 200
+/favicon.ico      /favicon.ico   200
+/robots.txt       /robots.txt   200
+/sitemap.xml      /sitemap.xml  200
 
 # Static assets passthrough
-/images/*         /images/:splat               200
-/*.css            /:splat                      200
-/*.js             /:splat                      200
-/*.png            /:splat                      200
-/*.jpg            /:splat                      200
-/*.svg            /:splat                      200
+/images/*         /images/:splat   200
+/*.css            /:splat          200
+/*.js             /:splat          200
+/*.png            /:splat          200
+/*.jpg            /:splat          200
+/*.svg            /:splat          200
+/*.webp           /:splat          200
+/*.avif           /:splat          200
