@@ -462,11 +462,11 @@
         let filtered = posts.filter(p => !site || (String(p.site || '').toLowerCase() === site));
         if (!filtered.length) filtered = posts;
 
-        // 3) Find post by slug or by /blog/:slug.html in url field
+        // 3) Find post by slug or by content_url (targeted fix)
         const targetPath = `/blog/${slug}.html`;
         const post = filtered.find(p =>
           (String(p.slug||'').toLowerCase() === slug.toLowerCase()) ||
-          (String(p.url||'').toLowerCase() === targetPath.toLowerCase())
+          (String(p.content_url||'').toLowerCase() === targetPath.toLowerCase())
         );
 
         if (!post) {
@@ -477,7 +477,7 @@
         }
 
         // 4) Fetch HTML content from content_url (dated file served statically per your _redirects rules)
-        const contentUrl = post.content_url || post.url || targetPath;
+        const contentUrl = post.content_url || targetPath;
         const res = await fetch(contentUrl + (contentUrl.includes('?') ? '&' : '?') + 'ts=' + Date.now(), { cache: 'no-store' });
         if (!res.ok) throw new Error('content_url HTTP ' + res.status);
         const ct2 = (res.headers.get('content-type') || '').toLowerCase();
@@ -502,7 +502,7 @@
         // 6) Page chrome: title/meta/schema
         const pageTitle = post.title || slug.replace(/-/g,' ').replace(/\b\w/g, m=>m.toUpperCase());
         const pageDesc  = safeExcerpt(post.excerpt || '');
-        const pageUrl   = absUrl(post.url || targetPath);
+        const pageUrl   = absUrl(targetPath);
         const pageImg   = post.thumbnail ? absUrl(post.thumbnail) : absUrl('/og-cover.jpg');
         const datePub   = post.published_at || null;
         const tags      = Array.isArray(post.tags) ? post.tags : [];
