@@ -6,7 +6,7 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
 
   <!-- Viewport -->
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale:5.0" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0" />
 
   <!-- =========================
        TITLE & DESCRIPTION (SEO)
@@ -113,12 +113,10 @@
     .sticky-menu nav a{color:#ffdd00;text-decoration:none;padding:.35rem .55rem;border-radius:6px;font-weight:700;font-size:.92rem;flex:0 0 auto}
     .sticky-menu nav a:hover,.sticky-menu nav a:focus{background:rgba(255,255,255,.1);outline:none}
 
-    /* ===== Mobile safe-areas: keep cards above footer & clear sticky header ===== */
+    /* ===== Mobile safe-areas ===== */
     @media (max-width:768px){
-      body, main {
-        padding-bottom: calc(var(--callbar-h) + var(--sitemap-h) + env(safe-area-inset-bottom) + 14px);
-      }
-      .wrap { padding-top: 8px; } /* keep first card clear of sticky top nav */
+      body, main { padding-bottom: calc(var(--callbar-h) + var(--sitemap-h) + env(safe-area-inset-bottom) + 14px); }
+      .wrap { padding-top: 8px; }
     }
   </style>
 
@@ -341,7 +339,7 @@
         div.style.maxWidth='88%'; div.style.padding='10px 12px'; div.style.borderRadius='14px'; div.style.fontSize='14px'; div.style.lineHeight='1.35';
         if (who==='user'){ div.style.marginLeft='auto'; div.style.background='#0b63f6'; div.style.color='#fff'; div.style.borderTopRightRadius='4px'; }
         else if (who==='bot'){ div.style.background='#eef2ff'; div.style.color='#111'; div.style.borderTopLeftRadius='4px'; }
-        else { div.style.background='#f3f4f6'; div.style.color='#444'; div.style.fontSize:'12px'; div.style.margin:'4px auto'; }
+        else { div.style.background='#f3f4f6'; div.style.color:'#444'; div.style.fontSize:'12px'; div.style	margin:'4px auto'; }
         div.textContent = (text??'').toString(); el.body.appendChild(div); el.body.scrollTop = el.body.scrollHeight;
       };
 
@@ -377,7 +375,7 @@
     })();
   </script>
 
-  <!-- Page bridge for 015 / 016 / 057 (non-visual; no-ops unless called) -->
+  <!-- Page bridge for 015 / 016 / 057 -->
   <script>
     (function(){
       if (window.GFSR && window.GFSR.bridgeReady) return;
@@ -386,18 +384,13 @@
         bridgeReady: true,
         page: document.querySelector('meta[name="x-ai-optimizer-page"]')?.content || null,
         slots: (window.__ab && window.__ab.slots) ? window.__ab.slots : {},
-        // 050/015: controlled content setters
         setHeadline(txt){ const h = $('#ab-cta-text'); if(h && typeof txt==='string') h.textContent = txt; },
         setPrimaryCta({text, href}={}){ const a=$('.hero-ctas .btn.btn-primary'); if(a){ if(typeof text==='string') a.textContent=text; if(typeof href==='string') a.href=href; } },
-        // 057: log helper
-        log(name, data={}){
-          try{
-            const b=new Blob([JSON.stringify({ name, ts:Date.now(), url:location.href, ...data })],{type:'application/json'});
-            if(navigator.sendBeacon) navigator.sendBeacon('/ingest', b);
-            else fetch('/ingest',{ method:'POST', body:b, keepalive:true, headers:{'Content-Type':'application/json'} }).catch(()=>{});
-          }catch{}
-        },
-        // 016: programmatic chat send
+        log(name, data={}){ try{
+          const b=new Blob([JSON.stringify({ name, ts:Date.now(), url:location.href, ...data })],{type:'application/json'});
+          if(navigator.sendBeacon) navigator.sendBeacon('/ingest', b);
+          else fetch('/ingest',{ method:'POST', body:b, keepalive:true, headers:{'Content-Type':'application/json'} }).catch(()=>{});
+        }catch{} },
         chatSend(text){
           const input=document.getElementById('gfsrChatInput');
           const form =document.getElementById('gfsrChatForm');
@@ -408,7 +401,7 @@
     })();
   </script>
 
-  <!-- === SINGLE CONSOLIDATED BLOG RENDERER === -->
+  <!-- === SINGLE CONSOLIDATED BLOG RENDERER (hardened links) === -->
   <script>
   (async () => {
     const GRID   = document.getElementById('grid');
@@ -420,9 +413,21 @@
       catch { return d || ''; }
     };
 
+    const isAbs = (u) => /^https?:\/\//i.test(u || '');
+    const cleanTemplateUrl = (u) => (u || '').replace(/\/blog\.slug\.index(\.html)?$/i, '');
+    const slugToPath = (slug) => `/blog/${String(slug||'').replace(/\.html$/,'')}.html`;
+
     const hrefFor = (p) => {
-      if (p && typeof p.url === 'string' && p.url.trim()) return p.url;        // undated /blog/<slug>.html
-      if (p && typeof p.slug === 'string' && p.slug.trim()) return `/blog/${p.slug}.html`;
+      const slug = (p?.slug || '').trim();
+      const url  = cleanTemplateUrl((p?.url || '').trim());
+      const content = (p?.content_url || '').trim();
+
+      if (url) {
+        if (isAbs(url)) return url;                            // absolute URL provided
+        if (/^\/blog\/.+/i.test(url)) return url;             // already a proper blog path
+      }
+      if (slug) return slugToPath(slug);                      // canonical slug link
+      if (/^\/blog\/.+/i.test(content)) return content;       // content_url points to blog path
       return '#';
     };
 
@@ -431,37 +436,29 @@
     const onImgError = (img, slug) => {
       if (!img || img.dataset.fallback === '1') return;
       img.dataset.fallback = '1';
-      img.src = `/images/${slug}.png`;  // worker 033 ensures this exists (or transparent png)
+      img.src = `/images/${String(slug||'').replace(/\.html$/,'')}.png`;
     };
 
     try {
-      /* ======== DIAGNOSTIC FETCH & PARSE (replaces original) ======== */
       const url = '/blogs.json?ts=' + Date.now();
       const r = await fetch(url, { headers: { 'Accept':'application/json' }, cache: 'no-store' });
 
-      console.log('[blog.index] GET', url, '->', r.status, r.headers.get('content-type'));
-
-      if (!r.ok) {
-        throw new Error('blogs.json HTTP ' + r.status);
-      }
-
-      let posts;
+      if (!r.ok) throw new Error('blogs.json HTTP ' + r.status);
       const ct = (r.headers.get('content-type') || '').toLowerCase();
       if (!ct.includes('application/json')) {
-        const txt = await r.text();
-        console.warn('[blog.index] Non-JSON response head:', txt.slice(0, 200));
+        console.warn('[blog.index] Non-JSON response');
         throw new Error('blogs.json non-JSON (' + ct + ')');
-      } else {
-        posts = await r.json();
       }
-      /* =================== END DIAGNOSTIC BLOCK ===================== */
+
+      let data = await r.json();
+      const posts = Array.isArray(data) ? data : (Array.isArray(data?.items) ? data.items : []);
 
       // Domain-aware filter (fallback to all if empty)
       const host = location.hostname;
       const site = host.includes('debtreliefguard') ? 'debtreliefguard'
                  : host.includes('debthelpform')    ? 'debthelpform'
                  : null;
-      let filtered = Array.isArray(posts) ? posts.filter(p => !site || (p.site || '').toLowerCase() === site) : [];
+      let filtered = posts.filter(p => !site || (String(p.site || '').toLowerCase() === site));
       if (!filtered.length) filtered = posts;
 
       // Sort newest first
@@ -476,12 +473,13 @@
 
       const cards = filtered.map(p => {
         const slug = (p.slug||'').trim();
-        const img  = (p.thumbnail && String(p.thumbnail).trim()) || `/images/${slug}.png`;
+        const img  = (p.thumbnail && String(p.thumbnail).trim()) || `/images/${slug.replace(/\.html$/,'')}.png`;
         const title = p.title || slug || 'Untitled';
         const dateTxt = p.published_at ? fmt(p.published_at) : '';
         const tags = Array.isArray(p.tags) && p.tags.length ? ` • ${p.tags.join(', ')}` : '';
         const excerpt = safeExcerpt(p.excerpt || '');
         const href = hrefFor(p);
+
         return `
           <article class="card">
             <a href="${href}">
