@@ -1,5 +1,8 @@
 # Home
-/                 /index.html                  200
+/                 /index.html   200
+
+# ===== RAW PASS-THROUGH: must be above ALL other /blog rules =====
+/blog.raw/:splat   /blog/:splat   200
 
 # --- Dated article files (serve static; must be ABOVE slug rules) ---
 /blog/:year-:month-:day-:rest.html   /blog/:year-:month-:day-:rest.html   200
