@@ -339,7 +339,7 @@
         div.style.maxWidth='88%'; div.style.padding='10px 12px'; div.style.borderRadius='14px'; div.style.fontSize='14px'; div.style	lineHeight='1.35';
         if (who==='user'){ div.style.marginLeft='auto'; div.style.background='#0b63f6'; div.style.color='#fff'; div.style.borderTopRightRadius='4px'; }
         else if (who==='bot'){ div.style.background='#eef2ff'; div.style.color='#111'; div.style.borderTopLeftRadius='4px'; }
-        else { div.style.background='#f3f4f6'; div.style.color='#444'; div.style fontSize:'12px'; div.style	margin:'4px auto'; }
+        else { div.style.background='#f3f4f6'; div.style.color:'#444'; div.style fontSize:'12px'; div.style	margin:'4px auto'; }
         div.textContent = (text??'').toString(); el.body.appendChild(div); el.body.scrollTop = el.body.scrollHeight;
       };
 
@@ -401,7 +401,7 @@
     })();
   </script>
 
-  <!-- === SINGLE CONSOLIDATED BLOG RENDERER (hardened links) === -->
+  <!-- === SINGLE CONSOLIDATED BLOG RENDERER (with tolerant JSON parsing) === -->
   <script>
   (async () => {
     const GRID   = document.getElementById('grid');
@@ -439,18 +439,19 @@
       img.src = `/images/${String(slug||'').replace(/\.html$/,'')}.png`;
     };
 
-    try {
-      const url = '/blogs.json?ts=' + Date.now();
-      const r = await fetch(url, { headers: { 'Accept':'application/json' }, cache: 'no-store' });
-
+    // ---- FLEXIBLE fetch+parse for blogs.json (tolerates non-JSON content-type)
+    async function fetchBlogsJson() {
+      const r = await fetch('/blogs.json?ts=' + Date.now(), { headers: { 'Accept':'application/json' }, cache: 'no-store' });
       if (!r.ok) throw new Error('blogs.json HTTP ' + r.status);
       const ct = (r.headers.get('content-type') || '').toLowerCase();
-      if (!ct.includes('application/json')) {
-        console.warn('[blog.index] Non-JSON response');
-        throw new Error('blogs.json non-JSON (' + ct + ')');
-      }
+      if (ct.includes('application/json')) return r.json();
+      const text = await r.text();
+      try { return JSON.parse(text); }
+      catch { throw new Error('blogs.json not valid JSON (' + ct + ')'); }
+    }
 
-      let data = await r.json();
+    try {
+      const data = await fetchBlogsJson();
       const posts = Array.isArray(data) ? data : (Array.isArray(data?.items) ? data.items : []);
 
       // Domain-aware filter (fallback to all if empty)
