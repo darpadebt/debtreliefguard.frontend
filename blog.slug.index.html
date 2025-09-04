@@ -2,217 +2,200 @@
 <html lang="en">
 <head>
   <meta charset="utf-8" />
-  <title>Loading… | DebtReliefGuard Blog</title>
   <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <!-- Defaults (will be replaced by JS once post loads) -->
+  <title>Loading… | DebtReliefGuard</title>
   <meta name="description" content="Loading blog post…" />
   <meta name="robots" content="index,follow" />
 
-  <!-- Keep any theme CSS includes you already load globally via layout/_headers -->
+  <!-- Open Graph (will be replaced by JS) -->
+  <meta property="og:type" content="article" />
+  <meta property="og:title" content="Loading…" />
+  <meta property="og:description" content="Loading blog post…" />
+  <meta property="og:url" content="" />
+  <meta property="og:image" content="/og-cover.jpg" />
+  <meta name="twitter:card" content="summary_large_image" />
+
   <style>
-    /* minimal guard styles; your existing theme CSS will still apply */
-    #post-body { min-height: 200px; }
-    .hidden { display: none !important; }
+    body{font-family:system-ui,-apple-system,Segoe UI,Roboto,Inter,Arial,sans-serif;margin:0;color:#111;background:#fff;}
+    .wrap{max-width:1040px;margin:0 auto;padding:16px;}
+    header.hero{background:#0b3b66;color:#fff;padding:28px 16px;margin:0 0 12px;}
+    header.hero h1{margin:0;font-size:1.9rem;line-height:1.2}
+    .meta{opacity:.85;margin:.5rem 0 0}
+    article{line-height:1.65;font-size:1.05rem}
+    .muted{color:#666}
+    .hidden{display:none}
   </style>
 </head>
 <body>
-  <!--
-    Structure matches prior expectations:
-    - #post-title: gets title text
-    - #post-meta:  optional author/date rendering (if present in blogs.json)
-    - #post-body:  receives injected HTML from the dated content_url
-  -->
-  <header id="post-header">
-    <h1 id="post-title">Loading…</h1>
-    <div id="post-meta" class="hidden"></div>
+  <header class="hero">
+    <div class="wrap">
+      <a href="/" style="color:#fff;text-decoration:none;">DebtReliefGuard</a>
+      <div class="muted" style="margin-top:4px;"><a href="/blog" style="color:#fff;opacity:.9">Blog</a> ▸ <span id="crumb">Loading…</span></div>
+      <h1 id="post-title">Loading…</h1>
+      <p id="post-meta" class="meta">Please wait while we load the article.</p>
+    </div>
   </header>
 
-  <article id="post-body" aria-busy="true">Loading content…</article>
+  <main class="wrap">
+    <div id="notice" class="muted"></div>
+    <article id="post-article" class="hidden" aria-live="polite"></article>
+    <p id="error" class="muted hidden">Sorry, we couldn’t load that post.</p>
+  </main>
 
   <script>
-    (function () {
-      /** Telemetry helper – keeps your existing logging if present. */
-      function logTelemetry(event, data) {
-        try {
-          if (window.GFSR && typeof window.GFSR.log === 'function') {
-            window.GFSR.log(event, data);
-          }
-        } catch (_) {}
-      }
+  (async () => {
+    // ---------- helpers
+    const qs = (s) => document.querySelector(s);
+    const setText = (sel, t) => { const el=qs(sel); if (el) el.textContent = t || ''; };
+    const show = (sel) => { const el=qs(sel); if (el) el.classList.remove('hidden'); };
+    const hide = (sel) => { const el=qs(sel); if (el) el.classList.add('hidden'); };
+    const byline = (p) => {
+      const d = p.date_published || p.published_at || '';
+      const dt = d ? new Date(d) : null;
+      const dateStr = dt ? dt.toLocaleDateString(undefined, {year:'numeric', month:'short', day:'numeric'}) : '';
+      const tags = Array.isArray(p.tags) && p.tags.length ? ' • ' + p.tags.join(', ') : '';
+      const author = p.author || 'DebtReliefGuard';
+      return [author, dateStr, tags].filter(Boolean).join(' • ');
+    };
+    const normSlug = (s) => String(s||'').trim().replace(/(^\/+|\/+$)/g,'').replace(/\.html$/,'');
+    const filename = (url) => {
+      try { return normSlug(new URL(url, location.origin).pathname.split('/').pop()); }
+      catch { return normSlug(String(url||'').split('/').pop()); }
+    };
 
-      /** Resolve current slug from URL: /blog/<slug> or /blog/<slug>.html */
-      function getSlugFromPath() {
-        const path = location.pathname.replace(/\/+$/, ''); // trim trailing slash
-        const last = path.split('/').pop() || '';
-        return last.replace(/\.html$/i, ''); // strip .html if present
-      }
+    // ---------- 1) get slug from URL (/blog/<slug>[.html])
+    const path = location.pathname;
+    const slug = normSlug(path.replace(/^\/?blog\//,''));
 
-      /** Join base + path safely. */
-      function joinUrl(base, path) {
-        try {
-          return new URL(path, base).toString();
-        } catch {
-          // If base missing protocol, assume same origin
-          if (path.startsWith('http')) return path;
-          if (path.startsWith('/')) return path;
-          return (base.replace(/\/+$/, '') + '/' + path.replace(/^\/+/, ''));
-        }
-      }
-
-      /** Absolutize URLs for href/src and common attributes using a base. */
-      function absolutizeUrls(root, baseUrl) {
-        const ATTRS = ['href', 'src', 'srcset', 'data-src'];
-        const all = root.querySelectorAll('*');
-        all.forEach((el) => {
-          ATTRS.forEach((a) => {
-            if (!el.hasAttribute(a)) return;
-            const val = el.getAttribute(a) || '';
-            if (!val) return;
-            // Handle srcset specially (may contain multiple URLs)
-            if (a === 'srcset' && /,|\s\d/.test(val)) {
-              const items = val.split(',').map(s => s.trim()).filter(Boolean);
-              const fixed = items.map(item => {
-                const m = item.match(/^(\S+)(\s+.+)?$/);
-                if (!m) return item;
-                const abs = joinUrl(baseUrl, m[1]);
-                return abs + (m[2] || '');
-              });
-              el.setAttribute('srcset', fixed.join(', '));
-              return;
-            }
-            // Skip data:, mailto:, tel:
-            if (/^(data:|mailto:|tel:)/i.test(val)) return;
-            // Make absolute
-            const abs = joinUrl(baseUrl, val);
-            el.setAttribute(a, abs);
-          });
-        });
-        return root;
-      }
-
-      /**
-       * Parse fetched HTML and return a container with just the meaningful content.
-       * Preference: <article> → <main> → <body> → (fallback) entire parsed contents.
-       * We lift only the children of the chosen scope into a clean div.
-       */
-      function sanitizeAndScopeToContent(htmlText, baseUrl) {
-        const parser = new DOMParser();
-        const doc = parser.parseFromString(htmlText, 'text/html');
-
-        // Update <title> and <meta name="description"> in our shell (optional)
-        try {
-          const incomingTitle = doc.querySelector('title')?.textContent?.trim();
-          if (incomingTitle) document.title = incomingTitle;
-          const incomingDesc = doc.querySelector('meta[name="description"]')?.getAttribute('content');
-          if (incomingDesc) {
-            let meta = document.querySelector('meta[name="description"]');
-            if (!meta) {
-              meta = document.createElement('meta');
-              meta.setAttribute('name', 'description');
-              document.head.appendChild(meta);
-            }
-            meta.setAttribute('content', incomingDesc);
-          }
-        } catch (_) {}
-
-        // Choose the best scope to render
-        const scope =
-          doc.querySelector('article') ||
-          doc.querySelector('main') ||
-          doc.body ||
-          doc.documentElement;
-
-        // Clone chosen scope into a temp container and absolutize resources
-        const tmp = document.createElement('div');
-        // Move (not clone) children so we don’t duplicate scripts/styles badly
-        while (scope.firstChild) tmp.appendChild(scope.firstChild);
-
-        absolutizeUrls(tmp, baseUrl);
-
-        // Now lift only the scope's children into a clean container for injection
-        const container = document.createElement('div');
-        while (tmp.firstChild) container.appendChild(tmp.firstChild);
-        return container;
-      }
-
-      /** Render meta line (author, date) if available. */
-      function setPostMeta(post) {
-        const meta = document.getElementById('post-meta');
-        if (!meta) return;
-        const bits = [];
-        if (post.author) bits.push(post.author);
-        if (post.date_published) bits.push(new Date(post.date_published).toLocaleDateString());
-        meta.textContent = bits.join(' • ');
-        if (bits.length) meta.classList.remove('hidden');
-      }
-
-      async function load() {
-        const slug = getSlugFromPath();
-        const listUrl = '/blogs.json';
-
-        // 1) Fetch blogs.json
-        const listRes = await fetch(listUrl, { credentials: 'same-origin' });
-        if (!listRes.ok) throw new Error('Failed to load blogs.json: ' + listRes.status);
-        const posts = await listRes.json();
-
-        // 2) Find matching post
-        const post = (Array.isArray(posts) ? posts : []).find(p => (p.slug || '').toLowerCase() === slug.toLowerCase());
-        if (!post) throw new Error('Post not found in blogs.json for slug: ' + slug);
-
-        // 3) Build absolute content URL (dated HTML). If folder path, fall back to index.html
-        let contentURL = post.content_url || '';
-        if (!contentURL) throw new Error('Missing content_url for slug: ' + slug);
-        // If content_url ends with '/', resolve to index.html
-        if (/\/$/.test(contentURL)) contentURL = contentURL + 'index.html';
-
-        const absContentURL = joinUrl(location.origin, contentURL);
-
-        // 4) Update shell title/meta from blogs.json (can be overridden by fetched doc)
-        if (post.title) document.getElementById('post-title').textContent = post.title;
-        setPostMeta(post);
-        if (post.excerpt) {
-          let meta = document.querySelector('meta[name="description"]');
-          if (!meta) {
-            meta = document.createElement('meta');
-            meta.setAttribute('name', 'description');
-            document.head.appendChild(meta);
-          }
-          meta.setAttribute('content', post.excerpt);
-        }
-
-        // 5) Fetch the dated HTML file
-        const res = await fetch(absContentURL, { credentials: 'same-origin' });
-        if (!res.ok) throw new Error('Failed to fetch content_url: ' + res.status + ' ' + absContentURL);
-        const htmlText = await res.text();
-
-        // 6) Parse & inject ONLY the meaningful content (article/main/body children)
-        const container = sanitizeAndScopeToContent(htmlText, absContentURL);
-        const bodyTarget = document.getElementById('post-body');
-        if (!bodyTarget) throw new Error('#post-body not found');
-        bodyTarget.innerHTML = '';
-        while (container.firstChild) bodyTarget.appendChild(container.firstChild);
-        bodyTarget.removeAttribute('aria-busy');
-
-        // 7) Telemetry hook (unchanged in spirit)
-        logTelemetry('blog_open', {
-          slug,
-          content_url: contentURL,
-          ts: Date.now()
-        });
-      }
-
-      load().catch(err => {
-        console.error(err);
-        const bodyTarget = document.getElementById('post-body');
-        if (bodyTarget) {
-          bodyTarget.removeAttribute('aria-busy');
-          bodyTarget.innerHTML = '<p>Sorry, we couldn\'t load this article right now.</p>';
-        }
-        logTelemetry('blog_open_error', {
-          message: String(err && err.message || err),
-          ts: Date.now()
-        });
+    // ---------- 2) fetch blogs.json (no-cache)
+    async function loadCatalog() {
+      const res = await fetch('/blogs.json?ts=' + Date.now(), {
+        headers: { 'Accept': 'application/json' },
+        cache: 'no-store'
       });
-    })();
+      if (!res.ok) throw new Error('blogs.json HTTP ' + res.status);
+      const ct = (res.headers.get('content-type')||'').toLowerCase();
+      if (ct.includes('application/json')) return res.json();
+      return JSON.parse(await res.text());
+    }
+
+    // ---------- 3) choose the matching post
+    function findPost(list, slug) {
+      if (!Array.isArray(list)) list = Array.isArray(list?.items) ? list.items : [];
+      // direct slug match
+      let p = list.find(x => normSlug(x.slug) === slug);
+      if (p) return p;
+      // fallback: match by filename of content_url
+      p = list.find(x => filename(x.content_url) === slug || filename(x.url) === slug);
+      return p || null;
+    }
+
+    // ---------- 4) set SEO/meta from post record
+    function setMeta(p, href) {
+      const title = p.title || 'Blog Post';
+      const desc = p.excerpt || p.description || 'Debt relief insights and guides.';
+      const image = (p.image || p.thumbnail || '/og-cover.jpg');
+      const canonical = new URL(href || location.href, location.origin).href;
+
+      document.title = `${title} | DebtReliefGuard`;
+      [
+        ['meta[name="description"]','content', desc],
+        ['meta[property="og:title"]','content', title],
+        ['meta[property="og:description"]','content', desc],
+        ['meta[property="og:url"]','content', canonical],
+        ['meta[property="og:image"]','content', image]
+      ].forEach(([sel, attr, val]) => { const el = qs(sel); if (el) el.setAttribute(attr, val); });
+
+      // Article JSON-LD
+      const orgId = "https://gatewaydebthelp.com/#gfsr";
+      const ld = {
+        "@context":"https://schema.org",
+        "@type":"Article",
+        "headline": title,
+        "datePublished": p.date_published || p.published_at || undefined,
+        "dateModified": p.date_modified || undefined,
+        "image": image ? [image] : undefined,
+        "author": {"@type":"Organization","name":"DebtReliefGuard"},
+        "publisher": {"@type":"Organization","@id": orgId, "name":"Gateway Financial Settlement Relief, LLC"},
+        "mainEntityOfPage": canonical,
+        "description": desc
+      };
+      let tag = document.getElementById('ld-article');
+      if (!tag) { tag = document.createElement('script'); tag.type='application/ld+json'; tag.id='ld-article'; document.head.appendChild(tag); }
+      tag.textContent = JSON.stringify(ld);
+    }
+
+    // ---------- 5) fetch the real HTML file and inject its <article> (or fallback)
+    async function loadAndInject(url) {
+      const res = await fetch(url, { cache:'no-store' });
+      if (!res.ok) throw new Error('post HTML HTTP ' + res.status);
+      const html = await res.text();
+      // try to extract <article> or <main>
+      const doc = new DOMParser().parseFromString(html, 'text/html');
+      let node = doc.querySelector('article, main');
+      // fallback: try body content
+      if (!node) node = doc.body;
+      const target = qs('#post-article');
+      target.innerHTML = node ? node.innerHTML : html;
+      show('#post-article');
+    }
+
+    // ---------- 6) telemetry (best-effort; non-blocking; ignores errors)
+    function pingTelemetry(stage, extra) {
+      const base = (p) => ({
+        stage, slug,
+        title: p?.title || null,
+        at: new Date().toISOString(),
+        userAgent: navigator.userAgent,
+        ref: document.referrer || null,
+        ...extra
+      });
+      const ents = [
+        ['/api/015-telemetry-collector', {}],
+        ['/api/016-telemetry-rollups', {}],
+        ['/api/050-ai-loop-optimizer', {}],
+        ['/api/057-heat-map-tracker', {}]
+      ];
+      ents.forEach(([url, opt]) => {
+        fetch(url, { method:'POST', body: JSON.stringify(base()), headers:{'content-type':'application/json'}, keepalive:true, ...opt })
+          .catch(()=>{});
+      });
+    }
+
+    try {
+      setText('#crumb', slug || 'Loading…');
+      const catalog = await loadCatalog();
+      const post = findPost(catalog, slug);
+
+      if (!post) {
+        setText('#post-title', 'Post not found');
+        setText('#post-meta', '');
+        setText('#notice', 'We couldn’t find a post with that address. If this was a dated article, please verify the filename in /blog and the slug in blogs.json match.');
+        show('#error');
+        pingTelemetry('not_found');
+        return;
+      }
+
+      const href = (post.content_url?.trim()) || (post.url?.trim()) || `/blog/${slug}.html`;
+      setText('#post-title', post.title || 'Untitled');
+      setText('#post-meta', byline(post));
+      setMeta(post, href);
+      pingTelemetry('view_start', {href});
+
+      await loadAndInject(href);
+
+      pingTelemetry('view_ok', {href});
+    } catch (err) {
+      console.error(err);
+      setText('#post-title', 'Error loading post');
+      setText('#post-meta', '');
+      setText('#notice', String(err.message || err));
+      show('#error');
+      pingTelemetry('view_error', {error:String(err)});
+    }
+  })();
   </script>
 </body>
 </html>
