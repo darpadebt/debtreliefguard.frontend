@@ -31,7 +31,8 @@
   <header class="hero">
     <div class="wrap">
       <a href="/" style="color:#fff;text-decoration:none;">DebtReliefGuard</a>
-      <div class="muted" style="margin-top:4px;"><a href="/blog" style="color:#fff;opacity:.9">Blog</a> ▸ <span id="crumb">Loading…</span></div>
+      <!-- Link directly to the index page to avoid any /blog → slug rewrites -->
+      <div class="muted" style="margin-top:4px;"><a href="/blog.index.html" style="color:#fff;opacity:.9">Blog</a> ▸ <span id="crumb">Loading…</span></div>
       <h1 id="post-title">Loading…</h1>
       <p id="post-meta" class="meta">Please wait while we load the article.</p>
     </div>
@@ -51,6 +52,14 @@
     const show = (sel) => { const el=qs(sel); if (el) el.classList.remove('hidden'); };
     const hide = (sel) => { const el=qs(sel); if (el) el.classList.add('hidden'); };
     const normSlug = (s) => String(s||'').trim().replace(/(^\/+|\/+$)/g,'').replace(/\.html$/,'');
+
+    // turn a site-absolute /blog/*.html into the non-routed RAW path to avoid loops
+    const toRaw = (href) => {
+      const u = String(href||'').trim();
+      if (/^\/blog\/.+\.html$/i.test(u)) return u.replace(/^\/blog\//i, '/blog.raw/');
+      return u;
+    };
+
     const filename = (url) => {
       try { return normSlug(new URL(url, location.origin).pathname.split('/').pop()); }
       catch { return normSlug(String(url||'').split('/').pop()); }
@@ -155,7 +164,7 @@
 
       let post = null, href = null;
 
-      // 1) Primary: blogs.json
+      // 1) Primary: blogs.json (then force RAW if it points into /blog/)
       try {
         const raw = await fetchJSON('/blogs.json?ts=' + Date.now());
         const list = Array.isArray(raw) ? raw : (Array.isArray(raw?.items) ? raw.items : []);
@@ -163,23 +172,24 @@
             || list.find(x => filename(x?.content_url) === slug || filename(x?.url) === slug)
             || null;
         if (post) {
-          href = (post.content_url?.trim()) || (post.url?.trim()) || `/blog/${slug}.html`;
+          href = toRaw((post.content_url?.trim()) || (post.url?.trim()) || `/blog/${slug}.html`);
         }
       } catch (e) {
         // swallow; we’ll try fallbacks
       }
 
-      // 2) Fallback A: direct undated file /blog/<slug>.html
+      // 2) Fallback A: direct RAW file /blog.raw/<slug>.html (avoids slug rewrite)
       if (!href) {
         try {
-          const probe = await fetch(`/blog/${slug}.html`, { method:'HEAD', cache:'no-store' });
-          if (probe.ok) href = `/blog/${slug}.html`;
+          const probe = await fetch(`/blog.raw/${slug}.html`, { method:'HEAD', cache:'no-store' });
+          if (probe.ok) href = `/blog.raw/${slug}.html`;
         } catch {}
       }
 
-      // 3) Fallback B: sitemap.xml → dated post that ends with <slug>.html
+      // 3) Fallback B: sitemap.xml → dated post path; then force RAW form if it’s under /blog/
       if (!href) {
-        href = await findInSitemap(slug);
+        const fromMap = await findInSitemap(slug);
+        if (fromMap) href = toRaw(fromMap);
       }
 
       if (!href) {
@@ -201,7 +211,7 @@
         setMeta({ title: titleFromSlug }, href);
       }
 
-      // Fetch and inject the actual article HTML
+      // Fetch & inject the actual article HTML (RAW path; no rewrites)
       const html = await tryFetch(href);
       injectArticle(html);
       ping('view_ok', { href });
