@@ -1,11 +1,35 @@
-{
-  "slug": "finding-your-path-to-debt-relief-a-guide-to-debt-consolidation-and-settlement",
-  "title": "Finding Your Path to Debt Relief: A Guide to Debt Consolidation and Settlement",
-  "excerpt": "Learn how to navigate consolidation and settlement, compare pros and cons, and choose the right path toward financial freedom.",
-  "published_at": "2025-08-02T00:00:00Z",
-  "site": "debtreliefguard",
-  "url": "/blog/finding-your-path-to-debt-relief-a-guide-to-debt-consolidation-and-settlement.html",
-  "content_url": "/blog/2025-08-02-finding-your-path-to-debt-relief-a-guide-to-debt-consolidation-and-settlement.html",
-  "tags": ["debt consolidation", "settlement"],
-  "thumbnail": "/images/guide-thumb.png"
-}
+[
+  {
+    "slug": "navigating-the-path-to-debt-relief-your-guide-to-debt-consolidation-and-settlement",
+    "title": "Navigating the Path to Debt Relief: Your Guide to Debt Consolidation and Settlement",
+    "excerpt": "Step-by-step guidance on debt relief options, costs, timelines, and how to choose safe help when consolidating or settling debts.",
+    "published_at": "2025-08-06T00:00:00Z",
+    "site": "debtreliefguard",
+    "url": "/blog/navigating-the-path-to-debt-relief-your-guide-to-debt-consolidation-and-settlement.html",
+    "content_url": "/blog/2025-08-06-navigating-the-path-to-debt-relief-your-guide-to-debt-consolidation-and-settlement.html",
+    "tags": ["debt relief", "consolidation", "settlement"],
+    "thumbnail": "/images/guide-thumb.png"
+  },
+  {
+    "slug": "finding-your-path-to-debt-relief-a-guide-to-debt-consolidation-and-settlement",
+    "title": "Finding Your Path to Debt Relief: A Guide to Debt Consolidation and Settlement",
+    "excerpt": "Learn how to navigate consolidation and settlement, compare pros and cons, and choose the right path toward financial freedom.",
+    "published_at": "2025-08-02T00:00:00Z",
+    "site": "debtreliefguard",
+    "url": "/blog/finding-your-path-to-debt-relief-a-guide-to-debt-consolidation-and-settlement.html",
+    "content_url": "/blog/2025-08-02-finding-your-path-to-debt-relief-a-guide-to-debt-consolidation-and-settlement.html",
+    "tags": ["debt consolidation", "settlement"],
+    "thumbnail": "/images/guide-thumb.png"
+  },
+  {
+    "slug": "chapter-1-understanding-debt-relief-options",
+    "title": "Chapter 1: Understanding Debt Relief Options",
+    "excerpt": "Explore the basics of debt relief, including settlement, consolidation, and hardship programs, and learn how each impacts your finances.",
+    "published_at": "2025-08-03T00:00:00Z",
+    "site": "debtreliefguard",
+    "url": "/blog/chapter-1-understanding-debt-relief-options.html",
+    "content_url": "/blog/2025-08-03-chapter-1-understanding-debt-relief-options.html",
+    "tags": ["debt relief", "chapter 1"],
+    "thumbnail": "/images/guide-thumb.png"
+  }
+]
