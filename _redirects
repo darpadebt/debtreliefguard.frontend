@@ -1,22 +1,25 @@
 /                          /index.html                                     200
 
-# --- Dated article files (serve static FIRST) ---
-/blog/:year-:month-:day-:rest.html    /blog/:year-:month-:day-:rest.html   200
+# --- Dated article files (serve static FIRST; extensionless helper) ---
+# If someone hits /blog/2025-08-03-... (no .html), serve the .html file.
+# This is a rewrite (200), not a redirect, so there’s no loop.
 /blog/:year-:month-:day-:rest         /blog/:year-:month-:day-:rest.html   200
+/blog/:year-:month-:day-:rest.html    /blog/:year-:month-:day-:rest.html   200
 
-# --- Blog list
-/blog                                  /blog.index.html                     200
-/blog/                                 /blog.index.html                     200
+# --- Blog list (canonicalize index.html -> /blog to avoid dupes) ---
+/blog/index.html                      /blog                                 301
+/blog/                                 /blog.index.html                      200
+/blog                                  /blog.index.html                      200
 
-# --- Blog feed JSON
-/blogs.json                            /blogs.json                          200
+# --- Blog feed JSON ---
+/blogs.json                            /blogs.json                           200
 
-# --- Standard assets
-/favicon.ico                           /favicon.ico                         200
-/robots.txt                            /robots.txt                          200
+# --- Standard assets ---
+/favicon.ico                           /favicon.ico                          200
+/robots.txt                            /robots.txt                           200
 /sitemap.xml                           /sitemap.xml
 
-# --- Static assets passthroughs
+# --- Static assets passthrough ---
 /images/*                              /images/:splat
 /css/*                                 /css/:splat
 /js/*                                  /js/:splat
