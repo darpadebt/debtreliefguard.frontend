@@ -336,10 +336,10 @@
 
       const addMsg = (text, who='bot') => {
         const div = document.createElement('div'); div.className = `gfsr-msg ${who}`;
-        div.style.maxWidth='88%'; div.style.padding='10px 12px'; div.style.borderRadius='14px'; div.style.fontSize='14px'; div.style	lineHeight='1.35';
+        div.style.maxWidth='88%'; div.style.padding='10px 12px'; div.style.borderRadius='14px'; div.style.fontSize='14px'; div.style.lineHeight='1.35';
         if (who==='user'){ div.style.marginLeft='auto'; div.style.background='#0b63f6'; div.style.color='#fff'; div.style.borderTopRightRadius='4px'; }
         else if (who==='bot'){ div.style.background='#eef2ff'; div.style.color='#111'; div.style.borderTopLeftRadius='4px'; }
-        else { div.style.background='#f3f4f6'; div.style.color:'#444'; div.style fontSize:'12px'; div.style	margin:'4px auto'; }
+        else { div.style.background='#f3f4f6'; div.style.color:'#444'; div.style.fontSize:'12px'; div.style.margin:'4px auto'; }
         div.textContent = (text??'').toString(); el.body.appendChild(div); el.body.scrollTop = el.body.scrollHeight;
       };
 
@@ -401,58 +401,42 @@
     })();
   </script>
 
-  <!-- === SINGLE CONSOLIDATED BLOG RENDERER (with tolerant JSON parsing) === -->
+  <!-- === SINGLE CONSOLIDATED BLOG RENDERER (simplified & resilient) === -->
   <script>
   (async () => {
     const GRID   = document.getElementById('grid');
     const EMPTY  = document.getElementById('empty');
     const ERR    = document.getElementById('err');
 
-    const fmt = (d) => {
-      try { return new Date(d).toLocaleDateString(undefined, { year:'numeric', month:'short', day:'numeric' }); }
-      catch { return d || ''; }
-    };
-
+    const fmt = (d) => { try { return new Date(d).toLocaleDateString(undefined, { year:'numeric', month:'short', day:'numeric' }); } catch { return d || ''; } };
     const isAbs = (u) => /^https?:\/\//i.test(u || '');
-    const cleanTemplateUrl = (u) => (u || '').replace(/\/blog\.slug\.index(\.html)?$/i, '');
     const slugToPath = (slug) => `/blog/${String(slug||'').replace(/\.html$/,'')}.html`;
-
-    const hrefFor = (p) => {
-      const slug = (p?.slug || '').trim();
-      const url  = cleanTemplateUrl((p?.url || '').trim());
-      const content = (p?.content_url || '').trim();
-
-      if (url) {
-        if (isAbs(url)) return url;
-        if (/^\/blog\/.+/i.test(url)) return url;
-      }
-      if (slug) return slugToPath(slug);
-      if (/^\/blog\/.+/i.test(content)) return content;
-      return '#';
-    };
-
     const safeExcerpt = (s) => (s || '').replace(/^#+\s*/, '');
 
-    const onImgError = (img, slug) => {
-      if (!img || img.dataset.fallback === '1') return;
-      img.dataset.fallback = '1';
-      img.src = `/images/${String(slug||'').replace(/\.html$/,'')}.png`;
-    };
-
-    // ---- FLEXIBLE fetch+parse for blogs.json (tolerates non-JSON content-type)
+    // Tolerant JSON fetcher (never dies on content-type)
     async function fetchBlogsJson() {
       const r = await fetch('/blogs.json?ts=' + Date.now(), { headers: { 'Accept':'application/json' }, cache: 'no-store' });
       if (!r.ok) throw new Error('blogs.json HTTP ' + r.status);
       const ct = (r.headers.get('content-type') || '').toLowerCase();
       if (ct.includes('application/json')) return r.json();
       const text = await r.text();
-      try { return JSON.parse(text); }
-      catch { throw new Error('blogs.json not valid JSON (' + ct + ')'); }
+      try { return JSON.parse(text); } catch { throw new Error('blogs.json not valid JSON'); }
     }
 
+    // Build href: prefer explicit url, else /blog/:slug.html, else content_url
+    const hrefFor = (p) => {
+      const slug = (p?.slug || '').trim();
+      const url  = (p?.url || '').trim();
+      const content = (p?.content_url || '').trim();
+      if (url) return url;                 // absolute or site-absolute; trusted from feed
+      if (slug) return slugToPath(slug);   // canonical slug route
+      if (content) return content;         // fallback to dated file
+      return '#';
+    };
+
     try {
-      const data = await fetchBlogsJson();
-      const posts = Array.isArray(data) ? data : (Array.isArray(data?.items) ? data.items : []);
+      const raw = await fetchBlogsJson();
+      const posts = Array.isArray(raw) ? raw : (Array.isArray(raw?.items) ? raw.items : []);
 
       // Domain-aware filter (fallback to all if empty)
       const host = location.hostname;
@@ -467,12 +451,10 @@
 
       // Render cards
       GRID.innerHTML = '';
-      if (!filtered.length) {
-        if (EMPTY) EMPTY.hidden = false;
-        return;
-      } else if (EMPTY) EMPTY.hidden = true;
+      if (!filtered.length) { EMPTY.hidden = false; return; } else { EMPTY.hidden = true; }
 
-      const cards = filtered.map(p => {
+      const parts = [];
+      for (const p of filtered) {
         const slug = (p.slug||'').trim();
         const img  = (p.thumbnail && String(p.thumbnail).trim()) || `/images/${slug.replace(/\.html$/,'')}.png`;
         const title = p.title || slug || 'Untitled';
@@ -481,22 +463,20 @@
         const excerpt = safeExcerpt(p.excerpt || '');
         const href = hrefFor(p);
 
-        return `
-          <article class="card">
-            <a href="${href}">
-              <img src="${img}" alt="${title.replace(/"/g,'&quot;')}" loading="lazy" onerror="(${onImgError.toString()})(this,'${slug.replace(/'/g,"\\'")}')">
-            </a>
-            <div class="body">
-              <h3><a href="${href}" style="text-decoration:none;color:#111">${title}</a></h3>
-              <p class="meta">${dateTxt}${tags}</p>
-              <p>${excerpt}</p>
-              <a class="btn" href="${href}">Read Article</a>
-            </div>
-          </article>
-        `;
-      }).join('');
+        parts.push(
+`<article class="card">
+  <a href="${href}"><img src="${img}" alt="${title.replace(/"/g,'&quot;')}" loading="lazy"></a>
+  <div class="body">
+    <h3><a href="${href}" style="text-decoration:none;color:#111">${title}</a></h3>
+    <p class="meta">${dateTxt}${tags}</p>
+    <p>${excerpt}</p>
+    <a class="btn" href="${href}">Read Article</a>
+  </div>
+</article>`
+        );
+      }
 
-      GRID.innerHTML = cards;
+      GRID.innerHTML = parts.join('');
     } catch (e) {
       if (ERR) ERR.hidden = false;
       if (EMPTY) EMPTY.hidden = false;
