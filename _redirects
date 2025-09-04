@@ -1,27 +1,42 @@
-/                          /index.html            200
+# --- Home
+/                          /index.html                                   200
 
-# Dated article files (only the extensionless → .html helper)
-# DO NOT add a rule for *.html → *.html
-/blog/:year-:month-:day-:rest        /blog/:year-:month-:day-:rest.html   200
+# --- Dated posts (STATIC) -----------------------------------------------
+# 1) Normalize extensionless dated URLs to the real .html (SEO-friendly redirect)
+#    e.g. /blog/2025-08-06-navigating...  ->  /blog/2025-08-06-navigating....html
+/blog/:year-:month-:day-:rest            /blog/:year-:month-:day-:rest.html 301
 
-# Blog list
-/blog                       /blog.index.html       200
-/blog/                      /blog.index.html       200
+# 2) Serve actual dated HTML files directly
+/blog/:year-:month-:day-:rest.html       /blog/:year-:month-:day-:rest.html 200
 
-# Blog feed JSON
-/blogs.json                 /blogs.json            200
+# --- Blog index ----------------------------------------------------------
+/blog                                    /blog.index.html                   200
+/blog/                                   /blog.index.html                   200
 
-# Standard assets
-/favicon.ico                /favicon.ico           200
-/robots.txt                 /robots.txt            200
-/sitemap.xml                /sitemap.xml
+# --- Slug posts (DYNAMIC LOADER) ----------------------------------------
+# Let slugs (e.g. /blog/BlogMyPostTitle or /blog/BlogMyPostTitle.html)
+# render through the slug loader file
+/blog/:slug                               /blog.slug.index.html             200
+/blog/:slug.html                          /blog.slug.index.html             200
 
-# Static assets passthrough
-/images/*                   /images/:splat         200
-/*.css                      /:splat                200
-/*.js                       /:splat                200
-/*.png                      /:splat                200
-/*.jpg                      /:splat                200
-/*.svg                      /:splat                200
-/*.webp                     /:splat                200
-/*.avif                     /:splat                200
+# IMPORTANT: The loader must NOT fetch /blog/:slug (which would hit these rules again).
+# It should fetch the JSON here instead:
+/api/blog/:slug                           /blog.slug.json                   200
+
+# --- Feed JSON -----------------------------------------------------------
+/blogs.json                               /blogs.json                       200
+
+# --- Standard assets -----------------------------------------------------
+/favicon.ico                              /favicon.ico                      200
+/robots.txt                               /robots.txt                       200
+/sitemap.xml                              /sitemap.xml
+
+# --- Static assets passthrough ------------------------------------------
+/images/*                                 /images/:splat                    200
+/*.css                                    /:splat                           200
+/*.js                                     /:splat                           200
+/*.png                                    /:splat                           200
+/*.jpg                                    /:splat                           200
+/*.svg                                    /:splat                           200
+/*.webp                                   /:splat                           200
+/*.avif                                   /:splat                           200
