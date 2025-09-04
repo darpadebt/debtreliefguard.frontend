@@ -58,7 +58,7 @@
       --ink:#222; --bg:#f9fafe; --brand:#004477; --brand-2:#003057;
       --cta:#0b63f6; --ok:#007b55; --card:#fff; --card-b:#e5e7eb;
       --shadow:0 10px 30px rgba(0,0,0,.12);
-      --callbar-h: 64px;  /* dynamic via script */
+      --callbar-h: 84px;  /* default call bar height */
       --sitemap-h: 52px;  /* floating sitemap height */
     }
     *{box-sizing:border-box}
@@ -88,6 +88,8 @@
     .content p{margin:0 0 1rem}
     .content a{color:#0b63f6;text-decoration:underline}
     .content h2,.content h3{margin:1.2rem 0 .5rem}
+    /* ensure content never hides behind sticky UI */
+    .content{ margin-bottom: calc(var(--callbar-h) + var(--sitemap-h) + env(safe-area-inset-bottom) + 24px); }
 
     .cta{background:#0b63f6;color:#fff;padding:1rem;border-radius:10px;margin:1.5rem 0;text-align:center}
     .cta a{background:#fff;color:#0b63f6;padding:.5rem 1rem;border-radius:8px;font-weight:800;text-decoration:none}
@@ -196,7 +198,8 @@
       </div>
 
       <div class="content" itemprop="articleBody">
-        <!-- article body injected above CTA by loader -->
+        <!-- Where the article HTML will be injected -->
+        <div id="post-body"><em>Loading…</em></div>
 
         <div class="cta">
           <p>Want a personalized estimate for your credit card or personal loan debt?</p>
@@ -387,12 +390,21 @@
   </script>
   <!-- === END: Worker Bridges ============================================== -->
 
-  <!-- === FINAL loader: **BARE MODE** capable (no blogs.json required) ======= -->
+  <!-- === FINAL loader: blogs.json first, Bare Mode fallback ================= -->
   <script>
   (async () => {
     // ---------- helpers ----------
     const sel = (s)=>document.querySelector(s);
-    const setAttr = (q, a, v)=>{ const el=sel(q); if(el && v) el.setAttribute(a, v); };
+    const setAttr = (q, a, v)=>{ const el=sel(q); if(el && v!=null && v!=='') el.setAttribute(a, v); };
+    const simpleMdToHtml = (text="") => {
+      const esc = (s)=>s.replace(/[&<>]/g, m => ({'&':'&amp;','<':'&lt;','>':'&gt;'}[m]));
+      let h = esc(text)
+        .replace(/\*\*(.+?)\*\*/g, "<strong>$1</strong>")
+        .replace(/\*(.+?)\*/g, "<em>$1</em>")
+        .replace(/\n{2,}/g, "</p><p>")
+        .replace(/\n/g, "<br/>");
+      return `<p>${h}</p>`;
+    };
     const extractArticle = (html) => {
       const m = html.match(/<article[\s\S]*<\/article>/i);
       if (m) return m[0];
@@ -407,30 +419,22 @@
         .replace(/\b\w/g, c => c.toUpperCase()) || 'Article';
     };
 
-    const injectBody = (html) => {
-      const host = document.createElement('div');
-      host.id = 'postBody';
-      const bodyContainer = sel('.content');
-      const cta = bodyContainer?.querySelector('.cta');
-      if (cta && cta.parentNode) cta.parentNode.insertBefore(host, cta);
-      else bodyContainer?.prepend(host);
-      host.innerHTML = html.replace(/\{\{[^}]+\}\}/g,'');
-    };
+    const postBodyHost = document.getElementById('post-body');
 
     const setCoreMeta = ({title, excerpt, image, canonicalHref}) => {
       document.title = `${title} | DebtReliefGuard Blog`;
-      setAttr('meta[name="description"]','content', excerpt);
+      setAttr('meta[name="description"]','content', excerpt || '');
       setAttr('link[rel="canonical"]','href', canonicalHref);
       setAttr('meta[property="og:url"]','content', canonicalHref);
       setAttr('meta[property="og:title"]','content', `${title} | DebtReliefGuard Blog`);
-      setAttr('meta[property="og:description"]','content', excerpt);
+      setAttr('meta[property="og:description"]','content', excerpt || '');
       setAttr('meta[property="og:image"]','content', image);
       setAttr('meta[name="twitter:title"]','content', `${title} | DebtReliefGuard Blog`);
-      setAttr('meta[name="twitter:description"]','content', excerpt);
+      setAttr('meta[name="twitter:description"]','content', excerpt || '');
       setAttr('meta[name="twitter:image"]','content', image);
     };
 
-    const last = location.pathname.split('/').filter(Boolean).pop() || '';
+    const last = location.pathname.replace(/\/+$/,'').split('/').pop() || '';
     const rawSlug = last.endsWith('.html') ? last.slice(0,-5) : last;
     const normalizedSlug = rawSlug.replace(/^\d{4}-\d{2}-\d{2}-/, '');
     const canonicalUndated = `/blog/${normalizedSlug}.html`;
@@ -469,9 +473,9 @@
       const canonicalPath = hasUndatedUrl ? post.url : (post.content_url && /\/blog\/.+\.html$/i.test(post.content_url) ? post.content_url : canonicalUndated);
       const canonicalHref = location.origin + canonicalPath.replace(/^https?:\/\/[^/]+/, '');
 
-      const img = sel('img.feature'); if (img){ img.src=image; img.alt=title; }
-      const h1  = sel('h1#ab-cta-text'); if (h1) h1.textContent = title;
-      const metaDiv = sel('.meta');
+      const img = document.querySelector('img.feature'); if (img){ img.src=image; img.alt=title; }
+      const h1  = document.getElementById('ab-cta-text'); if (h1) h1.textContent = title;
+      const metaDiv = document.querySelector('.meta');
       if (metaDiv) {
         metaDiv.innerHTML = `Published on <time itemprop="datePublished" datetime="${dateIso}">${dateTxt || (dateIso||'')}</time> by
           <a href="${authorLink}" target="_blank" rel="noopener" itemprop="author">${authorName}</a>
@@ -480,23 +484,20 @@
 
       setCoreMeta({ title, excerpt, image, canonicalHref });
 
-      // Fetch body via content_url with fallbacks
-      let injected = '';
-      const fetchHtml = async (path)=>{ const r=await fetch(path,{cache:'no-store'}); if(!r.ok) throw new Error('fetch '+path+' -> '+r.status); return await r.text(); };
-
-      try {
-        if (post.content_url) injected = extractArticle(await fetchHtml(post.content_url));
-        else throw new Error('no content_url');
-      } catch {
-        try { injected = extractArticle(await fetchHtml(`/blog/${normalizedSlug}.html`)); }
-        catch {
-          try { injected = extractArticle(await fetchHtml(`/blog/${rawSlug}.html`)); }
-          catch { injected=''; }
-        }
+      // Inject body: prefer pre-rendered HTML, else markdown/plain body
+      if (post.html) {
+        postBodyHost.innerHTML = post.html;
+      } else if (post.body) {
+        postBodyHost.innerHTML = simpleMdToHtml(post.body);
+      } else {
+        // fetch fallback content file
+        const tryFetch = async (path)=>{ const r=await fetch(path,{cache:'no-store'}); if(!r.ok) throw 0; return await r.text(); };
+        let injected = '';
+        try { injected = extractArticle(await tryFetch(post.content_url)); }
+        catch { try { injected = extractArticle(await tryFetch(`/blog/${normalizedSlug}.html`)); }
+               catch { try { injected = extractArticle(await tryFetch(`/blog/${rawSlug}.html`)); } catch {} } }
+        if (injected) postBodyHost.innerHTML = injected; else throw new Error('no content');
       }
-
-      if (injected) injectBody(injected);
-      else throw new Error('body injection failed');
     } catch (e) {
       // ---------- PLAN B: Bare Mode (no blogs.json needed) ----------
       usedBareMode = true;
@@ -512,17 +513,17 @@
         if (!html) throw new Error('no article file found');
 
         const article = extractArticle(html);
-        injectBody(article);
+        postBodyHost.innerHTML = article;
 
         // derive title/meta
         const title = deriveTitleFrom(html, normalizedSlug);
         const image = `/images/${normalizedSlug}.png`;
-        const h1 = sel('#ab-cta-text'); if (h1) h1.textContent = title;
+        const h1 = document.getElementById('ab-cta-text'); if (h1) h1.textContent = title;
         setCoreMeta({ title, excerpt: '', image, canonicalHref: location.origin + (canonicalUndated) });
 
-        const metaDiv = sel('.meta'); if (metaDiv) metaDiv.innerHTML = '';
+        const metaDiv = document.querySelector('.meta'); if (metaDiv) metaDiv.innerHTML = '';
       } catch (e2) {
-        const container = sel('.container');
+        const container = document.querySelector('.container');
         if (container) container.innerHTML = '<p>Post not found.</p>';
         document.title = 'Post not found | DebtReliefGuard Blog';
         console.warn('Slug bare-mode failed:', e2);
