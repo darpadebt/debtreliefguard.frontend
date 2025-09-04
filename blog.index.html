@@ -423,11 +423,11 @@
       const content = (p?.content_url || '').trim();
 
       if (url) {
-        if (isAbs(url)) return url;                            // absolute URL provided
-        if (/^\/blog\/.+/i.test(url)) return url;             // already a proper blog path
+        if (isAbs(url)) return url;
+        if (/^\/blog\/.+/i.test(url)) return url;
       }
-      if (slug) return slugToPath(slug);                      // canonical slug link
-      if (/^\/blog\/.+/i.test(content)) return content;       // content_url points to blog path
+      if (slug) return slugToPath(slug);
+      if (/^\/blog\/.+/i.test(content)) return content;
       return '#';
     };
 
