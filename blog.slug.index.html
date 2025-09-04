@@ -546,5 +546,142 @@
   </script>
 
   <noscript><p style="text-align:center;color:#666">Enable JavaScript to view dynamic features and chat.</p></noscript>
+<script>
+/* ==== DRG Blog Diagnostics (drop-in) =======================================
+   What it checks (in order):
+   1) Slug parsing (raw vs normalized)
+   2) /blogs.json: HTTP status, content-type, parse result length
+   3) Post match in blogs.json (by slug/url/content_url)
+   4) Candidate content paths (content_url, /blog/<normalized>.html, /blog/<raw>.html)
+      -> fetched via /blog.raw/... so we don't hit the template by accident
+   5) Detects if any fetch returned the slug template (placeholder) instead of an article
+   6) Shows a sticky on-page report + logs full details to console
+   ========================================================================== */
+(function(){
+  const fmt = (x)=> (x==null?'':String(x));
+  const byId = (id)=>document.getElementById(id);
+  const el = document.createElement('div');
+  el.id = 'drgDiag';
+  el.style.cssText = 'position:fixed;right:12px;bottom:12px;z-index:99999;background:#0b1220;color:#e5e7eb;border:1px solid #334155;border-radius:12px;box-shadow:0 10px 30px rgba(0,0,0,.25);max-width:min(92vw,520px);';
+  el.innerHTML = `
+    <div style="display:flex;align-items:center;justify-content:space-between;padding:10px 12px;border-bottom:1px solid #334155">
+      <strong style="font:700 14px system-ui">DRG Blog Diagnostics</strong>
+      <div>
+        <button id="drgDiagCopy" style="margin-right:6px;background:#1f2937;border:1px solid #475569;color:#e5e7eb;padding:6px 8px;border-radius:8px;font:600 12px system-ui;cursor:pointer">Copy</button>
+        <button id="drgDiagClose" style="background:#1f2937;border:1px solid #475569;color:#e5e7eb;padding:6px 8px;border-radius:8px;font:600 12px system-ui;cursor:pointer">Close</button>
+      </div>
+    </div>
+    <pre id="drgDiagBody" style="margin:0;padding:10px 12px;max-height:48vh;overflow:auto;white-space:pre-wrap;word-break:break-word;font:12px/1.4 ui-monospace, SFMono-Regular, Menlo, Consolas, monospace"></pre>
+  `;
+  document.body.appendChild(el);
+  byId('drgDiagClose').onclick = ()=> el.remove();
+  byId('drgDiagCopy').onclick = async ()=> {
+    try{ await navigator.clipboard.writeText(byId('drgDiagBody').textContent || ''); byId('drgDiagCopy').textContent='Copied'; setTimeout(()=>byId('drgDiagCopy').textContent='Copy',900); }catch{}
+  };
+
+  const out = [];
+  const log = (k,v)=>{ const line = (v===undefined||v===null)? `${k}` : `${k}: ${typeof v==='string'?v:JSON.stringify(v)}`; out.push(line); console.log('[DRG]', line); };
+  const show = ()=> { byId('drgDiagBody').textContent = out.join('\n'); };
+
+  const normalized = (()=> {
+    const last = location.pathname.replace(/\/+$/,'').split('/').pop() || '';
+    const rawSlug = last.endsWith('.html') ? last.slice(0,-5) : last;
+    return { rawSlug, normalizedSlug: rawSlug.replace(/^\d{4}-\d{2}-\d{2}-/, ''), last };
+  })();
+  log('Path.last', normalized.last);
+  log('Slug.raw',  normalized.rawSlug);
+  log('Slug.normalized', normalized.normalizedSlug);
+
+  const normalizePath = (p) => {
+    if (typeof p !== 'string') return p;
+    const rel = p.replace(/^https?:\/\/[^/]+/i, '');
+    return rel.replace(/^\/blog\//, '/blog.raw/');
+  };
+  const fetchText = async (path, note='') => {
+    const p = normalizePath(path);
+    const r = await fetch(p, { cache:'no-store' });
+    const ct = (r.headers.get('content-type')||'');
+    const t  = await r.text().catch(()=> '');
+    const looksTemplate = /\{\{body\}\}|temporarily unavailable|blog\.slug\.index/i.test(t);
+    return {ok:r.ok, status:r.status, ct, looksTemplate, size:t.length, url:p, note, snippet: t.slice(0,200)};
+  };
+
+  (async () => {
+    // 1) blogs.json
+    let blogs = null, blogsFetchInfo = {};
+    try {
+      const r = await fetch('/blogs.json?diag=' + Date.now(), { cache:'no-store', headers:{Accept:'application/json'} });
+      blogsFetchInfo = { ok:r.ok, status:r.status, ct:(r.headers.get('content-type')||'') };
+      if (!r.ok) throw new Error('HTTP '+r.status);
+      const ctLow = blogsFetchInfo.ct.toLowerCase();
+      if (!ctLow.includes('application/json')) throw new Error('Non-JSON: '+blogsFetchInfo.ct);
+      blogs = await r.json();
+    } catch (e) {
+      log('blogs.json.ERROR', String(e));
+    }
+    log('blogs.json.http', blogsFetchInfo);
+    const posts = Array.isArray(blogs) ? blogs : (blogs && Array.isArray(blogs.items) ? blogs.items : []);
+    log('blogs.json.count', posts.length);
+
+    // 2) post match
+    const matchBySuffix = (val, target) => typeof val === 'string' && (val.endsWith('/'+target) || val.endsWith('/'+target+'.html'));
+    const post = posts.find(p=>{
+      const ps = fmt(p.slug).trim();
+      const pu = fmt(p.url).trim();
+      const pc = fmt(p.content_url).trim();
+      return (
+        ps === normalized.normalizedSlug ||
+        matchBySuffix(pu, normalized.rawSlug) || matchBySuffix(pu, normalized.normalizedSlug) ||
+        matchBySuffix(pc, normalized.rawSlug) || matchBySuffix(pc, normalized.normalizedSlug)
+      );
+    }) || null;
+    log('post.matchFound', !!post);
+    if (post){
+      log('post.slug', post.slug);
+      log('post.published_at', post.published_at);
+      log('post.url', post.url);
+      log('post.content_url', post.content_url);
+      log('post.tags', post.tags);
+    } else {
+      log('CAUSE', 'No matching post in blogs.json for this slug.');
+      log('FIX', 'Add/align entry in blogs.json (slug/url/content_url) or ensure host site filter allows it.');
+      show(); return;
+    }
+
+    // 3) try to fetch content_html via three candidates (content_url, normalized, raw)
+    const cands = [
+      { path: post.content_url, note:'content_url' },
+      { path: '/blog/'+normalized.normalizedSlug+'.html', note:'fallback: normalized' },
+      { path: '/blog/'+normalized.rawSlug+'.html',        note:'fallback: raw' }
+    ];
+
+    for (const c of cands){
+      try {
+        const info = await fetchText(c.path, c.note);
+        log('FETCH '+c.note, {url:info.url, ok:info.ok, status:info.status, ct:info.ct, looksTemplate:info.looksTemplate, size:info.size});
+        if (info.ok && !info.looksTemplate && info.size>40){
+          log('RESULT', `OK via ${c.note} → real article HTML fetched.`);
+          show(); return;
+        }
+      } catch (e) {
+        log('FETCH.ERROR '+c.note, String(e));
+      }
+    }
+
+    // 4) If all attempts failed, report strongest signal
+    log('CAUSE', 'Could not fetch a real article file from any candidate path.');
+    log('LIKELY', 'Date/filename mismatch OR the file is missing at /blog.raw/... (200 should return article HTML).');
+    log('CHECK', [
+      'Confirm this exists and returns 200 HTML (NOT the template):',
+      normalizePath(post.content_url),
+      normalizePath('/blog/'+normalized.normalizedSlug+'.html'),
+      normalizePath('/blog/'+normalized.rawSlug+'.html')
+    ]);
+    log('TIP', 'Open DevTools → Network → check each candidate path; 200 + non-template HTML is success.');
+    show();
+  })();
+})();
+</script>
+
 </body>
 </html>
