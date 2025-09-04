@@ -1,35 +1,39 @@
-/blog.raw/:splat           /blog/:splat           200
+# ===== HOME =====
 /                          /index.html            200
 
-# --- Dated article files (static; MUST be ABOVE slug rules) ---
-/blog/:year-:month-:day-:rest.html  /blog/:year-:month-:day-:rest.html   200
-/blog/:year-:month-:day-:rest       /blog/:year-:month-:day-:rest.html   200
+# ===== RAW PASS-THROUGH (serve literal files; NO rewrite to /blog) =====
+/blog.raw/*                 /blog.raw/:splat       200
 
-# Blog list
-/blog             /blog.index.html   200
-/blog/            /blog.index.html   200
+# ===== DATED ARTICLE FILES (serve static; MUST stay ABOVE slug rules) =====
+/blog/:year-:month-:day-:rest.html   /blog/:year-:month-:day-:rest.html   200
+/blog/:year-:month-:day-:rest        /blog/:year-:month-:day-:rest.html   200
 
-# Blog feed JSON
-/blogs.json       /blogs.json       200
+# ===== BLOG LIST =====
+/blog                       /blog.index.html       200
+/blog/                      /blog.index.html       200
 
-# Blog post slugs (undated) -> slug template (single file)
-/blog/:slug.html  /blog.slug.index.html   200
+# ===== BLOG FEED JSON =====
+/blogs.json                 /blogs.json            200
 
-# API endpoint for slug content (prevents loop)
-# The slug template fetches JSON here instead of hitting /blog/:slug
-/api/blog/:slug    /blog.slug.json         200
+# ===== BLOG POST SLUGS (single template) =====
+# Undated slugs map to the slug template; support with and without .html
+/ blog/:slug                /blog.slug.index.html  200
+/blog/:slug.html            /blog.slug.index.html  200
 
-# Standard assets
-/favicon.ico      /favicon.ico   200
-/robots.txt       /robots.txt   200
-/sitemap.xml      /sitemap.xml  200
+# ===== API ENDPOINT FOR SLUG CONTENT (used by slug loader; avoids template loop) =====
+/api/blog/:slug             /blog.slug.json        200
 
-# Static assets passthrough
-/images/*         /images/:splat   200
-/*.css            /:splat          200
-/*.js             /:splat          200
-/*.png            /:splat          200
-/*.jpg            /:splat          200
-/*.svg            /:splat          200
-/*.webp           /:splat          200
-/*.avif           /:splat          200
+# ===== STANDARD ASSETS =====
+/favicon.ico                /favicon.ico           200
+/robots.txt                 /robots.txt            200
+/sitemap.xml                /sitemap.xml           200
+
+# ===== STATIC ASSETS PASSTHROUGH =====
+/images/*                   /images/:splat         200
+/*.css                      /:splat                200
+/*.js                       /:splat                200
+/*.png                      /:splat                200
+/*.jpg                      /:splat                200
+/*.svg                      /:splat                200
+/*.webp                     /:splat                200
+/*.avif                     /:splat                200
