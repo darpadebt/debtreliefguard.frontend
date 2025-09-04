@@ -5,39 +5,38 @@
   <meta charset="UTF-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
 
-  <!-- Viewport (FIXED) -->
+  <!-- Viewport -->
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0" />
 
   <!-- =========================
-       TITLE & DESCRIPTION (SEO)
+       SEO (boot defaults; JS will overwrite)
        ========================= -->
-  <title>{{title}} | DebtReliefGuard Blog</title>
-  <meta name="description" content="{{excerpt}}" />
+  <title>Loading… | DebtReliefGuard Blog</title>
+  <meta name="description" content="Loading blog post…" />
   <meta name="robots" content="index,follow,max-image-preview:large" />
-  <link rel="canonical" href="https://debtreliefguard.com/blog/{{slug}}.html" />
+  <link id="link-canonical" rel="canonical" href="https://debtreliefguard.com/blog.slug.index.html" />
 
-  <!-- Open Graph / Twitter -->
+  <!-- Open Graph / Twitter (will be updated by loader) -->
   <meta property="og:type" content="article" />
-  <meta property="og:url" content="https://debtreliefguard.com/blog/{{slug}}.html" />
-  <meta property="og:title" content="{{title}} | DebtReliefGuard Blog" />
-  <meta property="og:description" content="{{excerpt}}" />
-  <meta property="og:site_name" content="DebtReliefGuard.com" />
-  <meta property="og:image" content="{{image}}"/>
+  <meta id="og-url" property="og:url" content="https://debtreliefguard.com/blog.slug.index.html" />
+  <meta id="og-title" property="og:title" content="Loading…" />
+  <meta id="og-description" property="og:description" content="Loading blog post…" />
+  <meta id="og-image" property="og:image" content="https://debtreliefguard.com/og-cover.jpg" />
   <meta name="twitter:card" content="summary_large_image" />
-  <meta name="twitter:title" content="{{title}} | DebtReliefGuard Blog" />
-  <meta name="twitter:description" content="{{excerpt}}" />
-  <meta name="twitter:image" content="{{image}}" />
+  <meta id="tw-title" name="twitter:title" content="Loading…" />
+  <meta id="tw-desc" name="twitter:description" content="Loading blog post…" />
+  <meta id="tw-image" name="twitter:image" content="https://debtreliefguard.com/og-cover.jpg" />
 
   <!-- Fonts -->
-  <link rel="preconnect" href="https://fonts.googleapis.com" crossorigin>
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="preconnect" href="https://fonts.googleapis.com" crossorigin />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet" />
 
   <!-- ===== A/B hook for AI Loop Optimizer (050) ===== -->
-  <meta name="x-ai-optimizer-page" content="drg:post" />
+  <meta name="x-ai-optimizer-page" content="drg:blog:slug" />
   <script>
     window.__ab = {
-      pageKey: 'drg:post',
+      pageKey: 'drg:blog:slug',
       slots: {
         headline:   '#ab-cta-text',
         primaryCta: '.hero-ctas .btn.btn-primary',
@@ -51,54 +50,48 @@
   </script>
 
   <!-- =========================
-       STYLES (match site)
+       STYLES (match blog.index theme)
        ========================= -->
   <style>
     :root{
       --ink:#222; --bg:#f9fafe; --brand:#004477; --brand-2:#003057;
       --cta:#0b63f6; --ok:#007b55; --card:#fff; --card-b:#e5e7eb;
       --shadow:0 10px 30px rgba(0,0,0,.12);
-      --callbar-h: 84px;  /* default call bar height */
-      --sitemap-h: 52px;  /* floating sitemap height */
+      --callbar-h: 64px;   /* dynamic via script */
+      --sitemap-h: 52px;   /* floating sitemap height */
     }
-    *{box-sizing:border-box}
-    html,body{margin:0;padding:0}
+    *{box-sizing:border-box} html,body{margin:0;padding:0}
     body{
       font-family:'Inter',system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;
-      background:var(--bg); color:var(--ink); line-height:1.6;
-      padding-top:76px; /* sticky top nav space */
-      padding-bottom: calc(var(--sitemap-h) + 14px); /* clear floating sitemap (desktop) */
+      background:var(--bg); color:var(--ink); line-height:1.55;
+      padding-top:76px; /* sticky top space */
+      padding-bottom: calc(var(--sitemap-h) + 14px); /* clear floating sitemap */
     }
 
-    .skip-link{position:absolute;left:-999px;top:auto;width:1px;height:1px;overflow:hidden}
-    .skip-link:focus{position:fixed;left:12px;top:12px;padding:.5rem .75rem;background:#000;color:#fff;z-index:10000;border-radius:6px}
-
-    /* Sticky Top Nav */
     .sticky-nav{position:fixed;top:0;left:0;right:0;background:var(--brand-2);z-index:9999;box-shadow:0 2px 5px rgba(0,0,0,.08)}
     .sticky-nav ul{display:flex;gap:.75rem;margin:0;padding:.75rem 1rem;overflow-x:auto;white-space:nowrap;list-style:none}
     .sticky-nav a{color:#fff;font-weight:600;text-decoration:none;padding:.4rem .6rem;border-radius:6px}
     .sticky-nav a:hover,.sticky-nav a:focus{text-decoration:underline;outline:none}
 
-    /* Article container */
-    .container{max-width:740px;margin:1.25rem auto;background:#fff;border:1px solid var(--card-b);border-radius:12px;padding:1.25rem;box-shadow:0 2px 12px rgba(0,0,0,.06)}
-    img.feature{width:100%;max-height:420px;object-fit:cover;border-radius:10px;margin:0 0 1rem}
-    h1{font-size:clamp(1.6rem,2.2vw + 1rem,2.2rem);margin:.2rem 0 .6rem;font-weight:800}
-    .meta{font-size:.92rem;color:#5b6470;margin:-.25rem 0 1.1rem}
-    .meta a{color:#0b63f6;text-decoration:underline}
-    .content p{margin:0 0 1rem}
-    .content a{color:#0b63f6;text-decoration:underline}
-    .content h2,.content h3{margin:1.2rem 0 .5rem}
-    /* ensure content never hides behind sticky UI */
-    .content{ margin-bottom: calc(var(--callbar-h) + var(--sitemap-h) + env(safe-area-inset-bottom) + 24px); }
+    header.hero{max-width:960px;margin:0 auto 12px;text-align:center;background:var(--brand);color:#fff;padding:1.2rem 1rem;border-radius:12px;box-shadow:var(--shadow)}
+    header.hero h1{margin:.2rem 0 .35rem;font-size:clamp(1.4rem,3vw + 1rem,2.1rem);font-weight:800}
+    header.hero .sub{margin:0 0 .6rem;opacity:.95}
+    .hero-ctas{display:flex;justify-content:center;gap:.6rem;flex-wrap:wrap}
+    .btn{display:inline-flex;align-items:center;justify-content:center;gap:.4rem;border-radius:10px;padding:.6rem 1rem;font-weight:800;text-decoration:none}
+    .btn-primary{background:var(--cta);color:#fff;box-shadow:var(--shadow)}
+    .btn-outline{background:transparent;color:#fff;border:2px solid rgba(255,255,255,0.75)}
+    .badge{display:inline-flex;gap:.35rem;align-items:center;justify-content:center;background:#0f172a;color:#e5e7eb;border:1px solid rgba(255,255,255,.18);border-radius:999px;padding:.3rem .6rem;font-size:.82rem}
 
-    .cta{background:#0b63f6;color:#fff;padding:1rem;border-radius:10px;margin:1.5rem 0;text-align:center}
-    .cta a{background:#fff;color:#0b63f6;padding:.5rem 1rem;border-radius:8px;font-weight:800;text-decoration:none}
-
-    /* Helper: headline/CTA slots for A/B */
-    .hero-ctas{display:flex;justify-content:center;gap:.6rem;flex-wrap:wrap;margin-top:.6rem}
-    .btn{display:inline-flex;align-items:center;gap:.4rem;border-radius:10px;padding:.6rem .9rem;font-weight:800;text-decoration:none}
-    .btn.btn-primary{background:#0b63f6;color:#fff;box-shadow:var(--shadow)}
-    .btn.btn-outline{background:transparent;color:#0b63f6;border:2px solid #0b63f6}
+    .wrap{max-width:980px;margin:0 auto;padding:0 1rem}
+    .article{background:#fff;border:1px solid var(--card-b);border-radius:12px;box-shadow:0 2px 12px rgba(0,0,0,.06);padding:16px}
+    .article h1{font-size:clamp(1.4rem,2.5vw + 1rem,2rem);margin:.2rem 0 .4rem}
+    .meta{font-size:.9rem;color:#667;margin:0 0 .8rem}
+    .post-media{margin:.6rem 0 1rem}
+    .post-media img{width:100%;height:auto;border-radius:10px}
+    .post-body{font-size:1.02rem;color:#222}
+    .post-body p{margin:0 0 1rem}
+    .post-body h2{margin:1.2rem 0 .6rem}
+    .post-body a{color:#0b63f6}
 
     /* Mobile dual-action bar */
     .mobile-bar{position:fixed;left:0;right:0;bottom:0;background:#0b1220;color:#fff;display:flex;gap:8px;padding:.6rem;z-index:9998}
@@ -107,15 +100,7 @@
     .mobile-est{background:#0b63f6;color:#fff}
     @media (min-width:769px){.mobile-bar{display:none}}
 
-    /* Desktop sticky phone pill */
-    .desk-call{
-      position:fixed;right:14px;bottom:14px;z-index:10002;display:none;align-items:center;gap:.4rem;
-      padding:.7rem 1rem;border-radius:999px;background:#007b55;color:#fff;font-weight:900;text-decoration:none;
-      box-shadow:0 10px 24px rgba(0,0,0,.18);
-    }
-    @media (min-width:769px){.desk-call{display:inline-flex}}
-
-    /* Floating bottom sitemap (sticky like top) */
+    /* Floating bottom sitemap */
     .sticky-menu{
       position:fixed;left:0;right:0;
       bottom: calc(var(--callbar-h) + env(safe-area-inset-bottom));
@@ -128,47 +113,32 @@
     .sticky-menu nav a{color:#ffdd00;text-decoration:none;padding:.35rem .55rem;border-radius:6px;font-weight:700;font-size:.92rem;flex:0 0 auto}
     .sticky-menu nav a:hover,.sticky-menu nav a:focus{background:rgba(255,255,255,.1);outline:none}
 
+    /* ===== Mobile safe-areas ===== */
     @media (max-width:768px){
       body, main { padding-bottom: calc(var(--callbar-h) + var(--sitemap-h) + env(safe-area-inset-bottom) + 14px); }
+      .wrap { padding-top: 8px; }
     }
+
+    /* Utility */
+    .sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}
+    .err{color:#b91c1c;text-align:center;margin:1rem 0}
   </style>
 
   <!-- =========================
-       STRUCTURED DATA (JSON-LD)
+       STRUCTURED DATA (boot; JS will rewrite to Article)
        ========================= -->
-  <script type="application/ld+json">
-  {"@context":"https://schema.org","@type":"WebSite","name":"DebtReliefGuard","url":"https://debtreliefguard.com/","publisher":{"@id":"https://gatewaydebthelp.com/#gfsr"}}
+  <script type="application/ld+json" id="jsonld-boot">
+  {"@context":"https://schema.org","@type":"WebPage","name":"DebtReliefGuard","url":"https://debtreliefguard.com/","publisher":{"@id":"https://gatewaydebthelp.com/#gfsr"}}
   </script>
-  <script type="application/ld+json">
-  {"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[
-    {"@type":"ListItem","position":1,"name":"Home","item":"https://debtreliefguard.com/"},
-    {"@type":"ListItem","position":2,"name":"Blog","item":"https://debtreliefguard.com/blog.index.html"},
-    {"@type":"ListItem","position":3,"name":"{{title}}","item":"https://debtreliefguard.com/blog/{{slug}}.html"}
-  ]}
-  </script>
-  <script type="application/ld+json">
-  {
-    "@context":"https://schema.org",
-    "@type":"BlogPosting",
-    "headline":"{{title}}",
-    "description":"{{excerpt}}",
-    "image":"{{image}}",
-    "url":"https://debtreliefguard.com/blog/{{slug}}.html",
-    "datePublished":"{{date}}",
-    "author":{"@type":"Organization","name":"{{authorName}}","url":"{{authorLink}}"},
-    "publisher":{"@type":"Organization","name":"DebtReliefGuard.com","logo":{"@type":"ImageObject","url":"https://debtreliefguard.com/logo.png"}}
-  }
-  </script>
+
 </head>
 
 <body>
-  <a href="#main" class="skip-link">Skip to content</a>
-
-  <!-- Sticky Top Nav (full site) -->
+  <!-- Sticky Top Nav -->
   <nav class="sticky-nav" role="navigation" aria-label="Main navigation">
     <ul>
       <li><a href="/" title="Home">Home</a></li>
-      <li><a href="/compare.us.html" title="Compare Options">Compare Options</a></li>
+      <li><a href="/compare.us.html" title="Compare">Compare</a></li>
       <li><a href="/how.it.works.index.html" title="How It Works">How It Works</a></li>
       <li><a href="/debt.relief.option.index.html" title="Debt Relief Options">Debt Relief Options</a></li>
       <li><a href="/credit.card.relief.index.html" title="Credit Card Relief">Credit Card Relief</a></li>
@@ -180,39 +150,40 @@
       <li><a href="/contact.index.html" title="Contact">Contact</a></li>
       <li><a href="/privacy.policy.index.html" title="Privacy">Privacy</a></li>
       <li><a href="/terms.index.html" title="Terms">Terms</a></li>
-      <li><a href="https://debthelpform.com/#lead-form" target="_blank" rel="noopener" title="Get Estimate">Get Estimate</a></li>
+      <li><a href="https://debthelpform.com/#lead-form" target="_blank" rel="noopener" title="Get Your Free Secure Estimate">Get Estimate</a></li>
       <li><a href="https://gatewaydebthelp.com" target="_blank" rel="noopener" title="Gateway Debt Help">GatewayDebtHelp.com</a></li>
       <li><a href="https://gatewayfinancialsettlementrelief.com" target="_blank" rel="noopener" title="GFSR Owner"><strong>GFSR Owner</strong></a></li>
     </ul>
   </nav>
 
+  <!-- HERO (kept for 050 optimizer; article title is below in .article) -->
+  <header class="hero" aria-label="Site hero">
+    <span class="badge">🛡️ Secure • FTC-Aligned • No Paid Reviews</span>
+    <h1 id="ab-cta-text">DebtReliefGuard — Trusted Guidance</h1>
+    <p class="sub">Independent insights, credit card help, and scam warnings.</p>
+    <div class="hero-ctas">
+      <a class="btn btn-primary" href="https://debthelpform.com/#lead-form" target="_blank" rel="noopener">🔒 Start Secure Estimate</a>
+      <a class="btn btn-outline" href="tel:+18884377141">📞 Talk to a Specialist</a>
+    </div>
+  </header>
+
   <!-- MAIN ARTICLE -->
-  <main id="main">
-    <article class="container" itemscope itemtype="https://schema.org/BlogPosting">
-      <img src="{{image}}" alt="{{title}}" class="feature" itemprop="image" />
-      <h1 id="ab-cta-text" itemprop="headline">{{title}}</h1>
-      <div class="meta" id="meta-line"></div>
+  <main class="wrap" aria-live="polite">
+    <article class="article" itemscope itemtype="https://schema.org/Article">
+      <header>
+        <h1 id="post-title" itemprop="headline">Loading…</h1>
+        <p id="post-meta" class="meta">Loading meta…</p>
+      </header>
 
-      <div class="content" itemprop="articleBody">
-        <!-- Where the article HTML will be injected -->
-        <div id="post-body"><em>Loading…</em></div>
+      <figure class="post-media" id="post-media" hidden>
+        <img id="post-image" src="" alt="" loading="eager" />
+      </figure>
 
-        <div class="cta">
-          <p>Want a personalized estimate for your credit card or personal loan debt?</p>
-          <a class="btn btn-light" href="https://debthelpform.com/#lead-form" target="_blank" rel="noopener">Get My Free Estimate</a>
-        </div>
+      <section id="post-body" class="post-body" itemprop="articleBody">
+        <p>Loading…</p>
+      </section>
 
-        <p class="text-sm" style="color:#5b6470">
-          More educational resources:
-          <a href="https://gatewaydebthelp.com" target="_blank" rel="noopener">GatewayDebtHelp.com</a> &
-          <a href="https://debthelpform.com" target="_blank" rel="noopener">DebtHelpForm.com</a>.
-        </p>
-
-        <div class="hero-ctas">
-          <a class="btn btn-primary" href="https://debthelpform.com/#lead-form" target="_blank" rel="noopener">🔒 Start Secure Estimate</a>
-          <a class="btn btn-outline" href="tel:+18884377141">📞 Talk to a Specialist</a>
-        </div>
-      </div>
+      <div id="post-error" class="err" hidden>We couldn’t load this article right now.</div>
     </article>
   </main>
 
@@ -222,7 +193,7 @@
     <a class="mobile-est" href="https://debthelpform.com/#lead-form" target="_blank" rel="noopener">🔒 Start Secure Estimate</a>
   </div>
 
-  <!-- Floating bottom sitemap (matches site) -->
+  <!-- Floating bottom sitemap -->
   <footer class="sticky-menu" role="navigation" aria-label="Site map">
     <nav>
       <a href="/">Home</a>
@@ -244,15 +215,28 @@
     </nav>
   </footer>
 
-  <!-- Footer legal / brand lines -->
-  <footer style="max-width:960px;margin:1rem auto 5.5rem;text-align:center;color:#666">
-    <p>&copy; 2025 DebtReliefGuard.com — Independent, FTC-Aligned Reviews & Guides.</p>
-    <p>Website operated by <a href="https://gatewayfinancialsettlementrelief.com" target="_blank" rel="noopener">Gateway Financial Settlement Relief</a></p>
-    <p style="font-size:.82rem;color:#999">
-      “Gateway Debt Help” is the marketing brand of <strong>Gateway Financial Settlement Relief, LLC</strong>.
-      Not affiliated with “Gateway Debt Relief” of Costa Mesa, CA.
-    </p>
-  </footer>
+  <!-- Bot honeypot -->
+  <script>
+    (function(){
+      const honeypot=document.createElement("input");
+      honeypot.type="text";honeypot.name="website";honeypot.autocomplete="off";
+      honeypot.hidden=true;honeypot.setAttribute("aria-hidden","true");
+      document.body.appendChild(honeypot);
+      let u=false,t=0; addEventListener('mousemove',()=>u=true,{passive:true});
+      addEventListener('keydown',()=>u=true,{passive:true});
+      setInterval(()=>t++,1000);
+      window.validateBotProtections=()=> (honeypot.value==="" && u && t>=3);
+    })();
+  </script>
+
+  <!-- Dynamic spacing for mobile bar -->
+  <script>
+    (function(){
+      const root=document.documentElement, mb=document.getElementById('drgMobileBar');
+      function setH(){ const h=mb && getComputedStyle(mb).display!=='none' ? mb.offsetHeight : 0; root.style.setProperty('--callbar-h', h+'px'); }
+      setH(); addEventListener('resize', setH, {passive:true}); setTimeout(setH,250); setTimeout(setH,1000);
+    })();
+  </script>
 
   <!-- 015: Telemetry ping -->
   <script>
@@ -260,11 +244,50 @@
       try{
         const key='drg:sess:v1'; let sid=sessionStorage.getItem(key);
         if(!sid){ sid=crypto.randomUUID(); sessionStorage.setItem(key, sid); }
-        const payload={ v:1, ts:Date.now(), sid, url:location.href, ref:document.referrer||null, w:innerWidth, h:innerHeight };
+        const payload={ v:1, ts:Date.now(), sid, url:location.href, ref:document.referrer||null, w:innerWidth, h:innerHeight, kind:'pageview', page:'blog:slug' };
         const blob=new Blob([JSON.stringify(payload)],{type:'application/json'});
         if(navigator.sendBeacon){ navigator.sendBeacon('/ingest', blob); }
         else { fetch('/ingest',{ method:'POST', body:blob, keepalive:true, headers:{'Content-Type':'application/json'} }).catch(()=>{}); }
       }catch(_){}
+    })();
+  </script>
+
+  <!-- 050: Savings message loader (kept; targets #ab-cta-text only) -->
+  <script>
+    (function(){
+      const el = document.querySelector('#ab-cta-text'); if(!el) return;
+      const FALLBACK = el.textContent || '';
+      const CACHE_KEY = 'drg:savings:v1'; const MAX_AGE_MS = 10*60*1000;
+
+      try{
+        const raw = localStorage.getItem(CACHE_KEY);
+        if(raw){
+          const { ts, message } = JSON.parse(raw);
+          if(ts && (Date.now()-ts) < MAX_AGE_MS && message) el.textContent = (message ?? '').toString();
+        }
+      }catch{}
+
+      (async ()=>{
+        const sleep = (ms)=>new Promise(r=>setTimeout(r,ms));
+        const attempt = async (ms) => {
+          const ctrl=new AbortController(); const to=setTimeout(()=>ctrl.abort(), ms);
+          try{
+            const r = await fetch('/api/savings-message', { headers:{'Accept':'application/json','X-Requested-With':'XMLHttpRequest'}, cache:'no-store', credentials:'omit', signal:ctrl.signal });
+            clearTimeout(to);
+            if(!r.ok || !((r.headers.get('content-type')||'').includes('application/json'))) throw new Error();
+            const data = await r.json();
+            if(data && data.message){
+              el.textContent = (data.message ?? '').toString();
+              try{ localStorage.setItem(CACHE_KEY, JSON.stringify({ ts: Date.now(), message: data.message })); }catch{}
+              return true;
+            }
+          }catch{}
+          return false;
+        };
+        let ok = await attempt(3500);
+        if(!ok){ await sleep(180); ok = await attempt(4500); }
+        if(!ok) el.textContent = FALLBACK;
+      })();
     })();
   </script>
 
@@ -317,7 +340,7 @@
         div.style.maxWidth='88%'; div.style.padding='10px 12px'; div.style.borderRadius='14px'; div.style.fontSize='14px'; div.style.lineHeight='1.35';
         if (who==='user'){ div.style.marginLeft='auto'; div.style.background='#0b63f6'; div.style.color='#fff'; div.style.borderTopRightRadius='4px'; }
         else if (who==='bot'){ div.style.background='#eef2ff'; div.style.color='#111'; div.style.borderTopLeftRadius='4px'; }
-        else { div.style.background='#f3f4f6'; div.style.color:'#444'; div.style.fontSize:'12px'; div.style.margin='4px auto'; }
+        else { div.style.background='#f3f4f6'; div.style.color:'#444'; div.style.fontSize='12px'; div.style.margin='4px auto'; }
         div.textContent = (text??'').toString(); el.body.appendChild(div); el.body.scrollTop = el.body.scrollHeight;
       };
 
@@ -328,7 +351,7 @@
       let interacted=false;
       addEventListener('mousemove',()=>interacted=true,{once:true,passive:true});
       addEventListener('keydown', ()=>interacted=true,{once:true,passive:true});
-      const nonce = () => Array.from(crypto.getRandomValues(new Uint8Array(12))).map(b=>b.toString(16)).join('');
+      const nonce = () => Array.from(crypto.getRandomValues(new Uint8Array(12))).map(b=>b.toString(16).padStart(2,'0')).join('');
       const API = `${location.origin}/chat`; let busy = false;
 
       el.form.addEventListener('submit', async (e) => {
@@ -344,16 +367,16 @@
           if(!r.ok){ const t=await r.text().catch(()=> ''); addMsg(`Service error ${r.status}.`,'meta'); console.error('CHAT ERROR', r.status, t); return; }
           const ct = r.headers.get('content-type')||''; let reply='';
           reply = ct.includes('application/json') ? (await r.json()).reply || '' : await r.text();
-          addMsg(reply || 'Thanks — how else can I help?','bot'); remember(reply||'','bot');
+          addMsg(reply || 'Happy to help further.','bot'); remember(reply||'','bot');
         }catch(err){ console.error('CHAT NET', err); addMsg('Network error — please try again.','meta'); }
         finally{ busy=false; el.send.disabled=false; el.input.focus(); }
       });
 
-      if (!el.body.children.length) addMsg('Have questions about this post? I can explain or suggest next steps.');
+      if (!el.body.children.length) addMsg('Reading this article? Ask me anything about it.');
     })();
   </script>
 
-  <!-- === BEGIN: Worker Bridges (015/016/050/057) =========================== -->
+  <!-- Page bridge for 015 / 016 / 057 -->
   <script>
     (function(){
       if (window.GFSR && window.GFSR.bridgeReady) return;
@@ -375,312 +398,169 @@
           if(input && form){ input.value = text || ''; form.requestSubmit(); }
         }
       };
-      api.w015 = {
-        decide: (experimentKey, context={}) =>
-          fetch('/ab/decide', { method:'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify({ experimentKey, context }) }).then(r=>r.json()),
-        report: (experimentKey, variant, outcome, meta={}) =>
-          fetch('/ab/report', { method:'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify({ experimentKey, variant, outcome, meta }) }).then(r=>r.ok)
-      };
       window.GFSR = Object.assign(window.GFSR || {}, api);
     })();
   </script>
-  <!-- === END: Worker Bridges ============================================== -->
 
-  <!-- === FINAL loader: blogs.json first, Bare Mode fallback ================= -->
+  <!-- === SLUG LOADER: find post in blogs.json, fetch content_url HTML, inject, and set SEO === -->
   <script>
-  (async () => {
-    // ---------- helpers ----------
-    const sel = (s)=>document.querySelector(s);
-    const setAttr = (q, a, v)=>{ const el=sel(q); if(el && v!=null && v!=='') el.setAttribute(a, v); };
-    const simpleMdToHtml = (text="") => {
-      const esc = (s)=>s.replace(/[&<>]/g, m => ({'&':'&amp;','<':'&lt;','>':'&gt;'}[m]));
-      let h = esc(text)
-        .replace(/\*\*(.+?)\*\*/g, "<strong>$1</strong>")
-        .replace(/\*(.+?)\*/g, "<em>$1</em>")
-        .replace(/\n{2,}/g, "</p><p>")
-        .replace(/\n/g, "<br/>");
-      return `<p>${h}</p>`;
-    };
-    const extractArticle = (html) => {
-      const m = html.match(/<article[\s\S]*<\/article>/i);
-      if (m) return m[0];
-      const b = html.match(/<body[^>]*>([\s\S]*)<\/body>/i);
-      return b ? `<article>${b[1]}</article>` : `<article>${html}</article>`;
-    };
-    const deriveTitleFrom = (html, fallback) => {
-      const h1 = html.match(/<h1[^>]*>([^<]+)<\/h1>/i);
-      if (h1 && h1[1]) return h1[1].trim();
-      return (fallback||'')
-        .replace(/[-_]+/g,' ')
-        .replace(/\b\w/g, c => c.toUpperCase()) || 'Article';
-    };
-
-    // --- Always fetch articles via /blog.raw/... ---
-    const normalizePath = (p) => {
-      if (typeof p !== 'string') return p;
-      const rel = p.replace(/^https?:\/\/[^/]+/i, ''); // strip origin if present
-      return rel.replace(/^\/blog\//, '/blog.raw/');
-    };
-
-    const tryFetch = async (path) => {
-      const p = normalizePath(path);
-      const r = await fetch(p, { cache: 'no-store' });
-      if (!r.ok) throw 0;
-      return await r.text();
-    };
-
-    const postBodyHost = document.getElementById('post-body');
-
-    const setCoreMeta = ({title, excerpt, image, canonicalHref}) => {
-      document.title = `${title} | DebtReliefGuard Blog`;
-      setAttr('meta[name="description"]','content', excerpt || '');
-      setAttr('link[rel="canonical"]','href', canonicalHref);
-      setAttr('meta[property="og:url"]','content', canonicalHref);
-      setAttr('meta[property="og:title"]','content', `${title} | DebtReliefGuard Blog`);
-      setAttr('meta[property="og:description"]','content', excerpt || '');
-      setAttr('meta[property="og:image"]','content', image);
-      setAttr('meta[name="twitter:title"]','content', `${title} | DebtReliefGuard Blog`);
-      setAttr('meta[name="twitter:description"]','content', excerpt || '');
-      setAttr('meta[name="twitter:image"]','content', image);
-    };
-
-    const last = location.pathname.replace(/\/+$/,'').split('/').pop() || '';
-    const rawSlug = last.endsWith('.html') ? last.slice(0,-5) : last;
-    const normalizedSlug = rawSlug.replace(/^\d{4}-\d{2}-\d{2}-/, '');
-    const canonicalUndated = `/blog/${normalizedSlug}.html`;
-
-    // ---------- PLAN A: blogs.json (normal flow) ----------
-    let usedBareMode = false;
-    try {
-      const res = await fetch('/blogs.json?ts=' + Date.now(), { cache: 'no-store', headers:{'Accept':'application/json'} });
-      const raw = await res.json();
-      const posts = Array.isArray(raw) ? raw : (Array.isArray(raw?.items) ? raw.items : []);
-      const matchBySuffix = (val, target) => typeof val === 'string' && (val.endsWith('/'+target) || val.endsWith('/'+target+'.html'));
-      const post = Array.isArray(posts) ? posts.find(p => {
-        const ps = String(p.slug||'').trim();
-        const pu = String(p.url||'').trim();
-        const pc = String(p.content_url||'').trim();
-        return (
-          ps === normalizedSlug ||
-          matchBySuffix(pu, rawSlug) || matchBySuffix(pu, normalizedSlug) ||
-          matchBySuffix(pc, rawSlug) || matchBySuffix(pc, normalizedSlug)
-        );
-      }) : null;
-
-      if (!post) throw new Error('post not found in blogs.json');
-
-      // Fill meta/hero
-      const title   = post.title || deriveTitleFrom(post.slug||normalizedSlug);
-      const excerpt = String(post.excerpt||'').trim();
-      const dateIso = post.published_at || post.date || '';
-      const dateTxt = dateIso ? new Date(dateIso).toLocaleDateString(undefined,{year:'numeric',month:'short',day:'numeric'}) : '';
-      const image   = post.thumbnail || `/images/${normalizedSlug}.png`;
-      const authorName = post.author || '';
-      const authorLink = post.authorLink || 'https://debtreliefguard.com';
-
-      // Always use undated canonical for SEO
-      const canonicalHref = location.origin + canonicalUndated;
-
-      const img = document.querySelector('img.feature'); if (img){ img.src=image; img.alt=title; }
-      const h1  = document.getElementById('ab-cta-text'); if (h1) h1.textContent = title;
-      const metaDiv = document.querySelector('.meta');
-      if (metaDiv) {
-        const bits = [];
-        if (dateIso) bits.push(`<time itemprop="datePublished" datetime="${dateIso}">${dateTxt || dateIso}</time>`);
-        if (authorName) bits.push(`by <a href="${authorLink}" target="_blank" rel="noopener" itemprop="author">${authorName}</a>`);
-        if (Array.isArray(post.tags) && post.tags.length) bits.push(`Tagged: ${post.tags.join(', ')}`);
-        metaDiv.innerHTML = bits.length ? bits.join(' &nbsp;|&nbsp; ') : '';
-      }
-
-      setCoreMeta({ title, excerpt, image, canonicalHref });
-
-      // Inject body: prefer pre-rendered HTML, else markdown/plain body
-      if (post.html) {
-        postBodyHost.innerHTML = post.html;
-      } else if (post.body) {
-        postBodyHost.innerHTML = simpleMdToHtml(post.body);
-      } else {
-        // fetch fallback content file (ALWAYS via /blog.raw/)
-        let injected = '';
-        try { injected = extractArticle(await tryFetch(post.content_url)); }
-        catch { try { injected = extractArticle(await tryFetch(`/blog/${normalizedSlug}.html`)); }
-               catch { try { injected = extractArticle(await tryFetch(`/blog/${rawSlug}.html`)); } catch {} } }
-        if (injected) postBodyHost.innerHTML = injected; else throw new Error('no content');
-      }
-    } catch (e) {
-      // ---------- PLAN B: Bare Mode (no blogs.json needed) ----------
-      usedBareMode = true;
-      try {
-        const tryPaths = [`/blog/${rawSlug}.html`, `/blog/${normalizedSlug}.html`];
-        let html = '';
-        for (const p of tryPaths) {
-          try {
-            html = await tryFetch(p);  // <-- now goes via /blog.raw/...
-            if (html) break;
-          } catch {}
-        }
-        if (!html) throw new Error('no article file found');
-
-        const article = extractArticle(html);
-        postBodyHost.innerHTML = article;
-
-        // derive title/meta
-        const title = deriveTitleFrom(html, normalizedSlug);
-        const image = `/images/${normalizedSlug}.png`;
-        const h1 = document.getElementById('ab-cta-text'); if (h1) h1.textContent = title;
-        const metaDiv = document.querySelector('.meta');
-        if (metaDiv) metaDiv.innerHTML = '';
-        setCoreMeta({ title, excerpt: '', image, canonicalHref: location.origin + (canonicalUndated) });
-      } catch (e2) {
-        const container = document.querySelector('.container');
-        if (container) container.innerHTML = '<p>Post not found.</p>';
-        document.title = 'Post not found | DebtReliefGuard Blog';
-        console.warn('Slug bare-mode failed:', e2);
-      }
-    }
-
-    console.log('[slug] mode =', usedBareMode ? 'BARE (no blogs.json)' : 'NORMAL (blogs.json)');
-  })();
-  </script>
-
-  <noscript><p style="text-align:center;color:#666">Enable JavaScript to view dynamic features and chat.</p></noscript>
-
-  <!-- ==== DRG Blog Diagnostics (drop-in) =================================== -->
-  <script>
-  /* What it checks (in order):
-     1) Slug parsing (raw vs normalized)
-     2) /blogs.json: HTTP status, content-type, parse result length
-     3) Post match in blogs.json (by slug/url/content_url)
-     4) Candidate content paths (content_url, /blog/<normalized>.html, /blog/<raw>.html)
-        -> fetched via /blog.raw/... so we don't hit the template by accident
-     5) Detects if any fetch returned the slug template (placeholder) instead of an article
-     6) Shows a sticky on-page report + logs full details to console
-  */
-  (function(){
-    const fmt = (x)=> (x==null?'':String(x));
-    const byId = (id)=>document.getElementById(id);
-    const el = document.createElement('div');
-    el.id = 'drgDiag';
-    el.style.cssText = 'position:fixed;right:12px;bottom:12px;z-index:99999;background:#0b1220;color:#e5e7eb;border:1px solid #334155;border-radius:12px;box-shadow:0 10px 30px rgba(0,0,0,.25);max-width:min(92vw,520px);';
-    el.innerHTML = `
-      <div style="display:flex;align-items:center;justify-content:space-between;padding:10px 12px;border-bottom:1px solid #334155">
-        <strong style="font:700 14px system-ui">DRG Blog Diagnostics</strong>
-        <div>
-          <button id="drgDiagCopy" style="margin-right:6px;background:#1f2937;border:1px solid #475569;color:#e5e7eb;padding:6px 8px;border-radius:8px;font:600 12px system-ui;cursor:pointer">Copy</button>
-          <button id="drgDiagClose" style="background:#1f2937;border:1px solid #475569;color:#e5e7eb;padding:6px 8px;border-radius:8px;font:600 12px system-ui;cursor:pointer">Close</button>
-        </div>
-      </div>
-      <pre id="drgDiagBody" style="margin:0;padding:10px 12px;max-height:48vh;overflow:auto;white-space:pre-wrap;word-break:break-word;font:12px/1.4 ui-monospace, SFMono-Regular, Menlo, Consolas, monospace"></pre>
-    `;
-    document.body.appendChild(el);
-    byId('drgDiagClose').onclick = ()=> el.remove();
-    byId('drgDiagCopy').onclick = async ()=> {
-      try{ await navigator.clipboard.writeText(byId('drgDiagBody').textContent || ''); byId('drgDiagCopy').textContent='Copied'; setTimeout(()=>byId('drgDiagCopy').textContent='Copy',900); }catch{}
-    };
-
-    const out = [];
-    const log = (k,v)=>{ const line = (v===undefined||v===null)? `${k}` : `${k}: ${typeof v==='string'?v:JSON.stringify(v)}`; out.push(line); console.log('[DRG]', line); };
-    const show = ()=> { byId('drgDiagBody').textContent = out.join('\n'); };
-
-    const normalized = (()=> {
-      const last = location.pathname.replace(/\/+$/,'').split('/').pop() || '';
-      const rawSlug = last.endsWith('.html') ? last.slice(0,-5) : last;
-      return { rawSlug, normalizedSlug: rawSlug.replace(/^\d{4}-\d{2}-\d{2}-/, ''), last };
-    })();
-    log('Path.last', normalized.last);
-    log('Slug.raw',  normalized.rawSlug);
-    log('Slug.normalized', normalized.normalizedSlug);
-
-    const normalizePath = (p) => {
-      if (typeof p !== 'string') return p;
-      const rel = p.replace(/^https?:\/\/[^/]+/i, '');
-      return rel.replace(/^\/blog\//, '/blog.raw/');
-    };
-    const fetchText = async (path, note='') => {
-      const p = normalizePath(path);
-      const r = await fetch(p, { cache:'no-store' });
-      const ct = (r.headers.get('content-type')||'');
-      const t  = await r.text().catch(()=> '');
-      const looksTemplate = /\{\{body\}\}|temporarily unavailable|blog\.slug\.index/i.test(t);
-      return {ok:r.ok, status:r.status, ct, looksTemplate, size:t.length, url:p, note, snippet: t.slice(0,200)};
-    };
-
     (async () => {
-      // 1) blogs.json
-      let blogs = null, blogsFetchInfo = {};
+      const Q = (s)=>document.querySelector(s);
+      const TITLE  = Q('#post-title');
+      const META   = Q('#post-meta');
+      const BODY   = Q('#post-body');
+      const ERR    = Q('#post-error');
+      const OGURL  = Q('#og-url');
+      const OGTITLE= Q('#og-title');
+      const OGDESC = Q('#og-description');
+      const OGIMG  = Q('#og-image');
+      const TWTTL  = Q('#tw-title');
+      const TWDESC = Q('#tw-desc');
+      const TWIMG  = Q('#tw-image');
+      const LCAN   = Q('#link-canonical');
+      const PMEDIA = Q('#post-media');
+      const PIMG   = Q('#post-image');
+      const JSONLDBOOT = Q('#jsonld-boot');
+
+      const isAbs = (u) => /^https?:\/\//i.test(u || '');
+      const absUrl = (path) => isAbs(path) ? path : (location.origin + (path.startsWith('/')? path : ('/' + path)));
+      const fmtDate = (d) => {
+        try { return new Date(d).toLocaleDateString(undefined, { year:'numeric', month:'short', day:'numeric' }); }
+        catch { return d || ''; }
+      };
+      const safeExcerpt = (s) => (s || '').replace(/^#+\s*/, '').trim();
+
+      const getSlug = () => {
+        const m = location.pathname.match(/^\/blog\/([^\/]+?)(?:\.html)?$/i);
+        return m ? m[1] : null;
+      };
+
+      const slug = getSlug();
+      if (!slug) {
+        TITLE.textContent = 'Post not found';
+        BODY.innerHTML = '<p>We couldn’t detect a valid post URL.</p>';
+        ERR.hidden = false;
+        return;
+      }
+
       try {
-        const r = await fetch('/blogs.json?diag=' + Date.now(), { cache:'no-store', headers:{Accept:'application/json'} });
-        blogsFetchInfo = { ok:r.ok, status:r.status, ct:(r.headers.get('content-type')||'') };
-        if (!r.ok) throw new Error('HTTP '+r.status);
-        const ctLow = blogsFetchInfo.ct.toLowerCase();
-        if (!ctLow.includes('application/json')) throw new Error('Non-JSON: '+blogsFetchInfo.ct);
-        blogs = await r.json();
-      } catch (e) {
-        log('blogs.json.ERROR', String(e));
-      }
-      log('blogs.json.http', blogsFetchInfo);
-      const posts = Array.isArray(blogs) ? blogs : (blogs && Array.isArray(blogs.items) ? blogs.items : []);
-      log('blogs.json.count', posts.length);
+        // 1) Load blogs.json
+        const r = await fetch('/blogs.json?ts=' + Date.now(), { headers: { 'Accept':'application/json' }, cache:'no-store' });
+        if (!r.ok) throw new Error('blogs.json HTTP ' + r.status);
+        const ct = (r.headers.get('content-type') || '').toLowerCase();
+        if (!ct.includes('application/json')) throw new Error('blogs.json non-JSON');
 
-      // 2) post match
-      const matchBySuffix = (val, target) => typeof val === 'string' && (val.endsWith('/'+target) || val.endsWith('/'+target+'.html'));
-      const post = posts.find(p=>{
-        const ps = fmt(p.slug).trim();
-        const pu = fmt(p.url).trim();
-        const pc = fmt(p.content_url).trim();
-        return (
-          ps === normalized.normalizedSlug ||
-          matchBySuffix(pu, normalized.rawSlug) || matchBySuffix(pu, normalized.normalizedSlug) ||
-          matchBySuffix(pc, normalized.rawSlug) || matchBySuffix(pc, normalized.normalizedSlug)
+        const data = await r.json();
+        const posts = Array.isArray(data) ? data : (Array.isArray(data?.items) ? data.items : []);
+        if (!posts.length) throw new Error('No posts in blogs.json');
+
+        // 2) Domain-aware filter
+        const host = location.hostname;
+        const site = host.includes('debtreliefguard') ? 'debtreliefguard'
+                   : host.includes('debthelpform')    ? 'debthelpform'
+                   : null;
+        let filtered = posts.filter(p => !site || (String(p.site || '').toLowerCase() === site));
+        if (!filtered.length) filtered = posts;
+
+        // 3) Find post by slug or by /blog/:slug.html in url field
+        const targetPath = `/blog/${slug}.html`;
+        const post = filtered.find(p =>
+          (String(p.slug||'').toLowerCase() === slug.toLowerCase()) ||
+          (String(p.url||'').toLowerCase() === targetPath.toLowerCase())
         );
-      }) || null;
-      log('post.matchFound', !!post);
-      if (post){
-        log('post.slug', post.slug);
-        log('post.published_at', post.published_at);
-        log('post.url', post.url);
-        log('post.content_url', post.content_url);
-        log('post.tags', post.tags);
-      } else {
-        log('CAUSE', 'No matching post in blogs.json for this slug.');
-        log('FIX', 'Add/align entry in blogs.json (slug/url/content_url) or ensure host site filter allows it.');
-        show(); return;
-      }
 
-      // 3) try to fetch content_html via three candidates (content_url, normalized, raw)
-      const cands = [
-        { path: post.content_url, note:'content_url' },
-        { path: '/blog/'+normalized.normalizedSlug+'.html', note:'fallback: normalized' },
-        { path: '/blog/'+normalized.rawSlug+'.html',        note:'fallback: raw' }
-      ];
-
-      for (const c of cands){
-        try {
-          const info = await fetchText(c.path, c.note);
-          log('FETCH '+c.note, {url:info.url, ok:info.ok, status:info.status, ct:info.ct, looksTemplate:info.looksTemplate, size:info.size});
-          if (info.ok && !info.looksTemplate && info.size>40){
-            log('RESULT', `OK via ${c.note} → real article HTML fetched.`);
-            show(); return;
-          }
-        } catch (e) {
-          log('FETCH.ERROR '+c.note, String(e));
+        if (!post) {
+          TITLE.textContent = 'Post not found';
+          BODY.innerHTML = `<p>We couldn’t find an article for <code>${slug}</code>.</p>`;
+          ERR.hidden = false;
+          return;
         }
-      }
 
-      // 4) If all attempts failed, report strongest signal
-      log('CAUSE', 'Could not fetch a real article file from any candidate path.');
-      log('LIKELY', 'Date/filename mismatch OR the file is missing at /blog.raw/... (200 should return article HTML).');
-      log('CHECK', [
-        'Confirm this exists and returns 200 HTML (NOT the template):',
-        normalizePath(post.content_url),
-        normalizePath('/blog/'+normalized.normalizedSlug+'.html'),
-        normalizePath('/blog/'+normalized.rawSlug+'.html')
-      ]);
-      log('TIP', 'Open DevTools → Network → check each candidate path; 200 + non-template HTML is success.');
-      show();
+        // 4) Fetch HTML content from content_url (dated file served statically per your _redirects rules)
+        const contentUrl = post.content_url || post.url || targetPath;
+        const res = await fetch(contentUrl + (contentUrl.includes('?') ? '&' : '?') + 'ts=' + Date.now(), { cache: 'no-store' });
+        if (!res.ok) throw new Error('content_url HTTP ' + res.status);
+        const ct2 = (res.headers.get('content-type') || '').toLowerCase();
+        const isHTML = ct2.includes('text/html') || ct2.includes('application/xhtml+xml');
+        const html = await res.text();
+
+        // 5) Inject HTML (basic hardening: strip any stray <title>/<meta>/<script> tags)
+        const tmp = document.createElement('div');
+        tmp.innerHTML = html;
+
+        // Remove script/style tags from injected content for safety
+        tmp.querySelectorAll('script, style, link[rel=stylesheet], meta, title').forEach(n => n.remove());
+        // Fix any relative anchors/images to be absolute relative to site root (dated files already under /blog/)
+        tmp.querySelectorAll('a[href]').forEach(a=>{
+          const href = a.getAttribute('href')||'';
+          if (/^\/blog\.slug\.index(\.html)?$/i.test(href)) { a.setAttribute('href','#'); }
+        });
+
+        BODY.innerHTML = '';
+        while (tmp.firstChild) BODY.appendChild(tmp.firstChild);
+
+        // 6) Page chrome: title/meta/schema
+        const pageTitle = post.title || slug.replace(/-/g,' ').replace(/\b\w/g, m=>m.toUpperCase());
+        const pageDesc  = safeExcerpt(post.excerpt || '');
+        const pageUrl   = absUrl(post.url || targetPath);
+        const pageImg   = post.thumbnail ? absUrl(post.thumbnail) : absUrl('/og-cover.jpg');
+        const datePub   = post.published_at || null;
+        const tags      = Array.isArray(post.tags) ? post.tags : [];
+
+        document.title = `${pageTitle} | DebtReliefGuard Blog`;
+        Q('meta[name=description]')?.setAttribute('content', pageDesc || 'Debt relief insights.');
+
+        LCAN.setAttribute('href', pageUrl);
+        OGURL.setAttribute('content', pageUrl);
+        OGTITLE.setAttribute('content', pageTitle);
+        OGDESC.setAttribute('content', pageDesc || 'Debt relief insights.');
+        OGIMG.setAttribute('content', pageImg);
+        TWTTL.setAttribute('content', pageTitle);
+        TWDESC.setAttribute('content', pageDesc || 'Debt relief insights.');
+        TWIMG.setAttribute('content', pageImg);
+
+        // Visible meta line
+        const dateTxt = datePub ? fmtDate(datePub) : '';
+        const tagTxt  = tags.length ? ` • ${tags.join(', ')}` : '';
+        META.textContent = [dateTxt, tagTxt].filter(Boolean).join('');
+
+        // Optional top image if you want it on article
+        if (post.thumbnail) {
+          PIMG.src = pageImg; PIMG.alt = pageTitle;
+          PMEDIA.hidden = false;
+        }
+
+        // 7) Article JSON-LD
+        const articleLD = {
+          "@context":"https://schema.org",
+          "@type":"Article",
+          "headline": pageTitle,
+          "description": pageDesc || undefined,
+          "image": [pageImg],
+          "mainEntityOfPage": pageUrl,
+          "datePublished": datePub || undefined,
+          "dateModified": new Date().toISOString(),
+          "author": {"@type":"Organization","name":"Gateway Financial Settlement Relief, LLC"},
+          "publisher":{"@id":"https://gatewaydebthelp.com/#gfsr"},
+          "keywords": tags.join(', ')
+        };
+        const s = document.createElement('script');
+        s.type = 'application/ld+json';
+        s.textContent = JSON.stringify(articleLD);
+        JSONLDBOOT.replaceWith(s);
+
+        // 8) Log (015/057 bridge)
+        try { window.GFSR && window.GFSR.log && window.GFSR.log('blog_open', { slug, url: pageUrl }); } catch {}
+      } catch (e) {
+        console.error('[slug loader] error:', e);
+        TITLE.textContent = 'Temporary error';
+        ERR.hidden = false;
+        try { window.GFSR && window.GFSR.log && window.GFSR.log('blog_error', { slug: (new URL(location.href)).pathname, err: String(e) }); } catch {}
+      }
     })();
-  })();
   </script>
-  <!-- ==== /Diagnostics ===================================================== -->
+  <!-- === END SLUG LOADER === -->
+
+  <noscript><p style="text-align:center;color:#666">Enable JavaScript to view this article.</p></noscript>
 </body>
 </html>
