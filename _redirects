@@ -11,10 +11,6 @@
 # --- Blog feed JSON
 /blogs.json                            /blogs.json                          200
 
-# --- Slug loader (only when you intentionally hit a slug)
-/blog/:slug.html                       /blog.slug.index.html                200
-/api/blog/:slug                        /blog.slug.json                      200
-
 # --- Standard assets
 /favicon.ico                           /favicon.ico                         200
 /robots.txt                            /robots.txt                          200
