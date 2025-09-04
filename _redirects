@@ -1,7 +1,7 @@
 /                          /index.html            200
 
-# --- Dated article files (serve static; keep ABOVE any other blog rules) ---
-/blog/:year-:month-:day-:rest.html   /blog/:year-:month-:day-:rest.html   200
+# Dated article files (only the extensionless → .html helper)
+# DO NOT add a rule for *.html → *.html
 /blog/:year-:month-:day-:rest        /blog/:year-:month-:day-:rest.html   200
 
 # Blog list
