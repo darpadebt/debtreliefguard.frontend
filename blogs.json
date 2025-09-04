@@ -1,38 +1,35 @@
 [
   {
-    "site": "debtreliefguard",
     "slug": "finding-your-path-to-debt-relief-a-guide-to-debt-consolidation-and-settlement",
     "title": "Finding Your Path to Debt Relief: A Guide to Debt Consolidation and Settlement",
-    "published_at": "2025-08-02",
-    "excerpt": "Cut through the noise between consolidation and settlement so you can choose the right path.",
+    "author": "DebtReliefGuard",
+    "date_published": "2025-08-02",
     "tags": ["debt relief", "consolidation", "settlement"],
+    "excerpt": "Understand consolidation vs. settlement and how to choose the right path.",
+    "image": "/images/debt-relief-guide/hero-0802.jpg",
     "url": "/blog/2025-08-02-finding-your-path-to-debt-relief-a-guide-to-debt-consolidation-and-settlement.html",
-    "content_url": "/blog/2025-08-02-finding-your-path-to-debt-relief-a-guide-to-debt-consolidation-and-settlement.html",
-    "thumbnail": "/og-cover.jpg",
-    "author": "DebtReliefGuard"
+    "content_url": "/blog/2025-08-02-finding-your-path-to-debt-relief-a-guide-to-debt-consolidation-and-settlement.html"
   },
   {
-    "site": "debtreliefguard",
     "slug": "chapter-1-understanding-debt-relief-options",
     "title": "Chapter 1: Understanding Debt Relief Options",
-    "published_at": "2025-08-03",
-    "excerpt": "Your quick guide to the main debt relief options and how they compare.",
+    "author": "DebtReliefGuard",
+    "date_published": "2025-08-03",
     "tags": ["debt relief", "chapter 1"],
+    "excerpt": "Quick guide to the main debt relief options and how they compare.",
+    "image": "/images/debt-relief-guide/ch1-hero.jpg",
     "url": "/blog/2025-08-03-chapter-1-understanding-debt-relief-options.html",
-    "content_url": "/blog/2025-08-03-chapter-1-understanding-debt-relief-options.html",
-    "thumbnail": "/og-cover.jpg",
-    "author": "DebtReliefGuard"
+    "content_url": "/blog/2025-08-03-chapter-1-understanding-debt-relief-options.html"
   },
   {
-    "site": "debtreliefguard",
     "slug": "navigating-the-path-to-debt-relief-your-guide-to-debt-consolidation-and-settlement",
     "title": "Navigating the Path to Debt Relief: Your Guide to Debt Consolidation and Settlement",
-    "published_at": "2025-08-06",
-    "excerpt": "When to consolidate vs. when to settle—practical pros, cons, and next steps.",
-    "tags": ["debt relief", "guide"],
+    "author": "DebtReliefGuard",
+    "date_published": "2025-08-06",
+    "tags": ["debt relief", "consolidation", "settlement"],
+    "excerpt": "A practical walkthrough of consolidation vs. settlement and when to use each.",
+    "image": "/images/debt-relief-guide/hero-0806.jpg",
     "url": "/blog/2025-08-06-navigating-the-path-to-debt-relief-your-guide-to-debt-consolidation-and-settlement.html",
-    "content_url": "/blog/2025-08-06-navigating-the-path-to-debt-relief-your-guide-to-debt-consolidation-and-settlement.html",
-    "thumbnail": "/og-cover.jpg",
-    "author": "DebtReliefGuard"
+    "content_url": "/blog/2025-08-06-navigating-the-path-to-debt-relief-your-guide-to-debt-consolidation-and-settlement.html"
   }
 ]
