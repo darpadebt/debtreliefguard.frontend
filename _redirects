@@ -1,11 +1,9 @@
-# --- Home
+# --- Home ---------------------------------------------------------------
 /                          /index.html                                   200
 
 # --- Dated posts (STATIC) -----------------------------------------------
-# 1) Normalize extensionless dated URLs to the real .html (SEO-friendly redirect)
-#    e.g. /blog/2025-08-06-navigating...  ->  /blog/2025-08-06-navigating....html
+# 1) Normalize extensionless dated URLs -> real .html (SEO-friendly)
 /blog/:year-:month-:day-:rest            /blog/:year-:month-:day-:rest.html 301
-
 # 2) Serve actual dated HTML files directly
 /blog/:year-:month-:day-:rest.html       /blog/:year-:month-:day-:rest.html 200
 
@@ -14,13 +12,11 @@
 /blog/                                   /blog.index.html                   200
 
 # --- Slug posts (DYNAMIC LOADER) ----------------------------------------
-# Let slugs (e.g. /blog/BlogMyPostTitle or /blog/BlogMyPostTitle.html)
-# render through the slug loader file
+# e.g. /blog/BlogMyPostTitle or /blog/BlogMyPostTitle.html
 /blog/:slug                               /blog.slug.index.html             200
 /blog/:slug.html                          /blog.slug.index.html             200
 
-# IMPORTANT: The loader must NOT fetch /blog/:slug (which would hit these rules again).
-# It should fetch the JSON here instead:
+# The loader must ONLY fetch JSON here (never /blog/:slug to avoid loops):
 /api/blog/:slug                           /blog.slug.json                   200
 
 # --- Feed JSON -----------------------------------------------------------
