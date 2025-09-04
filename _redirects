@@ -1,33 +1,33 @@
-/                          /index.html                                     200
+# =========================
+# Core pages
+# =========================
+/                           /index.html                                200
+/blog                       /blog.index.html                            200
+/blog/                      /blog.index.html                            200
+/blogs.json                 /blogs.json                                 200
 
-# --- Dated article files ONLY (no slug rules, no loader, no raw) ---
-# Serve the actual HTML file; no other rewrites allowed.
-/blog/:year-:month-:day-:rest.html    /blog/:year-:month-:day-:rest.html   200
+# =========================
+# Dated post canonicals
+# - Pass through real dated HTML files
+# - Redirect extensionless dated paths to .html
+# (Keep these BEFORE slug rules to prevent loops)
+# =========================
+/blog/:year-:month-:day-:rest.html     /blog/:year-:month-:day-:rest.html   200
+/blog/:year-:month-:day-:rest          /blog/:year-:month-:day-:rest.html   301
 
-# (Temporarily disable the extensionless helper to rule out host-specific rewrite quirks)
-# /blog/:year-:month-:day-:rest         /blog/:year-:month-:day-:rest.html   200
+# =========================
+# Slug loader (dynamic)
+# - These hit blog.slug.index.html
+# - Do NOT add any /blog.raw or /api/blog rules
+# =========================
+/blog/:slug.html                /blog.slug.index.html                   200
+/blog/:slug                     /blog.slug.index.html                   200
 
-# --- Blog list (canonical) ---
-/blog/index.html                      /blog                                 301
-/blog                                  /blog.index.html                      200
-/blog/                                 /blog.index.html                      200
-
-# --- Blog feed JSON ---
-/blogs.json                            /blogs.json                           200
-
-# --- Standard assets ---
-/favicon.ico                           /favicon.ico                          200
-/robots.txt                            /robots.txt                           200
-/sitemap.xml                           /sitemap.xml
-
-# --- Static assets passthrough ---
-/images/*                              /images/:splat
-/css/*                                 /css/:splat
-/js/*                                  /js/:splat
-
-# --- Hard blocks (safety nets) ---
-# If any old slug/loader paths still exist on the edge, force them to stop.
-# Remove these later if you need slug mode again.
-/blog.slug.index.html                  /blog.index.html                      301
-/api/blog/*                            /blog.index.html                      301
-/blog.raw/*                            /blog.index.html                      301
+# =========================
+# Standard assets passthrough
+# =========================
+/favicon.ico                    /favicon.ico                            200
+/robots.txt                     /robots.txt                             200
+/sitemap.xml                    /sitemap.xml
+/images/*                       /images/:splat                          200
+/assets/*                       /assets/:splat                          200
