@@ -1,43 +1,22 @@
-# =========================
-# DebtReliefGuard _redirects
-# DATED POSTS + SLUG LOADER (loop-free)
-# =========================
+/                          /index.html                                    200
 
-# Home
-/                                   /index.html                               200
+# Dated article files (only the extensionless → .html helper)
+/blog/:year-:month-:day-:rest        /blog/:year-:month-:day-:rest.html   200
 
-# ----- Blog list
-/blog                               /blog.index.html                          200
-/blog/                              /blog.index.html                          200
+# Blog list
+/blog                       /blog.index.html       200
+/blog/                      /blog.index.html       200
 
-# ----- Blog feed
-/blogs.json                         /blogs.json                               200
+# Blog feed JSON
+/blogs.json                 /blogs.json            200
 
-# ----- Dated posts (STATIC)
-/blog/:year-:month-:day-:rest.html  /blog/:year-:month-:day-:rest.html        200
-/blog/:year-:month-:day-:rest       /blog/:year-:month-:day-:rest.html        301
+# Slug loader entry points (keep for extensionless slugs)
+/blog/:slug                 /blog.slug.index.html  200
+/blog/:slug/                /blog.slug.index.html  200
 
-# ----- RAW passthrough for loader (avoid slug rewrites)
-# Loader rewrites /blog/*.html → /blog.raw/*.html in JS; map RAW back to the real file.
-/blog.raw/:year-:month-:day-:rest.html   /blog/:year-:month-:day-:rest.html   200
-/blog.raw/:year-:month-:day-:rest        /blog/:year-:month-:day-:rest.html   301
-
-# ----- Slug loader (DYNAMIC)
-# Only extensionless slugs go to the loader. Never send *.html slugs to the loader.
-/blog/:slug                          /blog.slug.index.html                     200
-/blog/:slug/                         /blog.slug.index.html                     200
-
-# ----- XML & utility
-/sitemap.xml                         /sitemap.xml                              200
-/favicon.ico                         /favicon.ico                              200
-/robots.txt                          /robots.txt                               200
-
-# ----- Static assets passthrough
-/images/*                            /images/:splat                            200
-/assets/*                            /assets/:splat                            200
-/css/*                               /css/:splat                               200
-/js/*                                /js/:splat                                200
-/fonts/*                             /fonts/:splat                             200
-
-# Optional 404
-# /*                                  /404.html                                 404
+# Static assets passthrough
+/favicon.ico                /favicon.ico           200
+/robots.txt                 /robots.txt            200
+/sitemap.xml                /sitemap.xml
+/images/*                   /images/:splat         200
+/assets/*                   /assets/:splat         200
