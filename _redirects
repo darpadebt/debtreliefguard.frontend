@@ -1,25 +1,23 @@
 /                          /index.html                                    200
 
-# Dated article files (only the extensionless → .html helper)
-/blog/:year-:month-:day-:rest        /blog/:year-:month-:day-:rest.html   200
-
 # Blog list
-/blog                       /blog.index.html       200
-/blog/                      /blog.index.html       200
+/blog                      /blog.index.html                                200
+/blog/                     /blog.index.html                                200
 
-# Blog feed JSON
-/blogs.json                 /blogs.json            200
+# Serve REAL blog HTML files as-is (critical: before slug rules)
+/blog/*.html               /blog/:splat                                    200
 
-# >>> NEW: pass-through for real blog HTML files (prevents slug rule from hijacking)
-/blog/*.html                /blog/:splat           200
+# Extensionless dated URLs → the actual .html file (one hop max)
+/blog/:year-:month-:day-:rest    /blog/:year-:month-:day-:rest.html        200
 
-# Slug loader entry points (keep for extensionless slugs)
-/blog/:slug                 /blog.slug.index.html  200
-/blog/:slug/                /blog.slug.index.html  200
+# Slug loader ONLY for extensionless slugs (never catches *.html)
+/blog/:slug                /blog.slug.index.html                           200
+/blog/:slug/               /blog.slug.index.html                           200
 
-# Static assets passthrough
-/favicon.ico                /favicon.ico           200
-/robots.txt                 /robots.txt            200
-/sitemap.xml                /sitemap.xml
-/images/*                   /images/:splat         200
-/assets/*                   /assets/:splat         200
+# Data & assets
+/blogs.json                /blogs.json                                     200
+/favicon.ico               /favicon.ico                                    200
+/robots.txt                /robots.txt                                     200
+/sitemap.xml               /sitemap.xml
+/images/*                  /images/:splat                                  200
+/assets/*                  /assets/:splat                                  200
