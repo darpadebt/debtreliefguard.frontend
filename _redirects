@@ -10,6 +10,9 @@
 # Blog feed JSON
 /blogs.json                 /blogs.json            200
 
+# >>> NEW: pass-through for real blog HTML files (prevents slug rule from hijacking)
+/blog/*.html                /blog/:splat           200
+
 # Slug loader entry points (keep for extensionless slugs)
 /blog/:slug                 /blog.slug.index.html  200
 /blog/:slug/                /blog.slug.index.html  200
