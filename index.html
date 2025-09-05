@@ -416,7 +416,7 @@
     })();
   </script>
 
-  <!-- 050 savings message hook (kept) -->
+  <!-- 050 savings message hook (+ send/receive with 050) -->
   <script>
   (() => {
     const sleep = (ms) => new Promise(r => setTimeout(r, ms));
@@ -426,11 +426,28 @@
     };
     const safeText = (s) => (s ?? '').toString();
 
+    // minimal beacon helper to 050
+    const sendTo050 = (payload) => {
+      try{
+        const url = '/api/mesh/050-ai-loop-optimizer/ingest';
+        const body = JSON.stringify(payload);
+        const blob = new Blob([body], { type:'application/json' });
+        if (navigator.sendBeacon) { navigator.sendBeacon(url, blob); }
+        else { fetch(url, { method:'POST', body: blob, keepalive:true, headers:{'Content-Type':'application/json'} }).catch(()=>{}); }
+      }catch(_){}
+    };
+
+    // load session id if telemetry script created it
+    let sid=null;
+    try{ sid = sessionStorage.getItem('drg:sess:v1') || null; }catch(_){}
+
     (async function loadSavingsMessage(){
       const el = document.querySelector('#ab-cta-text'); if(!el) return;
+      const pageKey = document.querySelector('meta[name="x-ai-optimizer-page"]')?.content || 'drg:home';
       const FALLBACK = el.textContent || "Scam-Free Debt Relief Reviews & Secure Estimate";
       const CACHE_KEY = 'drg:savings:v1'; const MAX_AGE_MS = 10 * 60 * 1000;
 
+      // read cache
       try {
         const raw = localStorage.getItem(CACHE_KEY);
         if (raw) {
@@ -439,23 +456,44 @@
         }
       } catch(_) {}
 
-      let ok=false, data;
+      let ok=false, data, variant=null;
+
+      // fetch from 050-powered endpoint
       for(let attempt=0; attempt<2 && !ok; attempt++){
         try{
           let r = await timeoutFetch('/api/savings-message', {
-            headers: { 'Accept':'application/json', 'X-Requested-With':'XMLHttpRequest' },
+            headers: {
+              'Accept':'application/json',
+              'X-Requested-With':'XMLHttpRequest'
+            },
             cache:'no-store', credentials:'omit'
           }, attempt ? 4500 : 3500);
           if(!r.ok || !r.headers.get('content-type')?.includes('application/json')) throw new Error('HTTP '+r.status);
           data = await r.json();
-          if(data && data.message){
-            el.textContent = safeText(data.message);
+          if(data && (data.message || data.hero)){
+            const msg = data.message || data.hero;
+            variant = data.variant || null;
+            el.textContent = safeText(msg);
             ok=true;
-            try{ localStorage.setItem(CACHE_KEY, JSON.stringify({ ts: Date.now(), message: data.message })); }catch(_){}
+            try{ localStorage.setItem(CACHE_KEY, JSON.stringify({ ts: Date.now(), message: msg, variant })); }catch(_){}
+            // report exposure to 050
+            sendTo050({ v:1, sid, ts:Date.now(), page:pageKey, event:'exposure', slot:'headline', variant, message: msg, url: location.href, ref: document.referrer||null });
           }
         }catch(e){ await sleep(200); }
       }
-      if(!ok) el.textContent = FALLBACK;
+      if(!ok) {
+        el.textContent = FALLBACK;
+        // report fallback exposure
+        sendTo050({ v:1, sid, ts:Date.now(), page:pageKey, event:'exposure', slot:'headline', variant:null, message:FALLBACK, url: location.href, ref: document.referrer||null, note:'fallback' });
+      }
+
+      // wire CTA click tracking to 050 (non-invasive; preserves existing handlers)
+      try{
+        const primary = document.querySelector('.hero-ctas .btn.btn-primary');
+        const phone   = document.querySelector('.hero-ctas .btn.btn-outline');
+        if (primary) primary.addEventListener('click', () => sendTo050({ v:1, sid, ts:Date.now(), page:pageKey, event:'click', slot:'primaryCta', variant, url: location.href }));
+        if (phone)   phone.addEventListener('click',   () => sendTo050({ v:1, sid, ts:Date.now(), page:pageKey, event:'click', slot:'phoneCta',   variant, url: location.href }));
+      }catch(_){}
     })();
   })();
   </script>
