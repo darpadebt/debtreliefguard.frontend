@@ -53,8 +53,8 @@
     const hide = (sel) => { const el=qs(sel); if (el) el.classList.add('hidden'); };
     const normSlug = (s) => String(s||'').trim().replace(/(^\/+|\/+$)/g,'').replace(/\.html$/,'');
 
-    // ✅ FIXED: no rewrite to /blog.raw, just return href
-    const toRaw = (href) => String(href || '').trim();
+    // ✅ FIX: stop rewriting /blog/*.html → /blog.raw/*.html
+    const toRaw = (href) => String(href || '').trim();  <!-- changed -->
 
     const filename = (url) => {
       try { return normSlug(new URL(url, location.origin).pathname.split('/').pop()); }
@@ -142,7 +142,7 @@
       .forEach(u => fetch(u, { method:'POST', body: payload, headers:{'content-type':'application/json'}, keepalive:true }).catch(()=>{}));
     }
 
-    // ---------- sitemap fallback
+    // ---------- sitemap fallback: find a blog URL that ends with "<slug>.html"
     async function findInSitemap(slug) {
       try {
         const xml = await tryFetch('/sitemap.xml');
@@ -160,7 +160,7 @@
 
       let post = null, href = null;
 
-      // 1) Primary: blogs.json
+      // 1) Primary: blogs.json (then force RAW if it points into /blog/)
       try {
         const raw = await fetchJSON('/blogs.json?ts=' + Date.now());
         const list = Array.isArray(raw) ? raw : (Array.isArray(raw?.items) ? raw.items : []);
@@ -170,17 +170,19 @@
         if (post) {
           href = toRaw((post.content_url?.trim()) || (post.url?.trim()) || `/blog/${slug}.html`);
         }
-      } catch (e) {}
+      } catch (e) {
+        // swallow; we’ll try fallbacks
+      }
 
-      // 2) Fallback A: direct file under /blog
+      // 2) Fallback A: direct RAW file /blog.raw/<slug>.html (avoids slug rewrite)
       if (!href) {
         try {
-          const probe = await fetch(`/blog/${slug}.html`, { method:'HEAD', cache:'no-store' });
-          if (probe.ok) href = `/blog/${slug}.html`;
+          const probe = await fetch(`/blog.raw/${slug}.html`, { method:'HEAD', cache:'no-store' });
+          if (probe.ok) href = `/blog.raw/${slug}.html`;
         } catch {}
       }
 
-      // 3) Fallback B: sitemap
+      // 3) Fallback B: sitemap.xml → dated post path; then force RAW form if it’s under /blog/
       if (!href) {
         const fromMap = await findInSitemap(slug);
         if (fromMap) href = toRaw(fromMap);
@@ -189,10 +191,11 @@
       if (!href) {
         setText('#post-title', 'Post not found');
         setText('#post-meta', '');
-        setText('#notice', 'We couldn’t locate this article via blogs.json, direct file, or sitemap.');
+        setText('#notice', 'We couldn’t locate this article via blogs.json, direct file, or sitemap. Please confirm the slug matches a file in /blog and/or an entry in /blogs.json.');
         show('#error'); ping('not_found'); return;
       }
 
+      // Meta from post if we have it; otherwise minimal meta
       if (post) {
         setText('#post-title', post.title || 'Untitled');
         setText('#post-meta', fmtByline(post));
@@ -204,6 +207,7 @@
         setMeta({ title: titleFromSlug }, href);
       }
 
+      // Fetch & inject the actual article HTML (RAW path; no rewrites)
       const html = await tryFetch(href);
       injectArticle(html);
       ping('view_ok', { href });
