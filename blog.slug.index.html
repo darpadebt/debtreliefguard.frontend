@@ -12,6 +12,7 @@
   <meta property="og:description" content="Loading blog post…" />
   <meta property="og:url" content="" />
   <meta property="og:image" content="/og-cover.jpg" />
+  <meta name="twitter:card" content="summary_large_image" />
 
   <style>
     body{font-family:system-ui,-apple-system,Segoe UI,Roboto,Inter,Arial,sans-serif;margin:0;color:#111;background:#fff;}
@@ -43,32 +44,27 @@
 
   <script>
   (async () => {
-    // ---------- helpers
     const qs = (s) => document.querySelector(s);
     const setText = (sel, t) => { const el=qs(sel); if (el) el.textContent = t || ''; };
     const show = (sel) => { const el=qs(sel); if (el) el.classList.remove('hidden'); };
     const normSlug = (s) => String(s||'').trim().replace(/(^\/+|\/+$)/g,'').replace(/\.html$/,'');
+    const slug = normSlug(location.pathname.replace(/^\/?blog\//,''));
+    setText('#crumb', slug || 'Loading…');
 
-    // NO cross-namespace rewrite
     const passthrough = (href) => String(href||'').trim();
     const filename = (url) => {
       try { return normSlug(new URL(url, location.origin).pathname.split('/').pop()); }
       catch { return normSlug(String(url||'').split('/').pop()); }
     };
-    const fmtByline = (p) => {
+
+    function fmtByline(p) {
       const d = p?.date_published || p?.published_at || '';
       const dt = d ? new Date(d) : null;
       const dateStr = dt ? dt.toLocaleDateString(undefined, {year:'numeric', month:'short', day:'numeric'}) : '';
       const tags = Array.isArray(p?.tags) && p.tags.length ? ' • ' + p.tags.join(', ') : '';
       const author = p?.author || 'DebtReliefGuard';
       return [author, dateStr, tags].filter(Boolean).join(' • ');
-    };
-
-    // ---------- identify slug from URL
-    const slug = normSlug(location.pathname.replace(/^\/?blog\//,''));
-    setText('#crumb', slug || 'Loading…');
-
-    // ---------- meta helpers
+    }
     function setMeta(p, href) {
       const title = p?.title || 'Blog Post';
       const desc = p?.excerpt || p?.description || 'Debt relief insights and guides.';
@@ -85,7 +81,6 @@
       ];
       pairs.forEach(([sel, attr, val]) => { const el = qs(sel); if (el) el.setAttribute(attr, val); });
 
-      // brand schema (GFSR) with canonical @id
       const orgId = "https://gatewaydebthelp.com/#gfsr";
       const ld = {
         "@context":"https://schema.org",
@@ -104,41 +99,45 @@
       tag.textContent = JSON.stringify(ld);
     }
 
-    // ---------- resilient fetchers
-    async function fetchJSON(url) {
-      const res = await fetch(url, { headers:{Accept:'application/json'}, cache:'no-store' });
-      if (!res.ok) throw new Error(url + ' HTTP ' + res.status);
-      const ct = (res.headers.get('content-type')||'').toLowerCase();
-      return ct.includes('application/json') ? res.json() : JSON.parse(await res.text());
+    async function fetchJSON(url, ms=8000) {
+      const ctrl = new AbortController(); const id = setTimeout(()=>ctrl.abort(), ms);
+      try {
+        const res = await fetch(url, { headers:{Accept:'application/json'}, cache:'no-store', signal:ctrl.signal });
+        if (!res.ok) throw new Error(url + ' HTTP ' + res.status);
+        const ct = (res.headers.get('content-type')||'').toLowerCase();
+        return ct.includes('application/json') ? res.json() : JSON.parse(await res.text());
+      } finally { clearTimeout(id); }
     }
-    async function tryFetch(url) {
-      const res = await fetch(url, { cache:'no-store' });
-      if (!res.ok) throw new Error('HTTP ' + res.status);
-      return res.text();
+    async function tryFetch(url, ms=10000) {
+      const ctrl = new AbortController(); const id = setTimeout(()=>ctrl.abort(), ms);
+      try {
+        const res = await fetch(url, { cache:'no-store', signal:ctrl.signal });
+        if (!res.ok) throw new Error('HTTP ' + res.status);
+        return res.text();
+      } finally { clearTimeout(id); }
     }
     function injectArticle(html) {
       const doc = new DOMParser().parseFromString(html, 'text/html');
       let node = doc.querySelector('article, main');
       if (!node) node = doc.body;
-      const target = qs('#post-article');
-      target.innerHTML = node ? node.innerHTML : html;
+      qs('#post-article').innerHTML = node ? node.innerHTML : html;
       show('#post-article');
-    }
-    function ping(stage, extra) {
-      const payload = JSON.stringify({ stage, slug, at:new Date().toISOString(), ua:navigator.userAgent, ref:document.referrer || null, ...extra });
-      ['/api/015-telemetry-collector','/api/016-telemetry-rollups','/api/050-ai-loop-optimizer','/api/057-heat-map-tracker']
-        .forEach(u => fetch(u,{method:'POST',body:payload,headers:{'content-type':'application/json'},keepalive:true}).catch(()=>{}));
     }
     async function findInSitemap(slug) {
       try {
-        const xml = await tryFetch('/sitemap.xml');
+        const xml = await tryFetch('/sitemap.xml', 8000);
         const locs = Array.from(xml.matchAll(/<loc>([^<]+)<\/loc>/g)).map(m => m[1]);
         const hit = locs.find(u => /\/blog\/.+\.html$/i.test(u) && decodeURIComponent(u).endsWith(`${slug}.html`));
         return hit ? new URL(hit, location.origin).pathname : null;
       } catch { return null; }
     }
 
-    // ---------- main
+    function ping(stage, extra) {
+      const payload = JSON.stringify({ stage, slug, at: new Date().toISOString(), ua: navigator.userAgent, ref: document.referrer || null, ...extra });
+      ['/api/015-telemetry-collector','/api/016-telemetry-rollups','/api/050-ai-loop-optimizer','/api/057-heat-map-tracker']
+        .forEach(u => fetch(u, { method:'POST', body: payload, headers:{'content-type':'application/json'}, keepalive:true }).catch(()=>{}));
+    }
+
     try {
       ping('view_start');
       setText('#post-title', 'Loading…');
@@ -159,7 +158,7 @@
         }
       } catch {}
 
-      // 2) If blogs.json didn’t give us a URL, probe the physical file
+      // 2) probe physical file
       if (!href) {
         try {
           const probe = await fetch(`/blog/${slug}.html`, { method:'HEAD', cache:'no-store' });
@@ -167,7 +166,7 @@
         } catch {}
       }
 
-      // 3) Fallback: sitemap match for <slug>.html
+      // 3) sitemap fallback
       if (!href) {
         const fromMap = await findInSitemap(slug);
         if (fromMap) href = passthrough(fromMap);
@@ -180,7 +179,7 @@
         show('#error'); ping('not_found'); return;
       }
 
-      // Meta setup
+      // meta + render
       if (post) {
         setText('#post-title', post.title || 'Untitled');
         setText('#post-meta', fmtByline(post));
@@ -192,10 +191,18 @@
         setMeta({ title: titleFromSlug }, href);
       }
 
-      // Fetch & render
       const html = await tryFetch(href);
       injectArticle(html);
       ping('view_ok', { href });
+
+      // optional receive: hints from 050
+      try {
+        const r = await fetch('/api/050-ai-loop-optimizer?surface=blog_slug&slug='+encodeURIComponent(slug), {cache:'no-store'});
+        if (r.ok) {
+          const j = await r.json().catch(()=>null);
+          if (j?.variant) document.documentElement.setAttribute('data-ab-variant', j.variant);
+        }
+      } catch {}
 
     } catch (err) {
       console.error(err);
