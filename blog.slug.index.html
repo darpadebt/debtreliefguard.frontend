@@ -7,13 +7,11 @@
   <title>Loading… | DebtReliefGuard</title>
   <meta name="description" content="Loading blog post…" />
   <meta name="robots" content="index,follow" />
-
   <meta property="og:type" content="article" />
   <meta property="og:title" content="Loading…" />
   <meta property="og:description" content="Loading blog post…" />
   <meta property="og:url" content="" />
   <meta property="og:image" content="/og-cover.jpg" />
-  <meta name="twitter:card" content="summary_large_image" />
 
   <style>
     body{font-family:system-ui,-apple-system,Segoe UI,Roboto,Inter,Arial,sans-serif;margin:0;color:#111;background:#fff;}
@@ -31,7 +29,6 @@
   <header class="hero">
     <div class="wrap">
       <a href="/" style="color:#fff;text-decoration:none;">DebtReliefGuard</a>
-      <!-- Link directly to the index page to avoid any /blog → slug rewrites -->
       <div class="muted" style="margin-top:4px;"><a href="/blog.index.html" style="color:#fff;opacity:.9">Blog</a> ▸ <span id="crumb">Loading…</span></div>
       <h1 id="post-title">Loading…</h1>
       <p id="post-meta" class="meta">Please wait while we load the article.</p>
@@ -50,12 +47,10 @@
     const qs = (s) => document.querySelector(s);
     const setText = (sel, t) => { const el=qs(sel); if (el) el.textContent = t || ''; };
     const show = (sel) => { const el=qs(sel); if (el) el.classList.remove('hidden'); };
-    const hide = (sel) => { const el=qs(sel); if (el) el.classList.add('hidden'); };
     const normSlug = (s) => String(s||'').trim().replace(/(^\/+|\/+$)/g,'').replace(/\.html$/,'');
 
-    // ✅ FIX: stop rewriting /blog/*.html → /blog.raw/*.html
-    const toRaw = (href) => String(href || '').trim();  <!-- changed -->
-
+    // NO cross-namespace rewrite
+    const passthrough = (href) => String(href||'').trim();
     const filename = (url) => {
       try { return normSlug(new URL(url, location.origin).pathname.split('/').pop()); }
       catch { return normSlug(String(url||'').split('/').pop()); }
@@ -90,6 +85,7 @@
       ];
       pairs.forEach(([sel, attr, val]) => { const el = qs(sel); if (el) el.setAttribute(attr, val); });
 
+      // brand schema (GFSR) with canonical @id
       const orgId = "https://gatewaydebthelp.com/#gfsr";
       const ld = {
         "@context":"https://schema.org",
@@ -108,21 +104,18 @@
       tag.textContent = JSON.stringify(ld);
     }
 
-    // ---------- fetchers (resilient)
+    // ---------- resilient fetchers
     async function fetchJSON(url) {
       const res = await fetch(url, { headers:{Accept:'application/json'}, cache:'no-store' });
       if (!res.ok) throw new Error(url + ' HTTP ' + res.status);
       const ct = (res.headers.get('content-type')||'').toLowerCase();
-      if (ct.includes('application/json')) return res.json();
-      return JSON.parse(await res.text());
+      return ct.includes('application/json') ? res.json() : JSON.parse(await res.text());
     }
     async function tryFetch(url) {
       const res = await fetch(url, { cache:'no-store' });
       if (!res.ok) throw new Error('HTTP ' + res.status);
       return res.text();
     }
-
-    // ---------- body injection
     function injectArticle(html) {
       const doc = new DOMParser().parseFromString(html, 'text/html');
       let node = doc.querySelector('article, main');
@@ -131,18 +124,11 @@
       target.innerHTML = node ? node.innerHTML : html;
       show('#post-article');
     }
-
-    // ---------- telemetry (best-effort; non-blocking)
     function ping(stage, extra) {
-      const payload = JSON.stringify({
-        stage, slug, at: new Date().toISOString(),
-        ua: navigator.userAgent, ref: document.referrer || null, ...extra
-      });
+      const payload = JSON.stringify({ stage, slug, at:new Date().toISOString(), ua:navigator.userAgent, ref:document.referrer || null, ...extra });
       ['/api/015-telemetry-collector','/api/016-telemetry-rollups','/api/050-ai-loop-optimizer','/api/057-heat-map-tracker']
-      .forEach(u => fetch(u, { method:'POST', body: payload, headers:{'content-type':'application/json'}, keepalive:true }).catch(()=>{}));
+        .forEach(u => fetch(u,{method:'POST',body:payload,headers:{'content-type':'application/json'},keepalive:true}).catch(()=>{}));
     }
-
-    // ---------- sitemap fallback: find a blog URL that ends with "<slug>.html"
     async function findInSitemap(slug) {
       try {
         const xml = await tryFetch('/sitemap.xml');
@@ -152,7 +138,7 @@
       } catch { return null; }
     }
 
-    // ---------- main logic
+    // ---------- main
     try {
       ping('view_start');
       setText('#post-title', 'Loading…');
@@ -160,7 +146,7 @@
 
       let post = null, href = null;
 
-      // 1) Primary: blogs.json (then force RAW if it points into /blog/)
+      // 1) blogs.json
       try {
         const raw = await fetchJSON('/blogs.json?ts=' + Date.now());
         const list = Array.isArray(raw) ? raw : (Array.isArray(raw?.items) ? raw.items : []);
@@ -168,34 +154,33 @@
             || list.find(x => filename(x?.content_url) === slug || filename(x?.url) === slug)
             || null;
         if (post) {
-          href = toRaw((post.content_url?.trim()) || (post.url?.trim()) || `/blog/${slug}.html`);
+          const candidate = (post.content_url?.trim()) || (post.url?.trim()) || `/blog/${slug}.html`;
+          href = passthrough(candidate);
         }
-      } catch (e) {
-        // swallow; we’ll try fallbacks
-      }
+      } catch {}
 
-      // 2) Fallback A: direct RAW file /blog.raw/<slug>.html (avoids slug rewrite)
+      // 2) If blogs.json didn’t give us a URL, probe the physical file
       if (!href) {
         try {
-          const probe = await fetch(`/blog.raw/${slug}.html`, { method:'HEAD', cache:'no-store' });
-          if (probe.ok) href = `/blog.raw/${slug}.html`;
+          const probe = await fetch(`/blog/${slug}.html`, { method:'HEAD', cache:'no-store' });
+          if (probe.ok) href = `/blog/${slug}.html`;
         } catch {}
       }
 
-      // 3) Fallback B: sitemap.xml → dated post path; then force RAW form if it’s under /blog/
+      // 3) Fallback: sitemap match for <slug>.html
       if (!href) {
         const fromMap = await findInSitemap(slug);
-        if (fromMap) href = toRaw(fromMap);
+        if (fromMap) href = passthrough(fromMap);
       }
 
       if (!href) {
         setText('#post-title', 'Post not found');
         setText('#post-meta', '');
-        setText('#notice', 'We couldn’t locate this article via blogs.json, direct file, or sitemap. Please confirm the slug matches a file in /blog and/or an entry in /blogs.json.');
+        setText('#notice', 'We couldn’t locate this article via blogs.json, direct file, or sitemap. Confirm this slug exists as /blog/<slug>.html and/or is listed in blogs.json.');
         show('#error'); ping('not_found'); return;
       }
 
-      // Meta from post if we have it; otherwise minimal meta
+      // Meta setup
       if (post) {
         setText('#post-title', post.title || 'Untitled');
         setText('#post-meta', fmtByline(post));
@@ -207,7 +192,7 @@
         setMeta({ title: titleFromSlug }, href);
       }
 
-      // Fetch & inject the actual article HTML (RAW path; no rewrites)
+      // Fetch & render
       const html = await tryFetch(href);
       injectArticle(html);
       ping('view_ok', { href });
