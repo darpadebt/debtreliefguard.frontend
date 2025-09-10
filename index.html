@@ -233,56 +233,7 @@
         primaryCtaHref: 'https://debthelpform.com/#lead-form'
       }
     };
-  </script>
-  <script defer>
-(function(){
-  // 1) Grab elements up front (fail silently if missing)
-  const headlineSel = '#ab-cta-text';
-  const btnSel      = '.hero-ctas .btn.btn-primary';
-  const elHeadline  = document.querySelector(headlineSel);
-  const elBtn       = document.querySelector(btnSel);
-  if (!elHeadline) return;
 
-  // 2) Defaults from your AB config if present
-  const ab = (window.__ab && window.__ab.defaults) || {};
-  const defaultCtaText = ab.primaryCtaText || '🔒 Start Secure Estimate';
-  const defaultCtaHref = ab.primaryCtaHref || 'https://debthelpform.com/#lead-form';
-
-  // 3) Never block rendering: fast timeout + full try/catch
-  const ctrl = new AbortController();
-  const t = setTimeout(() => ctrl.abort(), 1200); // 1.2s budget
-
-  fetch('/api/mesh/050-ai-loop-optimizer/savings-message', {
-    method: 'GET',
-    credentials: 'omit',
-    signal: ctrl.signal
-  })
-  .then(r => (r.ok ? r.json() : null))
-  .then(data => {
-    // If no data, keep defaults
-    if (!data) return;
-
-    // Update headline if provided
-    if (data.hero && typeof data.hero === 'string') {
-      elHeadline.textContent = data.hero;
-    }
-
-    // Optional: update primary CTA if backend returns these
-    if (elBtn && data.primaryCtaText) elBtn.textContent = data.primaryCtaText;
-    if (elBtn && data.primaryCtaHref) elBtn.href = data.primaryCtaHref;
-  })
-  .catch(() => {
-    // Swallow errors and keep defaults
-  })
-  .finally(() => clearTimeout(t));
-
-  // 4) Ensure defaults are applied once at load (in case HTML differs)
-  if (elBtn) {
-    if (!elBtn.textContent || elBtn.textContent.trim() === '') elBtn.textContent = defaultCtaText;
-    if (!elBtn.getAttribute('href')) elBtn.setAttribute('href', defaultCtaHref);
-  }
-})();
-</script>
 
 </head>
 <body>
