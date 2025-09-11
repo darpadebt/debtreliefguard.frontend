@@ -30,7 +30,7 @@
   <!-- Fonts -->
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet" />
 
-  <!-- ===== A/B hook for AI Loop Optimizer (050) ===== -->
+  <!-- (Safe to keep; doesn’t call any workers by itself) -->
   <meta name="x-ai-optimizer-page" content="drg:home" />
 
   <!-- Make brand schema easy to discover -->
@@ -218,11 +218,11 @@
   }
   </script>
 
-  <!-- A/B slots (050) defaults -->
+  <!-- A/B slots scaffold (kept local-only; no network calls) -->
   <script>
     window.__ab = {
       pageKey: 'drg:home',
-      slots: { /* hero/headline + primary CTA wired below */ },
+      slots: { /* hero/headline + primary CTA wired below if needed */ },
       defaults: {
         primaryCtaText: '🔒 Start Secure Estimate',
         primaryCtaHref: 'https://debthelpform.com/#lead-form'
@@ -379,7 +379,7 @@
     <p>“Gateway Debt Help” is the marketing brand of <strong>Gateway Financial Settlement Relief, LLC</strong>. Not affiliated with “Gateway Debt Relief” of Costa Mesa, CA.</p>
   </footer>
 
-  <!-- Bot honeypot -->
+  <!-- Bot honeypot (purely local) -->
   <script>
     (function(){
       const honeypot=document.createElement("input");
@@ -393,7 +393,7 @@
     })();
   </script>
 
-  <!-- Dynamic spacing for mobile bar -->
+  <!-- Dynamic spacing for mobile bar (purely local) -->
   <script>
     (function(){
       const root = document.documentElement;
@@ -409,105 +409,6 @@
     })();
   </script>
 
-  <!-- 050 savings message + CTA wiring (aligned to worker contract) -->
-  <script>
-  (()=>{
-    const sleep = (ms)=>new Promise(r=>setTimeout(r,ms));
-    const timeoutFetch=(url,opts={},ms=5000)=>{
-      const c=new AbortController(); const to=setTimeout(()=>c.abort(),ms);
-      return fetch(url,{...opts,signal:c.signal}).finally(()=>clearTimeout(to));
-    };
-    const safeText=(s)=> (s??'').toString();
-
-    // Base mount for worker 050 (matches wrangler routes like /api/mesh/050-ai-loop-optimizer/*)
-    const BASE050 = '/api/mesh/050-ai-loop-optimizer';
-
-    // --- tracking helper -> uses /cta/track on 050
-    const track050=(payload)=>{
-      try{
-        const url=`${BASE050}/cta/track`;
-        const body=JSON.stringify(payload||{});
-        const blob=new Blob([body],{type:'application/json'});
-        if(navigator.sendBeacon){ navigator.sendBeacon(url, blob); }
-        else { fetch(url,{method:'POST',body:blob,keepalive:true,headers:{'Content-Type':'application/json'}}).catch(()=>{}); }
-      }catch(_){ }
-    };
-
-    // session id (best-effort)
-    let sid=null; try{ sid=sessionStorage.getItem('drg:sess:v1')||null; if(!sid){ sid=crypto?.randomUUID?.()||String(Date.now()); sessionStorage.setItem('drg:sess:v1',sid);} }catch(_){}
-
-    (async function hydrate(){
-      const pageKey=document.querySelector('meta[name="x-ai-optimizer-page"]')?.content || 'drg:home';
-      const headlineEl=document.querySelector('#ab-cta-text');
-      const primaryEl=document.querySelector('.hero-ctas .btn.btn-primary');
-      if(!headlineEl) return;
-
-      // 1) Headline from 050 (/savings-message). Try worker mount first, then alias fallback.
-      const FALLBACK=headlineEl.textContent || "Scam-Free Debt Relief Reviews & Secure Estimate";
-      let ok=false, variant=null;
-
-      const tryEndpoints=[`${BASE050}/savings-message`, '/api/savings-message'];
-      for(const ep of tryEndpoints){
-        if(ok) break;
-        for(let attempt=0; attempt<2 && !ok; attempt++){
-          try{
-            const r=await timeoutFetch(ep,{
-              headers:{'Accept':'application/json','X-Requested-With':'XMLHttpRequest'},
-              cache:'no-store', credentials:'omit'
-            }, attempt?4500:3500);
-            if(!r.ok || !r.headers.get('content-type')?.includes('application/json')) throw new Error('bad');
-            const data=await r.json();
-            const msg=data?.message || data?.hero;
-            if(msg){
-              variant = data?.variant || null;
-              headlineEl.textContent = safeText(msg);
-              ok=true;
-              // exposure sample
-              track050({v:1,sid,ts:Date.now(),page:pageKey,event:'exposure',slot:'headline',variant,message:msg,url:location.href,ref:document.referrer||null});
-            }
-          }catch(e){ await sleep(200); }
-        }
-      }
-      if(!ok){
-        headlineEl.textContent = FALLBACK;
-        track050({v:1,sid,ts:Date.now(),page:pageKey,event:'exposure',slot:'headline',variant:null,message:FALLBACK,url:location.href,ref:document.referrer||null,note:'fallback'});
-      }
-
-      // 2) CTA arm from 050 (/cta). Accept both current and legacy shapes.
-      let ctaId=null;
-      try{
-        const r=await timeoutFetch(`${BASE050}/cta?pg=`+encodeURIComponent(pageKey),{headers:{'Accept':'application/json'}},3500);
-        if(r.ok && r.headers.get('content-type')?.includes('application/json')){
-          const j=await r.json();
-          // New (top-level) shape
-          let txt = j?.text ?? null; let href = j?.href ?? null; ctaId = j?.id ?? null;
-          // Legacy shapes supported
-          if(!txt)  txt  = j?.primary?.text || j?.primaryText || null;
-          if(!href) href = j?.primary?.href || j?.primaryHref || null;
-          if(primaryEl){
-            if(typeof txt==='string') primaryEl.textContent = safeText(txt);
-            if(typeof href==='string') primaryEl.setAttribute('href', href);
-          }
-        }
-      }catch(_){ }
-
-      // 3) Click tracking (requires CTA id for 050 /cta/track)
-      try{
-        const phoneEl=document.querySelector('.hero-ctas .btn.btn-outline');
-        if(primaryEl) primaryEl.addEventListener('click', ()=>{
-          // only send if we have an id; otherwise worker will reject with bad_request
-          if(ctaId) track050({v:1,sid,ts:Date.now(),page:pageKey,slot:'primary',id:ctaId,event:'click',variant,url:location.href});
-        });
-        if(phoneEl)   phoneEl.addEventListener('click',   ()=>{
-          // phone isn’t part of CTA bandit; still useful exposure
-          track050({v:1,sid,ts:Date.now(),page:pageKey,event:'click',slot:'phoneCta',variant,url:location.href});
-        });
-      }catch(_){}
-    })();
-  })();
-  </script>
-
-  <!-- 016 Chat FAB + Sheet + Script (unchanged UI logic) -->
-  <!-- (… keep your existing chat code block here; unchanged …) -->
+  <!-- NOTE: Removed all network calls to backend workers (e.g., 050 endpoints). -->
 </body>
 </html>
