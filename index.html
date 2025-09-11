@@ -1,4 +1,5 @@
-<!DOCTYPE html><html lang="en">
+<!DOCTYPE html>
+<html lang="en">
 <head>
   <!-- Charset & Compatibility -->
   <meta charset="UTF-8" />
@@ -30,14 +31,14 @@
   <!-- Fonts -->
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet" />
 
-  <!-- ===== A/B hook for AI Loop Optimizer (050) ===== -->
+  <!-- Page key (kept for consistency) -->
   <meta name="x-ai-optimizer-page" content="drg:home" />
 
   <!-- Make brand schema easy to discover -->
   <link rel="alternate" type="application/ld+json" href="/brand.schema.jsonld" />
 
   <!-- =========================
-       STYLES (keep theme)
+       STYLES (theme preserved)
        ========================= -->
   <style>
     :root{
@@ -59,20 +60,16 @@
     .skip-link:focus{position:fixed;left:12px;top:12px;padding:.5rem .75rem;background:#000;color:#fff;z-index:10000;border-radius:6px}
 
     /* Sticky nav */
-    .sticky-nav{
-      position:fixed; top:0; left:0; right:0; background:var(--brand-2);
+    .sticky-nav{ position:fixed; top:0; left:0; right:0; background:var(--brand-2);
       z-index:9999; display:flex; gap:.75rem; padding:.75rem 1rem; overflow-x:auto; white-space:nowrap;
-      box-shadow:0 2px 5px rgba(0,0,0,.08)
-    }
+      box-shadow:0 2px 5px rgba(0,0,0,.08) }
     .sticky-nav a{ color:#fff; font-weight:600; text-decoration:none; padding:.5rem .75rem; flex:0 0 auto; border-radius:6px }
     .sticky-nav a:hover,.sticky-nav a:focus{ text-decoration:underline; outline:none }
     .sticky-nav::-webkit-scrollbar{ display:none }
 
     /* Hero */
-    header.hero{
-      max-width:960px; margin:0 auto; text-align:center; background:var(--brand);
-      color:#fff; padding:1.5rem 1rem; border-radius:12px; box-shadow:0 6px 18px rgba(0,0,0,.08)
-    }
+    header.hero{ max-width:960px; margin:0 auto; text-align:center; background:var(--brand);
+      color:#fff; padding:1.5rem 1rem; border-radius:12px; box-shadow:0 6px 18px rgba(0,0,0,.08)}
     header.hero h1{ margin:.2rem 0 .4rem; font-size:clamp(1.7rem,3vw + 1rem,2.4rem); font-weight:800 }
     header.hero .sub{ margin:0 0 .8rem; opacity:.95 }
     .hero-ctas{ display:flex; justify-content:center; gap:.6rem; flex-wrap:wrap }
@@ -81,66 +78,42 @@
     .btn-outline{ background:transparent; color:#fff; border:2px solid rgba(255,255,255,.75) }
 
     /* Legitimacy strip */
-    .legit{
-      max-width:960px;margin:.9rem auto 0; padding:.75rem 1rem; background:#fff;
-      border:1px solid #e5e7eb;border-radius:10px; box-shadow:0 2px 10px rgba(0,0,0,.04); text-align:center
-    }
+    .legit{ max-width:960px;margin:.9rem auto 0; padding:.75rem 1rem; background:#fff;
+      border:1px solid #e5e7eb;border-radius:10px; box-shadow:0 2px 10px rgba(0,0,0,.04); text-align:center }
     .muted-text{ color:#6b7280; font-size:.95rem }
 
     /* Sections */
-    .container{
-      max-width:960px; margin:1.25rem auto 4rem; background:#fff;
+    .container{ max-width:960px; margin:1.25rem auto 4rem; background:#fff;
       padding:1.25rem; border-radius:12px; box-shadow:0 2px 12px rgba(0,0,0,.06);
-      border:1px solid var(--card-b)
-    }
+      border:1px solid var(--card-b) }
     h2{text-align:center}
 
     /* Mobile bar */
-    .mobile-bar{
-      position:fixed; left:0; right:0; bottom:0; background:#0b1220; color:#fff;
-      display:flex; gap:8px; padding:.6rem; z-index:9998;
-    }
+    .mobile-bar{ position:fixed; left:0; right:0; bottom:0; background:#0b1220; color:#fff; display:flex; gap:8px; padding:.6rem; z-index:9998; }
     .mobile-bar a{ flex:1; text-align:center; border-radius:10px; padding:.75rem .5rem; font-weight:900; text-decoration:none }
     .mobile-call{ background:var(--ok); color:#fff }
     .mobile-est{ background:#0b63f6; color:#fff }
     @media (min-width:769px){ .mobile-bar{ display:none } }
 
     /* Desktop sticky phone pill */
-    .desk-call{
-      position:fixed; right:14px; bottom:14px; z-index:10002; display:none; align-items:center; gap:.4rem;
-      padding:.7rem 1rem; border-radius:999px; background:#007b55; color:#fff; font-weight:900; text-decoration:none;
-      box-shadow:0 10px 24px rgba(0,0,0,.18);
-    }
+    .desk-call{ position:fixed; right:14px; bottom:14px; z-index:10002; display:none; align-items:center; gap:.4rem;
+      padding:.7rem 1rem; border-radius:999px; background:#007b55; color:#fff; font-weight:900; text-decoration:none; box-shadow:0 10px 24px rgba(0,0,0,.18); }
     @media (min-width:769px){ .desk-call{ display:inline-flex } }
 
     /* Bottom sticky sitemap */
-    .sticky-menu{
-      position:fixed; left:0; right:0;
-      bottom: calc(var(--callbar-h) + env(safe-area-inset-bottom));
-      background:#004488; color:#fff; z-index:9997;
-      border-top:2px solid #2563eb; height: var(--sitemap-h); display:flex; align-items:center;
-    }
+    .sticky-menu{ position:fixed; left:0; right:0; bottom: calc(var(--callbar-h) + env(safe-area-inset-bottom)); background:#004488; color:#fff; z-index:9997;
+      border-top:2px solid #2563eb; height: var(--sitemap-h); display:flex; align-items:center; }
     @media (min-width:769px){ .sticky-menu{ bottom:0 } }
-    .sticky-menu nav{
-      display:flex; gap:1rem; overflow-x:auto; white-space:nowrap;
-      padding:0 .75rem; width:100%; align-items:center; scrollbar-width:none;
-    }
+    .sticky-menu nav{ display:flex; gap:1rem; overflow-x:auto; white-space:nowrap; padding:0 .75rem; width:100%; align-items:center; scrollbar-width:none; }
     .sticky-menu nav::-webkit-scrollbar{ display:none }
-    .sticky-menu nav a{
-      color:#ffdd00; text-decoration:none; padding:.35rem .55rem; border-radius:6px;
-      font-weight:700; font-size:.92rem; flex:0 0 auto;
-    }
-    .sticky-menu nav a:hover, .sticky-menu nav a:focus{
-      background:rgba(255,255,255,.1); outline:none;
-    }
+    .sticky-menu nav a{ color:#ffdd00; text-decoration:none; padding:.35rem .55rem; border-radius:6px; font-weight:700; font-size:.92rem; flex:0 0 auto; }
+    .sticky-menu nav a:hover, .sticky-menu nav a:focus{ background:rgba(255,255,255,.1); outline:none; }
 
     footer.note{ max-width:960px; margin:1rem auto 5.5rem; text-align:center; color:#666 }
     footer.note p{ font-size:.82rem; color:#999 }
 
     /* ensure content clears bars on mobile */
-    @media (max-width:768px){
-      body, main { padding-bottom: calc(var(--callbar-h) + var(--sitemap-h) + env(safe-area-inset-bottom) + 14px); }
-    }
+    @media (max-width:768px){ body, main { padding-bottom: calc(var(--callbar-h) + var(--sitemap-h) + env(safe-area-inset-bottom) + 14px); } }
   </style>
 
   <!-- =========================
@@ -191,43 +164,16 @@
         "@id":"https://debtreliefguard.com/#legitimacy-faq",
         "url":"https://debtreliefguard.com/",
         "mainEntity":[
-          {
-            "@type":"Question",
-            "name":"Is Gateway Financial Settlement Relief (GFSR) legitimate?",
-            "acceptedAnswer":{
-              "@type":"Answer",
-              "text":"Yes. GFSR operates GatewayDebtHelp.com, DebtHelpForm.com, and DebtReliefGuard.com. We follow FTC rules (no upfront fees, clear disclosures) and provide education plus connections to verified providers. BBB accreditation is optional and not required for legitimacy."
-            }
-          },
-          {
-            "@type":"Question",
-            "name":"Are you the same as 'Gateway Debt Relief'?",
-            "acceptedAnswer":{
-              "@type":"Answer",
-              "text":"No. Gateway Financial Settlement Relief, LLC (GFSR) is not affiliated with 'Gateway Debt Relief' of Costa Mesa, CA, or any other company. 'Gateway Debt Help' is a marketing alias used by GFSR."
-            }
-          }
+          {"@type":"Question","name":"Is Gateway Financial Settlement Relief (GFSR) legitimate?",
+           "acceptedAnswer":{"@type":"Answer","text":"Yes. GFSR operates GatewayDebtHelp.com, DebtHelpForm.com, and DebtReliefGuard.com. We follow FTC rules (no upfront fees, clear disclosures) and provide education plus connections to verified providers. BBB accreditation is optional and not required for legitimacy."}},
+          {"@type":"Question","name":"Are you the same as 'Gateway Debt Relief'?",
+           "acceptedAnswer":{"@type":"Answer","text":"No. Gateway Financial Settlement Relief, LLC (GFSR) is not affiliated with 'Gateway Debt Relief' of Costa Mesa, CA, or any other company. 'Gateway Debt Help' is a marketing alias used by GFSR."}}
         ]
       },
-      {
-        "@type":"Organization",
-        "@id":"https://gatewaydebthelp.com/#gfsr",
-        "reviewPolicy":"We publish only genuine customer feedback with proof of service. We do not buy or fabricate reviews. BBB accreditation is optional and not required to operate lawfully."
-      }
+      {"@type":"Organization","@id":"https://gatewaydebthelp.com/#gfsr",
+       "reviewPolicy":"We publish only genuine customer feedback with proof of service. We do not buy or fabricate reviews. BBB accreditation is optional and not required to operate lawfully."}
     ]
   }
-  </script>
-
-  <!-- A/B slots (050) defaults -->
-  <script>
-    window.__ab = {
-      pageKey: 'drg:home',
-      slots: { /* hero/headline + primary CTA wired below */ },
-      defaults: {
-        primaryCtaText: '🔒 Start Secure Estimate',
-        primaryCtaHref: 'https://debthelpform.com/#lead-form'
-      }
-    };
   </script>
 </head>
 <body>
@@ -254,7 +200,7 @@
   </nav>
 
   <!-- Desktop sticky phone pill -->
-  <a class="desk-call" href="tel:+18884377141">📞 888-437-7141</a>
+  <a class="desk-call" href="tel:+1888437141">📞 888-437-7141</a>
 
   <!-- HERO -->
   <header class="hero" role="banner" aria-label="Hero">
@@ -379,15 +325,14 @@
     <p>“Gateway Debt Help” is the marketing brand of <strong>Gateway Financial Settlement Relief, LLC</strong>. Not affiliated with “Gateway Debt Relief” of Costa Mesa, CA.</p>
   </footer>
 
-  <!-- Bot honeypot -->
+  <!-- Bot honeypot (a11y-safe) -->
   <script>
     (function(){
       const honeypot=document.createElement("input");
-      honeypot.type="text";honeypot.name="website";honeypot.autocomplete="off";
-      honeypot.hidden=true;honeypot.setAttribute("aria-hidden","true");
+      honeypot.type="text"; honeypot.name="website"; honeypot.autocomplete="off";
+      honeypot.hidden=true; honeypot.setAttribute("aria-hidden","true");
       document.body.appendChild(honeypot);
-      let u=false,t=0; addEventListener('mousemove',()=>u=true,{passive:true});
-      addEventListener('keydown',()=>u=true,{passive:true});
+      let u=false,t=0; addEventListener('mousemove',()=>u=true,{passive:true}); addEventListener('keydown',()=>u=true,{passive:true});
       setInterval(()=>t++,1000);
       window.validateBotProtections=()=> (honeypot.value==="" && u && t>=3);
     })();
@@ -396,118 +341,125 @@
   <!-- Dynamic spacing for mobile bar -->
   <script>
     (function(){
-      const root = document.documentElement;
-      const mb = document.getElementById('drgMobileBar');
-      const setH = () => {
-        const h = mb && getComputedStyle(mb).display !== 'none' ? mb.offsetHeight : 0;
-        root.style.setProperty('--callbar-h', h + 'px');
-      };
-      setH();
-      addEventListener('resize', setH, {passive:true});
-      setTimeout(setH, 250);
-      setTimeout(setH, 1000);
+      const root=document.documentElement; const mb=document.getElementById('drgMobileBar');
+      const setH=()=>{ const h=mb && getComputedStyle(mb).display!=='none' ? mb.offsetHeight : 0; root.style.setProperty('--callbar-h', h + 'px'); };
+      setH(); addEventListener('resize', setH, {passive:true}); setTimeout(setH,250); setTimeout(setH,1000);
     })();
   </script>
 
-  <!-- 050 savings message + CTA wiring (aligned to worker contract) -->
+  <!-- =============================
+       036 Orchestrator Bridge ONLY
+       (manifest fetch + /run ping)
+       ============================= -->
   <script>
-  (()=>{
+  (function(){
     const sleep = (ms)=>new Promise(r=>setTimeout(r,ms));
-    const timeoutFetch=(url,opts={},ms=5000)=>{
-      const c=new AbortController(); const to=setTimeout(()=>c.abort(),ms);
-      return fetch(url,{...opts,signal:c.signal}).finally(()=>clearTimeout(to));
-    };
+    const timeoutFetch=(url,opts={},ms=5000)=>{ const c=new AbortController(); const to=setTimeout(()=>c.abort(),ms); return fetch(url,{...opts,signal:c.signal}).finally(()=>clearTimeout(to)); };
     const safeText=(s)=> (s??'').toString();
 
-    // Base mount for worker 050 (matches wrangler routes like /api/mesh/050-ai-loop-optimizer/*)
-    const BASE050 = '/api/mesh/050-ai-loop-optimizer';
+    const BASE036 = '/api/mesh/036-lead-router';
 
-    // --- tracking helper -> uses /cta/track on 050
-    const track050=(payload)=>{
+    // hydrate CTA from manifest if provided
+    (async function loadManifest(){
       try{
-        const url=`${BASE050}/cta/track`;
-        const body=JSON.stringify(payload||{});
-        const blob=new Blob([body],{type:'application/json'});
-        if(navigator.sendBeacon){ navigator.sendBeacon(url, blob); }
-        else { fetch(url,{method:'POST',body:blob,keepalive:true,headers:{'Content-Type':'application/json'}}).catch(()=>{}); }
-      }catch(_){ }
-    };
-
-    // session id (best-effort)
-    let sid=null; try{ sid=sessionStorage.getItem('drg:sess:v1')||null; if(!sid){ sid=crypto?.randomUUID?.()||String(Date.now()); sessionStorage.setItem('drg:sess:v1',sid);} }catch(_){}
-
-    (async function hydrate(){
-      const pageKey=document.querySelector('meta[name="x-ai-optimizer-page"]')?.content || 'drg:home';
-      const headlineEl=document.querySelector('#ab-cta-text');
-      const primaryEl=document.querySelector('.hero-ctas .btn.btn-primary');
-      if(!headlineEl) return;
-
-      // 1) Headline from 050 (/savings-message). Try worker mount first, then alias fallback.
-      const FALLBACK=headlineEl.textContent || "Scam-Free Debt Relief Reviews & Secure Estimate";
-      let ok=false, variant=null;
-
-      const tryEndpoints=[`${BASE050}/savings-message`, '/api/savings-message'];
-      for(const ep of tryEndpoints){
-        if(ok) break;
-        for(let attempt=0; attempt<2 && !ok; attempt++){
+        const pageKey = document.querySelector('meta[name="x-ai-optimizer-page"]')?.content || 'drg:home';
+        const urls = [ `${BASE036}/manifest?pg=${encodeURIComponent(pageKey)}`, `${BASE036}/manifest` ];
+        let manifest=null;
+        for(const u of urls){
           try{
-            const r=await timeoutFetch(ep,{
-              headers:{'Accept':'application/json','X-Requested-With':'XMLHttpRequest'},
-              cache:'no-store', credentials:'omit'
-            }, attempt?4500:3500);
-            if(!r.ok || !r.headers.get('content-type')?.includes('application/json')) throw new Error('bad');
-            const data=await r.json();
-            const msg=data?.message || data?.hero;
-            if(msg){
-              variant = data?.variant || null;
-              headlineEl.textContent = safeText(msg);
-              ok=true;
-              // exposure sample
-              track050({v:1,sid,ts:Date.now(),page:pageKey,event:'exposure',slot:'headline',variant,message:msg,url:location.href,ref:document.referrer||null});
-            }
-          }catch(e){ await sleep(200); }
+            const r=await timeoutFetch(u,{headers:{'Accept':'application/json','X-Requested-With':'XMLHttpRequest'},cache:'no-store'},3500);
+            if(r.ok && r.headers.get('content-type')?.includes('application/json')){ manifest = await r.json(); if(manifest) break; }
+          }catch(e){ await sleep(120); }
         }
-      }
-      if(!ok){
-        headlineEl.textContent = FALLBACK;
-        track050({v:1,sid,ts:Date.now(),page:pageKey,event:'exposure',slot:'headline',variant:null,message:FALLBACK,url:location.href,ref:document.referrer||null,note:'fallback'});
-      }
+        if(manifest){
+          // headline
+          const h = document.getElementById('ab-cta-text');
+          const msg = manifest?.hero || manifest?.message || null; if(h && typeof msg==='string') h.textContent = safeText(msg);
+          // primary CTA
+          const a = document.querySelector('.hero-ctas .btn.btn-primary');
+          const txt = manifest?.cta?.text || manifest?.primary?.text || null;
+          const href= manifest?.cta?.href || manifest?.primary?.href || null;
+          if(a){ if(typeof txt==='string') a.textContent = safeText(txt); if(typeof href==='string') a.setAttribute('href', href); }
+        }
+      }catch(_){ /* soft-fail */ }
+    })();
 
-      // 2) CTA arm from 050 (/cta). Accept both current and legacy shapes.
-      let ctaId=null;
+    // signal 036 that page loaded (fan-out decision-making happens server-side)
+    (function pingRun(){
       try{
-        const r=await timeoutFetch(`${BASE050}/cta?pg=`+encodeURIComponent(pageKey),{headers:{'Accept':'application/json'}},3500);
-        if(r.ok && r.headers.get('content-type')?.includes('application/json')){
-          const j=await r.json();
-          // New (top-level) shape
-          let txt = j?.text ?? null; let href = j?.href ?? null; ctaId = j?.id ?? null;
-          // Legacy shapes supported
-          if(!txt)  txt  = j?.primary?.text || j?.primaryText || null;
-          if(!href) href = j?.primary?.href || j?.primaryHref || null;
-          if(primaryEl){
-            if(typeof txt==='string') primaryEl.textContent = safeText(txt);
-            if(typeof href==='string') primaryEl.setAttribute('href', href);
-          }
-        }
+        const body = JSON.stringify({ v:1, ts:Date.now(), page: document.querySelector('meta[name="x-ai-optimizer-page"]')?.content || 'drg:home', url: location.href, ref: document.referrer||null });
+        const blob = new Blob([body],{type:'application/json'});
+        const url = `${BASE036}/run`;
+        if(navigator.sendBeacon){ navigator.sendBeacon(url, blob); }
+        else { fetch(url,{ method:'POST', body: blob, keepalive:true, headers:{'Content-Type':'application/json'} }).catch(()=>{}); }
       }catch(_){ }
-
-      // 3) Click tracking (requires CTA id for 050 /cta/track)
-      try{
-        const phoneEl=document.querySelector('.hero-ctas .btn.btn-outline');
-        if(primaryEl) primaryEl.addEventListener('click', ()=>{
-          // only send if we have an id; otherwise worker will reject with bad_request
-          if(ctaId) track050({v:1,sid,ts:Date.now(),page:pageKey,slot:'primary',id:ctaId,event:'click',variant,url:location.href});
-        });
-        if(phoneEl)   phoneEl.addEventListener('click',   ()=>{
-          // phone isn’t part of CTA bandit; still useful exposure
-          track050({v:1,sid,ts:Date.now(),page:pageKey,event:'click',slot:'phoneCta',variant,url:location.href});
-        });
-      }catch(_){}
     })();
   })();
   </script>
 
-  <!-- 016 Chat FAB + Sheet + Script (unchanged UI logic) -->
-  <!-- (… keep your existing chat code block here; unchanged …) -->
+  <!-- =========================================
+       016 Chat (Bottom-Right) — SAME UI SITE-WIDE
+       Markup + Behavior (calls /chat endpoint)
+       ========================================= -->
+  <!-- Chat FAB -->
+  <button
+    id="gfsrChatFab"
+    class="gfsr-chat-fab"
+    aria-haspopup="dialog"
+    aria-expanded="false"
+    aria-controls="gfsrChatSheet"
+    style="position:fixed; right:14px; bottom:calc(var(--callbar-h) + var(--sitemap-h) + 14px); z-index:10003; display:inline-flex; align-items:center; gap:.5rem; padding:.8rem 1rem; border-radius:999px; border:1px solid rgba(0,0,0,.06); background:#0b63f6; color:#fff; box-shadow:0 10px 30px rgba(0,0,0,.18); font:600 14px/1.1 system-ui,-apple-system,Segoe UI,Roboto,Arial">💬 Chat</button>
+
+  <!-- Chat Sheet -->
+  <section id="gfsrChatSheet" class="gfsr-chat-sheet" role="dialog" aria-modal="true"
+           aria-labelledby="gfsrChatTitle" aria-describedby="gfsrChatDesc" hidden
+           style="position:fixed; inset:auto 0 0 0; margin:auto; width:100%; max-width:420px; right:12px; left:auto; border-radius:18px 18px 0 0; background:#fff; box-shadow:0 10px 30px rgba(0,0,0,.18); transform:translateY(110%); transition:transform .28s ease; border:1px solid rgba(0,0,0,.06); z-index:10004">
+    <header class="gfsr-chat-head" style="display:flex; align-items:center; justify-content:space-between; padding:12px 14px; border-bottom:1px solid rgba(0,0,0,.06); background:#f9fafb; border-radius:inherit">
+      <div>
+        <div id="gfsrChatTitle" class="gfsr-chat-title" style="font-weight:700; font-size:15px">Debt Help Assistant</div>
+        <div id="gfsrChatDesc" class="sr-only">Chat with our assistant. Press Escape to close.</div>
+      </div>
+      <button id="gfsrChatClose" class="gfsr-chat-close" aria-label="Close chat" style="background:transparent; border:none; padding:8px; border-radius:10px; cursor:pointer">✕</button>
+    </header>
+
+    <div id="gfsrChatBody" class="gfsr-chat-body" tabindex="0" style="display:flex; flex-direction:column; gap:8px; padding:12px; height:min(70vh, 520px); overflow:auto; -webkit-overflow-scrolling:touch"></div>
+
+    <form id="gfsrChatForm" class="gfsr-chat-input" style="display:flex; gap:8px; padding:10px; border-top:1px solid rgba(0,0,0,.06); background:#fff; border-radius:0 0 18px 18px">
+      <label class="sr-only" for="gfsrChatInput">Type your message</label>
+      <textarea id="gfsrChatInput" rows="1" placeholder="Type a message…" aria-label="Message" style="flex:1; resize:none; min-height:42px; max-height:120px; padding:10px 12px; border:1px solid #e5e7eb; border-radius:12px; font-size:14px; line-height:1.35"></textarea>
+      <button id="gfsrChatSend" class="gfsr-chat-send" type="submit" style="background:#0b63f6; color:#fff; border:none; padding:12px 14px; border-radius:12px; font-weight:700">Send</button>
+    </form>
+  </section>
+
+  <!-- 016 Chat Script -->
+  <script>
+    (function(){
+      const el = { fab:document.getElementById('gfsrChatFab'), sheet:document.getElementById('gfsrChatSheet'), close:document.getElementById('gfsrChatClose'), body:document.getElementById('gfsrChatBody'), form:document.getElementById('gfsrChatForm'), input:document.getElementById('gfsrChatInput'), send:document.getElementById('gfsrChatSend') };
+      const openChat = () => { el.sheet.removeAttribute('hidden'); el.sheet.classList.add('open'); el.sheet.style.transform='translateY(0)'; el.fab.setAttribute('aria-expanded','true'); setTimeout(()=>el.input.focus(),120); };
+      const closeChat = () => { el.sheet.classList.remove('open'); el.sheet.style.transform='translateY(110%)'; el.fab.setAttribute('aria-expanded','false'); el.sheet.setAttribute('hidden',''); el.fab.focus(); };
+      el.fab.addEventListener('click', openChat); el.close.addEventListener('click', closeChat);
+      addEventListener('keydown', e => { if (e.key==='Escape' && !el.sheet.hasAttribute('hidden')) closeChat(); });
+
+      const addMsg=(t,w='bot')=>{ const d=document.createElement('div'); d.className=`gfsr-msg ${w}`; d.style.maxWidth='88%'; d.style.padding='10px 12px'; d.style.borderRadius='14px'; d.style.fontSize='14px'; d.style.lineHeight='1.35'; if(w==='user'){ d.style.marginLeft='auto'; d.style.background='#0b63f6'; d.style.color='#fff'; d.style.borderTopRightRadius='4px'; } else if(w==='bot'){ d.style.background='#eef2ff'; d.style.color='#111'; d.style.borderTopLeftRadius='4px'; } else { d.style.background='#f3f4f6'; d.style.color='#444'; d.style.fontSize='12px'; d.style.margin='4px auto'; } d.textContent=(t??'').toString(); el.body.appendChild(d); el.body.scrollTop=el.body.scrollHeight; };
+      const KEY='drg:chat-history'; try{ (JSON.parse(localStorage.getItem(KEY)||'[]')).slice(-20).forEach(m=>addMsg(m.text,m.who)); }catch{}
+      const remember=(t,w)=>{ try{ const h=JSON.parse(localStorage.getItem(KEY)||'[]'); h.push({text:t,who:w,t:Date.now()}); localStorage.setItem(KEY, JSON.stringify(h).slice(-8000)); }catch{} };
+
+      let interacted=false; addEventListener('mousemove',()=>interacted=true,{once:true,passive:true}); addEventListener('keydown',()=>interacted=true,{once:true,passive:true});
+      const nonce=()=>Array.from(crypto.getRandomValues(new Uint8Array(12))).map(b=>b.toString(16).padStart(2,'0')).join('');
+      const API=`${location.origin}/chat`; let busy=false;
+      el.form.addEventListener('submit', async (e)=>{
+        e.preventDefault(); if(!interacted||busy) return; const message=(el.input.value||'').trim(); if(!message) return;
+        addMsg(message,'user'); remember(message,'user'); el.input.value=''; busy=true; el.send.disabled=true;
+        try{
+          const r=await fetch(API,{method:'POST',headers:{'Content-Type':'application/json','Accept':'application/json','X-Requested-With':'XMLHttpRequest','X-Client-Nonce':nonce()},body:JSON.stringify({ messages:[{ role:'user', content: message }], source:'frontend', url: location.href })});
+          if(!r.ok){ const t=await r.text().catch(()=> ''); addMsg(`Service error ${r.status}.`,'meta'); console.error('CHAT ERROR', r.status, t); return; }
+          const ct=r.headers.get('content-type')||''; const reply = ct.includes('application/json') ? (await r.json()).reply || '' : await r.text();
+          addMsg(reply || 'Thanks — how else can I help?','bot'); remember(reply||'','bot');
+        }catch(err){ console.error('CHAT NET', err); addMsg('Network error — please try again.','meta'); }
+        finally{ busy=false; el.send.disabled=false; }
+      });
+    })();
+  </script>
+
 </body>
 </html>
