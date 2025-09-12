@@ -60,19 +60,21 @@
     /* Hero */
     header.hero{
       max-width:960px; margin:0 auto; text-align:center; background:var(--brand);
-      color:#fff; padding:1.5rem 1rem; border-radius:12px; box-shadow:0 6px 18px rgba(0,0,0,.08)
+      color:#fff; padding:1.5rem 1rem; border-radius:12px; box-shadow:0 6px 18px rgba(0,0,0,.08);
+      position: relative;
     }
-    header.hero h1{ margin:.2rem 0 .4rem; font-size:clamp(1.7rem,3vw + 1rem,2.3rem); font-weight:800 }
-    header.hero .sub{ margin:0 0 .55rem; opacity:.95 }
 
-    /* Slim dark pill shield (match HIW page) */
+    /* Slim, dark FTC pill at very top inside hero (like How It Works) */
     .trust-pill{
       display:inline-flex; align-items:center; gap:.45rem;
       background:#07233f; border:1px solid rgba(255,255,255,.18);
-      color:#eaf4ff; padding:.32rem .65rem; border-radius:999px; font-weight:800; font-size:.9rem;
-      box-shadow:0 1px 6px rgba(0,0,0,.2); margin:.25rem 0 .85rem;
+      color:#eaf4ff; padding:.26rem .62rem; border-radius:999px; font-weight:800; font-size:.86rem;
+      box-shadow:0 1px 6px rgba(0,0,0,.2); margin:0 0 .5rem;
     }
-    .trust-pill .icon{ font-size:1rem; }
+    .trust-pill .icon{ font-size:.98rem; }
+
+    header.hero h1{ margin:.15rem 0 .4rem; font-size:clamp(1.7rem,3vw + 1rem,2.3rem); font-weight:800 }
+    header.hero .sub{ margin:0 0 .7rem; opacity:.95 }
 
     .hero-ctas{ display:flex; justify-content:center; gap:.6rem; flex-wrap:wrap }
     .btn{ display:inline-flex; align-items:center; justify-content:center; gap:.4rem; border-radius:10px; padding:.7rem 1.05rem; font-weight:800; text-decoration:none }
@@ -99,9 +101,9 @@
     .compare-wrap::-webkit-scrollbar{ height: 8px }
     .compare-wrap::-webkit-scrollbar-thumb{ background:#cbd5e1; border-radius: 8px }
 
-    /* ↓ narrower min-width for lighter scroll */
+    /* Narrower min-width so you only scroll a little */
     .compare-grid{
-      min-width: 560px; /* tweak to 520–600 to taste */
+      min-width: 560px; /* adjust 520–600 to taste */
       display:grid;
       grid-template-columns:1.1fr 1fr 1fr;
       gap:10px;
@@ -150,7 +152,7 @@
     footer.note{ max-width:960px; margin:1rem auto 5.5rem; text-align:center; color:#666 }
     footer.note p{ font-size:.82rem; color:#999 }
 
-    /* Keep chatbot above bars if widget uses these common selectors */
+    /* Keep chatbot above bars if widget uses common selectors */
     .pe-016-bubble, #pe016-bubble, .pe-016-widget {
       position: fixed !important;
       right: 16px !important;
@@ -214,14 +216,14 @@
 
   <!-- HERO -->
   <header class="hero" role="banner" aria-label="Hero">
-    <h1 id="ab-cta-text">Why DebtReliefGuard?</h1>
-    <p class="sub">We compare transparent, FTC-aligned options vs. high-risk practices.</p>
-
-    <!-- Slim pill shield -->
+    <!-- Slim FTC pill at top -->
     <div class="trust-pill" aria-label="Secure, FTC-Aligned, No Upfront Fees">
       <span class="icon" aria-hidden="true">🛡️</span>
       <span><strong>Secure</strong> • FTC-Aligned • No Upfront Fees</span>
     </div>
+
+    <h1 id="ab-cta-text">Why DebtReliefGuard?</h1>
+    <p class="sub">We compare transparent, FTC-aligned options vs. high-risk practices.</p>
 
     <div class="hero-ctas">
       <a id="cta-primary" class="btn btn-primary" href="https://debthelpform.com/#lead-form" target="_blank" rel="noopener" aria-label="Start secure savings estimate">🔒 Start Secure Estimate</a>
@@ -262,7 +264,6 @@
           <div>You choose pace and provider; exit anytime.</div>
           <div>Lock-in, penalties, or hard to switch.</div>
 
-          <!-- A couple of common rows you likely wanted kept -->
           <div role="rowheader">State Availability</div>
           <div>Shows state-specific options up front.</div>
           <div>Hides availability until late in funnel.</div>
@@ -330,93 +331,86 @@
     <p class="muted-text">Not affiliated with “Gateway Debt Relief” of Costa Mesa, CA.</p>
   </footer>
 
-  <!-- ====== 036 & 016 INTEGRATIONS ====== -->
+  <!-- ===== 036 (CTA only) + 016 (chatbot & events only) ===== -->
   <script>
-    (function(){
-      const SITES = ['https://debtreliefguard.com','https://debthelpform.com'];
+  (function(){
+    /* ===== 036: hydrate CTA (READ-ONLY) ===== */
+    const BASE036 = '/api/mesh/036-lead-router';
+    const fetchWithTimeout = (u,o={},ms=5000)=>{ const c=new AbortController(); const t=setTimeout(()=>c.abort(),ms); return fetch(u,{...o,signal:c.signal}).finally(()=>clearTimeout(t)); };
+    const safeText = s => (s??'').toString();
 
-      // 1) Hydrate from 036 /config (public)
-      const BASE036 = '/api/mesh/036-lead-router';
-      const timeoutFetch=(url,opts={},ms=5000)=>{
-        const c=new AbortController();const t=setTimeout(()=>c.abort(),ms);
-        return fetch(url,{...opts,signal:c.signal}).finally(()=>clearTimeout(t));
-      };
-      const safeText=(s)=> (s??'').toString();
+    (async function hydrateCTA(){
+      try{
+        const r = await fetchWithTimeout(`${BASE036}/config`, {headers:{'Accept':'application/json'}, cache:'no-store'}, 4000);
+        if(!r.ok) return;
+        const data = await r.json().catch(()=>null);
+        const manifest = data?.config?.manifest;
+        if(!manifest) return;
+        const h1 = document.getElementById('ab-cta-text');
+        const msg = manifest.hero || manifest.message;
+        if(h1 && typeof msg==='string') h1.textContent = safeText(msg);
+        const primary = document.getElementById('cta-primary');
+        const txt = manifest?.cta?.text || manifest?.primary?.text;
+        const href= manifest?.cta?.href || manifest?.primary?.href;
+        if(primary){
+          if(typeof txt==='string')  primary.textContent = safeText(txt);
+          if(typeof href==='string') primary.setAttribute('href', href);
+        }
+      }catch(_){}
+    })();
 
-      (async function loadConfig(){
-        try{
-          const r = await timeoutFetch(`${BASE036}/config`, { headers:{'Accept':'application/json'}, cache:'no-store' }, 4000);
-          if(!r.ok) return;
-          const data = await r.json().catch(()=>null);
-          const manifest = data?.config?.manifest || null;
-          if(!manifest) return;
+    /* ===== 016: chatbot + events (SEPARATE) ===== */
+    const HERE  = location.origin;
+    const OTHER = HERE.includes('debtreliefguard.com') ? 'https://debthelpform.com' : 'https://debtreliefguard.com';
 
-          const h = document.getElementById('ab-cta-text');
-          const msg = manifest.hero || manifest.message || null;
-          if(h && typeof msg==='string') h.textContent = safeText(msg);
+    // Page + CTA events to 016 (both domains), never to 036
+    function emit016(event, detail){
+      const payload = JSON.stringify({event, detail, page:'drg:compare', ts:Date.now(), path:location.pathname, referrer:document.referrer, ua:navigator.userAgent});
+      [HERE, OTHER].forEach(host=>{
+        const url = `${host}/api/mesh/016-persona-evolution-engine/event`;
+        if (navigator.sendBeacon) {
+          navigator.sendBeacon(url, new Blob([payload], {type:'application/json'}));
+        } else {
+          fetch(url, {method:'POST', headers:{'content-type':'application/json'}, body:payload}).catch(()=>{});
+        }
+      });
+    }
+    emit016('pageview', {title: document.title});
+    ['cta-primary','cta-secondary'].forEach(id=>{
+      const el=document.getElementById(id);
+      if(el) el.addEventListener('click', ()=>emit016('cta_click',{id, href:el.getAttribute('href')}), {passive:true});
+    });
 
-          const a = document.getElementById('cta-primary');
-          const txt = manifest?.cta?.text || manifest?.primary?.text || null;
-          const href= manifest?.cta?.href || manifest?.primary?.href || null;
-          if(a){ if(typeof txt==='string') a.textContent = safeText(txt); if(typeof href==='string') a.setAttribute('href', href); }
-        }catch(_){}
-      })();
+    // 016 Chat widget include (current site, then fallback)
+    (function load016(){
+      let loaded=false;
+      function inject(src){
+        const s=document.createElement('script');
+        s.src=src; s.async=true; s.defer=true;
+        s.onload=()=>{ loaded=true; setTimeout(nudgeChat, 150); };
+        s.onerror=()=>{ if(!loaded && !src.startsWith(OTHER)) inject(`${OTHER}/api/mesh/016-persona-evolution-engine/widget.js`); };
+        document.head.appendChild(s);
+      }
+      inject(`${HERE}/api/mesh/016-persona-evolution-engine/widget.js`);
+      // expose page key if widget looks for it
+      window.__pe016 = Object.assign({}, window.__pe016||{}, { page:'drg:compare' });
 
-      // 2) Send page + CTA events to 016 (both domains) via Beacon
-      function emit016(event, detail){
-        const payload = JSON.stringify({
-          event, detail,
-          page: 'drg:compare',
-          ts: Date.now(),
-          path: location.pathname,
-          referrer: document.referrer,
-          ua: navigator.userAgent
-        });
-        for(const host of SITES){
-          const url = `${host}/api/mesh/016-persona-evolution-engine/event`;
-          if(navigator.sendBeacon){
-            const blob = new Blob([payload], {type:'application/json'});
-            navigator.sendBeacon(url, blob);
-          }else{
-            fetch(url, {method:'POST', headers:{'content-type':'application/json'}, body: payload}).catch(()=>{});
-          }
+      function nudgeChat(){
+        const el = document.querySelector('.pe-016-bubble, #pe016-bubble, .pe-016-widget');
+        if(el){
+          el.style.position='fixed';
+          el.style.right='16px';
+          el.style.bottom='calc(var(--sitemap-h) + var(--chat-offset))';
+          el.style.zIndex='10003';
         }
       }
-      emit016('pageview', { title: document.title });
-      ['cta-primary','cta-secondary'].forEach(id=>{
-        const el = document.getElementById(id);
-        if(el) el.addEventListener('click', ()=>emit016('cta_click', { id, href: el.getAttribute('href') }), {passive:true});
-      });
-
-      // 3) Load 016 chat widget (dual-domain fallback) and nudge above sticky bars
-      (function load016Widget(){
-        const origins = [location.origin, ...SITES.filter(h=>h!==location.origin)];
-        let loaded = false;
-        function inject(origin){
-          const s = document.createElement('script');
-          s.src = `${origin}/api/mesh/016-persona-evolution-engine/widget.js`;
-          s.async = true; s.defer = true;
-          s.onload = ()=>{ loaded = true; setTimeout(nudgeChat, 200); };
-          s.onerror = ()=>{ if(!loaded){ const next = origins.shift(); if(next) inject(next); } };
-          document.head.appendChild(s);
-        }
-        inject(origins.shift());
-
-        function nudgeChat(){
-          const el = document.querySelector('.pe-016-bubble, #pe016-bubble, .pe-016-widget');
-          if(el){
-            el.style.right = '16px';
-            el.style.bottom = `calc(var(--sitemap-h) + var(--chat-offset))`;
-            el.style.zIndex = '10003';
-          }
-        }
-      })();
-
-      // Reserve bottom padding dynamically for mobile bar height
-      const root=document.documentElement, mb=document.getElementById('drgMobileBar');
-      function setH(){ const v=mb && getComputedStyle(mb).display!=='none'; root.style.setProperty('--callbar-h',(v?mb.offsetHeight:0)+'px'); }
-      setH(); addEventListener('resize',setH,{passive:true}); setTimeout(setH,250); setTimeout(setH,1000);
     })();
+
+    // reserve space for mobile bar height
+    const root=document.documentElement, mb=document.getElementById('drgMobileBar');
+    function setH(){ const v=mb && getComputedStyle(mb).display!=='none'; root.style.setProperty('--callbar-h',(v?mb.offsetHeight:0)+'px'); }
+    setH(); addEventListener('resize',setH,{passive:true}); setTimeout(setH,250); setTimeout(setH,1000);
+  })();
   </script>
 </body>
 </html>
