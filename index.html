@@ -347,55 +347,49 @@
     })();
   </script>
 
-  <!-- =============================
-       036 Orchestrator Bridge ONLY
-       (manifest fetch + /run ping)
-       ============================= -->
-  <script>
-  (function(){
-    const sleep = (ms)=>new Promise(r=>setTimeout(r,ms));
-    const timeoutFetch=(url,opts={},ms=5000)=>{ const c=new AbortController(); const to=setTimeout(()=>c.abort(),ms); return fetch(url,{...opts,signal:c.signal}).finally(()=>clearTimeout(to)); };
-    const safeText=(s)=> (s??'').toString();
+<!-- =============================
+     036 Orchestrator Bridge (fixed)
+     ============================= -->
+<script>
+(function(){
+  const sleep = (ms)=>new Promise(r=>setTimeout(r,ms));
+  const timeoutFetch=(url,opts={},ms=5000)=>{
+    const c=new AbortController(); const to=setTimeout(()=>c.abort(),ms);
+    return fetch(url,{...opts,signal:c.signal}).finally(()=>clearTimeout(to));
+  };
+  const safeText=(s)=> (s??'').toString();
+  const BASE036 = '/api/mesh/036-lead-router';
 
-    const BASE036 = '/api/mesh/036-lead-router';
+  // Hydrate CTA from 036 /config
+  (async function loadConfig(){
+    try{
+      const r = await timeoutFetch(`${BASE036}/config`, {
+        headers:{'Accept':'application/json','X-Requested-With':'XMLHttpRequest'},
+        cache:'no-store'
+      }, 4000);
+      if(!r.ok) return;
+      const data = await r.json().catch(()=>null);
+      const manifest = data?.config?.manifest || null;
+      if(!manifest) return;
 
-    // hydrate CTA from manifest if provided
-    (async function loadManifest(){
-      try{
-        const pageKey = document.querySelector('meta[name="x-ai-optimizer-page"]')?.content || 'drg:home';
-        const urls = [ `${BASE036}/manifest?pg=${encodeURIComponent(pageKey)}`, `${BASE036}/manifest` ];
-        let manifest=null;
-        for(const u of urls){
-          try{
-            const r=await timeoutFetch(u,{headers:{'Accept':'application/json','X-Requested-With':'XMLHttpRequest'},cache:'no-store'},3500);
-            if(r.ok && r.headers.get('content-type')?.includes('application/json')){ manifest = await r.json(); if(manifest) break; }
-          }catch(e){ await sleep(120); }
-        }
-        if(manifest){
-          // headline
-          const h = document.getElementById('ab-cta-text');
-          const msg = manifest?.hero || manifest?.message || null; if(h && typeof msg==='string') h.textContent = safeText(msg);
-          // primary CTA
-          const a = document.querySelector('.hero-ctas .btn.btn-primary');
-          const txt = manifest?.cta?.text || manifest?.primary?.text || null;
-          const href= manifest?.cta?.href || manifest?.primary?.href || null;
-          if(a){ if(typeof txt==='string') a.textContent = safeText(txt); if(typeof href==='string') a.setAttribute('href', href); }
-        }
-      }catch(_){ /* soft-fail */ }
-    })();
+      // Headline
+      const h = document.getElementById('ab-cta-text');
+      const msg = manifest.hero || manifest.message || null;
+      if(h && typeof msg==='string') h.textContent = safeText(msg);
 
-    // signal 036 that page loaded (fan-out decision-making happens server-side)
-    (function pingRun(){
-      try{
-        const body = JSON.stringify({ v:1, ts:Date.now(), page: document.querySelector('meta[name="x-ai-optimizer-page"]')?.content || 'drg:home', url: location.href, ref: document.referrer||null });
-        const blob = new Blob([body],{type:'application/json'});
-        const url = `${BASE036}/run`;
-        if(navigator.sendBeacon){ navigator.sendBeacon(url, blob); }
-        else { fetch(url,{ method:'POST', body: blob, keepalive:true, headers:{'Content-Type':'application/json'} }).catch(()=>{}); }
-      }catch(_){ }
-    })();
+      // Primary CTA
+      const a = document.querySelector('.hero-ctas .btn.btn-primary');
+      const txt = manifest?.cta?.text || manifest?.primary?.text || null;
+      const href= manifest?.cta?.href || manifest?.primary?.href || null;
+      if(a){ if(typeof txt==='string') a.textContent = safeText(txt); if(typeof href==='string') a.setAttribute('href', href); }
+    }catch(_){ /* soft-fail */ }
   })();
-  </script>
+
+  // NOTE: removed browser ping to /run (admin-only). If you want a public ping,
+  // we can add a /ping endpoint in 036 and call it here safely.
+})();
+</script>
+
 
   <!-- =========================================
        016 Chat (Bottom-Right) — SAME UI SITE-WIDE
