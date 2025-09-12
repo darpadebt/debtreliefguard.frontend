@@ -1,10 +1,16 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+  <!-- Charset & Compatibility -->
   <meta charset="UTF-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+
+  <!-- Viewport -->
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0" />
 
+  <!-- =========================
+       TITLE & DESCRIPTION (SEO)
+       ========================= -->
   <title>Compare Us — DebtReliefGuard</title>
   <meta name="description" content="See how DebtReliefGuard compares against high-risk debt relief practices. Transparent, FTC-aligned, no upfront fees." />
   <meta name="robots" content="index,follow,max-image-preview:large" />
@@ -25,105 +31,105 @@
   <!-- Fonts -->
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet" />
 
-  <!-- Page key & brand schema link -->
+  <!-- A/B hook for AI Loop Optimizer (050) -->
   <meta name="x-ai-optimizer-page" content="drg:compare" />
-  <link rel="alternate" type="application/ld+json" href="/brand.schema.jsonld" />
 
+  <!-- Structured Data -->
+  <script type="application/ld+json">
+  {"@context":"https://schema.org","@type":"WebPage","name":"Compare Us — DebtReliefGuard","url":"https://debtreliefguard.com/compare.us.html","publisher":{"@id":"https://gatewaydebthelp.com/#gfsr"}}
+  </script>
+  <script type="application/ld+json">
+  {
+    "@context":"https://schema.org",
+    "@type":["Organization","FinancialService"],
+    "@id":"https://gatewaydebthelp.com/#gfsr",
+    "name":"Gateway Financial Settlement Relief, LLC",
+    "legalName":"Gateway Financial Settlement Relief, LLC",
+    "alternateName":["Gateway Debt Help","GFSR","Debt Help Form","Debt Relief Guard"],
+    "url":"https://gatewaydebthelp.com/",
+    "logo":"https://debtreliefguard.com/og-cover.jpg",
+    "telephone":"+1-888-437-7141",
+    "address":{"@type":"PostalAddress","addressCountry":"US","addressRegion":"FL"},
+    "areaServed":{"@type":"Country","name":"United States"},
+    "sameAs":["https://debtreliefguard.com/","https://debthelpform.com/","https://gatewayfinancialsettlementrelief.com/","https://gatewaydebthelp.com/"],
+    "contactPoint":{"@type":"ContactPoint","telephone":"+1-888-437-7141","contactType":"customer service","areaServed":"US","availableLanguage":["English"]},
+    "disambiguatingDescription":"Independent U.S. debt-relief provider operating DebtHelpForm.com, DebtReliefGuard.com, and GatewayDebtHelp.com. Not affiliated with 'Gateway Debt Relief' of Costa Mesa, CA, or any other company."
+  }
+  </script>
+
+  <!-- =========================
+       STYLES (match HIW hero & badge)
+       ========================= -->
   <style>
     :root{
-      --ink:#222; --bg:#f9fafe; --brand:#004477; --brand-2:#003057; --cta:#2563eb;
-      --ok:#007b55; --card:#fff; --card-b:#e5e7eb; --shadow:0 10px 30px rgba(0,0,0,.12);
-      --callbar-h:64px; --sitemap-h:52px; --chat-offset:18px;
+      --ink:#222; --bg:#f9fafe; --brand:#004477; --brand-2:#003057;
+      --cta:#0b63f6; --ok:#007b55; --card:#fff; --card-b:#e5e7eb;
+      --shadow:0 10px 30px rgba(0,0,0,.12);
+      --callbar-h:64px;               /* dynamic via script if needed */
+      --sitemap-h:52px;               /* floating sitemap height */
+      --chat-offset:18px;             /* keeps 016 above sticky bars */
     }
-    *{box-sizing:border-box}
-    html,body{margin:0;padding:0}
+    *{box-sizing:border-box} html,body{margin:0;padding:0}
     body{
       font-family:'Inter',system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;
       background:var(--bg); color:var(--ink); line-height:1.55;
-      padding-top:76px;
+      padding-top:76px; /* sticky top nav space */
       padding-bottom: calc(var(--sitemap-h) + 14px);
     }
-    .sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}
+
     .skip-link{position:absolute;left:-999px;top:auto;width:1px;height:1px;overflow:hidden}
     .skip-link:focus{position:fixed;left:12px;top:12px;padding:.5rem .75rem;background:#000;color:#fff;z-index:10000;border-radius:6px}
 
-    /* Sticky nav */
+    /* Sticky Top Nav */
     .sticky-nav{
       position:fixed; top:0; left:0; right:0; background:var(--brand-2); z-index:9999;
       display:flex; gap:.75rem; padding:.75rem 1rem; overflow-x:auto; white-space:nowrap;
       box-shadow:0 2px 5px rgba(0,0,0,.08)
     }
-    .sticky-nav a{ color:#fff; font-weight:600; text-decoration:none; padding:.5rem .75rem; flex:0 0 auto; border-radius:6px }
+    .sticky-nav a{ color:#fff; font-weight:600; text-decoration:none; padding:.4rem .6rem; border-radius:6px }
     .sticky-nav a:hover,.sticky-nav a:focus{ text-decoration:underline; outline:none }
     .sticky-nav::-webkit-scrollbar{ display:none }
 
-    /* Hero */
+    /* HERO (match HIW dimensions exactly) */
     header.hero{
       max-width:960px; margin:0 auto; text-align:center; background:var(--brand);
-      color:#fff; padding:1.5rem 1rem; border-radius:12px; box-shadow:0 6px 18px rgba(0,0,0,.08);
-      position: relative;
+      color:#fff; padding:1.5rem 1rem; border-radius:12px; box-shadow:0 6px 18px rgba(0,0,0,.08)
     }
-
-    /* Slim, dark FTC pill at very top inside hero (like How It Works) */
-    .trust-pill{
-      display:inline-flex; align-items:center; gap:.45rem;
-      background:#07233f; border:1px solid rgba(255,255,255,.18);
-      color:#eaf4ff; padding:.26rem .62rem; border-radius:999px; font-weight:800; font-size:.86rem;
-      box-shadow:0 1px 6px rgba(0,0,0,.2); margin:0 0 .5rem;
-    }
-    .trust-pill .icon{ font-size:.98rem; }
-
-    header.hero h1{ margin:.15rem 0 .4rem; font-size:clamp(1.7rem,3vw + 1rem,2.3rem); font-weight:800 }
-    header.hero .sub{ margin:0 0 .7rem; opacity:.95 }
-
+    header.hero h1{ margin:.2rem 0 .4rem; font-size:clamp(1.6rem,3vw + 1rem,2.3rem); font-weight:800 }
+    header.hero .sub{ margin:0 0 .8rem; opacity:.95 }
     .hero-ctas{ display:flex; justify-content:center; gap:.6rem; flex-wrap:wrap }
     .btn{ display:inline-flex; align-items:center; justify-content:center; gap:.4rem; border-radius:10px; padding:.7rem 1.05rem; font-weight:800; text-decoration:none }
-    .btn-primary{ background:#0b63f6; color:#fff; box-shadow:var(--shadow) }
+    .btn-primary{ background:var(--cta); color:#fff; box-shadow:var(--shadow) }
     .btn-outline{ background:transparent; color:#fff; border:2px solid rgba(255,255,255,.75) }
 
-    /* Content frame */
+    /* Badge: “Secure • FTC-Aligned • No Upfront Fees” (match HIW .badge) */
+    .badge{
+      display:inline-flex; gap:.35rem; align-items:center; justify-content:center;
+      background:#0f172a; color:#e5e7eb; border:1px solid rgba(255,255,255,.18);
+      border-radius:999px; padding:.35rem .6rem; font-size:.82rem; font-weight:800
+    }
+
+    /* Content card */
     .container{
       max-width:960px; margin:1.25rem auto 4rem; background:#fff;
       padding:1.25rem; border-radius:12px; box-shadow:0 2px 12px rgba(0,0,0,.06); border:1px solid var(--card-b)
     }
     h2{text-align:center}
 
-    /* Comparison table — horizontally scrollable on small screens */
-    .compare-wrap{
-      margin-top:1rem;
-      overflow-x:auto;
-      -webkit-overflow-scrolling: touch;
-      scrollbar-width: thin;
-      border: 1px solid #e5e7eb;
-      border-radius: 10px;
-      background:#fff;
-    }
-    .compare-wrap::-webkit-scrollbar{ height: 8px }
-    .compare-wrap::-webkit-scrollbar-thumb{ background:#cbd5e1; border-radius: 8px }
-
-    /* Narrower min-width so you only scroll a little */
+    /* Comparison table (scrollable on small screens) */
+    .compare-wrap{ margin-top:1rem; overflow-x:auto; -webkit-overflow-scrolling:touch; scrollbar-width:thin; border:1px solid #e5e7eb; border-radius:10px; background:#fff }
+    .compare-wrap::-webkit-scrollbar{ height:8px }
+    .compare-wrap::-webkit-scrollbar-thumb{ background:#cbd5e1; border-radius:8px }
     .compare-grid{
-      min-width: 560px; /* adjust 520–600 to taste */
-      display:grid;
-      grid-template-columns:1.1fr 1fr 1fr;
-      gap:10px;
-      border-top:1px solid #e5e7eb;
-      border-left:1px solid #e5e7eb;
+      min-width:560px;
+      display:grid; grid-template-columns:1.1fr 1fr 1fr; gap:10px;
+      border-top:1px solid #e5e7eb; border-left:1px solid #e5e7eb;
     }
-    .compare-grid > div{
-      padding:.75rem;
-      border-right:1px solid #e5e7eb;
-      border-bottom:1px solid #e5e7eb
-    }
+    .compare-grid > div{ padding:.75rem; border-right:1px solid #e5e7eb; border-bottom:1px solid #e5e7eb }
     .compare-grid .head{ background:#f8fafc; font-weight:800 }
+    .muted-text{ color:#6b7280 }
 
-    .muted-text{ color:#6b7280; }
-
-    .badge{display:inline-block; padding:.15rem .45rem; border-radius:999px; font-size:.72rem; font-weight:800}
-    .badge-ok{background:#ecfdf5;color:#065f46}
-    .badge-risk{background:#fff1f2;color:#9f1239}
-
-    /* Mobile bar */
+    /* Mobile dual action bar */
     .mobile-bar{ position:fixed; left:0; right:0; bottom:0; background:#0b1220; color:#fff; display:flex; gap:8px; padding:.6rem; z-index:9998; }
     .mobile-bar a{ flex:1; text-align:center; border-radius:10px; padding:.75rem .5rem; font-weight:900; text-decoration:none }
     .mobile-call{ background:var(--ok); color:#fff }
@@ -152,7 +158,7 @@
     footer.note{ max-width:960px; margin:1rem auto 5.5rem; text-align:center; color:#666 }
     footer.note p{ font-size:.82rem; color:#999 }
 
-    /* Keep chatbot above bars if widget uses common selectors */
+    /* Keep chatbot (016) above bars if widget uses common selectors */
     .pe-016-bubble, #pe016-bubble, .pe-016-widget {
       position: fixed !important;
       right: 16px !important;
@@ -160,34 +166,13 @@
       z-index: 10003 !important;
     }
 
+    /* Clear content above bars on small screens */
     @media (max-width:768px){
       body, main { padding-bottom: calc(var(--callbar-h) + var(--sitemap-h) + env(safe-area-inset-bottom) + 14px); }
     }
   </style>
-
-  <!-- Structured Data -->
-  <script type="application/ld+json">
-  {"@context":"https://schema.org","@type":"WebPage","name":"Compare Us — DebtReliefGuard","url":"https://debtreliefguard.com/compare.us.html","publisher":{"@id":"https://gatewaydebthelp.com/#gfsr"}}
-  </script>
-  <script type="application/ld+json">
-  {
-    "@context":"https://schema.org",
-    "@type":["Organization","FinancialService"],
-    "@id":"https://gatewaydebthelp.com/#gfsr",
-    "name":"Gateway Financial Settlement Relief, LLC",
-    "legalName":"Gateway Financial Settlement Relief, LLC",
-    "alternateName":["Gateway Debt Help","GFSR","Debt Help Form","Debt Relief Guard"],
-    "url":"https://gatewaydebthelp.com/",
-    "logo":"https://debtreliefguard.com/og-cover.jpg",
-    "telephone":"+1-888-437-7141",
-    "address":{"@type":"PostalAddress","addressCountry":"US","addressRegion":"FL"},
-    "areaServed":{"@type":"Country","name":"United States"},
-    "sameAs":["https://debtreliefguard.com/","https://debthelpform.com/","https://gatewayfinancialsettlementrelief.com/","https://gatewaydebthelp.com/"],
-    "contactPoint":{"@type":"ContactPoint","telephone":"+1-888-437-7141","contactType":"customer service","areaServed":"US","availableLanguage":["English"]},
-    "disambiguatingDescription":"Independent U.S. debt-relief provider operating DebtHelpForm.com, DebtReliefGuard.com, and GatewayDebtHelp.com. Not affiliated with 'Gateway Debt Relief' of Costa Mesa, CA, or any other company."
-  }
-  </script>
 </head>
+
 <body>
   <a href="#main" class="skip-link">Skip to content</a>
 
@@ -212,100 +197,64 @@
   </nav>
 
   <!-- Desktop sticky phone pill -->
-  <a class="desk-call" href="tel:+1888437141">📞 888-437-7141</a>
+  <a class="desk-call" href="tel:+18884377141">📞 888-437-7141</a>
 
-  <!-- HERO -->
+  <!-- HERO (blue box; now identical sizing to HIW) -->
   <header class="hero" role="banner" aria-label="Hero">
-    <!-- Slim FTC pill at top -->
-    <div class="trust-pill" aria-label="Secure, FTC-Aligned, No Upfront Fees">
-      <span class="icon" aria-hidden="true">🛡️</span>
-      <span><strong>Secure</strong> • FTC-Aligned • No Upfront Fees</span>
-    </div>
-
     <h1 id="ab-cta-text">Why DebtReliefGuard?</h1>
     <p class="sub">We compare transparent, FTC-aligned options vs. high-risk practices.</p>
 
+    <!-- Badge (exact HIW sizing) -->
+    <span class="badge" aria-label="Secure, FTC-Aligned, No Upfront Fees">🛡️ Secure • FTC-Aligned • No Upfront Fees</span>
+
     <div class="hero-ctas">
       <a id="cta-primary" class="btn btn-primary" href="https://debthelpform.com/#lead-form" target="_blank" rel="noopener" aria-label="Start secure savings estimate">🔒 Start Secure Estimate</a>
-      <a class="btn btn-outline" href="/scam.warning.index.html">⚠️ Scam Warnings</a>
+      <a class="btn btn-outline" href="tel:+18884377141" aria-label="Call now for help">📞 Talk to a Specialist</a>
     </div>
   </header>
 
   <!-- MAIN -->
   <main id="main" class="container" role="main">
-    <section aria-label="Highlights" style="text-align:center">
-      <h2>Key Differences</h2>
-      <p class="muted-text">What we do <strong>by design</strong> vs. practices you should avoid.</p>
+    <h2>Transparent vs High-Risk Practices</h2>
+    <p class="muted-text" style="text-align:center;margin:.25rem 0 1rem">Side-by-side so you can choose confidently.</p>
 
-      <!-- Scroll container for stability on mobile -->
-      <div class="compare-wrap" role="region" aria-label="Comparison table (scroll left/right if needed)">
-        <div class="compare-grid" role="table" aria-label="Comparison table">
-          <div class="head" role="columnheader">Category</div>
-          <div class="head" role="columnheader">DebtReliefGuard</div>
-          <div class="head" role="columnheader">High-Risk Practices</div>
+    <div class="compare-wrap" role="region" aria-label="Comparison table wrapper">
+      <div class="compare-grid" role="table" aria-label="Comparison table">
+        <div class="head" role="columnheader">Protection</div>
+        <div class="head" role="columnheader">DebtReliefGuard Approach</div>
+        <div class="head" role="columnheader">High-Risk Practices</div>
 
-          <div role="rowheader">Fees & FTC Rules</div>
-          <div><span class="badge badge-ok">✅ No upfront fees</span><br/>Clear disclosures; cancellation options.</div>
-          <div><span class="badge badge-risk">❌ Upfront fees</span><br/>Vague terms; hard to cancel.</div>
+        <div role="cell">FTC Compliance</div>
+        <div role="cell">✅ No upfront fees; clear disclosures</div>
+        <div role="cell">❌ Unclear fees; pressure tactics</div>
 
-          <div role="rowheader">Lead Privacy</div>
-          <div>One verified provider; encrypted hand-off (no lead lists).</div>
-          <div>Multiple resells; spam calls and emails.</div>
+        <div role="cell">Lead Privacy</div>
+        <div role="cell">✅ One verified provider; encrypted</div>
+        <div role="cell">❌ Lead lists and spam calls</div>
 
-          <div role="rowheader">Claims & Ads</div>
-          <div>Honest ranges and timelines; plain-English outcomes.</div>
-          <div>“Erase debt overnight” promises; unrealistic claims.</div>
+        <div role="cell">Claims</div>
+        <div role="cell">✅ Honest timelines & savings ranges</div>
+        <div role="cell">❌ “Erase debt overnight” promises</div>
 
-          <div role="rowheader">Support</div>
-          <div>Human specialists + assistant; transparent next steps.</div>
-          <div>Pressure tactics; limited transparency.</div>
-
-          <div role="rowheader">Control</div>
-          <div>You choose pace and provider; exit anytime.</div>
-          <div>Lock-in, penalties, or hard to switch.</div>
-
-          <div role="rowheader">State Availability</div>
-          <div>Shows state-specific options up front.</div>
-          <div>Hides availability until late in funnel.</div>
-
-          <div role="rowheader">Credit Impact Transparency</div>
-          <div>Explains short-term impact with ranges.</div>
-          <div>Implied “no impact” or vague claims.</div>
-
-          <div role="rowheader">Data Security</div>
-          <div>Secure forms; minimal sharing; audit trail.</div>
-          <div>Multiple handoffs; weak vendor controls.</div>
-        </div>
+        <div role="cell">Transparency</div>
+        <div role="cell">✅ Side-by-side comparisons you control</div>
+        <div role="cell">❌ Vague terms, hard to cancel</div>
       </div>
+    </div>
 
-      <p class="muted-text" style="margin-top:.75rem">Prefer to crunch numbers? Try the <a href="/savings.calculator.html">Savings Calculator</a>.</p>
-    </section>
-
-    <section aria-label="FAQ" style="margin-top:1.5rem">
-      <h2>Frequently Asked</h2>
-      <details open>
-        <summary>Is GFSR the same as “Gateway Debt Relief”?</summary>
-        <p>No. <strong>Gateway Financial Settlement Relief, LLC</strong> (GFSR) is not affiliated with “Gateway Debt Relief” of Costa Mesa, CA, or any other company.</p>
-      </details>
-      <details>
-        <summary>Do you charge upfront fees?</summary>
-        <p>No. We follow FTC rules—no upfront fees and clear disclosures. You’ll see ranges, not guarantees.</p>
-      </details>
-    </section>
-
-    <section class="cta" aria-label="Get started" style="margin-top:2rem;text-align:center">
-      <h2>See Your Options Today</h2>
-      <a class="btn btn-primary" id="cta-secondary" href="https://debthelpform.com/#lead-form" target="_blank" rel="noopener">🔒 Start Secure Estimate</a>
-    </section>
+    <p class="muted-text" style="text-align:center;margin-top:.6rem">
+      <a href="/how.it.works.index.html">How it works</a> •
+      <a href="/savings.calculator.html">Try the calculator</a>
+    </p>
   </main>
 
   <!-- Mobile dual action bar -->
   <div id="drgMobileBar" class="mobile-bar" aria-label="Quick actions">
-    <a class="mobile-call" href="tel:+18884377141">📞 Call 888-437-7141</a>
-    <a class="mobile-est" href="https://debthelpform.com/#lead-form" target="_blank" rel="noopener">🔒 Start Secure Estimate</a>
+    <a class="mobile-call" href="tel:+18884377141" onclick="window.GFSR?.log?.('mobile_call_cta')">📞 Call 888-437-7141</a>
+    <a class="mobile-est" href="https://debthelpform.com/#lead-form" target="_blank" rel="noopener" onclick="window.GFSR?.log?.('mobile_estimate_cta')">🔒 Start Secure Estimate</a>
   </div>
 
-  <!-- Floating bottom sitemap -->
+  <!-- Bottom sticky sitemap -->
   <footer class="sticky-menu" role="navigation" aria-label="Site map">
     <nav>
       <a href="/">Home</a>
@@ -326,91 +275,70 @@
     </nav>
   </footer>
 
-  <footer class="note">
-    <p>&copy; 2025 DebtReliefGuard.com — Independent, FTC-Aligned.</p>
-    <p class="muted-text">Not affiliated with “Gateway Debt Relief” of Costa Mesa, CA.</p>
+  <footer class="note" aria-label="Brand note">
+    <p>&copy; 2025 DebtReliefGuard.com — Independent, Secure, Compliant.</p>
+    <p>Website operated by <a href="https://gatewayfinancialsettlementrelief.com" target="_blank" rel="noopener">Gateway Financial Settlement Relief</a></p>
+    <p style="font-size:.82rem;color:#999">“Gateway Debt Help” is the marketing brand of <strong>Gateway Financial Settlement Relief, LLC</strong>. Not affiliated with “Gateway Debt Relief” of Costa Mesa, CA.</p>
   </footer>
 
-  <!-- ===== 036 (CTA only) + 016 (chatbot & events only) ===== -->
-  <script>
-  (function(){
-    /* ===== 036: hydrate CTA (READ-ONLY) ===== */
-    const BASE036 = '/api/mesh/036-lead-router';
-    const fetchWithTimeout = (u,o={},ms=5000)=>{ const c=new AbortController(); const t=setTimeout(()=>c.abort(),ms); return fetch(u,{...o,signal:c.signal}).finally(()=>clearTimeout(t)); };
-    const safeText = s => (s??'').toString();
+  <!-- =========================
+       Chatbot (016) — separate from 036
+       ========================= -->
+  <button id="gfsrChatFab" class="gfsr-chat-fab" aria-haspopup="dialog" aria-expanded="false" aria-controls="gfsrChatSheet"
+          style="position:fixed; right:14px; bottom:calc(var(--callbar-h) + var(--sitemap-h) + 14px); z-index:10003; display:inline-flex; align-items:center; gap:.5rem; padding:.8rem 1rem; border-radius:999px; border:1px solid rgba(0,0,0,.06); background:#0b63f6; color:#fff; box-shadow:0 10px 30px rgba(0,0,0,.18); font:600 14px/1.1 system-ui,-apple-system,Segoe UI,Roboto,Arial">💬 Chat</button>
 
-    (async function hydrateCTA(){
+  <section id="gfsrChatSheet" class="gfsr-chat-sheet" role="dialog" aria-modal="true"
+           aria-labelledby="gfsrChatTitle" aria-describedby="gfsrChatDesc" hidden
+           style="position:fixed; right:14px; bottom:calc(var(--callbar-h) + var(--sitemap-h) + 64px); width:min(420px, 92vw); max-height:75vh; background:#fff; border-radius:16px; border:1px solid #e5e7eb; box-shadow:0 20px 60px rgba(0,0,0,.25); z-index:10004; display:flex; flex-direction:column;">
+    <header style="display:flex; align-items:center; justify-content:space-between; padding:.75rem .9rem; border-bottom:1px solid #e5e7eb;">
+      <div>
+        <h2 id="gfsrChatTitle" style="margin:0; font:800 16px/1.2 system-ui">DebtReliefGuard Chat</h2>
+        <p id="gfsrChatDesc" style="margin:.15rem 0 0; font:500 12px/1.2 system-ui; color:#475569">FTC-aligned answers. No pressure. No upfront fees.</p>
+      </div>
+      <button id="gfsrChatClose" aria-label="Close chat" style="border:0; background:transparent; font-size:18px; cursor:pointer">✕</button>
+    </header>
+    <iframe title="Chatbot (016)" src="/016-persona-evolution-engine" style="border:0; width:100%; height:58vh;"></iframe>
+    <footer style="padding:.6rem .9rem; border-top:1px solid #e5e7eb; background:#fafafa;">
+      <small>🛡️ Secure • FTC-Aligned • No Upfront Fees</small>
+    </footer>
+  </section>
+
+  <script>
+    // Minimal open/close for 016 sheet
+    (function(){
+      const fab = document.getElementById('gfsrChatFab');
+      const sheet = document.getElementById('gfsrChatSheet');
+      const closeBtn = document.getElementById('gfsrChatClose');
+      if (fab && sheet) {
+        fab.addEventListener('click', () => {
+          const open = sheet.hasAttribute('hidden') ? false : true;
+          if (open) {
+            sheet.setAttribute('hidden','');
+            fab.setAttribute('aria-expanded','false');
+          } else {
+            sheet.removeAttribute('hidden');
+            fab.setAttribute('aria-expanded','true');
+          }
+        }, {passive:true});
+      }
+      closeBtn?.addEventListener('click', () => { sheet.setAttribute('hidden',''); fab.setAttribute('aria-expanded','false'); }, {passive:true});
+    })();
+  </script>
+
+  <!-- =========================
+       Telemetry (015) — lightweight pageview ping
+       ========================= -->
+  <script>
+    (function(){
       try{
-        const r = await fetchWithTimeout(`${BASE036}/config`, {headers:{'Accept':'application/json'}, cache:'no-store'}, 4000);
-        if(!r.ok) return;
-        const data = await r.json().catch(()=>null);
-        const manifest = data?.config?.manifest;
-        if(!manifest) return;
-        const h1 = document.getElementById('ab-cta-text');
-        const msg = manifest.hero || manifest.message;
-        if(h1 && typeof msg==='string') h1.textContent = safeText(msg);
-        const primary = document.getElementById('cta-primary');
-        const txt = manifest?.cta?.text || manifest?.primary?.text;
-        const href= manifest?.cta?.href || manifest?.primary?.href;
-        if(primary){
-          if(typeof txt==='string')  primary.textContent = safeText(txt);
-          if(typeof href==='string') primary.setAttribute('href', href);
-        }
+        const key='drg:sess:v1'; let sid=sessionStorage.getItem(key);
+        if(!sid){ sid=crypto.randomUUID(); sessionStorage.setItem(key, sid); }
+        const payload={ v:1, ts:Date.now(), sid, url:location.href, ref:document.referrer||null, w:innerWidth, h:innerHeight };
+        const blob=new Blob([JSON.stringify(payload)],{type:'application/json'});
+        if(navigator.sendBeacon){ navigator.sendBeacon('/ingest', blob); }
+        else { fetch('/ingest',{ method:'POST', body:blob, keepalive:true, headers:{'Content-Type':'application/json'} }).catch(()=>{}); }
       }catch(_){}
     })();
-
-    /* ===== 016: chatbot + events (SEPARATE) ===== */
-    const HERE  = location.origin;
-    const OTHER = HERE.includes('debtreliefguard.com') ? 'https://debthelpform.com' : 'https://debtreliefguard.com';
-
-    // Page + CTA events to 016 (both domains), never to 036
-    function emit016(event, detail){
-      const payload = JSON.stringify({event, detail, page:'drg:compare', ts:Date.now(), path:location.pathname, referrer:document.referrer, ua:navigator.userAgent});
-      [HERE, OTHER].forEach(host=>{
-        const url = `${host}/api/mesh/016-persona-evolution-engine/event`;
-        if (navigator.sendBeacon) {
-          navigator.sendBeacon(url, new Blob([payload], {type:'application/json'}));
-        } else {
-          fetch(url, {method:'POST', headers:{'content-type':'application/json'}, body:payload}).catch(()=>{});
-        }
-      });
-    }
-    emit016('pageview', {title: document.title});
-    ['cta-primary','cta-secondary'].forEach(id=>{
-      const el=document.getElementById(id);
-      if(el) el.addEventListener('click', ()=>emit016('cta_click',{id, href:el.getAttribute('href')}), {passive:true});
-    });
-
-    // 016 Chat widget include (current site, then fallback)
-    (function load016(){
-      let loaded=false;
-      function inject(src){
-        const s=document.createElement('script');
-        s.src=src; s.async=true; s.defer=true;
-        s.onload=()=>{ loaded=true; setTimeout(nudgeChat, 150); };
-        s.onerror=()=>{ if(!loaded && !src.startsWith(OTHER)) inject(`${OTHER}/api/mesh/016-persona-evolution-engine/widget.js`); };
-        document.head.appendChild(s);
-      }
-      inject(`${HERE}/api/mesh/016-persona-evolution-engine/widget.js`);
-      // expose page key if widget looks for it
-      window.__pe016 = Object.assign({}, window.__pe016||{}, { page:'drg:compare' });
-
-      function nudgeChat(){
-        const el = document.querySelector('.pe-016-bubble, #pe016-bubble, .pe-016-widget');
-        if(el){
-          el.style.position='fixed';
-          el.style.right='16px';
-          el.style.bottom='calc(var(--sitemap-h) + var(--chat-offset))';
-          el.style.zIndex='10003';
-        }
-      }
-    })();
-
-    // reserve space for mobile bar height
-    const root=document.documentElement, mb=document.getElementById('drgMobileBar');
-    function setH(){ const v=mb && getComputedStyle(mb).display!=='none'; root.style.setProperty('--callbar-h',(v?mb.offsetHeight:0)+'px'); }
-    setH(); addEventListener('resize',setH,{passive:true}); setTimeout(setH,250); setTimeout(setH,1000);
-  })();
   </script>
 </body>
 </html>
