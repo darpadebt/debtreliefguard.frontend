@@ -246,33 +246,49 @@
     })();
   </script>
 
-  <!-- 036 Orchestrator (manifest hydrate + /run ping) -->
-  <script>
-    (function(){
-      const sleep=(ms)=>new Promise(r=>setTimeout(r,ms));
-      const timeoutFetch=(url,opts={},ms=5000)=>{ const c=new AbortController(); const to=setTimeout(()=>c.abort(),ms); return fetch(url,{...opts,signal:c.signal}).finally(()=>clearTimeout(to)); };
-      const safeText=(s)=> (s??'').toString();
-      const BASE036='/api/mesh/036-lead-router';
+<!-- =============================
+     036 Orchestrator Bridge (fixed)
+     ============================= -->
+<script>
+(function(){
+  const sleep = (ms)=>new Promise(r=>setTimeout(r,ms));
+  const timeoutFetch=(url,opts={},ms=5000)=>{
+    const c=new AbortController(); const to=setTimeout(()=>c.abort(),ms);
+    return fetch(url,{...opts,signal:c.signal}).finally(()=>clearTimeout(to));
+  };
+  const safeText=(s)=> (s??'').toString();
+  const BASE036 = '/api/mesh/036-lead-router';
 
-      (async function loadManifest(){
-        try{
-          const pageKey=document.querySelector('meta[name="x-ai-optimizer-page"]').content||'drg:compare';
-          const urls=[`${BASE036}/manifest?pg=${encodeURIComponent(pageKey)}`,`${BASE036}/manifest`];
-          let manifest=null; for(const u of urls){ try{ const r=await timeoutFetch(u,{headers:{'Accept':'application/json','X-Requested-With':'XMLHttpRequest'},cache:'no-store'},3500); if(r.ok && r.headers.get('content-type')?.includes('application/json')){ manifest=await r.json(); if(manifest) break; } } catch(e){ await sleep(120);} }
-          if(manifest){ const h=document.getElementById('ab-cta-text'); const msg=manifest?.hero_compare || manifest?.hero || null; if(h&&typeof msg==='string') h.textContent=safeText(msg);
-            const a=document.querySelector('.hero-ctas .btn.btn-primary'); const txt=manifest?.cta?.text||manifest?.primary?.text||null; const href=manifest?.cta?.href||manifest?.primary?.href||null; if(a){ if(typeof txt==='string') a.textContent=safeText(txt); if(typeof href==='string') a.setAttribute('href',href); } }
-        }catch(_){ }
-      })();
+  // Hydrate CTA from 036 /config
+  (async function loadConfig(){
+    try{
+      const r = await timeoutFetch(`${BASE036}/config`, {
+        headers:{'Accept':'application/json','X-Requested-With':'XMLHttpRequest'},
+        cache:'no-store'
+      }, 4000);
+      if(!r.ok) return;
+      const data = await r.json().catch(()=>null);
+      const manifest = data?.config?.manifest || null;
+      if(!manifest) return;
 
-      (function pingRun(){
-        try{
-          const body=JSON.stringify({v:1,ts:Date.now(),page:'drg:compare',url:location.href,ref:document.referrer||null});
-          const blob=new Blob([body],{type:'application/json'}); const url=`${BASE036}/run`;
-          if(navigator.sendBeacon){ navigator.sendBeacon(url, blob); } else { fetch(url,{method:'POST',body:blob,keepalive:true,headers:{'Content-Type':'application/json'}}).catch(()=>{}); }
-        }catch(_){ }
-      })();
-    })();
-  </script>
+      // Headline
+      const h = document.getElementById('ab-cta-text');
+      const msg = manifest.hero || manifest.message || null;
+      if(h && typeof msg==='string') h.textContent = safeText(msg);
+
+      // Primary CTA
+      const a = document.querySelector('.hero-ctas .btn.btn-primary');
+      const txt = manifest?.cta?.text || manifest?.primary?.text || null;
+      const href= manifest?.cta?.href || manifest?.primary?.href || null;
+      if(a){ if(typeof txt==='string') a.textContent = safeText(txt); if(typeof href==='string') a.setAttribute('href', href); }
+    }catch(_){ /* soft-fail */ }
+  })();
+
+  // NOTE: removed browser ping to /run (admin-only). If you want a public ping,
+  // we can add a /ping endpoint in 036 and call it here safely.
+})();
+</script>
+
 
   <!-- 016 Chat (bottom-right, site‑wide identical) -->
   <button id="gfsrChatFab" class="gfsr-chat-fab" aria-haspopup="dialog" aria-expanded="false" aria-controls="gfsrChatSheet" style="position:fixed; right:14px; bottom:calc(var(--callbar-h) + var(--sitemap-h) + 14px); z-index:10003; display:inline-flex; align-items:center; gap:.5rem; padding:.8rem 1rem; border-radius:999px; border:1px solid rgba(0,0,0,.06); background:#0b63f6; color:#fff; box-shadow:0 10px 30px rgba(0,0,0,.18); font:600 14px/1.1 system-ui,-apple-system,Segoe UI,Roboto,Arial">💬 Chat</button>
