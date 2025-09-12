@@ -33,7 +33,7 @@
     :root{
       --ink:#222; --bg:#f9fafe; --brand:#004477; --brand-2:#003057; --cta:#2563eb;
       --ok:#007b55; --card:#fff; --card-b:#e5e7eb; --shadow:0 10px 30px rgba(0,0,0,.12);
-      --callbar-h:64px; --sitemap-h:52px;
+      --callbar-h:64px; --sitemap-h:52px; --chat-offset:18px;
     }
     *{box-sizing:border-box}
     html,body{margin:0;padding:0}
@@ -65,15 +65,14 @@
     header.hero h1{ margin:.2rem 0 .4rem; font-size:clamp(1.7rem,3vw + 1rem,2.3rem); font-weight:800 }
     header.hero .sub{ margin:0 0 .55rem; opacity:.95 }
 
-    /* Shield badge */
-    .trust-shield{
-      display:inline-flex; align-items:center; gap:.5rem;
-      background:rgba(255,255,255,.12); border:1px solid rgba(255,255,255,.3);
-      color:#eaf4ff; padding:.45rem .7rem; border-radius:999px; font-weight:800; font-size:.92rem;
-      box-shadow:0 2px 10px rgba(0,0,0,.15);
-      margin:.35rem 0 .85rem;
+    /* Slim dark pill shield (match HIW page) */
+    .trust-pill{
+      display:inline-flex; align-items:center; gap:.45rem;
+      background:#07233f; border:1px solid rgba(255,255,255,.18);
+      color:#eaf4ff; padding:.32rem .65rem; border-radius:999px; font-weight:800; font-size:.9rem;
+      box-shadow:0 1px 6px rgba(0,0,0,.2); margin:.25rem 0 .85rem;
     }
-    .trust-shield .icon{ font-size:1.05rem; }
+    .trust-pill .icon{ font-size:1rem; }
 
     .hero-ctas{ display:flex; justify-content:center; gap:.6rem; flex-wrap:wrap }
     .btn{ display:inline-flex; align-items:center; justify-content:center; gap:.4rem; border-radius:10px; padding:.7rem 1.05rem; font-weight:800; text-decoration:none }
@@ -100,8 +99,9 @@
     .compare-wrap::-webkit-scrollbar{ height: 8px }
     .compare-wrap::-webkit-scrollbar-thumb{ background:#cbd5e1; border-radius: 8px }
 
+    /* ↓ narrower min-width for lighter scroll */
     .compare-grid{
-      min-width: 760px;
+      min-width: 560px; /* tweak to 520–600 to taste */
       display:grid;
       grid-template-columns:1.1fr 1fr 1fr;
       gap:10px;
@@ -149,6 +149,14 @@
 
     footer.note{ max-width:960px; margin:1rem auto 5.5rem; text-align:center; color:#666 }
     footer.note p{ font-size:.82rem; color:#999 }
+
+    /* Keep chatbot above bars if widget uses these common selectors */
+    .pe-016-bubble, #pe016-bubble, .pe-016-widget {
+      position: fixed !important;
+      right: 16px !important;
+      bottom: calc(var(--sitemap-h) + var(--chat-offset)) !important;
+      z-index: 10003 !important;
+    }
 
     @media (max-width:768px){
       body, main { padding-bottom: calc(var(--callbar-h) + var(--sitemap-h) + env(safe-area-inset-bottom) + 14px); }
@@ -209,7 +217,8 @@
     <h1 id="ab-cta-text">Why DebtReliefGuard?</h1>
     <p class="sub">We compare transparent, FTC-aligned options vs. high-risk practices.</p>
 
-    <div class="trust-shield" aria-label="Secure, FTC-Aligned, No Upfront Fees">
+    <!-- Slim pill shield -->
+    <div class="trust-pill" aria-label="Secure, FTC-Aligned, No Upfront Fees">
       <span class="icon" aria-hidden="true">🛡️</span>
       <span><strong>Secure</strong> • FTC-Aligned • No Upfront Fees</span>
     </div>
@@ -252,6 +261,19 @@
           <div role="rowheader">Control</div>
           <div>You choose pace and provider; exit anytime.</div>
           <div>Lock-in, penalties, or hard to switch.</div>
+
+          <!-- A couple of common rows you likely wanted kept -->
+          <div role="rowheader">State Availability</div>
+          <div>Shows state-specific options up front.</div>
+          <div>Hides availability until late in funnel.</div>
+
+          <div role="rowheader">Credit Impact Transparency</div>
+          <div>Explains short-term impact with ranges.</div>
+          <div>Implied “no impact” or vague claims.</div>
+
+          <div role="rowheader">Data Security</div>
+          <div>Secure forms; minimal sharing; audit trail.</div>
+          <div>Multiple handoffs; weak vendor controls.</div>
         </div>
       </div>
 
@@ -308,14 +330,10 @@
     <p class="muted-text">Not affiliated with “Gateway Debt Relief” of Costa Mesa, CA.</p>
   </footer>
 
-  <!-- ====== 036 & 016 INTEGRATIONS (frontend-safe) ====== -->
+  <!-- ====== 036 & 016 INTEGRATIONS ====== -->
   <script>
     (function(){
-      // Domains for dual-site fanout (016 widget + events)
-      const SITES = [
-        'https://debtreliefguard.com',
-        'https://debthelpform.com'
-      ];
+      const SITES = ['https://debtreliefguard.com','https://debthelpform.com'];
 
       // 1) Hydrate from 036 /config (public)
       const BASE036 = '/api/mesh/036-lead-router';
@@ -344,7 +362,7 @@
         }catch(_){}
       })();
 
-      // 2) Send page + CTA events to 016 on BOTH domains (no CORS issues via sendBeacon)
+      // 2) Send page + CTA events to 016 (both domains) via Beacon
       function emit016(event, detail){
         const payload = JSON.stringify({
           event, detail,
@@ -364,41 +382,37 @@
           }
         }
       }
-      // pageview
       emit016('pageview', { title: document.title });
-
-      // CTA clicks
-      const cta1 = document.getElementById('cta-primary');
-      const cta2 = document.getElementById('cta-secondary');
-      [cta1, cta2].forEach(el=>{
-        if(!el) return;
-        el.addEventListener('click', ()=>emit016('cta_click', { id: el.id || 'cta', href: el.getAttribute('href') }), {passive:true});
+      ['cta-primary','cta-secondary'].forEach(id=>{
+        const el = document.getElementById(id);
+        if(el) el.addEventListener('click', ()=>emit016('cta_click', { id, href: el.getAttribute('href') }), {passive:true});
       });
 
-      // 3) Load 016 chat widget from current site, fallback to the other site
+      // 3) Load 016 chat widget (dual-domain fallback) and nudge above sticky bars
       (function load016Widget(){
-        const tried = new Set();
-        function tryLoad(origin){
-          if(tried.has(origin)) return;
-          tried.add(origin);
+        const origins = [location.origin, ...SITES.filter(h=>h!==location.origin)];
+        let loaded = false;
+        function inject(origin){
           const s = document.createElement('script');
           s.src = `${origin}/api/mesh/016-persona-evolution-engine/widget.js`;
-          s.async = true;
-          s.defer = true;
-          s.onerror = ()=> {
-            // fallback to the first other site not tried
-            for(const host of SITES){ if(!tried.has(host)) { tryLoad(host); break; } }
-          };
+          s.async = true; s.defer = true;
+          s.onload = ()=>{ loaded = true; setTimeout(nudgeChat, 200); };
+          s.onerror = ()=>{ if(!loaded){ const next = origins.shift(); if(next) inject(next); } };
           document.head.appendChild(s);
         }
-        // try current origin first, then the other
-        const here = location.origin;
-        const other = SITES.find(h=>h!==here) || SITES[0];
-        tryLoad(here);
-        tryLoad(other);
+        inject(origins.shift());
+
+        function nudgeChat(){
+          const el = document.querySelector('.pe-016-bubble, #pe016-bubble, .pe-016-widget');
+          if(el){
+            el.style.right = '16px';
+            el.style.bottom = `calc(var(--sitemap-h) + var(--chat-offset))`;
+            el.style.zIndex = '10003';
+          }
+        }
       })();
 
-      // Reserve bottom padding dynamically for mobile bar height (keeps chatbot clear)
+      // Reserve bottom padding dynamically for mobile bar height
       const root=document.documentElement, mb=document.getElementById('drgMobileBar');
       function setH(){ const v=mb && getComputedStyle(mb).display!=='none'; root.style.setProperty('--callbar-h',(v?mb.offsetHeight:0)+'px'); }
       setH(); addEventListener('resize',setH,{passive:true}); setTimeout(setH,250); setTimeout(setH,1000);
