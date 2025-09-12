@@ -1,401 +1,236 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <!-- Charset & Viewport -->
-  <meta charset="UTF-8" />
-  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0" />
-
-  <!-- SEO -->
-  <title>Compare Us — DebtReliefGuard</title>
-  <meta name="description" content="See how DebtReliefGuard compares against high-risk debt relief practices. Transparent, FTC-aligned, no upfront fees." />
-  <meta name="robots" content="index,follow,max-image-preview:large" />
-  <link rel="canonical" href="https://debtreliefguard.com/compare.us.html" />
-
-  <!-- OG / Twitter -->
-  <meta property="og:type" content="website" />
-  <meta property="og:url" content="https://debtreliefguard.com/compare.us.html" />
-  <meta property="og:title" content="Compare Us — DebtReliefGuard" />
-  <meta property="og:description" content="We compare transparent, FTC-aligned options vs. high-risk practices so you can choose confidently." />
-  <meta property="og:site_name" content="DebtReliefGuard.com" />
-  <meta property="og:image" content="https://debtreliefguard.com/og-cover.jpg" />
-  <meta name="twitter:card" content="summary" />
-  <meta name="twitter:title" content="Compare Us — DebtReliefGuard" />
-  <meta name="twitter:description" content="Transparent comparisons. No upfront fees. Clear disclosures." />
-  <meta name="twitter:image" content="https://debtreliefguard.com/og-cover.jpg" />
-
-  <!-- Fonts -->
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet" />
-
-  <!-- A/B identity -->
-  <meta name="x-ai-optimizer-page" content="drg:compare" />
-
-  <!-- Make brand schema easy to discover -->
-  <link rel="alternate" type="application/ld+json" href="/brand.schema.jsonld" />
-
-  <!-- THEME / LAYOUT (hero + badge exactly matches HIW) -->
-  <style>
-    :root{
-      --ink:#222; --bg:#f9fafe; --brand:#004477; --brand-2:#003057;
-      --cta:#0b63f6; --ok:#007b55; --card:#fff; --card-b:#e5e7eb;
-      --shadow:0 10px 30px rgba(0,0,0,.12);
-      --callbar-h:64px;       /* dynamic via script */
-      --sitemap-h:52px;       /* bottom sitemap height */
-      --chat-offset:18px;     /* bubble above sitemap */
-    }
-    *{box-sizing:border-box}
-    html,body{margin:0;padding:0}
-    body{
-      font-family:'Inter',system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;
-      background:var(--bg); color:var(--ink); line-height:1.55;
-      padding-top:76px; /* sticky nav space */
-      padding-bottom: calc(var(--sitemap-h) + 14px);
-    }
-
-    .sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}
-    .skip-link{position:absolute;left:-999px;top:auto;width:1px;height:1px;overflow:hidden}
-    .skip-link:focus{position:fixed;left:12px;top:12px;padding:.5rem .75rem;background:#000;color:#fff;z-index:10000;border-radius:6px}
-
-    /* Sticky top nav (match site) */
-    .sticky-nav{
-      position:fixed; top:0; left:0; right:0; background:var(--brand-2); z-index:9999;
-      display:flex; gap:.75rem; padding:.75rem 1rem; overflow-x:auto; white-space:nowrap;
-      box-shadow:0 2px 5px rgba(0,0,0,.08)
-    }
-    .sticky-nav a{ color:#fff; font-weight:600; text-decoration:none; padding:.5rem .75rem; flex:0 0 auto; border-radius:6px }
-    .sticky-nav a:hover,.sticky-nav a:focus{ text-decoration:underline; outline:none }
-    .sticky-nav::-webkit-scrollbar{ display:none }
-
-    /* HERO — EXACT HIW SIZING */
-    header{
-      max-width:960px; margin:0 auto; text-align:center; background:var(--brand);
-      color:#fff; padding:1.5rem 1rem; border-radius:12px; box-shadow:0 6px 18px rgba(0,0,0,.08);
-    }
-    header h1{ margin:.2rem 0 .4rem; font-size:clamp(1.6rem,3vw + 1rem,2.3rem); font-weight:800 }
-    header .sub{ margin:0 0 .8rem; opacity:.95 }
-    .hero-ctas{ display:flex; justify-content:center; gap:.6rem; flex-wrap:wrap }
-    .btn{ display:inline-flex; align-items:center; justify-content:center; gap:.4rem; border-radius:10px; padding:.7rem 1.05rem; font-weight:800; text-decoration:none }
-    .btn-primary{ background:var(--cta); color:#fff; box-shadow:var(--shadow) }
-    .btn-outline{ background:transparent; color:#fff; border:2px solid rgba(255,255,255,.75) }
-
-    /* BADGE — EXACT HIW CAPSULE METRICS */
-    .badge{
-      display:inline-flex; gap:.35rem; align-items:center; justify-content:center;
-      background:#0f172a; color:#e5e7eb; border:1px solid rgba(255,255,255,.18);
-      border-radius:999px; padding:.35rem .6rem; font-size:.82rem; font-weight:800;
-    }
-
-    /* Page container */
-    .container{
-      max-width:960px; margin:1.25rem auto 4rem; background:#fff;
-      padding:1.25rem; border-radius:12px; box-shadow:0 2px 12px rgba(0,0,0,.06); border:1px solid var(--card-b)
-    }
-    h2{text-align:center}
-
-    /* Comparison table */
-    .compare-wrap{
-      margin-top:1rem; overflow-x:auto; -webkit-overflow-scrolling:touch; scrollbar-width:thin;
-      border:1px solid #e5e7eb; border-radius:10px; background:#fff;
-    }
-    .compare-wrap::-webkit-scrollbar{ height:8px }
-    .compare-wrap::-webkit-scrollbar-thumb{ background:#cbd5e1; border-radius:8px }
-    .compare-grid{
-      min-width:560px; display:grid; grid-template-columns:1.1fr 1fr 1fr; gap:10px;
-      border-top:1px solid #e5e7eb; border-left:1px solid #e5e7eb;
-    }
-    .compare-grid > div{ padding:.75rem; border-right:1px solid #e5e7eb; border-bottom:1px solid #e5e7eb }
-    .compare-grid .head{ background:#f8fafc; font-weight:800 }
-    .muted-text{ color:#6b7280 }
-
-    /* Mobile bar */
-    .mobile-bar{ position:fixed; left:0; right:0; bottom:0; background:#0b1220; color:#fff; display:flex; gap:8px; padding:.6rem; z-index:9998; }
-    .mobile-bar a{ flex:1; text-align:center; border-radius:10px; padding:.75rem .5rem; font-weight:900; text-decoration:none }
-    .mobile-call{ background:var(--ok); color:#fff }
-    .mobile-est{ background:#0b63f6; color:#fff }
-    @media (min-width:769px){ .mobile-bar{ display:none } }
-
-    /* Desktop sticky phone pill */
-    .desk-call{
-      position:fixed; right:14px; bottom:14px; z-index:10002; display:none; align-items:center; gap:.4rem;
-      padding:.7rem 1rem; border-radius:999px; background:#007b55; color:#fff; font-weight:900; text-decoration:none;
-      box-shadow:0 10px 24px rgba(0,0,0,.18);
-    }
-    @media (min-width:769px){ .desk-call{ display:inline-flex } }
-
-    /* Bottom sticky sitemap */
-    .sticky-menu{
-      position:fixed; left:0; right:0; bottom: calc(var(--callbar-h) + env(safe-area-inset-bottom));
-      background:#004488; color:#fff; z-index:9997; border-top:2px solid #2563eb; height: var(--sitemap-h); display:flex; align-items:center;
-    }
-    @media (min-width:769px){ .sticky-menu{ bottom:0 } }
-    .sticky-menu nav{ display:flex; gap:1rem; overflow-x:auto; white-space:nowrap; padding:0 .75rem; width:100%; align-items:center; scrollbar-width:none; }
-    .sticky-menu nav::-webkit-scrollbar{ display:none }
-    .sticky-menu nav a{ color:#ffdd00; text-decoration:none; padding:.35rem .55rem; border-radius:6px; font-weight:700; font-size:.92rem; flex:0 0 auto; }
-    .sticky-menu nav a:hover, .sticky-menu nav a:focus{ background:rgba(255,255,255,.1); outline:none; }
-
-    footer.note{ max-width:960px; margin:1rem auto 5.5rem; text-align:center; color:#666 }
-    footer.note p{ font-size:.82rem; color:#999 }
-
-    /* Ensure chatbot bubble stays above bars (if your widget uses these selectors) */
-    .pe-016-bubble, #pe016-bubble, .pe-016-widget {
-      position: fixed !important;
-      right: 16px !important;
-      bottom: calc(var(--sitemap-h) + var(--chat-offset)) !important;
-      z-index: 10003 !important;
-    }
-
-    /* Clear content above bars on small screens */
-    @media (max-width:768px){
-      body, main { padding-bottom: calc(var(--callbar-h) + var(--sitemap-h) + env(safe-area-inset-bottom) + 14px); }
-    }
-  </style>
-
-  <!-- Structured Data -->
-  <script type="application/ld+json">
-  {"@context":"https://schema.org","@type":"WebPage","name":"Compare Us — DebtReliefGuard","url":"https://debtreliefguard.com/compare.us.html","publisher":{"@id":"https://gatewaydebthelp.com/#gfsr"}}
-  </script>
-  <script type="application/ld+json">
-  {
-    "@context":"https://schema.org",
-    "@type":["Organization","FinancialService"],
-    "@id":"https://gatewaydebthelp.com/#gfsr",
-    "name":"Gateway Financial Settlement Relief, LLC",
-    "legalName":"Gateway Financial Settlement Relief, LLC",
-    "alternateName":["Gateway Debt Help","GFSR","Debt Help Form","Debt Relief Guard"],
-    "url":"https://gatewaydebthelp.com/",
-    "logo":"https://debtreliefguard.com/og-cover.jpg",
-    "telephone":"+1-888-437-7141",
-    "address":{"@type":"PostalAddress","addressCountry":"US","addressRegion":"FL"},
-    "areaServed":{"@type":"Country","name":"United States"},
-    "sameAs":["https://debtreliefguard.com/","https://debthelpform.com/","https://gatewayfinancialsettlementrelief.com/","https://gatewaydebthelp.com/"],
-    "contactPoint":{"@type":"ContactPoint","telephone":"+1-888-437-7141","contactType":"customer service","areaServed":"US","availableLanguage":["English"]},
-    "disambiguatingDescription":"Independent U.S. debt-relief provider operating DebtHelpForm.com, DebtReliefGuard.com, and GatewayDebtHelp.com. Not affiliated with 'Gateway Debt Relief' of Costa Mesa, CA."
-  }
-  </script>
-</head>
-
-<body>
-  <a href="#main" class="skip-link">Skip to content</a>
-
-  <!-- Sticky Header -->
-  <nav class="sticky-nav" role="navigation" aria-label="Main navigation">
-    <a href="/">Home</a>
-    <a href="/compare.us.html" aria-current="page">Compare Us</a>
-    <a href="/how.it.works.index.html">How It Works</a>
-    <a href="/debt.relief.option.index.html">Relief Options</a>
-    <a href="/credit.card.relief.index.html">Credit Card Relief</a>
-    <a href="/savings.calculator.html">Calculator</a>
-    <a href="/reviews.index.html">Reviews</a>
-    <a href="/blog.index.html">Blog</a>
-    <a href="/scam.warning.index.html">Scam Warnings</a>
-    <a href="/faq.index.html">FAQ</a>
-    <a href="/contact.index.html">Contact</a>
-    <a href="/privacy.policy.index.html">Privacy</a>
-    <a href="/terms.index.html">Terms</a>
-    <a href="https://debthelpform.com/#lead-form" style="background:#2563eb;color:white;padding:0.5rem 0.75rem;border-radius:6px;">Estimate</a>
-    <a href="https://gatewaydebthelp.com" target="_blank" rel="noopener">GatewayDebtHelp.com</a>
-    <a href="https://gatewayfinancialsettlementrelief.com" target="_blank" rel="noopener"><strong>GFSR Owner</strong></a>
-  </nav>
-
-  <!-- Desktop sticky phone pill (correct number) -->
-  <a class="desk-call" href="tel:+18884377141">📞 888-437-7141</a>
-
-  <!-- HERO (blue box identical to HIW) -->
-  <header role="banner" aria-label="Hero">
-    <span class="badge">🛡️ Secure • FTC-Aligned • No Upfront Fees</span>
-    <h1 id="ab-cta-text">Why DebtReliefGuard?</h1>
-    <p class="sub">We compare transparent, FTC-aligned options vs. high-risk practices.</p>
-    <div class="hero-ctas">
-      <a class="btn btn-primary" href="https://debthelpform.com/#lead-form" target="_blank" rel="noopener" aria-label="Start secure savings estimate">🔒 Start Secure Estimate</a>
-      <a class="btn btn-outline" href="/scam.warning.index.html">⚠️ Scam Warnings</a>
-    </div>
-  </header>
-
-  <!-- MAIN -->
-  <main id="main" class="container" role="main">
-    <section aria-label="Highlights" style="text-align:center">
-      <h2>Key Differences</h2>
-      <p class="muted-text">What we do <strong>by design</strong> vs. practices you should avoid.</p>
-
-      <div class="compare-wrap" role="region" aria-label="Comparison table (scroll left/right if needed)">
-        <div class="compare-grid" role="table" aria-label="Comparison table">
-          <div class="head" role="columnheader">Protection</div>
-          <div class="head" role="columnheader">DebtReliefGuard Approach</div>
-          <div class="head" role="columnheader">High-Risk Practices</div>
-
-          <div role="cell">FTC Compliance</div>
-          <div role="cell">✅ No upfront fees; clear disclosures</div>
-          <div role="cell">❌ Unclear fees; pressure tactics</div>
-
-          <div role="cell">Lead Privacy</div>
-          <div role="cell">✅ One verified provider; encrypted</div>
-          <div role="cell">❌ Lead lists and spam calls</div>
-
-          <div role="cell">Claims</div>
-          <div role="cell">✅ Honest timelines & savings ranges</div>
-          <div role="cell">❌ “Erase debt overnight” promises</div>
-
-          <div role="cell">Transparency</div>
-          <div role="cell">✅ Side-by-side comparisons you control</div>
-          <div role="cell">❌ Vague terms; hard to cancel</div>
-        </div>
-      </div>
-
-      <details style="max-width:860px;margin:0.6rem auto;text-align:left">
-        <summary><strong>What “FTC-aligned” means for you</strong></summary>
-        <p class="muted-text">No upfront fees and clear disclosures. You’ll see ranges, not guarantees.</p>
-      </details>
-    </section>
-
-    <section class="cta" aria-label="Get started" style="margin-top:2rem;text-align:center">
-      <h2>See Your Options Today</h2>
-      <a class="btn btn-primary" href="https://debthelpform.com/#lead-form" target="_blank" rel="noopener">🔒 Start Secure Estimate</a>
-    </section>
-  </main>
-
-  <!-- Mobile dual action bar -->
-  <div id="drgMobileBar" class="mobile-bar" aria-label="Quick actions">
-    <a class="mobile-call" href="tel:+18884377141">📞 Call 888-437-7141</a>
-    <a class="mobile-est" href="https://debthelpform.com/#lead-form" target="_blank" rel="noopener">🔒 Start Secure Estimate</a>
-  </div>
-
-  <!-- Floating bottom sitemap -->
-  <footer class="sticky-menu" role="navigation" aria-label="Site map">
-    <nav>
-      <a href="/">Home</a>
-      <a href="/compare.us.html" aria-current="page">Compare</a>
-      <a href="/how.it.works.index.html">How It Works</a>
-      <a href="/debt.relief.option.index.html">Debt Relief Options</a>
-      <a href="/credit.card.relief.index.html">Credit Card Relief</a>
-      <a href="/savings.calculator.html">Calculator</a>
-      <a href="/reviews.index.html">Reviews</a>
-      <a href="/blog.index.html">Blog</a>
-      <a href="/scam.warning.index.html">Scam Warnings</a>
-      <a href="/faq.index.html">FAQ</a>
-      <a href="/contact.index.html">Contact</a>
-      <a href="/privacy.policy.index.html">Privacy</a>
-      <a href="/terms.index.html">Terms</a>
-      <a href="https://debthelpform.com" target="_blank" rel="noopener">DebtHelpForm.com</a>
-      <a href="https://gatewaydebthelp.com" target="_blank" rel="noopener">GatewayDebtHelp.com</a>
+<!-- ==============================
+     STICKY TOP NAV
+     ============================== -->
+<header class="topbar">
+  <div class="wrap">
+    <a class="brand" href="/">DebtReliefGuard</a>
+    <nav class="nav">
+      <a href="#home">Home</a>
+      <a href="#compare">Compare</a>
+      <a href="#how">How It Works</a>
+      <a href="#faq">FAQ</a>
     </nav>
-  </footer>
+  </div>
+</header>
 
-  <footer class="note">
-    <p>&copy; 2025 DebtReliefGuard.com — Independent, FTC-Aligned.</p>
-    <p class="muted-text">Not affiliated with “Gateway Debt Relief” of Costa Mesa, CA.</p>
-  </footer>
+<!-- Spacer so content doesn't hide under sticky topbar -->
+<div style="height:64px"></div>
 
-  <!-- 016 CHAT: same component/behavior as Home (016-backed) -->
-  <button id="gfsrChatFab" class="gfsr-chat-fab" aria-haspopup="dialog" aria-expanded="false" aria-controls="gfsrChatSheet"
-          style="position:fixed; right:14px; bottom:calc(var(--callbar-h) + var(--sitemap-h) + 14px); z-index:10003; display:inline-flex; align-items:center; gap:.5rem; padding:.8rem 1rem; border-radius:999px; border:1px solid rgba(0,0,0,.06); background:#0b63f6; color:#fff; box-shadow:0 10px 30px rgba(0,0,0,.18); font:600 14px/1.1 system-ui,-apple-system,Segoe UI,Roboto,Arial">💬 Chat</button>
+<!-- ==============================
+     HERO / INTRO
+     ============================== -->
+<section id="home" class="hero">
+  <div class="wrap">
+    <h1>Scam-Free Debt Relief Guidance, Built for Trust</h1>
+    <p>Operated by Gateway Financial Settlement Relief (GFSR). Clear, FTC-aligned info with real protections and real math.</p>
+  </div>
+</section>
 
-  <section id="gfsrChatSheet" class="gfsr-chat-sheet" role="dialog" aria-modal="true"
-           aria-labelledby="gfsrChatTitle" aria-describedby="gfsrChatDesc" hidden
-           style="position:fixed; inset:auto 0 0 0; margin:auto; width:100%; max-width:420px; right:12px; left:auto;
-                  border-radius:18px 18px 0 0; background:#fff; box-shadow:0 10px 30px rgba(0,0,0,.18);
-                  transform:translateY(110%); transition:transform .28s ease; border:1px solid rgba(0,0,0,.06); z-index:10004">
-    <header class="gfsr-chat-head" style="display:flex; align-items:center; justify-content:space-between; padding:12px 14px; border-bottom:1px solid rgba(0,0,0,.06); background:#f9fafb; border-radius:inherit">
-      <div>
-        <div id="gfsrChatTitle" class="gfsr-chat-title" style="font-weight:700; font-size:15px">Debt Help Assistant</div>
-        <div id="gfsrChatDesc" class="sr-only">Chat with our assistant. Press Escape to close.</div>
+<!-- ==============================
+     MINI CHART (OUR ADVANTAGE)
+     ============================== -->
+<section class="section">
+  <div class="wrap">
+    <h2 class="h">Built-In Consumer Protections</h2>
+    <div class="bars">
+      <!-- Label / Our bar / Others bar -->
+      <div class="barrow">
+        <span class="lbl">Title I Protection</span>
+        <div class="bar our" style="--val:92%"><b>Us</b></div>
+        <div class="bar them" style="--val:34%"><b>Others</b></div>
       </div>
-      <button id="gfsrChatClose" class="gfsr-chat-close" aria-label="Close chat" style="background:transparent; border:none; padding:8px; border-radius:10px; cursor:pointer">✕</button>
-    </header>
+      <div class="barrow">
+        <span class="lbl">FTC Compliance</span>
+        <div class="bar our" style="--val:95%"><b>Us</b></div>
+        <div class="bar them" style="--val:45%"><b>Others</b></div>
+      </div>
+      <div class="barrow">
+        <span class="lbl">Lead Privacy</span>
+        <div class="bar our" style="--val:90%"><b>Us</b></div>
+        <div class="bar them" style="--val:30%"><b>Others</b></div>
+      </div>
+      <div class="barrow">
+        <span class="lbl">Claims Transparency</span>
+        <div class="bar our" style="--val:88%"><b>Us</b></div>
+        <div class="bar them" style="--val:28%"><b>Others</b></div>
+      </div>
+    </div>
+    <p class="note">Indicative scores based on best-practice criteria and our operating standards.</p>
+  </div>
+</section>
 
-    <div id="gfsrChatBody" class="gfsr-chat-body" tabindex="0" style="display:flex; flex-direction:column; gap:8px; padding:12px; height:min(70vh, 520px); overflow:auto; -webkit-overflow-scrolling:touch"></div>
+<!-- ==============================
+     COMPARISON TABLE
+     ============================== -->
+<section id="compare" class="section">
+  <div class="wrap">
+    <h2 class="h">Compare: DebtReliefGuard vs. High-Risk Practices</h2>
 
-    <form id="gfsrChatForm" class="gfsr-chat-input" style="display:flex; gap:8px; padding:10px; border-top:1px solid rgba(0,0,0,.06); background:#fff; border-radius:0 0 18px 18px">
-      <label class="sr-only" for="gfsrChatInput">Type your message</label>
-      <textarea id="gfsrChatInput" rows="1" placeholder="Type a message…" aria-label="Message" style="flex:1; resize:none; min-height:42px; max-height:120px; padding:10px 12px; border:1px solid #e5e7eb; border-radius:12px; font-size:14px; line-height:1.35"></textarea>
-      <button id="gfsrChatSend" class="gfsr-chat-send" type="submit" style="background:#0b63f6; color:#fff; border:none; padding:12px 14px; border-radius:12px; font-weight:700">Send</button>
-    </form>
-  </section>
+    <div class="table">
+      <div class="thead">
+        <div class="cell col-feature">Feature</div>
+        <div class="cell col-us">DebtReliefGuard (GFSR)</div>
+        <div class="cell col-them">Typical High-Risk Providers</div>
+      </div>
 
-  <script>
-    /* 016 Chat behavior — same as Home (016 powers /chat). */
-    (function(){
-      const el = {
-        fab:   document.getElementById('gfsrChatFab'),
-        sheet: document.getElementById('gfsrChatSheet'),
-        close: document.getElementById('gfsrChatClose'),
-        body:  document.getElementById('gfsrChatBody'),
-        form:  document.getElementById('gfsrChatForm'),
-        input: document.getElementById('gfsrChatInput'),
-        send:  document.getElementById('gfsrChatSend'),
-      };
-      const openChat = () => { el.sheet.removeAttribute('hidden'); el.sheet.style.transform='translateY(0)'; el.fab.setAttribute('aria-expanded','true'); setTimeout(()=>el.input.focus(),120); };
-      const closeChat = () => { el.sheet.style.transform='translateY(110%)'; el.fab.setAttribute('aria-expanded','false'); el.sheet.setAttribute('hidden',''); el.fab.focus(); };
-      el.fab.addEventListener('click', openChat);
-      el.close.addEventListener('click', closeChat);
-      addEventListener('keydown', e => { if (e.key==='Escape' && !el.sheet.hasAttribute('hidden')) closeChat(); });
+      <!-- Row template: change text only -->
+      <div class="trow">
+        <div class="cell col-feature">Title I consumer protection alignment</div>
+        <div class="cell col-us ok"><span class="icon ok"></span>Aligned</div>
+        <div class="cell col-them no"><span class="icon no"></span>Not guaranteed</div>
+      </div>
 
-      const addMsg = (text, who='bot') => {
-        const div = document.createElement('div'); div.className = `gfsr-msg ${who}`;
-        div.style.maxWidth='88%'; div.style.padding='10px 12px'; div.style.borderRadius='14px'; div.style.fontSize='14px'; div.style.lineHeight='1.35';
-        if (who==='user'){ div.style.marginLeft='auto'; div.style.background='#0b63f6'; div.style.color='#fff'; div.style.borderTopRightRadius='4px'; }
-        else if (who==='bot'){ div.style.background='#eef2ff'; div.style.color='#111'; div.style.borderTopLeftRadius='4px'; }
-        else { div.style.background='#f3f4f6'; div.style.color='#444'; div.style.fontSize='12px'; div.style.margin='4px auto'; }
-        div.textContent = (text??'').toString(); el.body.appendChild(div); el.body.scrollTop = el.body.scrollHeight;
-      };
+      <div class="trow">
+        <div class="cell col-feature">FTC-aligned, plain-English disclosures</div>
+        <div class="cell col-us ok"><span class="icon ok"></span>Yes</div>
+        <div class="cell col-them no"><span class="icon no"></span>Vague or missing</div>
+      </div>
 
-      const KEY='gfsr-chat-history';
-      try { (JSON.parse(localStorage.getItem(KEY)||'[]')).slice(-20).forEach(m=>addMsg(m.text,m.who)); } catch {}
-      const remember=(t,w)=>{ try{ const h=JSON.parse(localStorage.getItem(KEY)||'[]'); h.push({text:t,who:w,t:Date.now()}); localStorage.setItem(KEY, JSON.stringify(h).slice(-8000)); }catch{} };
+      <div class="trow">
+        <div class="cell col-feature">Lead privacy (no lists / no spam)</div>
+        <div class="cell col-us ok"><span class="icon ok"></span>Private & encrypted</div>
+        <div class="cell col-them no"><span class="icon no"></span>Shared to lead buyers / spam calls</div>
+      </div>
 
-      let interacted=false;
-      addEventListener('mousemove',()=>interacted=true,{once:true,passive:true});
-      addEventListener('keydown', ()=>interacted=true,{once:true,passive:true});
-      const nonce = () => Array.from(crypto.getRandomValues(new Uint8Array(12))).map(b=>b.toString(16).padStart(2,'0')).join('');
-      const API = `${location.origin}/chat`; let busy = false;
+      <div class="trow">
+        <div class="cell col-feature">Claims transparency (timelines & savings ranges)</div>
+        <div class="cell col-us ok"><span class="icon ok"></span>Honest & specific</div>
+        <div class="cell col-them no"><span class="icon no"></span>“Erase debt overnight” promises</div>
+      </div>
 
-      el.form.addEventListener('submit', async (e) => {
-        e.preventDefault(); if (!interacted || busy) return;
-        const message = (el.input.value||'').trim(); if (!message) return;
-        addMsg(message,'user'); remember(message,'user');
-        el.input.value=''; busy=true; el.send.disabled=true;
-        try{
-          const r = await fetch(API, { method:'POST',
-            headers:{ 'Content-Type':'application/json','Accept':'application/json','X-Requested-With':'XMLHttpRequest','X-Client-Nonce': nonce() },
-            body: JSON.stringify({ messages:[{ role:'user', content: message }], source:'frontend', url: location.href })
-          });
-          if(!r.ok){ const t=await r.text().catch(()=> ''); addMsg(`Service error ${r.status}.`,'meta'); console.error('CHAT ERROR', r.status, t); return; }
-          const ct = r.headers.get('content-type')||''; let reply='';
-          reply = ct.includes('application/json') ? ((await r.json()).reply || (await r.json()).message || '') : await r.text();
-          addMsg(reply || 'Thanks — how else can I help?','bot'); remember(reply||'','bot');
-        }catch(err){ console.error('CHAT NET', err); addMsg('Network error — please try again.','meta'); }
-        finally{ busy=false; el.send.disabled=false; el.input.focus(); }
-      });
+      <div class="trow">
+        <div class="cell col-feature">Upfront fees</div>
+        <div class="cell col-us ok"><span class="icon ok"></span>No upfront fees</div>
+        <div class="cell col-them no"><span class="icon no"></span>Fees before results</div>
+      </div>
 
-      if (!el.body.children.length) addMsg('Hi! I can compare options and next steps.');
-    })();
-  </script>
+      <div class="trow">
+        <div class="cell col-feature">Pressure tactics</div>
+        <div class="cell col-us ok"><span class="icon ok"></span>Zero pressure</div>
+        <div class="cell col-them no"><span class="icon no"></span>High-pressure sales playbook</div>
+      </div>
 
-  <!-- Dynamic spacing: set --callbar-h so the sitemap never overlaps content -->
-  <script>
-    (function(){
-      const root = document.documentElement;
-      const mb = document.getElementById('drgMobileBar');
-      function setH(){
-        const h = mb && getComputedStyle(mb).display !== 'none' ? mb.offsetHeight : 0;
-        root.style.setProperty('--callbar-h', h + 'px');
-      }
-      setH(); addEventListener('resize', setH, {passive:true});
-      setTimeout(setH, 250); setTimeout(setH, 1000);
-    })();
-  </script>
+      <div class="trow">
+        <div class="cell col-feature">Cancellation</div>
+        <div class="cell col-us ok"><span class="icon ok"></span>Easy to cancel</div>
+        <div class="cell col-them no"><span class="icon no"></span>Hard to cancel / gotchas</div>
+      </div>
+    </div>
+  </div>
+</section>
 
-  <!-- 015: lightweight pageview telemetry -->
-  <script>
-    (function(){
-      try{
-        const key='drg:sess:v1'; let sid=sessionStorage.getItem(key);
-        if(!sid){ sid=crypto.randomUUID(); sessionStorage.setItem(key, sid); }
-        const payload={ v:1, ts:Date.now(), sid, url:location.href, ref:document.referrer||null, w:innerWidth, h:innerHeight };
-        const blob=new Blob([JSON.stringify(payload)],{type:'application/json'});
-        if(navigator.sendBeacon){ navigator.sendBeacon('/ingest', blob); }
-        else { fetch('/ingest',{ method:'POST', body:blob, keepalive:true, headers:{'Content-Type':'application/json'} }).catch(()=>{}); }
-      }catch(_){}
-    })();
-  </script>
-</body>
-</html>
+<!-- Bottom spacer so content doesn’t hide under bottom sticky bar -->
+<div style="height:84px"></div>
+
+<!-- ==============================
+     STICKY BOTTOM CALL BAR
+     ============================== -->
+<footer class="bottombar" aria-label="Primary actions">
+  <div class="wrap row">
+    <a class="btn call" href="tel:+18884377141" aria-label="Call 888-437-7141">
+      <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6.6 10.8a15.05 15.05 0 006.6 6.6l2.2-2.2a1 1 0 011.1-.2c1.2.5 2.6.8 4 .8a1 1 0 011 1V21a1 1 0 01-1 1C11.3 22 2 12.7 2 2a1 1 0 011-1h3.8a1 1 0 011 1c0 1.4.3 2.8.8 4a1 1 0 01-.2 1.1l-2.2 2.2z"/></svg>
+      <span>Call 888-437-7141</span>
+    </a>
+
+    <a class="btn cta" href="/start" aria-label="Start Secure Estimate">
+      <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2l7 7-1.4 1.4L13 5.8V22h-2V5.8L6.4 10.4 5 9l7-7z"/></svg>
+      <span>Start Secure Estimate</span>
+    </a>
+  </div>
+</footer>
+
+<!-- ==============================
+     STYLES
+     ============================== -->
+<style>
+  :root{
+    --blue:#1e63ff;
+    --blue-600:#1553dd;
+    --green:#18a957;
+    --green-700:#138746;
+    --ink:#0f172a;           /* slate-900 */
+    --muted:#475569;         /* slate-600 */
+    --bg:#ffffff;
+    --card:#0b1220;          /* deep navy card for contrast */
+    --ok:#16a34a;            /* green-600 */
+    --no:#e11d48;            /* rose-600 */
+    --ring:rgba(30,99,255,.18);
+    --radius:16px;
+  }
+  *{box-sizing:border-box}
+  body{margin:0;font:16px/1.45 system-ui,-apple-system,Segoe UI,Roboto,Ubuntu,"Helvetica Neue",Arial;color:var(--ink);background:var(--bg)}
+  a{color:inherit;text-decoration:none}
+
+  .wrap{max-width:1100px;margin:auto;padding:0 16px}
+  .h{font-size:clamp(1.2rem,2.4vw,1.6rem);margin:0 0 12px}
+  .note{color:var(--muted);font-size:.9rem;margin:.5rem 0 0}
+
+  /* Topbar */
+  .topbar{position:sticky;top:0;z-index:50;background:#06122a;color:#fff;border-bottom:1px solid rgba(255,255,255,.08)}
+  .topbar .wrap{display:flex;align-items:center;gap:20px;height:64px}
+  .brand{font-weight:800;letter-spacing:.2px}
+  .nav{margin-left:auto;display:flex;gap:16px}
+  .nav a{opacity:.9;padding:8px 10px;border-radius:10px}
+  .nav a:hover{background:rgba(255,255,255,.08);opacity:1}
+
+  /* Hero */
+  .hero{padding:28px 0 10px;background:linear-gradient(180deg,#0b1732,#0f213f);color:#fff}
+  .hero h1{font-size:clamp(1.4rem,3.2vw,2rem);margin:0 0 6px}
+  .hero p{margin:0;color:#cbd5e1}
+
+  /* Bars (mini chart) */
+  .bars{display:grid;gap:10px;margin-top:14px}
+  .barrow{display:grid;grid-template-columns:1.2fr 1fr 1fr;align-items:center;gap:10px}
+  .lbl{color:var(--muted);font-weight:600}
+  .bar{position:relative; height:12px; border-radius:999px; background:#e2e8f0; overflow:hidden}
+  .bar b{position:absolute;left:8px;top:-22px;font-size:.78rem;color:var(--muted)}
+  .bar::after{content:"";position:absolute;inset:0;width:var(--val);background:var(--blue);opacity:.95}
+  .bar.them::after{background:var(--no)}
+  .bar.our::after{background:var(--ok)}
+
+  /* Comparison table */
+  .table{border:1px solid #e5e7eb;border-radius:var(--radius);overflow:hidden;background:#fff}
+  .thead,.trow{display:grid;grid-template-columns:2fr 1fr 1fr}
+  .thead{background:#0b1220;color:#fff;font-weight:700}
+  .cell{padding:12px 14px;border-bottom:1px solid #e9eef5}
+  .thead .cell{border-bottom:none}
+  .col-us{background:rgba(22,163,74,.04)}
+  .col-them{background:rgba(225,29,72,.03)}
+  .ok,.no{display:flex;align-items:center;gap:8px}
+  .icon{width:18px;height:18px;display:inline-block;border-radius:4px}
+  .icon.ok{background:var(--ok)}
+  .icon.no{background:var(--no);position:relative}
+  .icon.ok::before{content:"✓";display:block;color:#fff;font-weight:900;text-align:center;line-height:18px}
+  .icon.no::before{content:"✕";display:block;color:#fff;font-weight:900;text-align:center;line-height:18px}
+
+  @media (max-width:860px){
+    .thead,.trow{grid-template-columns:1.2fr .9fr .9fr}
+    .lbl{font-size:.95rem}
+  }
+  @media (max-width:640px){
+    .thead{display:none}
+    .trow{grid-template-columns:1fr}
+    .trow .col-feature{font-weight:700;background:#f8fafc}
+    .trow .col-us,.trow .col-them{display:flex;justify-content:space-between}
+    .table .trow{border-bottom:1px solid #eef2f7}
+    .cell{border-bottom:none}
+  }
+
+  /* Bottom sticky bar */
+  .bottombar{
+    position:sticky;bottom:0;z-index:60;background:#06122a;color:#fff;
+    border-top:1px solid rgba(255,255,255,.08);padding:10px 0;
+  }
+  .bottombar .row{display:flex;gap:12px}
+  .btn{
+    flex:1;display:flex;align-items:center;justify-content:center;gap:10px;
+    padding:14px 12px;border-radius:14px;font-weight:800;letter-spacing:.2px;
+    box-shadow:0 6px 18px var(--ring); transition:transform .08s ease;
+  }
+  .btn svg{width:18px;height:18px;fill:#fff;opacity:.95}
+  .btn:active{transform:translateY(1px)}
+  .btn.call{background:var(--green)}
+  .btn.call:hover{background:var(--green-700)}
+  .btn.cta{background:var(--blue)}
+  .btn.cta:hover{background:var(--blue-600)}
+</style>
