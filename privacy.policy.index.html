@@ -8,18 +8,45 @@
   <link rel="canonical" href="https://debtreliefguard.com/privacy.policy.index.html" />
   <meta name="x-ai-optimizer-page" content="DRG:privacy" />
   <meta name="theme-color" content="#0a5cff" />
+  <meta name="last-modified" content="2025-09-24" />
 
-  <!-- JSON-LD: Page + Brand (single @id policy) -->
-  <script type="application/ld+json">{"@context":"https://schema.org","@type":"WebPage","name":"Privacy Policy | Debt Relief Guard","url":"https://debtreliefguard.com/privacy.policy.index.html","breadcrumb":{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://debtreliefguard.com/"},{"@type":"ListItem","position":2,"name":"Privacy Policy","item":"https://debtreliefguard.com/privacy.policy.index.html"}]},"publisher":{"@id":"https://gatewaydebthelp.com/#gfsr"}}</script>
-  <script type="application/ld+json">{"@context":"https://schema.org","@type":["Organization","FinancialService"],"@id":"https://gatewaydebthelp.com/#gfsr","name":"Gateway Financial Settlement Relief, LLC","alternateName":["Gateway Debt Help","GFSR"],"url":"https://gatewaydebthelp.com/","telephone":"+1-888-437-7141","disambiguatingDescription":"Not affiliated with Gateway Debt Relief of Costa Mesa, CA."}</script>
+  <!-- JSON-LD: Page + Brand + FAQ + ContactPoint -->
+  <script type="application/ld+json">{
+    "@context":"https://schema.org",
+    "@type":"WebPage",
+    "name":"Privacy Policy | Debt Relief Guard",
+    "url":"https://debtreliefguard.com/privacy.policy.index.html",
+    "breadcrumb":{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://debtreliefguard.com/"},{"@type":"ListItem","position":2,"name":"Privacy Policy","item":"https://debtreliefguard.com/privacy.policy.index.html"}]},
+    "publisher":{"@id":"https://gatewaydebthelp.com/#gfsr"}
+  }</script>
+  <script type="application/ld+json">{
+    "@context":"https://schema.org",
+    "@type":"FAQPage",
+    "mainEntity":[
+      {"@type":"Question","name":"Do you sell my personal data?","acceptedAnswer":{"@type":"Answer","text":"No. Gateway Financial Settlement Relief, LLC does not sell your data. We only share with trusted providers to operate our site and comply with law."}},
+      {"@type":"Question","name":"How long do you keep my information?","acceptedAnswer":{"@type":"Answer","text":"We retain information only as long as necessary for service, compliance, and legal purposes, after which we securely delete or anonymize it."}},
+      {"@type":"Question","name":"Is my data secure?","acceptedAnswer":{"@type":"Answer","text":"Yes. We use encryption, access controls, and monitoring. While no system is 100% secure, we exceed industry standards."}}
+    ]
+  }</script>
+  <script type="application/ld+json">{
+    "@context":"https://schema.org",
+    "@type":"Organization",
+    "@id":"https://gatewaydebthelp.com/#gfsr",
+    "contactPoint":[{
+      "@type":"ContactPoint",
+      "contactType":"customer support",
+      "telephone":"+1-888-437-7141",
+      "email":"privacy@gatewaydebthelp.com",
+      "areaServed":"US",
+      "availableLanguage":["en"]
+    }]
+  }</script>
 
   <style>
-    /* ===== DRG dark theme + peeled pill menu (match homepage & terms) ===== */
     :root{--brand:#0a5cff;--brand2:#072a86;--bg:#0b1220;--card:#0f1730;--text:#e6ecf8;--muted:#89a0c7;--ok:#2ecc71;--cta:#0a5cff;--sitemap-h:52px}
     html,body{margin:0;padding:0;background:var(--bg);color:var(--text);font:16px/1.5 system-ui,-apple-system,Segoe UI,Roboto,Ubuntu,"Helvetica Neue",Arial}
     a{color:inherit}
     .wrap{max-width:1080px;margin:0 auto;padding:0 16px}
-    /* Sticky peeled header */
     .top{position:sticky;top:0;z-index:60;background:rgba(11,18,32,.92);backdrop-filter:blur(8px);border-bottom:1px solid rgba(255,255,255,.06)}
     .top .row{display:flex;align-items:center;gap:10px;padding:10px 0}
     .brand{display:flex;align-items:center;gap:8px;font-weight:800;text-decoration:none}
@@ -30,36 +57,27 @@
     .btn.ghost{background:transparent;color:var(--text);border:1px solid rgba(255,255,255,.15)}
     .call{margin-left:auto}
     @media(max-width:640px){nav{overflow-x:auto}nav::-webkit-scrollbar{display:none}}
-    /* FTC ribbon under header */
     .ftc{background:#0d1530;border-bottom:1px solid rgba(255,255,255,.06)}
     .ftc .row{display:flex;align-items:center;gap:10px;padding:8px 0;color:#cfe0ff;font-size:13px}
     .ftc .dot{width:6px;height:6px;border-radius:50%;background:#fff}
-
-    /* Page card */
     .card{background:linear-gradient(180deg,var(--card),#111a35);border:1px solid rgba(255,255,255,.08);border-radius:16px;box-shadow:0 10px 30px rgba(0,0,0,.35)}
     .pad{padding:16px}
     h1{font-size:clamp(22px,4.5vw,36px);line-height:1.2;margin:0 0 8px;text-align:center}
     .sub{color:var(--muted);font-size:15px;text-align:center;margin:0 0 12px}
     .prose{color:#d8e3ff}
     .prose h2{color:#eaf1ff;margin:18px 0 6px}
-    .prose h3{color:#dbe6ff;margin:14px 0 6px;font-size:1.05rem}
     .prose p,.prose li{color:#d8e3ff}
     .prose a{color:#a7c6ff;text-decoration:underline}
-
-    /* Mobile dual-action bar */
     .mobile-bar{position:fixed;left:0;right:0;bottom:0;background:#0b1220;color:#fff;display:flex;gap:8px;padding:.6rem;z-index:10000}
     .mobile-bar a{flex:1;text-align:center;border-radius:10px;padding:.75rem .5rem;font-weight:900;text-decoration:none}
     .mobile-call{background:var(--ok);color:#fff}
     .mobile-est{background:var(--cta);color:#fff}
     @media (min-width:769px){.mobile-bar{display:none}}
-
-    /* Chat FAB (016) */
     .gfsr-chat-fab{position:fixed;right:14px;bottom:calc(var(--sitemap-h) + 18px);z-index:10002;display:inline-flex;align-items:center;gap:.4rem;padding:.7rem 1rem;border-radius:999px;background:var(--cta);color:#fff;font-weight:900;text-decoration:none;box-shadow:0 10px 24px rgba(0,0,0,.18)}
   </style>
 </head>
 <body>
 
-  <!-- Sticky peeled header (exact 5-pill like homepage/terms) -->
   <header class="top">
     <div class="wrap"><div class="row">
       <a class="brand" href="/"><span class="logo">DRG</span><span>Debt Relief Guard</span></a>
@@ -75,7 +93,6 @@
     <div class="ftc"><div class="wrap"><div class="row"><div class="dot"></div> <strong>FTC‑aligned</strong> • No upfront fees • Transparent savings estimates</div></div></div>
   </header>
 
-  <!-- HERO -->
   <section class="wrap" aria-label="Privacy hero" style="padding:8px 0 0">
     <div class="card pad center">
       <h1>Privacy Policy</h1>
@@ -83,75 +100,67 @@
     </div>
   </section>
 
-  <!-- MAIN -->
   <main id="main" class="wrap" role="main" style="padding:12px 0 80px">
     <article class="card pad prose" aria-label="Privacy Policy">
-
-      <!-- ===== Paste your current privacy text below. The structure mirrors Terms. ===== -->
-      <!-- BEGIN PRIVACY TEXT (paste 1:1 from current live privacy page) -->
       <h2>1) Scope</h2>
       <p>This Privacy Policy describes how DebtReliefGuard.com (the “Site”) collects, uses, and shares information. By using the Site, you consent to these practices.</p>
-
       <h2>2) Information We Collect</h2>
       <ul>
         <li>Information you provide (e.g., form entries such as email, phone, state, and debt amount).</li>
         <li>Device and usage data (e.g., IP address, browser, pages viewed, timestamps).</li>
         <li>Cookies and similar technologies for analytics, security, and personalization.</li>
       </ul>
-
       <h2>3) How We Use Information</h2>
       <ul>
         <li>To operate, maintain, and improve the Site.</li>
         <li>To respond to inquiries and provide educational resources or estimates you request.</li>
         <li>To prevent fraud and abuse, including security, debugging, and compliance.</li>
       </ul>
-
       <h2>4) Sharing</h2>
       <p>We may share information with service providers who help us operate the Site (e.g., hosting, communications, analytics). We do not sell personal information. We may disclose information as required by law or to protect rights and safety.</p>
-
       <h2>5) Your Choices</h2>
       <ul>
         <li>You may disable cookies in your browser; some features may not function properly.</li>
         <li>You may opt out of non‑essential communications by following unsubscribe instructions.</li>
       </ul>
-
       <h2>6) Data Security</h2>
       <p>We implement reasonable administrative, technical, and physical safeguards. No method of transmission or storage is 100% secure.</p>
-
       <h2>7) Retention</h2>
       <p>We retain information for as long as necessary to fulfill the purposes described and comply with legal obligations.</p>
-
       <h2>8) Children</h2>
       <p>The Site is not directed to individuals under 18. If you believe a minor provided information, contact us to remove it.</p>
-
       <h2>9) Changes</h2>
       <p>We may update this Policy periodically. Material changes will be posted with a new Effective Date.</p>
-
       <h2>10) Contact</h2>
       <p>Questions about this Policy: <a href="mailto:privacy@gatewaydebthelp.com">privacy@gatewaydebthelp.com</a> or <a href="tel:+18884377141">+1 (888) 437‑7141</a>.</p>
-      <!-- END PRIVACY TEXT -->
-
-      <!-- Optional: educational disclosure (visible, non‑deceptive) -->
-      <details>
-        <summary style="font-weight:800;color:#a7c6ff">How estimates work (Educational)</summary>
-        <p style="margin-top:.5rem">Estimates are for educational purposes, based on user‑provided inputs and typical program ranges. Actual results may vary. No legal, tax, or financial advice.</p>
-      </details>
-
     </article>
+
+    <section class="card pad" style="margin-top:12px">
+      <h2>Privacy Frequently Asked Questions</h2>
+      <details>
+        <summary><strong>Do you sell my personal data?</strong></summary>
+        <p>No. Gateway Financial Settlement Relief, LLC does <em>not</em> sell your data. We only share information with trusted service providers to operate the site and as required by law.</p>
+      </details>
+      <details>
+        <summary><strong>How long do you keep my information?</strong></summary>
+        <p>We retain information only as long as needed to provide services and satisfy legal, regulatory, and compliance obligations, then we securely delete or anonymize it.</p>
+      </details>
+      <details>
+        <summary><strong>Is my data secure?</strong></summary>
+        <p>Yes. We use encryption, access controls, and audits. While no method is 100% secure, we strive to exceed industry standards.</p>
+      </details>
+      <p style="margin-top:.75rem">Learn more about <a href="/how.it.works.index.html">how our programs work</a> or get your <a href="/#lead-form">secure estimate</a> now.</p>
+    </section>
   </main>
 
-  <!-- Mobile CTA bar -->
   <div id="drgMobileBar" class="mobile-bar" aria-label="Quick actions">
     <a class="mobile-call" href="tel:+18884377141" onclick="window.GFSR?.log?.('mobile_call_cta')">📞 Call 888‑437‑7141</a>
     <a class="mobile-est" href="/#lead-form" onclick="window.GFSR?.log?.('mobile_estimate_cta')">🔒 Start Secure Estimate</a>
   </div>
 
-  <!-- Worker hooks: ONLY 016 + 036 -->
   <script>
-    // Safe preview handling — external links open new tab in preview, same‑origin stays same tab
     (function(){try{var isPreview=(/chatgpt\.com$/i.test(location.hostname)||location.hostname.indexOf('chatgpt')>-1);if(!isPreview)return;document.addEventListener('click',function(e){var a=e.target.closest('a');if(!a)return;var href=a.getAttribute('href')||'';var sameOrigin=a.origin===location.origin||href.startsWith('/')||href.startsWith('#');if(a.protocol==='tel:'){e.preventDefault();alert('Tap‑to‑call is blocked in preview. On your live site this will dial 888‑437‑7141.');return;}if(!sameOrigin){a.target='_blank';a.rel='noopener';}},true);}catch(e){}})();
 
-    // Lightweight client integrity beacon (036)
     (async function(){
       try{
         const ctl=new AbortController();setTimeout(()=>ctl.abort(),3000);
@@ -160,14 +169,12 @@
       }catch(_){}}
     )();
 
-    // 016 Chat launcher
     function openGfsrChat(){
       const url='/api/mesh/016-persona-evolution-engine/ui?source=privacy';
       try{window.open(url,'_blank','noopener');}catch(e){location.href='mailto:info@gatewaydebthelp.com?subject=Debt%20Relief%20Help%20Question';}
     }
   </script>
 
-  <!-- Chat FAB (016) -->
   <button class="gfsr-chat-fab" type="button" onclick="openGfsrChat()" aria-label="Chat with a specialist">💬 Chat</button>
 </body>
 </html>
