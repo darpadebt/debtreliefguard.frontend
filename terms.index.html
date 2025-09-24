@@ -64,7 +64,6 @@
   </style>
 </head>
 <body>
-  <a href="#main" class="sr-only">Skip to content</a>
 
   <!-- ===== Sticky peeled header (copied structure from DRG home) ===== -->
   <header class="top">
@@ -157,6 +156,22 @@
         <p style="margin-top:.5rem">Legitimate options include <strong>debt consolidation loans</strong>, <strong>debt settlement</strong>, and <strong>credit counseling</strong>. Trusted providers follow the FTC’s Telemarketing Sales Rule (no upfront fees for settlement), offer clear disclosures, and help compare payment ranges and timelines. We prioritize <strong>FTC‑aligned</strong> guidance and <strong>scam‑prevention tips</strong> so you can choose confidently.</p>
       </details>
     </article>
+
+    <section class="card pad" style="margin-top:12px">
+      <h2>Frequently Asked Questions</h2>
+      <details>
+        <summary><strong>Does debt relief hurt my credit?</strong></summary>
+        <p style="margin-top:.5rem">It depends on the path you choose. <strong>Debt consolidation loans</strong> may trigger a hard inquiry, which can cause a small, temporary dip. <strong>Debt settlement</strong> usually has a more significant short‑term impact as accounts may become delinquent during negotiations, but it can reduce your total payoff. <strong>Credit counseling</strong> typically avoids hard inquiries and focuses on budgeting and interest concessions.</p>
+      </details>
+      <details>
+        <summary><strong>Is debt settlement legitimate?</strong></summary>
+        <p style="margin-top:.5rem">Yes—when handled by providers who follow the <em>FTC Telemarketing Sales Rule</em>: no upfront fees for settlement services, clear disclosures, and written terms. Legitimate programs set expectations around timelines, impact, and fees before you enroll.</p>
+      </details>
+      <details>
+        <summary><strong>Are debt consolidation loans a good idea?</strong></summary>
+        <p style="margin-top:.5rem">They can be if you qualify for a lower rate and can maintain on‑time payments. A consolidation loan may reduce interest and simplify to one payment. We’ll show side‑by‑side comparisons of payment amount, total cost, term length, and typical qualification factors versus settlement and credit counseling.</p>
+      </details>
+    </section>
   </main>
 
   <!-- ===== Mobile CTA bar ===== -->
@@ -165,56 +180,13 @@
     <a class="mobile-est" href="/#lead-form" onclick="window.GFSR?.log?.('mobile_estimate_cta')">🔒 Start Secure Estimate</a>
   </div>
 
-  
-
   <!-- ===== Worker hooks: ONLY 016 + 036 ===== -->
   <script>
     // Safe preview handling
-    (function(){try{var isPreview=(/chatgpt\.com$/i.test(location.hostname)||location.hostname.indexOf('chatgpt')>-1);if(!isPreview)return;document.addEventListener('click',function(e){var a=e.target.closest('a');if(!a)return;if(a.href && a.protocol!=='tel:'){a.target='_blank';a.rel='noopener';}if(a.protocol==='tel:'){e.preventDefault();alert('Tap‑to‑call is blocked in preview. On your live site this will dial 888‑437‑7141.');}},true);}catch(e){}})();
+    (function(){try{var isPreview=(/chatgpt\.com$/i.test(location.hostname)||location.hostname.indexOf('chatgpt')>-1);if(!isPreview)return;document.addEventListener('click',function(e){var a=e.target.closest('a');if(!a)return;var href=a.getAttribute('href')||'';var sameOrigin=a.origin===location.origin||href.startsWith('/')||href.startsWith('#');if(a.protocol==='tel:'){e.preventDefault();alert('Tap‑to‑call is blocked in preview. On your live site this will dial 888‑437‑7141.');return;}if(!sameOrigin){a.target='_blank';a.rel='noopener';}},true);}catch(e){}})();
 
     // Lightweight client integrity signals for 036 (backend must enforce real protection)
     async function gfsrClientProof(){
       try{
         const ts=Date.now();
-        const rnd=crypto.getRandomValues(new Uint32Array(4));
-        const ua=navigator.userAgent||'';
-        const blob=new TextEncoder().encode([ts,Array.from(rnd).join('-'),ua.slice(0,64)].join('|'));
-        const h=await crypto.subtle.digest('SHA-256',blob);
-        const proof=Array.from(new Uint8Array(h)).map(b=>b.toString(16).padStart(2,'0')).join('');
-        return { ts, proof };
-      } catch { return { ts: Date.now(), proof: 'na' }; }
-    }
-
-    (async function(){
-      try{
-        const ctl=new AbortController();
-        setTimeout(()=>ctl.abort(),3000);
-        const metrics={
-          tz:Intl.DateTimeFormat().resolvedOptions().timeZone||'na',
-          lang:navigator.language||'na',
-          plat:navigator.platform||'na',
-          cores:navigator.hardwareConcurrency||0,
-          mem:navigator.deviceMemory||0,
-        };
-        const client=await gfsrClientProof();
-        fetch('/api/mesh/036-lead-router/ingest',{
-          method:'POST',
-          headers:{'content-type':'application/json'},
-          body:JSON.stringify({event:'terms_view',site:'DRG',page:'terms.index',client,metrics}),
-          signal:ctl.signal,
-          keepalive:true,
-          credentials:'same-origin',
-          mode:'same-origin'
-        }).catch(()=>{});
-      }catch(_){}}
-    )();
-
-    // 016 Chat launcher (unchanged target)
-    function openGfsrChat(){
-      const url='/api/mesh/016-persona-evolution-engine/ui?source=terms';
-      try{window.open(url,'_blank','noopener');}catch(e){location.href='mailto:info@gatewaydebthelp.com?subject=Debt%20Relief%20Help%20Question';}
-    }
-  </script>
-  <button class="chat-fab" type="button" onclick="openGfsrChat()" aria-label="Chat with a specialist (016)">💬 Chat</button>
-</body>
-</html>
+        const rnd=crypto.getRandomValues(new Uint
