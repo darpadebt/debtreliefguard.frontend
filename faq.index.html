@@ -1,333 +1,194 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 <head>
-  <!-- Meta -->
   <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5" />
-  <title>Debt Relief FAQ | Trusted Answers, FTC-Aligned | DebtReliefGuard</title>
-  <meta name="description" content="Clear answers about debt settlement, debt consolidation, and state programs. FTC‑aligned, scam‑free. Get a private estimate or talk to a specialist." />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>FAQ | Debt Relief Guard</title>
+  <meta name="description" content="Debt Relief Guard FAQ — answers about debt consolidation loans, debt settlement, credit counseling, taxes, privacy, and our FTC‑aligned process. Start a secure estimate with no hard credit check." />
   <link rel="canonical" href="https://debtreliefguard.com/faq.index.html" />
+  <meta name="x-ai-optimizer-page" content="DRG:faq" />
+  <meta name="theme-color" content="#0a5cff" />
+  <meta name="last-modified" content="2025-09-24" />
 
-  <!-- AB / Optimizer identity -->
-  <meta name="x-ai-optimizer-page" content="drg:faq" />
+  <!-- JSON-LD: WebPage + Breadcrumbs -->
+  <script type="application/ld+json">{
+    "@context":"https://schema.org",
+    "@type":"WebPage",
+    "name":"FAQ | Debt Relief Guard",
+    "url":"https://debtreliefguard.com/faq.index.html",
+    "breadcrumb":{"@type":"BreadcrumbList","itemListElement":[
+      {"@type":"ListItem","position":1,"name":"Home","item":"https://debtreliefguard.com/"},
+      {"@type":"ListItem","position":2,"name":"FAQ","item":"https://debtreliefguard.com/faq.index.html"}
+    ]},
+    "publisher":{"@id":"https://gatewaydebthelp.com/#gfsr"}
+  }</script>
+
+  <!-- JSON-LD: FAQPage Schema (rich results) -->
+  <script type="application/ld+json">{
+    "@context":"https://schema.org",
+    "@type":"FAQPage",
+    "mainEntity":[
+      {"@type":"Question","name":"Does debt relief hurt my credit?","acceptedAnswer":{"@type":"Answer","text":"It depends on the path. Consolidation loans may cause a small, temporary dip from a hard inquiry. Debt settlement typically has a larger short‑term impact but may reduce total payoff. Credit counseling generally avoids hard inquiries and focuses on budgeting and interest concessions."}},
+      {"@type":"Question","name":"Is debt settlement legitimate?","acceptedAnswer":{"@type":"Answer","text":"Yes—when handled by FTC‑compliant providers who follow the Telemarketing Sales Rule: no upfront fees and clear disclosures. Settlement negotiates with creditors to accept less than the full balance."}},
+      {"@type":"Question","name":"Are debt consolidation loans a good idea?","acceptedAnswer":{"@type":"Answer","text":"They can be if you qualify for a lower APR and can maintain on‑time payments. Consolidation may lower interest and simplify to one payment; we compare payment amount, total cost, and term length versus settlement and credit counseling."}},
+      {"@type":"Question","name":"What debts are eligible?","acceptedAnswer":{"@type":"Answer","text":"Unsecured debts such as credit cards, personal loans, and medical bills are commonly eligible. Secured debts (e.g., auto loans, mortgages) generally are not."}},
+      {"@type":"Question","name":"Does getting an estimate impact my credit?","acceptedAnswer":{"@type":"Answer","text":"No. Our estimate flow does not use a hard credit inquiry, so checking options won’t affect your score."}},
+      {"@type":"Question","name":"Is my data secure?","acceptedAnswer":{"@type":"Answer","text":"Yes. We implement encryption, access controls, and audits. While no system is 100% secure, we strive to exceed industry standards and never sell your data."}},
+      {"@type":"Question","name":"Will I owe taxes on forgiven debt?","acceptedAnswer":{"@type":"Answer","text":"In many cases forgiven debt may be treated as taxable income (e.g., 1099‑C). Exceptions can apply—such as insolvency—in which case some or all may not be taxable. Always consult a tax professional."}}
+    ]
+  }</script>
 
   <style>
-    :root{
-      --ink:#0b1220; --bg:#ffffff; --brand:#003057; --cta:#0b63f6; --ok:#0a7a4b;
-      --card:#f7f9fc; --line:#e5eaf2; --muted:#6b7280; --sitemap-h:58px;
-    }
-    *{box-sizing:border-box} html,body{margin:0;padding:0;background:var(--bg);color:var(--ink);font-family:system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif}
-    a{color:var(--cta);text-decoration:none} a:hover{text-decoration:underline}
-    .skip-link{position:absolute;left:-9999px;top:auto;width:1px;height:1px;overflow:hidden}
-    .skip-link:focus{position:static;width:auto;height:auto;padding:8px;background:#fff;border:1px solid var(--line)}
-    .wrap{max-width:1000px;margin:0 auto;padding:0 14px}
-    .hero{background:#0f2643;color:#e6eefc;padding:22px 0}
-    .hero h1{margin:0 0 8px;font:800 26px/1.2 system-ui,-apple-system,Segoe UI,Roboto,Arial}
-    .hero .sub{margin:0 0 12px;color:#c9d7ee}
-    .hero-ctas{display:flex;gap:.6rem;flex-wrap:wrap}
-    .btn{display:inline-block;padding:12px 16px;border-radius:10px;border:1px solid transparent;font-weight:700}
-    .btn.btn-primary{background:var(--cta);color:#fff}
-    .btn.btn-outline{background:transparent;border-color:#9fb2d8;color:#dbe7ff}
-    .badge{display:inline-block;background:#103158;color:#d6e6ff;border:1px solid #2a4670;padding:6px 10px;border-radius:999px;font-weight:700}
-    .container{max-width:960px;margin:16px auto;padding:0 14px}
-    .faq-grid details{background:#fff;border:1px solid var(--line);border-radius:12px;padding:12px 14px;margin:10px 0}
-    .faq-grid summary{cursor:pointer;font-weight:800}
-    .inline-cta{margin:10px 0 2px}
-    .note{color:var(--muted);font-size:.9rem}
-    /* Sticky top nav (DRG pattern) */
-    .sticky-nav{position:sticky;top:0;background:#0d2749;color:#cfe0ff;border-bottom:1px solid rgba(255,255,255,.08);z-index:50}
-    .sticky-nav ul{display:flex;flex-wrap:nowrap;gap:.2rem;align-items:center;list-style:none;margin:0;padding:10px 8px;overflow-x:auto;scroll-snap-type:x proximity}
-    .sticky-nav li{scroll-snap-align:start}
-    .sticky-nav a{color:#cfe0ff;font-weight:700;padding:6px 10px;border-radius:8px;white-space:nowrap}
-    .sticky-nav a[aria-current="page"]{background:rgba(255,255,255,.1)}
-    /* Desktop click-to-call pill */
-    .desk-call{position:fixed;right:14px;top:76px;background:#0a7a4b;color:#fff;padding:.6rem .9rem;border-radius:999px;border:1px solid #0a5f3c;box-shadow:0 6px 20px rgba(0,0,0,.18);z-index:60}
+    :root{--brand:#0a5cff;--brand2:#072a86;--bg:#0b1220;--card:#0f1730;--text:#e6ecf8;--muted:#89a0c7;--ok:#2ecc71;--cta:#0a5cff;--sitemap-h:52px}
+    html,body{margin:0;padding:0;background:var(--bg);color:var(--text);font:16px/1.5 system-ui,-apple-system,Segoe UI,Roboto,Ubuntu,"Helvetica Neue",Arial}
+    a{color:inherit}
+    .wrap{max-width:1080px;margin:0 auto;padding:0 16px}
+    /* Sticky peeled header */
+    .top{position:sticky;top:0;z-index:60;background:rgba(11,18,32,.92);backdrop-filter:blur(8px);border-bottom:1px solid rgba(255,255,255,.06)}
+    .top .row{display:flex;align-items:center;gap:10px;padding:10px 0}
+    .brand{display:flex;align-items:center;gap:8px;font-weight:800;text-decoration:none}
+    .logo{display:inline-flex;align-items:center;justify-content:center;width:28px;height:28px;border-radius:8px;background:linear-gradient(180deg,var(--brand),var(--brand2));font-size:12px}
+    nav{display:flex;gap:8px}
+    .btn{display:inline-flex;align-items:center;gap:8px;border:0;border-radius:999px;padding:8px 14px;font-weight:700;cursor:pointer;text-decoration:none}
+    .btn.primary{background:linear-gradient(180deg,var(--brand),var(--brand2));color:white;box-shadow:0 6px 18px rgba(10,92,255,.35)}
+    .btn.ghost{background:transparent;color:var(--text);border:1px solid rgba(255,255,255,.15)}
+    .call{margin-left:auto}
+    @media(max-width:640px){nav{overflow-x:auto}nav::-webkit-scrollbar{display:none}}
+
+    /* Hero */
+    .card{background:linear-gradient(180deg,var(--card),#111a35);border:1px solid rgba(255,255,255,.08);border-radius:16px;box-shadow:0 10px 30px rgba(0,0,0,.35)}
+    .pad{padding:16px}
+    h1{font-size:clamp(22px,4.5vw,36px);line-height:1.2;margin:0 0 8px;text-align:center}
+    .sub{color:var(--muted);font-size:15px;text-align:center;margin:0 0 12px}
+
+    /* Benefit list */
+    .benefits{display:grid;gap:10px;margin-top:8px}
+    @media(min-width:840px){.benefits{grid-template-columns:1fr 1fr 1fr}}
+    .benefit{background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.08);border-radius:14px;padding:12px}
+
+    /* FAQ blocks */
+    .prose{color:#d8e3ff}
+    .prose h2{color:#eaf1ff;margin:18px 0 6px}
+    .prose a{color:#a7c6ff;text-decoration:underline}
+    details{background:rgba(255,255,255,.02);border:1px solid rgba(255,255,255,.08);border-radius:12px;padding:12px 14px;margin:10px 0}
+    summary{cursor:pointer;font-weight:800}
+
     /* Mobile dual-action bar */
-    .mobile-bar{position:fixed;left:0;right:0;bottom:0;background:#0b1220;color:#cfe0ff;border-top:1px solid rgba(255,255,255,.08);display:flex;gap:.5rem;justify-content:space-between;align-items:center;padding:10px 14px;z-index:55}
-    .mobile-bar a{display:inline-block;padding:12px 14px;border-radius:12px;font-weight:800}
+    .mobile-bar{position:fixed;left:0;right:0;bottom:0;background:#0b1220;color:#fff;display:flex;gap:8px;padding:.6rem;z-index:10000}
+    .mobile-bar a{flex:1;text-align:center;border-radius:10px;padding:.75rem .5rem;font-weight:900;text-decoration:none}
     .mobile-call{background:var(--ok);color:#fff}
     .mobile-est{background:var(--cta);color:#fff}
-    @media(min-width:769px){.mobile-bar{display:none}}
-    /* Bottom sticky sitemap */
-    .sticky-menu{position:fixed;left:0;right:0;bottom:0;transform:translateY(calc(0px - var(--sitemap-h)));background:#0b1220;color:#9fb2d8;border-top:1px solid rgba(255,255,255,.08);z-index:54}
-    .sticky-menu nav{display:flex;flex-wrap:nowrap;gap:.4rem;align-items:center;justify-content:flex-start;padding:10px 10px;overflow-x:auto}
-    .sticky-menu a{color:#9fb2d8;font-weight:700;white-space:nowrap}
-    /* Keep content clear of bottom bars */
-    :root{--callbar-h:0px}
-    main{padding-bottom:calc(var(--callbar-h) + var(--sitemap-h) + 22px)}
+    @media (min-width:769px){.mobile-bar{display:none}}
+
+    /* Chat FAB (016) */
+    .gfsr-chat-fab{position:fixed;right:14px;bottom:calc(var(--sitemap-h) + 18px);z-index:10002;display:inline-flex;align-items:center;gap:.4rem;padding:.7rem 1rem;border-radius:999px;background:var(--cta);color:#fff;font-weight:900;text-decoration:none;box-shadow:0 10px 24px rgba(0,0,0,.18)}
   </style>
-
-  <!-- Breadcrumbs -->
-  <script type="application/ld+json">
-  {"@context":"https://schema.org","@type":"BreadcrumbList",
-   "itemListElement":[
-     {"@type":"ListItem","position":1,"name":"Home","item":"https://debtreliefguard.com/"},
-     {"@type":"ListItem","position":2,"name":"FAQ","item":"https://debtreliefguard.com/faq.index.html"}
-  ]}
-  </script>
-
-  <!-- Organization (brand disambiguation) -->
-  <script type="application/ld+json">
-  {"@context":"https://schema.org","@type":"FinancialService","@id":"https://gatewaydebthelp.com/#gfsr",
-   "name":"Gateway Financial Settlement Relief, LLC","alternateName":"Gateway Debt Help",
-   "url":"https://gatewaydebthelp.com/","logo":"https://debtreliefguard.com/og-cover.jpg",
-   "sameAs":["https://debtreliefguard.com/","https://debthelpform.com/"],
-   "disambiguatingDescription":"Debt Relief Guard and Debt Help Form are services of Gateway Financial Settlement Relief, LLC (GFSR). Not affiliated with Gateway Debt Relief of Costa Mesa, CA."}
-  </script>
-
-  <!-- FAQPage schema container -->
-  <script type="application/ld+json" id="faqSchema"></script>
 </head>
 <body>
-  <a href="#main" class="skip-link">Skip to content</a>
 
-  <!-- Sticky Top Navigation (matches DRG home) -->
-  <nav class="sticky-nav" role="navigation" aria-label="Main navigation">
-    <ul class="wrap">
-      <li><a href="/" title="Home">Home</a></li>
-      <li><a href="/how.it.works.index.html" title="How It Works">How It Works</a></li>
-      <li><a href="/faq.index.html" aria-current="page" title="FAQ">FAQ</a></li>
-      <li><a href="https://debthelpform.com/geo-debt-relief.html" target="_blank" rel="noopener" title="State Programs">State Programs</a></li>
-      <li><a href="/blog.index.html" title="Blog">Blog</a></li>
-    </ul>
-  </nav>
-
-  <!-- Desktop sticky call pill (no number shown) -->
-  <a class="desk-call" href="tel:+18884377141" aria-label="Call Now">📞 Call Now</a>
-
-  <!-- HERO -->
-  <header class="hero" role="banner" aria-label="FAQ Hero">
-    <div class="wrap">
-      <span class="badge">🛡️ FTC-Aligned • No Upfront Fees • Private</span>
-      <h1 id="ab-cta-text">Debt Relief FAQ — Honest, Verified Answers</h1>
-      <p class="sub">Cut through the noise. Learn how <strong>debt settlement</strong>, <strong>debt consolidation</strong>, counseling, and state‑based programs actually work — before you decide.</p>
-      <div class="hero-ctas" role="group" aria-label="Primary actions">
-        <a class="btn btn-primary" href="https://debthelpform.com/#lead-form" target="_blank" rel="noopener">🔒 Start Secure Estimate</a>
-        <a class="btn btn-outline" href="tel:+18884377141" rel="noopener" aria-label="Call Now">📞 Call Now</a>
-      </div>
-    </div>
+  <!-- Sticky peeled header (matches Home/Terms/Privacy) -->
+  <header class="top">
+    <div class="wrap"><div class="row">
+      <a class="brand" href="/"><span class="logo">DRG</span><span>Debt Relief Guard</span></a>
+      <nav>
+        <a class="btn ghost" href="/">Home</a>
+        <a class="btn ghost" href="/how.it.works.index.html">How It Works</a>
+        <a class="btn ghost" href="/faq.index.html" aria-current="page">FAQ</a>
+        <a class="btn ghost" href="https://debthelpform.com/geo-debt-relief.html" rel="noopener">State Programs</a>
+        <a class="btn ghost" href="/blog.index.html">Blog</a>
+      </nav>
+      <div class="call"><a class="btn primary" href="tel:+18884377141" aria-label="Call now: 888-437-7141">Call</a></div>
+    </div></div>
+    <div class="ftc"><div class="wrap"><div class="row"><div class="dot"></div> <strong>FTC‑aligned</strong> • No upfront fees • Transparent savings estimates</div></div></div>
   </header>
 
+  <!-- HERO -->
+  <section class="wrap" aria-label="FAQ hero" style="padding:8px 0 0">
+    <div class="card pad center">
+      <h1>Frequently Asked Questions</h1>
+      <p class="sub">Debt consolidation loans vs settlement vs counseling, taxes & privacy — straight answers, no pressure.</p>
+      <div class="benefits">
+        <div class="benefit"><strong>1) Consolidation Expertise</strong><br/>We compare consolidation loans side‑by‑side with settlement & counseling to find payment, APR, and total‑cost fits.</div>
+        <div class="benefit"><strong>2) FTC‑Aligned & Trusted</strong><br/>No upfront fees, clear disclosures, real expectations. Scam‑prevention built‑in.</div>
+        <div class="benefit"><strong>3) Fast, Secure Estimate</strong><br/>Start in minutes — no hard credit check. Keep data private with enterprise‑grade protections.</div>
+      </div>
+    </div>
+  </section>
+
   <!-- MAIN -->
-  <main id="main" role="main" class="container">
-    <section class="faq-grid" id="faqs" aria-label="Top Questions">
-      <h2>Top Questions</h2>
-
-      <details open>
-        <summary><strong>Will this hurt my credit?</strong></summary>
-        <p>Programs can affect credit in the short term, and outcomes vary by creditor and payment history. Your estimate compares the likely tradeoffs so you can choose confidently.</p>
-        <div class="inline-cta"><a class="btn btn-primary" href="https://debthelpform.com/#lead-form" target="_blank" rel="noopener">See Your Options</a></div>
-      </details>
-
+  <main id="main" class="wrap" role="main" style="padding:12px 0 80px">
+    <article class="card pad prose">
+      <h2>Debt Relief & Credit</h2>
       <details>
-        <summary><strong>How fast can I lower my monthly payment?</strong></summary>
-        <p>Timing depends on balances, creditors, and program type — no guaranteed results. Your estimate shows a realistic range based on similar profiles.</p>
+        <summary><strong>Does debt relief hurt my credit?</strong></summary>
+        <p>It depends. <strong>Debt consolidation loans</strong> may trigger a hard inquiry (usually a small, temporary dip). <strong>Debt settlement</strong> often has a larger short‑term impact but can reduce your total payoff. <strong>Credit counseling</strong> avoids hard inquiries and focuses on budgeting and reduced interest.</p>
       </details>
 
+      <h2>Legitimacy & Options</h2>
       <details>
-        <summary><strong>Which debts qualify?</strong></summary>
-        <p>Typically unsecured debts (credit cards, personal loans, some medical). Secured debts and federal student loans usually don’t qualify. See <a href="/debt.relief.option.index.html">Debt Relief Options</a> for details.</p>
+        <summary><strong>Is debt settlement legitimate?</strong></summary>
+        <p>Yes — when done with FTC‑compliant providers. The Telemarketing Sales Rule prohibits upfront fees and requires clear disclosures. We only reference trusted, legitimate providers.</p>
       </details>
-
       <details>
-        <summary><strong>What’s the difference between debt <em>consolidation</em> and debt <em>settlement</em>?</strong></summary>
-        <p><strong>Consolidation</strong> replaces multiple debts with a single new loan—ideally at a lower rate—so your total owed stays the same but payments can drop with a better APR and fixed term (credit and income required). <strong>Settlement</strong> negotiates balances for less than you owe—payments often drop more, but it can impact credit in the short term. Your secure estimate compares both paths side‑by‑side.</p>
-        <div class="inline-cta"><a class="btn btn-primary" href="https://debthelpform.com/#lead-form" target="_blank" rel="noopener">Compare Consolidation vs Settlement</a></div>
+        <summary><strong>Are debt consolidation loans a good idea?</strong></summary>
+        <p>If you qualify for a lower rate and can maintain on‑time payments, a consolidation loan can reduce interest and simplify to one payment. We compare payments, total cost, term length, and qualification factors versus settlement and counseling.</p>
       </details>
 
+      <h2>Eligibility & Process</h2>
       <details>
-        <summary><strong>Are there upfront fees?</strong></summary>
-        <p>No. Any fees are disclosed in writing and typically assessed only after a settlement you approve.</p>
+        <summary><strong>What debts are eligible?</strong></summary>
+        <p>Unsecured debts (credit cards, personal loans, medical bills) are commonly eligible. Secured debts and most federal student loans generally are not.</p>
       </details>
-
       <details>
-        <summary><strong>Is forgiven debt taxable?</strong></summary>
-        <p>It can be. Ask a tax professional about 1099-C and insolvency rules for your situation.</p>
+        <summary><strong>Does getting an estimate impact my credit?</strong></summary>
+        <p>No. Our estimate uses <em>no hard credit check</em>, so you can explore options without affecting your score.</p>
       </details>
 
+      <h2>Data, Security & Taxes</h2>
       <details>
-        <summary><strong>Is this available in my state?</strong></summary>
-        <p>Availability varies by state. Start a secure estimate to check options or review our <a href="https://debthelpform.com/geo-debt-relief.html" target="_blank" rel="noopener">State Programs</a>.</p>
+        <summary><strong>Is my data secure?</strong></summary>
+        <p>Yes. We implement encryption, access controls, and audits. While no method is 100% secure, we exceed industry standards and never sell your data.</p>
+      </details>
+      <details>
+        <summary><strong>Will I owe taxes on forgiven debt?</strong></summary>
+        <p>In many cases, yes — forgiven debt may be treated as taxable income by the IRS (e.g., 1099‑C). Exceptions may apply (e.g., insolvency). Please consult a tax professional for your specific situation.</p>
       </details>
 
-      <p class="note">Educational information only; not legal, tax, investment, or credit counseling advice. Results vary by creditor behavior and state rules.</p>
-    </section>
+      <p style="margin-top:.75rem">Still have questions? <a href="/contact.index.html">Contact us</a> or <a href="/#lead-form">start your secure estimate</a> now.</p>
+    </article>
   </main>
 
-  <!-- Mobile dual-action bar (no number shown) -->
+  <!-- Mobile CTA bar -->
   <div id="drgMobileBar" class="mobile-bar" aria-label="Quick actions">
-    <a class="mobile-call" href="tel:+18884377141" aria-label="Call Now">📞 Call Now</a>
-    <a class="mobile-est" href="https://debthelpform.com/#lead-form" target="_blank" rel="noopener">🔒 Start Secure Estimate</a>
+    <a class="mobile-call" href="tel:+18884377141" onclick="window.GFSR?.log?.('mobile_call_cta')">📞 Call 888‑437‑7141</a>
+    <a class="mobile-est" href="/#lead-form" onclick="window.GFSR?.log?.('mobile_estimate_cta')">🔒 Start Secure Estimate</a>
   </div>
 
-  <!-- Bottom sticky sitemap (matches DRG home; scrollable on small screens) -->
-  <footer class="sticky-menu" role="navigation" aria-label="Site map">
-    <nav>
-      <a href="/">Home</a>
-      <a href="/how.it.works.index.html">How It Works</a>
-      <a href="/faq.index.html" aria-current="page">FAQ</a>
-      <a href="https://debthelpform.com/geo-debt-relief.html" target="_blank" rel="noopener">State Programs</a>
-      <a href="/blog.index.html">Blog</a>
-    </nav>
-  </footer>
-
-  <!-- Legal / brand disambiguation -->
-  <footer class="wrap" style="text-align:center;color:#666;margin:1rem auto calc(1rem + var(--sitemap-h));">
-    <p>© <span id="y"></span> DebtReliefGuard.com — Independent, FTC-Aligned Answers.</p>
-    <p>Website operated by <a href="https://gatewayfinancialsettlementrelief.com" target="_blank" rel="noopener">Gateway Financial Settlement Relief</a></p>
-    <p style="font-size:.82rem;color:#999">“Gateway Debt Help” is the marketing brand of <strong>Gateway Financial Settlement Relief, LLC</strong>. Not affiliated with “Gateway Debt Relief” of Costa Mesa, CA.</p>
-  </footer>
-
+  <!-- Worker hooks: ONLY 016 + 036 -->
   <script>
-    // Year inject
-    (function(){
-      try{ document.getElementById('y').textContent=new Date().getFullYear(); }catch(e){}
-    })();
-  </script>
+    // Preview safety: external links open new tab during preview; same‑origin stays in‑tab
+    (function(){try{var isPreview=(/chatgpt\.com$/i.test(location.hostname)||location.hostname.indexOf('chatgpt')>-1);if(!isPreview) return;document.addEventListener('click',function(e){var a=e.target.closest('a');if(!a) return;var href=a.getAttribute('href')||'';var same=a.origin===location.origin||href.startsWith('/')||href.startsWith('#');if(a.protocol==='tel:'){e.preventDefault();alert('Tap‑to‑call is blocked in preview. On your live site this will dial 888‑437‑7141.');return;}if(!same){a.target='_blank';a.rel='noopener';}},true);}catch(e){}})();
 
-  <!-- Bot honeypots (non-visual, a11y-safe) -->
-  <script>
-    (function(){
+    // 036 Lead Router — pageview beacon (non‑blocking)
+    (async function(){
       try{
-        const hp1=document.createElement("input"); hp1.type="text"; hp1.name="website"; hp1.id="hp1"; hp1.hidden=true; hp1.setAttribute("aria-hidden","true");
-        const hp2=document.createElement("input"); hp2.type="text"; hp2.name="company"; hp2.id="hp2"; hp2.hidden=true; hp2.setAttribute("aria-hidden","true");
-        document.body.appendChild(hp1); document.body.appendChild(hp2);
-        let moved=false,t=0; addEventListener('mousemove',()=>moved=true,{passive:true}); addEventListener('keydown',()=>moved=true,{passive:true}); setInterval(()=>t++,1000);
-        window.validateBotProtections = () => (hp1.value==="" && hp2.value==="" && moved && t>=3);
-      }catch(e){}
-    })();
+        const ctl=new AbortController(); setTimeout(()=>ctl.abort(),3000);
+        const metrics={tz:Intl.DateTimeFormat().resolvedOptions().timeZone||'na',lang:navigator.language||'na',plat:navigator.platform||'na',cores:navigator.hardwareConcurrency||0,mem:navigator.deviceMemory||0};
+        fetch('/api/mesh/036-lead-router/ingest',{
+          method:'POST',headers:{'content-type':'application/json','x-ts':String(Date.now())},
+          body:JSON.stringify({event:'faq_view',site:'DRG',page:'faq.index',metrics}),signal:ctl.signal,keepalive:true
+        }).catch(()=>{});
+      }catch(_){}}
+    )();
+
+    // 016 Chat launcher
+    function openGfsrChat(){
+      const url='/api/mesh/016-persona-evolution-engine/ui?source=faq';
+      try{window.open(url,'_blank','noopener');}catch(e){location.href='mailto:info@gatewaydebthelp.com?subject=Debt%20Relief%20Help%20Question';}
+    }
   </script>
 
-  <!-- Spacing script: keep sitemap flush with mobile bar -->
-  <script>
-    (function(){
-      try{
-        const root=document.documentElement, mb=document.getElementById('drgMobileBar');
-        const setH=()=>{ const h=mb && getComputedStyle(mb).display!=='none'?mb.offsetHeight:0; root.style.setProperty('--callbar-h',h+'px'); };
-        setH(); addEventListener('resize',setH,{passive:true}); setTimeout(setH,250); setTimeout(setH,1000);
-      }catch(e){}
-    })();
-  </script>
-
-  <!-- 036 Lead Router: Config hydration + bidirectional signals (DRG routes) -->
-  <script>
-    (function(){
-      const BASE036 = '/api/mesh/036-lead-router';
-
-      async function sendIngest(payload){
-        try{
-          await fetch(`${BASE036}/ingest`, {
-            method:'POST', headers:{'content-type':'application/json'},
-            body: JSON.stringify(Object.assign({ site:'DRG', page:'faq', t:Date.now() }, payload || {}))
-          });
-        }catch(e){ /* ignore */ }
-      }
-
-      async function hydrate(){
-        try{
-          const r = await fetch(`${BASE036}/config`, { headers:{'Accept':'application/json','X-Requested-With':'XMLHttpRequest'}, cache:'no-store' });
-          if(!r.ok) return;
-          const data = await r.json().catch(()=>null);
-          const manifest = data?.config?.manifest || null;
-          const h = document.getElementById('ab-cta-text');
-          const msg = manifest?.hero || manifest?.message; if(h && typeof msg==='string') h.textContent = String(msg);
-          const a = document.querySelector('.hero-ctas .btn.btn-primary');
-          const txt = manifest?.cta?.text || manifest?.primary?.text;
-          const href= manifest?.cta?.href || manifest?.primary?.href;
-          if(a){ if(typeof txt==='string') a.textContent = String(txt); if(typeof href==='string') a.setAttribute('href', href); }
-        }catch(e){ /* silent */ }
-      }
-
-      // Initial page view + config
-      hydrate();
-      sendIngest({ event:'faq_view' });
-      // Periodic config refresh (keeps copy/CTA in sync without reload)
-      setInterval(hydrate, 5 * 60 * 1000);
-
-      // UI signals → 036 (click to call, estimate click, FAQ expand/collapse)
-      function bindSignals(){
-        try{
-          const telSel = 'a[href^="tel:"]';
-          document.querySelectorAll(telSel).forEach(a=>{
-            a.addEventListener('click', ()=>sendIngest({ event:'click_to_call' }), { passive:true });
-          });
-          document.querySelectorAll('.btn.btn-primary, .mobile-est').forEach(a=>{
-            a.addEventListener('click', ()=>sendIngest({ event:'start_estimate_click' }), { passive:true });
-          });
-          document.querySelectorAll('#faqs details').forEach(d=>{
-            d.addEventListener('toggle', ()=>{
-              const q=(d.querySelector('summary')||{}).innerText||'';
-              sendIngest({ event:'faq_toggle', q, open: d.open });
-            }, { passive:true });
-          });
-        }catch(e){ /* ignore */ }
-      }
-      if(document.readyState==='loading') document.addEventListener('DOMContentLoaded', bindSignals); else bindSignals();
-
-      // Optional: page visibility ping (lightweight heartbeat)
-      document.addEventListener('visibilitychange', ()=>{
-        try{ if(document.visibilityState==='hidden') sendIngest({ event:'faq_leave' }); }catch(e){}
-      });
-    })();
-  </script>
-
-  <!-- Harden fetch to 036 with client signals + honeypots -->
-  <script>
-    (function(){
-      const _fetch = window.fetch;
-      window.fetch = async function(input, init){
-        try{
-          const url = (typeof input === 'string') ? input : (input && input.url) || '';
-          if (url && url.includes('/api/mesh/036-lead-router/ingest')) {
-            init = init || {}; init.headers = init.headers || {};
-            const h = new Headers(init.headers);
-            h.set('x-flow','drg-faq-v2');
-            h.set('x-client-t0', String(performance.timeOrigin || Date.now()));
-            h.set('x-page','faq');
-            try{
-              if (init.body && typeof init.body === 'string' && (h.get('content-type')||'').includes('application/json')) {
-                const obj = JSON.parse(init.body);
-                const hp = {};
-                const hp1 = document.getElementById('hp1'); if (hp1) hp.website = hp1.value || '';
-                const hp2 = document.getElementById('hp2'); if (hp2) hp.company = hp2.value || '';
-                obj.hp_fields = Object.assign({}, obj.hp_fields||{}, hp);
-                init.body = JSON.stringify(obj);
-              }
-            }catch(e){ /* ignore JSON parse */ }
-            init.headers = h;
-          }
-        }catch(e){ /* ignore */ }
-        return _fetch(input, init);
-      };
-    })();
-  </script>
-
-  <!-- Build and inject FAQPage schema from visible <details> -->
-  <script>
-    (function(){
-      try{
-        const items=[...document.querySelectorAll('#faqs details')].map(d=>{
-          const q=(d.querySelector('summary')||{}).innerText||'';
-          const a=(d.querySelector('p')||{}).innerText||'';
-          return {"@type":"Question","name":q,"acceptedAnswer":{"@type":"Answer","text":a}};
-        });
-        const schema={"@context":"https://schema.org","@type":"FAQPage","mainEntity":items};
-        document.getElementById('faqSchema').textContent = JSON.stringify(schema);
-      }catch(e){}
-    })();
-  </script>
-
-  <!-- Lightweight preview tests (non-blocking) -->
-  <script>
-    (function(){
-      try{
-        const topHrefs=[...document.querySelectorAll('.sticky-nav a')].map(a=>a.getAttribute('href'));
-        console.assert(topHrefs.includes('/compare.us.html'), 'Top nav missing Compare');
-        const telLinks=[...document.querySelectorAll('a[href^="tel:"]')].map(a=>a.getAttribute('href'));
-        console.assert(telLinks.every(h=>h==='tel:+18884377141'), 'All tel: links must be 888-437-7141');
-        console.log('[FAQ preview tests] basic checks passed');
-      }catch(e){ console.warn('[FAQ preview tests] failed', e); }
-    })();
-  </script>
+  <!-- Chat FAB (016) -->
+  <button class="gfsr-chat-fab" type="button" onclick="openGfsrChat()" aria-label="Chat with a specialist">💬 Chat</button>
 </body>
 </html>
