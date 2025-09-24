@@ -155,9 +155,9 @@
       <div class="row">
         <a class="brand" href="/"><span class="logo">DRG</span><span>Debt Relief Guard</span></a>
         <nav>
-          <a class="btn ghost" href="https://debtreliefguard.com/how-it-works.html">How it works</a>
-          <a class="btn ghost" href="https://debtreliefguard.com/faq.html">FAQ</a>
-          <a class="btn ghost" href="https://debtreliefguard.com/states.html">State programs</a>
+          <a class="btn ghost" href="https://debtreliefguard.com/how.it.works.index.html" target="_blank" rel="noopener">How it works</a>
+          <a class="btn ghost" href="https://debtreliefguard.com/faq.index.html" target="_blank" rel="noopener">FAQ</a>
+          <a class="btn ghost" href="https://debthelpform.com/geo-debt-relief.html" target="_blank" rel="noopener">State programs</a>
           <a class="btn ghost" href="https://debtreliefguard.com/blog/">Blog</a>
         </nav>
         <div class="call"><a class="btn primary" href="tel:+18884377141">Call</a></div>
@@ -244,10 +244,10 @@
       <h2 style="margin:0 0 8px;text-align:center">Explore debt relief resources</h2>
       <p class="muted" style="text-align:center;margin:0 0 10px">Learn how settlement compares to consolidation, what FTC rules require, and your state-specific options.</p>
       <nav style="display:flex;flex-wrap:wrap;gap:10px;justify-content:center">
-        <a class="btn ghost" href="https://debtreliefguard.com/how-it-works.html">How debt relief works</a>
-        <a class="btn ghost" href="https://debtreliefguard.com/faq.html">Debt relief FAQ (FTC‑aligned)</a>
-        <a class="btn ghost" href="https://debtreliefguard.com/states.html">State debt relief programs</a>
-        <a class="btn ghost" href="https://debtreliefguard.com/blog/">Debt relief guides & tips</a>
+        <a class="btn ghost" href="https://debtreliefguard.com/how.it.works.index.html" target="_blank" rel="noopener">How debt relief works</a>
+        <a class="btn ghost" href="https://debtreliefguard.com/faq.index.html" target="_blank" rel="noopener">Debt relief FAQ (FTC‑aligned)</a>
+        <a class="btn ghost" href="https://debthelpform.com/geo-debt-relief.html" target="_blank" rel="noopener">State debt relief programs</a>
+        <a class="btn ghost" href="https://debtreliefguard.com/blog/" target="_blank" rel="noopener">Debt relief guides & tips</a>
       </nav>
     </div>
   </section>
@@ -286,11 +286,11 @@
     window.GFSR_CHAT = { endpoint: '/api/mesh/016-persona-evolution-engine', site: 'DRG' };
     // No other worker calls on the page except 036 in submit handlers above.
   </script>
-<script>(function(){try{var isPreview=(/chatgpt\.com$/i.test(location.hostname)||location.hostname.indexOf('chatgpt')>-1);if(!isPreview)return;document.addEventListener('click',function(e){var a=e.target.closest('a');if(!a)return; if(a.matches('header a, .call a')){e.preventDefault(); alert('Preview can\'t open external links or the phone dialer. On your live site these will work.');}},true);}catch(e){}})();</script>
+<script>(function(){try{var isPreview=(/chatgpt\.com$/i.test(location.hostname)||location.hostname.indexOf('chatgpt')>-1);if(!isPreview)return;document.addEventListener('click',function(e){var a=e.target.closest('a');if(!a)return;if(a.href && a.protocol!=='tel:'){a.target='_blank';a.rel='noopener';}if(a.protocol==='tel:'){e.preventDefault();alert('Tap-to-call is blocked in preview. On your live site this will dial 888-437-7141.');}},true);}catch(e){}})();</script>
   
   <!-- Breadcrumbs schema to help bots understand site structure -->
   <script type="application/ld+json">
-  {"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://debtreliefguard.com/"},{"@type":"ListItem","position":2,"name":"How it works","item":"https://debtreliefguard.com/how-it-works.html"},{"@type":"ListItem","position":3,"name":"FAQ","item":"https://debtreliefguard.com/faq.html"},{"@type":"ListItem","position":4,"name":"State programs","item":"https://debtreliefguard.com/states.html"},{"@type":"ListItem","position":5,"name":"Blog","item":"https://debtreliefguard.com/blog/"}]}
+  {"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://debtreliefguard.com/"},{"@type":"ListItem","position":2,"name":"How it works","item":"https://debtreliefguard.com/how.it.works.index.html"},{"@type":"ListItem","position":3,"name":"FAQ","item":"https://debtreliefguard.com/faq.index.html"},{"@type":"ListItem","position":4,"name":"State programs","item":"https://debthelpform.com/geo-debt-relief.html"},{"@type":"ListItem","position":5,"name":"Blog","item":"https://debtreliefguard.com/blog/"}]}
   </script>
   
   <!-- Bot-safety client signals + fetch hardening for 036 only (non-invasive) -->
