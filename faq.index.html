@@ -1,908 +1,333 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <!-- =========================================
-       Charset & Compatibility
-  ========================================== -->
-  <meta charset="UTF-8" />
-  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-
-  <!-- =========================================
-       Viewport (Mobile Responsive)
-  ========================================== -->
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0" />
-
-  <!-- =========================================
-       TITLE & DESCRIPTION (SEO)
-  ========================================== -->
-  <title>Debt Relief FAQ | Verified Answers & Scam Protection</title>
-  <meta name="description" content="Have questions about debt relief? Get verified answers based on FTC rules. No pressure, no sales—just honest, helpful info." />
-  <meta name="robots" content="index,follow,max-image-preview:large" />
+  <!-- Meta -->
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5" />
+  <title>Debt Relief FAQ | Trusted Answers, FTC-Aligned | DebtReliefGuard</title>
+  <meta name="description" content="Clear answers about debt settlement, debt consolidation, and state programs. FTC‑aligned, scam‑free. Get a private estimate or talk to a specialist." />
   <link rel="canonical" href="https://debtreliefguard.com/faq.index.html" />
 
-  <!-- =========================================
-       Open Graph / Twitter (Social cards)
-  ========================================== -->
-  <meta property="og:type" content="website" />
-  <meta property="og:url" content="https://debtreliefguard.com/faq.index.html" />
-  <meta property="og:title" content="Debt Relief FAQ | Verified Answers & Scam Protection" />
-  <meta property="og:description" content="Straight answers to top debt relief questions, aligned with FTC rules." />
-  <meta property="og:site_name" content="DebtReliefGuard.com" />
-  <meta property="og:image" content="https://debtreliefguard.com/og-cover.jpg" />
-
-  <meta name="twitter:card" content="summary" />
-  <meta name="twitter:title" content="Debt Relief FAQ | Verified Answers & Scam Protection" />
-  <meta name="twitter:description" content="Straight answers to top debt relief questions, aligned with FTC rules." />
-  <meta name="twitter:image" content="https://debtreliefguard.com/og-cover.jpg" />
-
-  <!-- =========================================
-       Performance Hints / Fonts
-  ========================================== -->
-  <link rel="preconnect" href="https://fonts.googleapis.com" crossorigin />
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet" />
-
-  <!-- =========================================
-       AI Loop Optimizer (050) A/B Hook
-       pageKey must be unique per page.
-  ========================================== -->
+  <!-- AB / Optimizer identity -->
   <meta name="x-ai-optimizer-page" content="drg:faq" />
-  <script>
-    window.__ab = {
-      pageKey: 'drg:faq',
-      slots: {
-        headline:   '#ab-cta-text',               // H1 headline target
-        primaryCta: '.hero-ctas .btn.btn-primary',// Primary CTA button
-        phoneCta:   '.hero-ctas .btn.btn-outline' // Phone CTA button
-      },
-      defaults: {
-        primaryCtaText: '🔒 Start Secure Estimate',
-        primaryCtaHref: 'https://debthelpform.com/#lead-form'
-      }
-    };
-  </script>
 
-  <!-- =========================================
-       Global Styles (Theme-Consistent)
-  ========================================== -->
   <style>
     :root{
-      /* Brand Palette */
-      --ink:#222;
-      --bg:#ffffff;
-      --brand:#004477;    /* Blue hero card */
-      --brand-2:#003057;  /* Sticky top nav */
-      --cta:#0b63f6;      /* Primary CTA */
-      --ok:#007b55;       /* Call pill green */
-
-      /* Cards & Borders */
-      --card:#fff;
-      --card-b:#e5e7eb;
-
-      /* Shadows */
-      --shadow:0 10px 30px rgba(0,0,0,.12);
-
-      /* Mobile dynamic spacing */
-      --callbar-h: 64px;    /* set dynamically via JS */
-      --sitemap-h: 52px;    /* floating bottom sitemap height */
+      --ink:#0b1220; --bg:#ffffff; --brand:#003057; --cta:#0b63f6; --ok:#0a7a4b;
+      --card:#f7f9fc; --line:#e5eaf2; --muted:#6b7280; --sitemap-h:58px;
     }
-
-    /* Reset-ish */
-    *{ box-sizing:border-box }
-    html,body{ margin:0; padding:0 }
-
-    body{
-      font-family:'Inter',system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;
-      background:var(--bg);
-      color:var(--ink);
-      line-height:1.55;
-
-      /* Keep clear of sticky top nav & floating sitemap */
-      padding-top:76px;
-      padding-bottom: calc(var(--sitemap-h) + 14px);
-    }
-
-    /* Accessibility: Skip to content */
-    .skip-link{
-      position:absolute; left:-999px; top:auto; width:1px; height:1px; overflow:hidden;
-    }
-    .skip-link:focus{
-      position:fixed; left:12px; top:12px;
-      padding:.5rem .75rem; background:#000; color:#fff; z-index:10000; border-radius:6px;
-    }
-
-    /* ============================
-       Sticky Top Navigation
-    ============================= */
-    .sticky-nav{
-      position:fixed; top:0; left:0; right:0;
-      background:var(--brand-2);
-      z-index:9999;
-      box-shadow:0 2px 5px rgba(0,0,0,.1);
-    }
-    .sticky-nav ul{
-      display:flex; gap:.75rem;
-      margin:0; padding:.75rem 1rem;
-      overflow-x:auto; white-space:nowrap;
-      list-style:none;
-    }
-    .sticky-nav a{
-      color:#fff; font-weight:600; text-decoration:none;
-      padding:.45rem .7rem; border-radius:6px; flex:0 0 auto;
-    }
-    .sticky-nav a[aria-current="page"]{ color:#ffdd00 }
-    .sticky-nav a:hover, .sticky-nav a:focus{ text-decoration:underline; outline:none }
-
-    /* ============================
-       Desktop Sticky Phone Pill
-    ============================= */
-    .desk-call{
-      position:fixed; right:14px; bottom:14px; z-index:10002;
-      display:none; align-items:center; gap:.4rem;
-      padding:.7rem 1rem; border-radius:999px;
-      background:var(--ok); color:#fff; font-weight:900; text-decoration:none;
-      box-shadow:0 10px 24px rgba(0,0,0,.18);
-    }
-    @media (min-width:769px){ .desk-call{ display:inline-flex } }
-
-    /* ============================
-       Blue Card Hero (Conversion)
-    ============================= */
-    header.hero{
-      max-width:960px; margin:1rem auto;
-      background:var(--brand); color:#fff;
-      text-align:center;
-      padding:2rem 1.5rem;
-      border-radius:12px;
-      box-shadow:0 6px 18px rgba(0,0,0,.08);
-    }
-    header.hero h1{
-      margin:.2rem 0 .6rem;
-      font-size:clamp(1.7rem,3vw + 1rem,2.2rem);
-      font-weight:800;
-    }
-    header.hero .sub{
-      margin:0 auto .8rem;
-      color:#f1f5f9;
-      max-width:720px;
-    }
-    .hero-ctas{
-      display:flex; justify-content:center; gap:.6rem; flex-wrap:wrap;
-    }
-    .btn{
-      display:inline-flex; align-items:center; justify-content:center; gap:.4rem;
-      border-radius:10px; padding:.7rem 1.05rem; font-weight:800; text-decoration:none; cursor:pointer;
-    }
-    .btn.btn-primary{ background:var(--cta); color:#fff; box-shadow:var(--shadow) }
-    .btn.btn-outline{ background:transparent; color:#fff; border:2px solid rgba(255,255,255,.75) }
-
-    /* ============================
-       FAQ Section
-    ============================= */
-    .faq-section{
-      max-width:800px; margin:2rem auto; padding:1rem;
-      background:transparent;
-    }
-    details{
-      border-bottom:1px solid #ddd;
-      padding:1rem 0;
-    }
-    summary{
-      font-weight:700; color:#004488; cursor:pointer;
-    }
-    summary:hover{ text-decoration:underline }
-    details p{
-      margin-top:.6rem; color:#444; line-height:1.6;
-    }
-    .faq-section a{ color:#2563eb; text-decoration:underline }
-
-    /* ============================
-       CTA Section
-    ============================= */
-    .cta{
-      text-align:center; margin:2.5rem auto; background:#fff;
-      max-width:800px; padding:1.5rem; border:1px solid var(--card-b);
-      border-radius:12px; box-shadow:0 2px 12px rgba(0,0,0,.06);
-    }
-    .cta h4{ font-size:1.4rem; font-weight:800; margin-bottom:.5rem }
-    .cta p{ margin-bottom:1rem; color:#555 }
-    .cta .btn{
-      background:var(--cta); color:#fff; padding:.8rem 1.6rem;
-      border-radius:8px; font-weight:700; text-decoration:none;
-    }
-    .cta .btn:hover{ background:#1e40af }
-    .disclaimer{ font-size:.85rem; color:#888; margin-top:.8rem }
-
-    /* ============================
-       Mobile Dual-Action Bar
-    ============================= */
-    .mobile-bar{
-      position:fixed; left:0; right:0; bottom:0;
-      background:#0b1220; color:#fff; display:flex; gap:8px;
-      padding:.6rem; z-index:10000;
-    }
-    .mobile-bar a{
-      flex:1; text-align:center; border-radius:10px;
-      padding:.75rem .5rem; font-weight:900; text-decoration:none;
-    }
-    .mobile-call{ background:var(--ok); color:#fff }
-    .mobile-est{ background:var(--cta); color:#fff }
-    @media (min-width:769px){ .mobile-bar{ display:none } }
-
-    /* ============================
-       Floating Bottom Sitemap
-    ============================= */
-    .sticky-menu{
-      position:fixed; left:0; right:0;
-      bottom: calc(var(--callbar-h) + env(safe-area-inset-bottom));
-      background:#004488; color:#fff;
-      border-top:2px solid #2563eb;
-      height:var(--sitemap-h);
-      display:flex; align-items:center; z-index:9997;
-    }
-    .sticky-menu nav{
-      display:flex; gap:1rem; overflow-x:auto; white-space:nowrap;
-      padding:0 .75rem; width:100%; align-items:center; scrollbar-width:none;
-    }
-    .sticky-menu nav::-webkit-scrollbar{ display:none }
-    .sticky-menu nav a{
-      color:#ffdd00; text-decoration:none; padding:.35rem .55rem; border-radius:6px;
-      font-weight:700; font-size:.92rem; flex:0 0 auto;
-    }
-    .sticky-menu nav a:hover, .sticky-menu nav a:focus{
-      background:rgba(255,255,255,.1); outline:none;
-    }
-
-    /* Ensure page content clears mobile bars on small screens */
-    @media (max-width:768px){
-      body, main{ padding-bottom: calc(var(--callbar-h) + var(--sitemap-h) + env(safe-area-inset-bottom) + 14px); }
-    }
+    *{box-sizing:border-box} html,body{margin:0;padding:0;background:var(--bg);color:var(--ink);font-family:system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif}
+    a{color:var(--cta);text-decoration:none} a:hover{text-decoration:underline}
+    .skip-link{position:absolute;left:-9999px;top:auto;width:1px;height:1px;overflow:hidden}
+    .skip-link:focus{position:static;width:auto;height:auto;padding:8px;background:#fff;border:1px solid var(--line)}
+    .wrap{max-width:1000px;margin:0 auto;padding:0 14px}
+    .hero{background:#0f2643;color:#e6eefc;padding:22px 0}
+    .hero h1{margin:0 0 8px;font:800 26px/1.2 system-ui,-apple-system,Segoe UI,Roboto,Arial}
+    .hero .sub{margin:0 0 12px;color:#c9d7ee}
+    .hero-ctas{display:flex;gap:.6rem;flex-wrap:wrap}
+    .btn{display:inline-block;padding:12px 16px;border-radius:10px;border:1px solid transparent;font-weight:700}
+    .btn.btn-primary{background:var(--cta);color:#fff}
+    .btn.btn-outline{background:transparent;border-color:#9fb2d8;color:#dbe7ff}
+    .badge{display:inline-block;background:#103158;color:#d6e6ff;border:1px solid #2a4670;padding:6px 10px;border-radius:999px;font-weight:700}
+    .container{max-width:960px;margin:16px auto;padding:0 14px}
+    .faq-grid details{background:#fff;border:1px solid var(--line);border-radius:12px;padding:12px 14px;margin:10px 0}
+    .faq-grid summary{cursor:pointer;font-weight:800}
+    .inline-cta{margin:10px 0 2px}
+    .note{color:var(--muted);font-size:.9rem}
+    /* Sticky top nav (DRG pattern) */
+    .sticky-nav{position:sticky;top:0;background:#0d2749;color:#cfe0ff;border-bottom:1px solid rgba(255,255,255,.08);z-index:50}
+    .sticky-nav ul{display:flex;flex-wrap:nowrap;gap:.2rem;align-items:center;list-style:none;margin:0;padding:10px 8px;overflow-x:auto;scroll-snap-type:x proximity}
+    .sticky-nav li{scroll-snap-align:start}
+    .sticky-nav a{color:#cfe0ff;font-weight:700;padding:6px 10px;border-radius:8px;white-space:nowrap}
+    .sticky-nav a[aria-current="page"]{background:rgba(255,255,255,.1)}
+    /* Desktop click-to-call pill */
+    .desk-call{position:fixed;right:14px;top:76px;background:#0a7a4b;color:#fff;padding:.6rem .9rem;border-radius:999px;border:1px solid #0a5f3c;box-shadow:0 6px 20px rgba(0,0,0,.18);z-index:60}
+    /* Mobile dual-action bar */
+    .mobile-bar{position:fixed;left:0;right:0;bottom:0;background:#0b1220;color:#cfe0ff;border-top:1px solid rgba(255,255,255,.08);display:flex;gap:.5rem;justify-content:space-between;align-items:center;padding:10px 14px;z-index:55}
+    .mobile-bar a{display:inline-block;padding:12px 14px;border-radius:12px;font-weight:800}
+    .mobile-call{background:var(--ok);color:#fff}
+    .mobile-est{background:var(--cta);color:#fff}
+    @media(min-width:769px){.mobile-bar{display:none}}
+    /* Bottom sticky sitemap */
+    .sticky-menu{position:fixed;left:0;right:0;bottom:0;transform:translateY(calc(0px - var(--sitemap-h)));background:#0b1220;color:#9fb2d8;border-top:1px solid rgba(255,255,255,.08);z-index:54}
+    .sticky-menu nav{display:flex;flex-wrap:nowrap;gap:.4rem;align-items:center;justify-content:flex-start;padding:10px 10px;overflow-x:auto}
+    .sticky-menu a{color:#9fb2d8;font-weight:700;white-space:nowrap}
+    /* Keep content clear of bottom bars */
+    :root{--callbar-h:0px}
+    main{padding-bottom:calc(var(--callbar-h) + var(--sitemap-h) + 22px)}
   </style>
 
-  <!-- =========================================
-       Structured Data (JSON-LD)
-       - Website
-       - BreadcrumbList
-       - FAQPage (from visible Q&A)
-       - Organization/FinancialService (shared @id; disambiguation)
-  ========================================== -->
+  <!-- Breadcrumbs -->
   <script type="application/ld+json">
-  {
-    "@context":"https://schema.org",
-    "@type":"WebSite",
-    "name":"DebtReliefGuard",
-    "url":"https://debtreliefguard.com/",
-    "publisher": { "@id": "https://gatewaydebthelp.com/#gfsr" }
-  }
+  {"@context":"https://schema.org","@type":"BreadcrumbList",
+   "itemListElement":[
+     {"@type":"ListItem","position":1,"name":"Home","item":"https://debtreliefguard.com/"},
+     {"@type":"ListItem","position":2,"name":"FAQ","item":"https://debtreliefguard.com/faq.index.html"}
+  ]}
   </script>
 
+  <!-- Organization (brand disambiguation) -->
   <script type="application/ld+json">
-  {
-    "@context":"https://schema.org",
-    "@type":"BreadcrumbList",
-    "itemListElement":[
-      { "@type":"ListItem","position":1,"name":"Home","item":"https://debtreliefguard.com/" },
-      { "@type":"ListItem","position":2,"name":"FAQ","item":"https://debtreliefguard.com/faq.index.html" }
-    ]
-  }
+  {"@context":"https://schema.org","@type":"FinancialService","@id":"https://gatewaydebthelp.com/#gfsr",
+   "name":"Gateway Financial Settlement Relief, LLC","alternateName":"Gateway Debt Help",
+   "url":"https://gatewaydebthelp.com/","logo":"https://debtreliefguard.com/og-cover.jpg",
+   "sameAs":["https://debtreliefguard.com/","https://debthelpform.com/"],
+   "disambiguatingDescription":"Debt Relief Guard and Debt Help Form are services of Gateway Financial Settlement Relief, LLC (GFSR). Not affiliated with Gateway Debt Relief of Costa Mesa, CA."}
   </script>
 
-  <script type="application/ld+json">
-  {
-    "@context":"https://schema.org",
-    "@type":"FAQPage",
-    "mainEntity":[
-      {
-        "@type":"Question",
-        "name":"Is debt relief legit or a scam?",
-        "acceptedAnswer":{
-          "@type":"Answer",
-          "text":"Some programs are legitimate, others are scams. The FTC prohibits charging upfront fees and requires full transparency. We only link to programs that follow these laws."
-        }
-      },
-      {
-        "@type":"Question",
-        "name":"How is DebtReliefGuard different?",
-        "acceptedAnswer":{
-          "@type":"Answer",
-          "text":"We’re not a provider and we don’t collect money. We’re an educational review site that directs you to trusted programs such as DebtHelpForm.com and resources like GatewayDebtHelp.com."
-        }
-      },
-      {
-        "@type":"Question",
-        "name":"Do I have to pay anything to use your site?",
-        "acceptedAnswer":{
-          "@type":"Answer",
-          "text":"No. Our resources, tools, and comparison forms are 100% free to use. You’ll never be asked for payment here."
-        }
-      },
-      {
-        "@type":"Question",
-        "name":"Will I get spammed or called constantly?",
-        "acceptedAnswer":{
-          "@type":"Answer",
-          "text":"No. If you submit a form, it goes to a single verified provider—not a lead-sell list. You can request no calls at all."
-        }
-      },
-      {
-        "@type":"Question",
-        "name":"Is this secure and private?",
-        "acceptedAnswer":{
-          "@type":"Answer",
-          "text":"Yes. All traffic is encrypted. We use vetted form technology and we do not sell or resell your information."
-        }
-      },
-      {
-        "@type":"Question",
-        "name":"How fast can I get an estimate?",
-        "acceptedAnswer":{
-          "@type":"Answer",
-          "text":"Less than 60 seconds. Start by clicking the estimate button to securely access the form via DebtHelpForm.com."
-        }
-      }
-    ]
-  }
-  </script>
-
-  <script type="application/ld+json">
-  {
-    "@context":"https://schema.org",
-    "@type":["Organization","FinancialService"],
-    "@id":"https://gatewaydebthelp.com/#gfsr",
-    "name":"Gateway Financial Settlement Relief, LLC",
-    "legalName":"Gateway Financial Settlement Relief, LLC",
-    "alternateName":["Gateway Debt Help","GFSR"],
-    "url":"https://gatewaydebthelp.com/",
-    "logo":"https://debtreliefguard.com/og-cover.jpg",
-    "telephone":"+1-888-437-7141",
-    "address":{"@type":"PostalAddress","addressCountry":"US","addressRegion":"FL"},
-    "areaServed":{"@type":"Country","name":"United States"},
-    "sameAs":[
-      "https://gatewayfinancialsettlementrelief.com/",
-      "https://debthelpform.com/",
-      "https://debtreliefguard.com/",
-      "https://gatewaydebthelp.com/"
-    ],
-    "contactPoint":{
-      "@type":"ContactPoint",
-      "telephone":"+1-888-437-7141",
-      "contactType":"customer service",
-      "areaServed":"US",
-      "availableLanguage":["English"]
-    },
-    "disambiguatingDescription":"Florida-operated, Wyoming-registered debt relief company using 'Gateway Debt Help' as a marketing tagline. Not affiliated with Gateway Debt Relief of Costa Mesa, CA."
-  }
-  </script>
+  <!-- FAQPage schema container -->
+  <script type="application/ld+json" id="faqSchema"></script>
 </head>
-
 <body>
-  <!-- =========================================
-       Skip Link
-  ========================================== -->
   <a href="#main" class="skip-link">Skip to content</a>
 
-  <!-- =========================================
-       Sticky Top Navigation (Full Site Map)
-  ========================================== -->
+  <!-- Sticky Top Navigation (matches DRG home) -->
   <nav class="sticky-nav" role="navigation" aria-label="Main navigation">
-    <ul>
+    <ul class="wrap">
       <li><a href="/" title="Home">Home</a></li>
-      <li><a href="/compare.us.html" title="Compare">Compare</a></li>
       <li><a href="/how.it.works.index.html" title="How It Works">How It Works</a></li>
-      <li><a href="/debt.relief.option.index.html" title="Debt Relief Options">Debt Relief Options</a></li>
-      <li><a href="/credit.card.relief.index.html" title="Credit Card Relief">Credit Card Relief</a></li>
-      <li><a href="/savings.calculator.html" title="Savings Calculator">Calculator</a></li>
-      <li><a href="/reviews.index.html" title="Reviews">Reviews</a></li>
-      <li><a href="/blog.index.html" title="Blog">Blog</a></li>
-      <li><a href="/scam.warning.index.html" title="Scam Warnings">Scam Warnings</a></li>
       <li><a href="/faq.index.html" aria-current="page" title="FAQ">FAQ</a></li>
-      <li><a href="/contact.index.html" title="Contact">Contact</a></li>
-      <li><a href="/privacy.policy.index.html" title="Privacy">Privacy</a></li>
-      <li><a href="/terms.index.html" title="Terms">Terms</a></li>
-      <li><a href="https://debthelpform.com/#lead-form" target="_blank" rel="noopener" title="Get Your Free Secure Estimate">Get Estimate</a></li>
-      <li><a href="https://gatewaydebthelp.com" target="_blank" rel="noopener" title="Gateway Debt Help">GatewayDebtHelp.com</a></li>
-      <li><a href="https://gatewayfinancialsettlementrelief.com" target="_blank" rel="noopener" title="GFSR Owner"><strong>GFSR Owner</strong></a></li>
+      <li><a href="https://debthelpform.com/geo-debt-relief.html" target="_blank" rel="noopener" title="State Programs">State Programs</a></li>
+      <li><a href="/blog.index.html" title="Blog">Blog</a></li>
     </ul>
   </nav>
 
-  <!-- =========================================
-       Desktop Sticky Phone Pill
-  ========================================== -->
-  <a class="desk-call" href="tel:+18884377141">📞 888-437-7141</a>
+  <!-- Desktop sticky call pill (no number shown) -->
+  <a class="desk-call" href="tel:+18884377141" aria-label="Call Now">📞 Call Now</a>
 
-  <!-- =========================================
-       HERO (Blue Card)
-  ========================================== -->
+  <!-- HERO -->
   <header class="hero" role="banner" aria-label="FAQ Hero">
-    <h1 id="ab-cta-text">Debt Relief FAQ</h1>
-    <p class="sub">Clear, verified answers based on FTC & CFPB rules. No scripts, no sales — just protection and guidance.</p>
-    <div class="hero-ctas" role="group" aria-label="Primary actions">
-      <a class="btn btn-primary" href="https://debthelpform.com/#lead-form" target="_blank" rel="noopener">🔒 Start Secure Estimate</a>
-      <a class="btn btn-outline" href="tel:+18884377141" rel="noopener">📞 Talk to a Specialist</a>
+    <div class="wrap">
+      <span class="badge">🛡️ FTC-Aligned • No Upfront Fees • Private</span>
+      <h1 id="ab-cta-text">Debt Relief FAQ — Honest, Verified Answers</h1>
+      <p class="sub">Cut through the noise. Learn how <strong>debt settlement</strong>, <strong>debt consolidation</strong>, counseling, and state‑based programs actually work — before you decide.</p>
+      <div class="hero-ctas" role="group" aria-label="Primary actions">
+        <a class="btn btn-primary" href="https://debthelpform.com/#lead-form" target="_blank" rel="noopener">🔒 Start Secure Estimate</a>
+        <a class="btn btn-outline" href="tel:+18884377141" rel="noopener" aria-label="Call Now">📞 Call Now</a>
+      </div>
     </div>
   </header>
 
-  <!-- =========================================
-       MAIN (FAQ Content)
-  ========================================== -->
-  <main id="main" role="main">
-    <section class="faq-section" id="faq-accordion" aria-label="Frequently Asked Questions">
-      <details>
-        <summary>Is debt relief legit or a scam?</summary>
-        <p>
-          Some programs are legitimate, others are scams. The FTC prohibits charging upfront fees and requires full transparency. 
-          We only link to programs that follow these laws. Learn more at 
-          <a href="https://www.ftc.gov" target="_blank" rel="noopener">ftc.gov</a>.
-        </p>
+  <!-- MAIN -->
+  <main id="main" role="main" class="container">
+    <section class="faq-grid" id="faqs" aria-label="Top Questions">
+      <h2>Top Questions</h2>
+
+      <details open>
+        <summary><strong>Will this hurt my credit?</strong></summary>
+        <p>Programs can affect credit in the short term, and outcomes vary by creditor and payment history. Your estimate compares the likely tradeoffs so you can choose confidently.</p>
+        <div class="inline-cta"><a class="btn btn-primary" href="https://debthelpform.com/#lead-form" target="_blank" rel="noopener">See Your Options</a></div>
       </details>
 
       <details>
-        <summary>How is DebtReliefGuard different?</summary>
-        <p>
-          We’re not a provider. We don’t collect money. We’re an educational review site that directs you to trusted programs like 
-          <a href="https://debthelpform.com" target="_blank" rel="noopener">DebtHelpForm.com</a> or resources such as 
-          <a href="https://gatewaydebthelp.com" target="_blank" rel="noopener">GatewayDebtHelp.com</a>.
-        </p>
+        <summary><strong>How fast can I lower my monthly payment?</strong></summary>
+        <p>Timing depends on balances, creditors, and program type — no guaranteed results. Your estimate shows a realistic range based on similar profiles.</p>
       </details>
 
       <details>
-        <summary>Do I have to pay anything to use your site?</summary>
-        <p>
-          No. Our resources, tools, and comparison forms are 100% free to use. You’ll never be asked for payment here.
-        </p>
+        <summary><strong>Which debts qualify?</strong></summary>
+        <p>Typically unsecured debts (credit cards, personal loans, some medical). Secured debts and federal student loans usually don’t qualify. See <a href="/debt.relief.option.index.html">Debt Relief Options</a> for details.</p>
       </details>
 
       <details>
-        <summary>Will I get spammed or called constantly?</summary>
-        <p>
-          No. If you submit a form, it goes to one verified provider — not a lead-sell list. You can request no calls at all.
-        </p>
+        <summary><strong>What’s the difference between debt <em>consolidation</em> and debt <em>settlement</em>?</strong></summary>
+        <p><strong>Consolidation</strong> replaces multiple debts with a single new loan—ideally at a lower rate—so your total owed stays the same but payments can drop with a better APR and fixed term (credit and income required). <strong>Settlement</strong> negotiates balances for less than you owe—payments often drop more, but it can impact credit in the short term. Your secure estimate compares both paths side‑by‑side.</p>
+        <div class="inline-cta"><a class="btn btn-primary" href="https://debthelpform.com/#lead-form" target="_blank" rel="noopener">Compare Consolidation vs Settlement</a></div>
       </details>
 
       <details>
-        <summary>Is this secure and private?</summary>
-        <p>
-          Yes. All traffic is encrypted. We use vetted form technology, and we do not sell or resell your information.
-        </p>
+        <summary><strong>Are there upfront fees?</strong></summary>
+        <p>No. Any fees are disclosed in writing and typically assessed only after a settlement you approve.</p>
       </details>
 
       <details>
-        <summary>How fast can I get an estimate?</summary>
-        <p>
-          Less than 60 seconds. Start by clicking the button below to securely access the form via 
-          <a href="https://debthelpform.com/#lead-form" target="_blank" rel="noopener">DebtHelpForm.com</a>.
-        </p>
+        <summary><strong>Is forgiven debt taxable?</strong></summary>
+        <p>It can be. Ask a tax professional about 1099-C and insolvency rules for your situation.</p>
       </details>
-    </section>
 
-    <section class="cta" role="region" aria-label="Call to Action">
-      <h4>Still have questions?</h4>
-      <p>Call us or start with a free debt relief estimate — no pressure, no obligation.</p>
-      <a class="btn" href="https://debthelpform.com/#lead-form" target="_blank" rel="noopener">Get My Free Estimate</a>
-      <p class="disclaimer">Redirects to our trusted partner site: DebtHelpForm.com</p>
+      <details>
+        <summary><strong>Is this available in my state?</strong></summary>
+        <p>Availability varies by state. Start a secure estimate to check options or review our <a href="https://debthelpform.com/geo-debt-relief.html" target="_blank" rel="noopener">State Programs</a>.</p>
+      </details>
+
+      <p class="note">Educational information only; not legal, tax, investment, or credit counseling advice. Results vary by creditor behavior and state rules.</p>
     </section>
   </main>
 
-  <!-- =========================================
-       Mobile Dual-Action Bar (Small Screens)
-  ========================================== -->
+  <!-- Mobile dual-action bar (no number shown) -->
   <div id="drgMobileBar" class="mobile-bar" aria-label="Quick actions">
-    <a class="mobile-call" href="tel:+18884377141">📞 Call 888-437-7141</a>
+    <a class="mobile-call" href="tel:+18884377141" aria-label="Call Now">📞 Call Now</a>
     <a class="mobile-est" href="https://debthelpform.com/#lead-form" target="_blank" rel="noopener">🔒 Start Secure Estimate</a>
   </div>
 
-  <!-- =========================================
-       Floating Bottom Sitemap (Consistent Site Links)
-  ========================================== -->
+  <!-- Bottom sticky sitemap (matches DRG home; scrollable on small screens) -->
   <footer class="sticky-menu" role="navigation" aria-label="Site map">
     <nav>
       <a href="/">Home</a>
-      <a href="/compare.us.html">Compare</a>
       <a href="/how.it.works.index.html">How It Works</a>
-      <a href="/debt.relief.option.index.html">Debt Relief Options</a>
-      <a href="/credit.card.relief.index.html">Credit Card Relief</a>
-      <a href="/savings.calculator.html">Calculator</a>
-      <a href="/reviews.index.html">Reviews</a>
-      <a href="/blog.index.html">Blog</a>
-      <a href="/scam.warning.index.html">Scam Warnings</a>
       <a href="/faq.index.html" aria-current="page">FAQ</a>
-      <a href="/contact.index.html">Contact</a>
-      <a href="/privacy.policy.index.html">Privacy</a>
-      <a href="/terms.index.html">Terms</a>
-      <a href="/geo-blocked.html" rel="nofollow">Geo-Blocked</a>
-      <a href="https://debthelpform.com" target="_blank" rel="noopener">DebtHelpForm.com</a>
-      <a href="https://gatewaydebthelp.com" target="_blank" rel="noopener">GatewayDebtHelp.com</a>
+      <a href="https://debthelpform.com/geo-debt-relief.html" target="_blank" rel="noopener">State Programs</a>
+      <a href="/blog.index.html">Blog</a>
     </nav>
   </footer>
 
-  <!-- =========================================
-       Footer Legal / Brand Disambiguation
-  ========================================== -->
-  <footer style="max-width:960px; margin:1rem auto 5.5rem; text-align:center; color:#666">
-    <p>&copy; 2025 DebtReliefGuard.com — Independent, FTC-Aligned Answers.</p>
+  <!-- Legal / brand disambiguation -->
+  <footer class="wrap" style="text-align:center;color:#666;margin:1rem auto calc(1rem + var(--sitemap-h));">
+    <p>© <span id="y"></span> DebtReliefGuard.com — Independent, FTC-Aligned Answers.</p>
     <p>Website operated by <a href="https://gatewayfinancialsettlementrelief.com" target="_blank" rel="noopener">Gateway Financial Settlement Relief</a></p>
-    <p style="font-size:.82rem; color:#999">
-      “Gateway Debt Help” is the marketing brand of <strong>Gateway Financial Settlement Relief, LLC</strong>.
-      Not affiliated with “Gateway Debt Relief” of Costa Mesa, CA.
-    </p>
+    <p style="font-size:.82rem;color:#999">“Gateway Debt Help” is the marketing brand of <strong>Gateway Financial Settlement Relief, LLC</strong>. Not affiliated with “Gateway Debt Relief” of Costa Mesa, CA.</p>
   </footer>
 
-  <!-- =========================================
-       Bot Heuristic (simple honeypot)
-  ========================================== -->
   <script>
+    // Year inject
     (function(){
-      const honeypot = document.createElement("input");
-      honeypot.type = "text";
-      honeypot.name = "website";
-      honeypot.autocomplete = "off";
-      honeypot.hidden = true;
-      honeypot.setAttribute("aria-hidden","true");
-      document.body.appendChild(honeypot);
-
-      let userMoved = false, t = 0;
-      addEventListener('mousemove', () => userMoved = true, { passive:true });
-      addEventListener('keydown',   () => userMoved = true, { passive:true });
-      setInterval(() => t++, 1000);
-
-      window.validateBotProtections = () => (honeypot.value === "" && userMoved && t >= 3);
+      try{ document.getElementById('y').textContent=new Date().getFullYear(); }catch(e){}
     })();
   </script>
 
-  <!-- =========================================
-       Dynamic Spacing for Mobile Bar
-       (measures mobile bar and sets --callbar-h)
-  ========================================== -->
+  <!-- Bot honeypots (non-visual, a11y-safe) -->
   <script>
     (function(){
-      const root = document.documentElement;
-      const mb   = document.getElementById('drgMobileBar');
+      try{
+        const hp1=document.createElement("input"); hp1.type="text"; hp1.name="website"; hp1.id="hp1"; hp1.hidden=true; hp1.setAttribute("aria-hidden","true");
+        const hp2=document.createElement("input"); hp2.type="text"; hp2.name="company"; hp2.id="hp2"; hp2.hidden=true; hp2.setAttribute("aria-hidden","true");
+        document.body.appendChild(hp1); document.body.appendChild(hp2);
+        let moved=false,t=0; addEventListener('mousemove',()=>moved=true,{passive:true}); addEventListener('keydown',()=>moved=true,{passive:true}); setInterval(()=>t++,1000);
+        window.validateBotProtections = () => (hp1.value==="" && hp2.value==="" && moved && t>=3);
+      }catch(e){}
+    })();
+  </script>
 
-      function setH(){
-        const h = mb && getComputedStyle(mb).display !== 'none' ? mb.offsetHeight : 0;
-        root.style.setProperty('--callbar-h', h + 'px');
+  <!-- Spacing script: keep sitemap flush with mobile bar -->
+  <script>
+    (function(){
+      try{
+        const root=document.documentElement, mb=document.getElementById('drgMobileBar');
+        const setH=()=>{ const h=mb && getComputedStyle(mb).display!=='none'?mb.offsetHeight:0; root.style.setProperty('--callbar-h',h+'px'); };
+        setH(); addEventListener('resize',setH,{passive:true}); setTimeout(setH,250); setTimeout(setH,1000);
+      }catch(e){}
+    })();
+  </script>
+
+  <!-- 036 Lead Router: Config hydration + bidirectional signals (DRG routes) -->
+  <script>
+    (function(){
+      const BASE036 = '/api/mesh/036-lead-router';
+
+      async function sendIngest(payload){
+        try{
+          await fetch(`${BASE036}/ingest`, {
+            method:'POST', headers:{'content-type':'application/json'},
+            body: JSON.stringify(Object.assign({ site:'DRG', page:'faq', t:Date.now() }, payload || {}))
+          });
+        }catch(e){ /* ignore */ }
       }
 
-      setH();
-      addEventListener('resize', setH, { passive:true });
-      setTimeout(setH, 250);
-      setTimeout(setH, 1000);
-    })();
-  </script>
-
-  <!-- =========================================
-       015: Telemetry Ping (Session Analytics)
-  ========================================== -->
-  <script>
-    (function(){
-      try{
-        const key = 'drg:sess:v1';
-        let sid   = sessionStorage.getItem(key);
-        if(!sid){
-          sid = crypto.randomUUID();
-          sessionStorage.setItem(key, sid);
-        }
-
-        const payload = {
-          v:1,
-          ts: Date.now(),
-          sid,
-          url: location.href,
-          ref: document.referrer || null,
-          w: innerWidth,
-          h: innerHeight
-        };
-
-        const blob = new Blob([JSON.stringify(payload)], { type:'application/json' });
-
-        if(navigator.sendBeacon){
-          navigator.sendBeacon('/ingest', blob);
-        }else{
-          fetch('/ingest', {
-            method:'POST',
-            body: blob,
-            keepalive:true,
-            headers:{ 'Content-Type':'application/json' }
-          }).catch(()=>{});
-        }
-      }catch(_){}
-    })();
-  </script>
-
-  <!-- =========================================
-       016 Chat (Bottom-Right)
-       Markup + Behavior
-  ========================================== -->
-  <!-- Chat FAB -->
-  <button
-    id="gfsrChatFab"
-    class="gfsr-chat-fab"
-    aria-haspopup="dialog"
-    aria-expanded="false"
-    aria-controls="gfsrChatSheet"
-    style="
-      position:fixed; right:14px;
-      bottom:calc(var(--callbar-h) + var(--sitemap-h) + 14px);
-      z-index:10003;
-      display:inline-flex; align-items:center; gap:.5rem;
-      padding:.8rem 1rem; border-radius:999px; border:1px solid rgba(0,0,0,.06);
-      background:#0b63f6; color:#fff; box-shadow:0 10px 30px rgba(0,0,0,.18);
-      font:600 14px/1.1 system-ui,-apple-system,Segoe UI,Roboto,Arial;
-    ">
-    💬 Chat
-  </button>
-
-  <!-- Chat Sheet -->
-  <section
-    id="gfsrChatSheet"
-    class="gfsr-chat-sheet"
-    role="dialog"
-    aria-modal="true"
-    aria-labelledby="gfsrChatTitle"
-    aria-describedby="gfsrChatDesc"
-    hidden
-    style="
-      position:fixed; inset:auto 0 0 0; margin:auto; width:100%;
-      max-width:420px; right:12px; left:auto;
-      border-radius:18px 18px 0 0; background:#fff; box-shadow:0 10px 30px rgba(0,0,0,.18);
-      transform:translateY(110%); transition:transform .28s ease; border:1px solid rgba(0,0,0,.06);
-      z-index:10004
-    ">
-    <header class="gfsr-chat-head" style="display:flex; align-items:center; justify-content:space-between; padding:12px 14px; border-bottom:1px solid rgba(0,0,0,.06); background:#f9fafb; border-radius:inherit">
-      <div>
-        <div id="gfsrChatTitle" class="gfsr-chat-title" style="font-weight:700; font-size:15px">Debt Help Assistant</div>
-        <div id="gfsrChatDesc" class="sr-only">Chat with our assistant. Press Escape to close.</div>
-      </div>
-      <button id="gfsrChatClose" class="gfsr-chat-close" aria-label="Close chat" style="background:transparent; border:none; padding:8px; border-radius:10px; cursor:pointer">✕</button>
-    </header>
-
-    <div id="gfsrChatBody" class="gfsr-chat-body" tabindex="0" style="display:flex; flex-direction:column; gap:8px; padding:12px; height:min(70vh, 520px); overflow:auto; -webkit-overflow-scrolling:touch"></div>
-
-    <form id="gfsrChatForm" class="gfsr-chat-input" style="display:flex; gap:8px; padding:10px; border-top:1px solid rgba(0,0,0,.06); background:#fff; border-radius:0 0 18px 18px">
-      <label class="sr-only" for="gfsrChatInput">Type your message</label>
-      <textarea id="gfsrChatInput" rows="1" placeholder="Type a message…" aria-label="Message" style="flex:1; resize:none; min-height:42px; max-height:120px; padding:10px 12px; border:1px solid #e5e7eb; border-radius:12px; font-size:14px; line-height:1.35"></textarea>
-      <button id="gfsrChatSend" class="gfsr-chat-send" type="submit" style="background:#0b63f6; color:#fff; border:none; padding:12px 14px; border-radius:12px; font-weight:700">Send</button>
-    </form>
-  </section>
-
-  <!-- Chat Behavior -->
-  <script>
-    (function(){
-      const el = {
-        fab:   document.getElementById('gfsrChatFab'),
-        sheet: document.getElementById('gfsrChatSheet'),
-        close: document.getElementById('gfsrChatClose'),
-        body:  document.getElementById('gfsrChatBody'),
-        form:  document.getElementById('gfsrChatForm'),
-        input: document.getElementById('gfsrChatInput'),
-        send:  document.getElementById('gfsrChatSend'),
-      };
-
-      const openChat = () => {
-        el.sheet.removeAttribute('hidden');
-        el.sheet.classList.add('open');
-        el.sheet.style.transform = 'translateY(0)';
-        el.fab.setAttribute('aria-expanded','true');
-        setTimeout(()=>el.input.focus(),120);
-      };
-
-      const closeChat = () => {
-        el.sheet.classList.remove('open');
-        el.sheet.style.transform = 'translateY(110%)';
-        el.fab.setAttribute('aria-expanded','false');
-        el.sheet.setAttribute('hidden','');
-        el.fab.focus();
-      };
-
-      el.fab.addEventListener('click', openChat);
-      el.close.addEventListener('click', closeChat);
-      addEventListener('keydown', e => { if (e.key==='Escape' && !el.sheet.hasAttribute('hidden')) closeChat(); });
-
-      const addMsg = (text, who='bot') => {
-        const div = document.createElement('div');
-        div.className = `gfsr-msg ${who}`;
-        div.style.maxWidth = '88%';
-        div.style.padding = '10px 12px';
-        div.style.borderRadius = '14px';
-        div.style.fontSize = '14px';
-        div.style.lineHeight = '1.35';
-
-        if (who === 'user'){
-          div.style.marginLeft = 'auto';
-          div.style.background = '#0b63f6';
-          div.style.color = '#fff';
-          div.style.borderTopRightRadius = '4px';
-        }else if (who === 'bot'){
-          div.style.background = '#eef2ff';
-          div.style.color = '#111';
-          div.style.borderTopLeftRadius = '4px';
-        }else{
-          div.style.background = '#f3f4f6';
-          div.style.color = '#444';
-          div.style.fontSize = '12px';
-          div.style.margin = '4px auto';
-        }
-
-        div.textContent = (text ?? '').toString();
-        el.body.appendChild(div);
-        el.body.scrollTop = el.body.scrollHeight;
-      };
-
-      const KEY = 'drg:chat-history';
-      try {
-        (JSON.parse(localStorage.getItem(KEY) || '[]'))
-          .slice(-20)
-          .forEach(m => addMsg(m.text, m.who));
-      } catch {}
-
-      const remember = (t,w) => {
+      async function hydrate(){
         try{
-          const h = JSON.parse(localStorage.getItem(KEY) || '[]');
-          h.push({ text:t, who:w, t:Date.now() });
-          localStorage.setItem(KEY, JSON.stringify(h).slice(-8000));
-        }catch{}
-      };
+          const r = await fetch(`${BASE036}/config`, { headers:{'Accept':'application/json','X-Requested-With':'XMLHttpRequest'}, cache:'no-store' });
+          if(!r.ok) return;
+          const data = await r.json().catch(()=>null);
+          const manifest = data?.config?.manifest || null;
+          const h = document.getElementById('ab-cta-text');
+          const msg = manifest?.hero || manifest?.message; if(h && typeof msg==='string') h.textContent = String(msg);
+          const a = document.querySelector('.hero-ctas .btn.btn-primary');
+          const txt = manifest?.cta?.text || manifest?.primary?.text;
+          const href= manifest?.cta?.href || manifest?.primary?.href;
+          if(a){ if(typeof txt==='string') a.textContent = String(txt); if(typeof href==='string') a.setAttribute('href', href); }
+        }catch(e){ /* silent */ }
+      }
 
-      /* Interaction gate + strong client nonce */
-      let interacted = false;
-      addEventListener('mousemove', () => interacted = true, { once:true, passive:true });
-      addEventListener('keydown',   () => interacted = true, { once:true, passive:true });
-      const nonce = () => Array.from(crypto.getRandomValues(new Uint8Array(12))).map(b=>b.toString(16).padStart(2,'0')).join('');
+      // Initial page view + config
+      hydrate();
+      sendIngest({ event:'faq_view' });
+      // Periodic config refresh (keeps copy/CTA in sync without reload)
+      setInterval(hydrate, 5 * 60 * 1000);
 
-      const API  = `${location.origin}/chat`;
-      let busy   = false;
-
-      el.form.addEventListener('submit', async (e) => {
-        e.preventDefault();
-        if (!interacted || busy) return;
-
-        const message = (el.input.value || '').trim();
-        if (!message) return;
-
-        addMsg(message,'user');
-        remember(message,'user');
-        el.input.value = '';
-        busy = true;
-        el.send.disabled = true;
-
+      // UI signals → 036 (click to call, estimate click, FAQ expand/collapse)
+      function bindSignals(){
         try{
-          const r = await fetch(API, {
-            method:'POST',
-            headers:{
-              'Content-Type':'application/json',
-              'Accept':'application/json',
-              'X-Requested-With':'XMLHttpRequest',
-              'X-Client-Nonce': nonce()
-            },
-            body: JSON.stringify({
-              messages:[{ role:'user', content: message }],
-              source:'frontend',
-              url: location.href
-            })
+          const telSel = 'a[href^="tel:"]';
+          document.querySelectorAll(telSel).forEach(a=>{
+            a.addEventListener('click', ()=>sendIngest({ event:'click_to_call' }), { passive:true });
           });
+          document.querySelectorAll('.btn.btn-primary, .mobile-est').forEach(a=>{
+            a.addEventListener('click', ()=>sendIngest({ event:'start_estimate_click' }), { passive:true });
+          });
+          document.querySelectorAll('#faqs details').forEach(d=>{
+            d.addEventListener('toggle', ()=>{
+              const q=(d.querySelector('summary')||{}).innerText||'';
+              sendIngest({ event:'faq_toggle', q, open: d.open });
+            }, { passive:true });
+          });
+        }catch(e){ /* ignore */ }
+      }
+      if(document.readyState==='loading') document.addEventListener('DOMContentLoaded', bindSignals); else bindSignals();
 
-          if (!r.ok){
-            const t = await r.text().catch(()=> '');
-            addMsg(`Service error ${r.status}.`, 'meta');
-            console.error('CHAT ERROR', r.status, t);
-            return;
-          }
-
-          const ct = r.headers.get('content-type') || '';
-          let reply = '';
-          if (ct.includes('application/json')){
-            const d = await r.json();
-            reply = d.reply || d.message || JSON.stringify(d);
-          }else{
-            reply = await r.text();
-          }
-          addMsg(reply || 'Happy to help further.', 'bot');
-          remember(reply || '', 'bot');
-
-        }catch(err){
-          console.error('CHAT NETWORK ERROR', err);
-          addMsg('Network error — please try again.', 'meta');
-
-        }finally{
-          busy = false;
-          el.send.disabled = false;
-          el.input.focus();
-        }
+      // Optional: page visibility ping (lightweight heartbeat)
+      document.addEventListener('visibilitychange', ()=>{
+        try{ if(document.visibilityState==='hidden') sendIngest({ event:'faq_leave' }); }catch(e){}
       });
-
-      /* Seed welcome if empty */
-      if (!el.body.children.length) addMsg('Have a question not covered here? Ask me—no pressure, just clear answers.');
     })();
   </script>
 
-  <!-- === BEGIN: Worker Bridges (added) ===================================== -->
-
-  <!-- 050: Savings message loader (updates #ab-cta-text if API is present) -->
+  <!-- Harden fetch to 036 with client signals + honeypots -->
   <script>
     (function(){
-      const el = document.querySelector('#ab-cta-text'); if(!el) return;
-      const FALLBACK = el.textContent || '';
-      const CACHE_KEY = 'drg:savings:v1'; const MAX_AGE_MS = 10*60*1000;
+      const _fetch = window.fetch;
+      window.fetch = async function(input, init){
+        try{
+          const url = (typeof input === 'string') ? input : (input && input.url) || '';
+          if (url && url.includes('/api/mesh/036-lead-router/ingest')) {
+            init = init || {}; init.headers = init.headers || {};
+            const h = new Headers(init.headers);
+            h.set('x-flow','drg-faq-v2');
+            h.set('x-client-t0', String(performance.timeOrigin || Date.now()));
+            h.set('x-page','faq');
+            try{
+              if (init.body && typeof init.body === 'string' && (h.get('content-type')||'').includes('application/json')) {
+                const obj = JSON.parse(init.body);
+                const hp = {};
+                const hp1 = document.getElementById('hp1'); if (hp1) hp.website = hp1.value || '';
+                const hp2 = document.getElementById('hp2'); if (hp2) hp.company = hp2.value || '';
+                obj.hp_fields = Object.assign({}, obj.hp_fields||{}, hp);
+                init.body = JSON.stringify(obj);
+              }
+            }catch(e){ /* ignore JSON parse */ }
+            init.headers = h;
+          }
+        }catch(e){ /* ignore */ }
+        return _fetch(input, init);
+      };
+    })();
+  </script>
 
+  <!-- Build and inject FAQPage schema from visible <details> -->
+  <script>
+    (function(){
       try{
-        const raw = localStorage.getItem(CACHE_KEY);
-        if(raw){
-          const { ts, message } = JSON.parse(raw);
-          if(ts && (Date.now()-ts) < MAX_AGE_MS && message) el.textContent = (message ?? '').toString();
-        }
-      }catch{}
-
-      (async ()=>{
-        const sleep = (ms)=>new Promise(r=>setTimeout(r,ms));
-        const attempt = async (ms) => {
-          const ctrl=new AbortController(); const to=setTimeout(()=>ctrl.abort(), ms);
-          try{
-            const r = await fetch('/api/savings-message', { headers:{'Accept':'application/json','X-Requested-With':'XMLHttpRequest'}, cache:'no-store', credentials:'omit', signal:ctrl.signal });
-            clearTimeout(to);
-            if(!r.ok || !((r.headers.get('content-type')||'').includes('application/json'))) throw new Error();
-            const data = await r.json();
-            if(data && data.message){
-              el.textContent = (data.message ?? '').toString();
-              try{ localStorage.setItem(CACHE_KEY, JSON.stringify({ ts: Date.now(), message: data.message })); }catch{}
-              return true;
-            }
-          }catch{}
-          return false;
-        };
-        let ok = await attempt(3500);
-        if(!ok){ await sleep(180); ok = await attempt(4500); }
-        if(!ok) el.textContent = FALLBACK;
-      })();
+        const items=[...document.querySelectorAll('#faqs details')].map(d=>{
+          const q=(d.querySelector('summary')||{}).innerText||'';
+          const a=(d.querySelector('p')||{}).innerText||'';
+          return {"@type":"Question","name":q,"acceptedAnswer":{"@type":"Answer","text":a}};
+        });
+        const schema={"@context":"https://schema.org","@type":"FAQPage","mainEntity":items};
+        document.getElementById('faqSchema').textContent = JSON.stringify(schema);
+      }catch(e){}
     })();
   </script>
 
-  <!-- Page bridge for 015 / 016 / 057 (non-visual; no-ops unless called) -->
+  <!-- Lightweight preview tests (non-blocking) -->
   <script>
     (function(){
-      if (window.GFSR && window.GFSR.bridgeReady) return;
-      const $ = (s)=>document.querySelector(s);
-      const api = {
-        bridgeReady: true,
-        page: document.querySelector('meta[name="x-ai-optimizer-page"]')?.content || null,
-        slots: (window.__ab && window.__ab.slots) ? window.__ab.slots : {},
-        // 050/015: controlled content setters
-        setHeadline(txt){ const h = $('#ab-cta-text'); if(h && typeof txt==='string') h.textContent = txt; },
-        setPrimaryCta({text, href}={}){ const a=$('.hero-ctas .btn.btn-primary'); if(a){ if(typeof text==='string') a.textContent=text; if(typeof href==='string') a.href=href; } },
-        // 057: log helper
-        log(name, data={}){
-          try{
-            const b=new Blob([JSON.stringify({ name, ts:Date.now(), url:location.href, ...data })],{type:'application/json'});
-            if(navigator.sendBeacon) navigator.sendBeacon('/ingest', b);
-            else fetch('/ingest',{ method:'POST', body:b, keepalive:true, headers:{'Content-Type':'application/json'} }).catch(()=>{});
-          }catch{}
-        },
-        // 016: programmatic chat send
-        chatSend(text){
-          const input=document.getElementById('gfsrChatInput');
-          const form =document.getElementById('gfsrChatForm');
-          if(input && form){ input.value = text || ''; form.requestSubmit(); }
-        }
-      };
-      // 015: optional client API (safe if server exposes /ab/*)
-      api.w015 = {
-        decide: (experimentKey, context={}) =>
-          fetch('/ab/decide', { method:'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify({ experimentKey, context }) }).then(r=>r.json()),
-        report: (experimentKey, variant, outcome, meta={}) =>
-          fetch('/ab/report', { method:'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify({ experimentKey, variant, outcome, meta }) }).then(r=>r.ok)
-      };
-      window.GFSR = Object.assign(window.GFSR || {}, api);
+      try{
+        const topHrefs=[...document.querySelectorAll('.sticky-nav a')].map(a=>a.getAttribute('href'));
+        console.assert(topHrefs.includes('/compare.us.html'), 'Top nav missing Compare');
+        const telLinks=[...document.querySelectorAll('a[href^="tel:"]')].map(a=>a.getAttribute('href'));
+        console.assert(telLinks.every(h=>h==='tel:+18884377141'), 'All tel: links must be 888-437-7141');
+        console.log('[FAQ preview tests] basic checks passed');
+      }catch(e){ console.warn('[FAQ preview tests] failed', e); }
     })();
   </script>
-
-  <!-- === END: Worker Bridges ============================================== -->
-
-  <!-- =========================================
-       <noscript> fallback
-  ========================================== -->
-  <noscript>
-    <p style="text-align:center; color:#666">
-      Enable JavaScript to view dynamic features and chat.
-    </p>
-  </noscript>
 </body>
 </html>
