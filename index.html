@@ -60,50 +60,56 @@
     footer{padding:22px 0;color:#9fb2d8}
     [hidden]{display:none !important}
   </style>
-  <script>
-    const fmt=(n)=>new Intl.NumberFormat('en-US',{style:'currency',currency:'USD',maximumFractionDigits:0}).format(n||0);
-    let STEP=1;
-    function syncRanges(){
-      const debt=+document.getElementById('debt').value;
-      const accts=+document.getElementById('accts').value;
-      document.getElementById('debtOut').textContent=fmt(debt);
-      document.getElementById('acctsOut').textContent=accts+(accts===1?' account':' accounts');
-      document.getElementById('teaserSave').textContent=fmt(Math.max(0,Math.round(debt*0.35)));
-    }
-    async function submitStep1(e){
-      e?.preventDefault();
-      const debt=+document.getElementById('debt').value;
-      const accts=+document.getElementById('accts').value;
-      const zip=(document.getElementById('zip').value||'').trim();
-      if(!/^\d{5}$/.test(zip)){document.getElementById('zip').focus();alert('Please enter your 5‑digit ZIP code.');return;}
-      const payload={debt,accts,zip,site:'DRG',page:'step1',program:'debt_consolidation_loan',flow:'loan_flip'};
-      localStorage.setItem('lead_prefill',JSON.stringify({...payload,ts:Date.now()}));
-      try{await fetch('/api/mesh/036-lead-router/ingest',{method:'POST',headers:{'content-type':'application/json'},body:JSON.stringify({event:'step1_submit',...payload})});}catch{}
-      STEP=2; document.getElementById('s1').hidden=true; document.getElementById('s2').hidden=false; document.getElementById('stickyLabel').textContent='Step 2 of 2';
-      document.getElementById('sumDebt').textContent=fmt(debt);
-      document.getElementById('sumAccts').textContent=accts;
-      document.getElementById('s2').scrollIntoView({behavior:'smooth', block:'start'});
-      setTimeout(()=>document.getElementById('name').focus(), 250);
-    }
-    async function submitStep2(e){
-      e?.preventDefault();
-      const name=document.getElementById('name').value.trim();
-      const email=document.getElementById('email').value.trim();
-      const phone=document.getElementById('phone').value.trim();
-      if(!name||!email||!phone){alert('Please enter name, email, and phone.');return;}
-      let a={}; try{a=JSON.parse(localStorage.getItem('lead_prefill')||'{}')}catch{}
-      const payload={...a,name,email,phone,site:'DRG',page:'step2',program:'debt_consolidation_loan',flow:'loan_flip'};
-      try{await fetch('/api/mesh/036-lead-router/ingest',{method:'POST',headers:{'content-type':'application/json'},body:JSON.stringify({event:'step2_submit',...payload})});}catch{}
-      document.getElementById('s2form').hidden=true; document.getElementById('s2done').hidden=false;
-    }
-    function stickyPrimaryClick(ev){ev?.preventDefault();if(STEP===1){ submitStep1(); } else if(STEP===2){ document.getElementById('submit2').click(); }}
-    document.addEventListener('DOMContentLoaded',()=>{ syncRanges(); });
-  </script>
+  <!-- JSON-LD -->
   <script type="application/ld+json">
   {"@context":"https://schema.org","@type":"FinancialService","@id":"https://gatewaydebthelp.com/#gfsr","name":"Gateway Financial Settlement Relief, LLC","alternateName":["Gateway Debt Help","Debt Relief Guard"],"disambiguatingDescription":"Debt Relief Guard and Debt Help Form are services of Gateway Financial Settlement Relief, LLC (GFSR). Not affiliated with Gateway Debt Relief of Costa Mesa, CA.","url":"https://gatewaydebthelp.com/","logo":"https://debtreliefguard.com/assets/logo.png","sameAs":["https://debtreliefguard.com/","https://debthelpform.com/"]}
   </script>
   <script type="application/ld+json">
   {"@context":"https://schema.org","@type":"WebSite","url":"https://debtreliefguard.com/","name":"Debt Relief Guard","potentialAction":{"@type":"SearchAction","target":"https://debtreliefguard.com/search?q={query}","query-input":"required name=query"}}
+  </script>
+  <!-- SEO/Bot directives (compliant; no cloaking) -->
+  <meta name="robots" content="index,follow,max-snippet:-1,max-image-preview:large,max-video-preview:-1">
+  <meta name="googlebot" content="index,follow">
+  <meta name="bingbot" content="index,follow">
+  <link rel="dns-prefetch" href="//debthelpform.com">
+  <link rel="preconnect" href="https://debthelpform.com" crossorigin>
+  <link rel="dns-prefetch" href="//gatewaydebthelp.com">
+  <link rel="preconnect" href="https://gatewaydebthelp.com" crossorigin>
+
+  <!-- FAQPage schema to enrich SERP (no promises/claims) -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      {
+        "@type": "Question",
+        "name": "Will checking my consolidation options hurt my credit?",
+        "acceptedAnswer": {"@type": "Answer","text": "No. This pre‑qualification flow uses a soft inquiry that won’t affect your credit score."}
+      },
+      {
+        "@type": "Question",
+        "name": "What information do I need to get a consolidation estimate?",
+        "acceptedAnswer": {"@type": "Answer","text": "About how much unsecured debt you have, how many accounts, your ZIP, and basic contact details to share your options."}
+      },
+      {
+        "@type": "Question",
+        "name": "Is Debt Relief Guard affiliated with Gateway Debt Relief of Costa Mesa, CA?",
+        "acceptedAnswer": {"@type": "Answer","text": "No. Debt Relief Guard is operated by Gateway Financial Settlement Relief, LLC (Gateway Debt Help) and is not affiliated with Gateway Debt Relief of Costa Mesa, CA."}
+      }
+    ]
+  }
+  </script>
+
+  <!-- Breadcrumbs for context -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      {"@type":"ListItem","position":1,"name":"Home","item":"https://debtreliefguard.com/"}
+    ]
+  }
   </script>
 </head>
 <body>
@@ -130,23 +136,23 @@
         <h1 id="s1title">Lower your payments with a debt consolidation loan</h1>
         <p class="sub">Answer 3 quick questions. No name or phone yet.</p>
         <div class="trust"><a href="https://www.bbb.org/us/fl/miami/profile/debt-relief/gateway-financial-settlement-relief-llc-0633-90625831" target="_blank" rel="noopener">BBB Profile, click here</a></div>
-        <form onsubmit="submitStep1(event)">
+        <form id="formStep1">
           <input type="text" name="website" id="hp1" tabindex="-1" autocomplete="off" style="position:absolute;left:-9999px;opacity:0" aria-hidden="true" />
           <div class="field">
             <div class="label"><label for="debt">About how much unsecured debt?</label> <span class="range-val" id="debtOut">$10,000</span></div>
-            <input id="debt" type="range" min="3000" max="80000" step="500" value="10000" oninput="syncRanges()" aria-describedby="debtHelp" />
+            <input id="debt" type="range" min="3000" max="80000" step="500" value="10000" aria-describedby="debtHelp" />
             <div class="help" id="debtHelp">Includes credit cards, personal loans, medical bills.</div>
           </div>
           <div class="field">
             <div class="label"><label for="accts">About how many accounts?</label> <span class="range-val" id="acctsOut">3 accounts</span></div>
-            <input id="accts" type="range" min="1" max="20" step="1" value="3" oninput="syncRanges()" />
+            <input id="accts" type="range" min="1" max="20" step="1" value="3" />
           </div>
           <div class="field">
             <div class="label"><label for="zip">ZIP Code</label></div>
             <input id="zip" class="input" inputmode="numeric" pattern="\d{5}" maxlength="5" placeholder="e.g., 30301" required />
           </div>
           <p class="teaser">Estimated savings preview: <strong id="teaserSave">$3,500</strong> vs. paying minimums.</p>
-          <button class="btn primary" type="button" onclick="submitStep1(event)" style="width:100%;justify-content:center;margin-top:8px"><span>Check My Loan Options →</span></button>
+          <button id="btnStep1" class="btn primary" type="button" style="width:100%;justify-content:center;margin-top:8px"><span>Check My Loan Options →</span></button>
           <p class="muted" style="text-align:center;margin-top:8px">By continuing, you agree to our <a href="/terms.index.html">Terms</a> &amp; <a href="/privacy.policy.index.html">Privacy</a>.</p>
         </form>
       </aside>
@@ -160,7 +166,7 @@
           <span class="pill">Accounts: <span id="sumAccts">—</span></span>
         </div>
         <div id="s2form">
-          <form onsubmit="submitStep2(event)">
+          <form id="formStep2">
             <input type="text" name="company" id="hp2" tabindex="-1" autocomplete="off" style="position:absolute;left:-9999px;opacity:0" aria-hidden="true" />
             <div class="field"><div class="label"><label for="name">Full Name</label></div><input id="name" class="input" placeholder="Jane Doe" required /></div>
             <div class="field"><div class="label"><label for="email">Email</label></div><input id="email" class="input" type="email" placeholder="you@example.com" required /></div>
@@ -196,7 +202,7 @@
         <div class="mini" id="stickyLabel">Step 1 of 2 — ~60 seconds</div>
         <div style="display:flex;gap:10px;align-items:center">
           <a class="btn ghost" href="#top">Back to top</a>
-          <a class="btn primary" href="#" onclick="stickyPrimaryClick(event)">Continue →</a>
+          <a id="stickyContinue" class="btn primary" href="#">Continue →</a>
         </div>
       </div>
     </div>
@@ -217,8 +223,98 @@
   </footer>
   <script>document.getElementById('y').textContent=new Date().getFullYear();</script>
 
+  <!-- Preview safety (keeps tel: from firing in canvas) -->
   <script>(function(){try{var isPreview=(/chatgpt\.com$/i.test(location.hostname)||location.hostname.indexOf('chatgpt')>-1);if(!isPreview)return;document.addEventListener('click',function(e){var a=e.target.closest('a');if(!a)return;if(a.href && a.protocol!=='tel:'){a.target='_blank';a.rel='noopener';}if(a.protocol==='tel:'){e.preventDefault();alert('Tap-to-call is blocked in preview. On your live site this will dial 888-437-7141.');}},true);}catch(e){}})();</script>
 
+  <!-- Human-signal tracker + gate (bot hardening) -->
+  <script>
+    (function(){
+      const HS = { start: Date.now(), moves:0, keys:0, clicks:0, focus:0 };
+      addEventListener('mousemove', ()=>HS.moves++, {passive:true});
+      addEventListener('keydown',  ()=>HS.keys++,  {passive:true});
+      addEventListener('click',    ()=>HS.clicks++, {passive:true});
+      addEventListener('focus',    ()=>HS.focus++, true);
+      function gate(btn){ if(!btn) return; btn.disabled = true; const t = setInterval(()=>{ const elapsed = Date.now()-HS.start; const ok = elapsed>2500 && (HS.moves+HS.keys+HS.clicks)>0; btn.disabled = !ok; if(ok) clearInterval(t); }, 150); }
+      window.__HUMAN_SIG__ = HS; window.__gateButton__ = gate;
+    })();
+  </script>
+
+  <!-- Main app script (moved to bottom to avoid ReferenceError) -->
+  <script>
+    // Utils/state
+    const fmt=(n)=>new Intl.NumberFormat('en-US',{style:'currency',currency:'USD',maximumFractionDigits:0}).format(n||0);
+    let STEP=1;
+
+    function syncRanges(){
+      const debt=+document.getElementById('debt').value;
+      const accts=+document.getElementById('accts').value;
+      document.getElementById('debtOut').textContent=fmt(debt);
+      document.getElementById('acctsOut').textContent=accts+(accts===1?' account':' accounts');
+      document.getElementById('teaserSave').textContent=fmt(Math.max(0,Math.round(debt*0.35)));
+    }
+
+    async function submitStep1(e){
+      e?.preventDefault();
+      const debt=+document.getElementById('debt').value;
+      const accts=+document.getElementById('accts').value;
+      const zip=(document.getElementById('zip').value||'').trim();
+      if(!/^\d{5}$/.test(zip)){document.getElementById('zip').focus();alert('Please enter your 5‑digit ZIP code.');return;}
+      const payload={debt,accts,zip,site:'DRG',page:'step1',program:'debt_consolidation_loan',flow:'loan_flip'};
+      localStorage.setItem('lead_prefill',JSON.stringify({...payload,ts:Date.now()}));
+      try{
+        const HS=window.__HUMAN_SIG__||{}; const env={tz:(Intl.DateTimeFormat().resolvedOptions().timeZone||null),lang:navigator.language,langs:navigator.languages,hw:navigator.hardwareConcurrency||null,rm:matchMedia('(prefers-reduced-motion: reduce)').matches?1:0,touch:('ontouchstart'in window)?1:0}; const idem=crypto.randomUUID();
+        await fetch('/api/mesh/036-lead-router/ingest',{method:'POST',headers:{'content-type':'application/json'},body:JSON.stringify({event:'step1_submit',...payload,human:{t:Date.now()-(HS.start||Date.now()),m:HS.moves||0,k:HS.keys||0,c:HS.clicks||0,f:HS.focus||0},env,idem})});
+      }catch{}
+      STEP=2; document.getElementById('s1').hidden=true; document.getElementById('s2').hidden=false; document.getElementById('stickyLabel').textContent='Step 2 of 2';
+      document.getElementById('sumDebt').textContent=fmt(debt);
+      document.getElementById('sumAccts').textContent=accts;
+      document.getElementById('s2').scrollIntoView({behavior:'smooth', block:'start'});
+      setTimeout(()=>document.getElementById('name').focus(), 250);
+    }
+
+    async function submitStep2(e){
+      e?.preventDefault();
+      const name=document.getElementById('name').value.trim();
+      const email=document.getElementById('email').value.trim();
+      const phone=document.getElementById('phone').value.trim();
+      if(!name||!email||!phone){alert('Please enter name, email, and phone.');return;}
+      let a={}; try{a=JSON.parse(localStorage.getItem('lead_prefill')||'{}')}catch{}
+      const payload={...a,name,email,phone,site:'DRG',page:'step2',program:'debt_consolidation_loan',flow:'loan_flip'};
+      try{
+        const HS=window.__HUMAN_SIG__||{}; const env={tz:(Intl.DateTimeFormat().resolvedOptions().timeZone||null),lang:navigator.language,langs:navigator.languages,hw:navigator.hardwareConcurrency||null,rm:matchMedia('(prefers-reduced-motion: reduce)').matches?1:0,touch:('ontouchstart'in window)?1:0}; const idem=crypto.randomUUID();
+        await fetch('/api/mesh/036-lead-router/ingest',{method:'POST',headers:{'content-type':'application/json'},body:JSON.stringify({event:'step2_submit',...payload,human:{t:Date.now()-(HS.start||Date.now()),m:HS.moves||0,k:HS.keys||0,c:HS.clicks||0,f:HS.focus||0},env,idem})});
+      }catch{}
+      document.getElementById('s2form').hidden=true; document.getElementById('s2done').hidden=false;
+    }
+
+    function stickyPrimaryClick(ev){ev?.preventDefault();if(STEP===1){ submitStep1(ev); } else if(STEP===2){ document.getElementById('submit2').click(); }}
+
+    // Bind after DOM ready
+    document.addEventListener('DOMContentLoaded',()=>{
+      syncRanges();
+      // range live updates
+      document.getElementById('debt').addEventListener('input', syncRanges);
+      document.getElementById('accts').addEventListener('input', syncRanges);
+
+      document.getElementById('btnStep1').addEventListener('click', submitStep1);
+      document.getElementById('formStep1').addEventListener('submit', submitStep1);
+      document.getElementById('formStep2').addEventListener('submit', submitStep2);
+      document.getElementById('stickyContinue').addEventListener('click', stickyPrimaryClick);
+
+      if (window.__gateButton__) {
+        window.__gateButton__(document.getElementById('btnStep1'));
+        window.__gateButton__(document.getElementById('submit2'));
+      }
+
+      // Tiny self-tests (non-disruptive)
+      console.assert(typeof submitStep1 === 'function', 'submitStep1 should be defined');
+      console.assert(typeof submitStep2 === 'function', 'submitStep2 should be defined');
+      console.assert(!!document.getElementById('btnStep1'), '#btnStep1 exists');
+      console.assert(!!document.getElementById('formStep1'), '#formStep1 exists');
+    });
+  </script>
+
+  <!-- Fetch wrapper: annotate requests to 036 (kept, runs after main app so it can wrap) -->
   <script>
     (function(){
       try {
