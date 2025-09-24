@@ -1,860 +1,173 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 <head>
-  <!-- =========================================
-       Charset & Compatibility
-  ========================================== -->
-  <meta charset="UTF-8" />
-  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-
-  <!-- =========================================
-       Viewport (Mobile Responsive)
-  ========================================== -->
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0" />
-
-  <!-- =========================================
-       TITLE & DESCRIPTION (SEO)
-  ========================================== -->
-  <title>Privacy Policy | DebtReliefGuard.com</title>
-  <meta name="description" content="Your privacy matters. Learn how DebtReliefGuard handles your data under FTC, TCPA, and GDPR guidelines. No selling. No spam. 100% transparent and secure." />
-  <meta name="keywords" content="privacy policy, debt relief privacy, FTC compliance, TCPA consent, GDPR rights, secure forms, lead privacy, GoHighLevel, debt relief data, scam-free" />
-  <meta name="robots" content="index,follow,max-image-preview:large" />
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Privacy Policy | Debt Relief Guard</title>
+  <meta name="description" content="Privacy Policy for DebtReliefGuard.com — how we collect, use, and protect your information. Operated by Gateway Financial Settlement Relief, LLC (GFSR)." />
   <link rel="canonical" href="https://debtreliefguard.com/privacy.policy.index.html" />
+  <meta name="x-ai-optimizer-page" content="DRG:privacy" />
+  <meta name="theme-color" content="#0a5cff" />
 
-  <!-- =========================================
-       Open Graph / Twitter (Social cards)
-  ========================================== -->
-  <meta property="og:type" content="website" />
-  <meta property="og:url" content="https://debtreliefguard.com/privacy.policy.index.html" />
-  <meta property="og:title" content="Privacy Policy | DebtReliefGuard.com" />
-  <meta property="og:description" content="We protect your data with FTC, TCPA, and GDPR aligned practices. No selling. No spam. Clear rights and controls." />
-  <meta property="og:site_name" content="DebtReliefGuard.com" />
-  <meta property="og:image" content="https://debtreliefguard.com/og-cover.jpg" />
+  <!-- JSON-LD: Page + Brand (single @id policy) -->
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"WebPage","name":"Privacy Policy | Debt Relief Guard","url":"https://debtreliefguard.com/privacy.policy.index.html","breadcrumb":{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://debtreliefguard.com/"},{"@type":"ListItem","position":2,"name":"Privacy Policy","item":"https://debtreliefguard.com/privacy.policy.index.html"}]},"publisher":{"@id":"https://gatewaydebthelp.com/#gfsr"}}</script>
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":["Organization","FinancialService"],"@id":"https://gatewaydebthelp.com/#gfsr","name":"Gateway Financial Settlement Relief, LLC","alternateName":["Gateway Debt Help","GFSR"],"url":"https://gatewaydebthelp.com/","telephone":"+1-888-437-7141","disambiguatingDescription":"Not affiliated with Gateway Debt Relief of Costa Mesa, CA."}</script>
 
-  <meta name="twitter:card" content="summary" />
-  <meta name="twitter:title" content="Privacy Policy | DebtReliefGuard.com" />
-  <meta name="twitter:description" content="Learn how we safeguard your data—transparent, secure, compliant." />
-  <meta name="twitter:image" content="https://debtreliefguard.com/og-cover.jpg" />
-
-  <!-- =========================================
-       Performance Hints / Fonts
-  ========================================== -->
-  <link rel="preconnect" href="https://fonts.googleapis.com" crossorigin />
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet" />
-
-  <!-- =========================================
-       AI Loop Optimizer (050) A/B Hook
-  ========================================== -->
-  <meta name="x-ai-optimizer-page" content="drg:privacy" />
-  <script>
-    window.__ab = {
-      pageKey: 'drg:privacy',
-      slots: {
-        headline:   '#ab-cta-text',
-        primaryCta: '.hero-ctas .btn.btn-primary',
-        phoneCta:   '.hero-ctas .btn.btn-outline'
-      },
-      defaults: {
-        primaryCtaText: '🔒 Start Secure Estimate',
-        primaryCtaHref: 'https://debthelpform.com/#lead-form'
-      }
-    };
-  </script>
-
-  <!-- =========================================
-       Global Styles (Theme-Consistent)
-  ========================================== -->
   <style>
-    :root{
-      /* Brand Palette */
-      --ink:#222;
-      --bg:#ffffff;
-      --brand:#004477;    /* Blue hero card */
-      --brand-2:#003057;  /* Sticky top nav */
-      --cta:#0b63f6;      /* Primary CTA */
-      --ok:#007b55;       /* Call pill (green) */
+    /* ===== DRG dark theme + peeled pill menu (match homepage & terms) ===== */
+    :root{--brand:#0a5cff;--brand2:#072a86;--bg:#0b1220;--card:#0f1730;--text:#e6ecf8;--muted:#89a0c7;--ok:#2ecc71;--cta:#0a5cff;--sitemap-h:52px}
+    html,body{margin:0;padding:0;background:var(--bg);color:var(--text);font:16px/1.5 system-ui,-apple-system,Segoe UI,Roboto,Ubuntu,"Helvetica Neue",Arial}
+    a{color:inherit}
+    .wrap{max-width:1080px;margin:0 auto;padding:0 16px}
+    /* Sticky peeled header */
+    .top{position:sticky;top:0;z-index:60;background:rgba(11,18,32,.92);backdrop-filter:blur(8px);border-bottom:1px solid rgba(255,255,255,.06)}
+    .top .row{display:flex;align-items:center;gap:10px;padding:10px 0}
+    .brand{display:flex;align-items:center;gap:8px;font-weight:800;text-decoration:none}
+    .logo{display:inline-flex;align-items:center;justify-content:center;width:28px;height:28px;border-radius:8px;background:linear-gradient(180deg,var(--brand),var(--brand2));font-size:12px}
+    nav{display:flex;gap:8px}
+    .btn{display:inline-flex;align-items:center;gap:8px;border:0;border-radius:999px;padding:8px 14px;font-weight:700;cursor:pointer;text-decoration:none}
+    .btn.primary{background:linear-gradient(180deg,var(--brand),var(--brand2));color:white;box-shadow:0 6px 18px rgba(10,92,255,.35)}
+    .btn.ghost{background:transparent;color:var(--text);border:1px solid rgba(255,255,255,.15)}
+    .call{margin-left:auto}
+    @media(max-width:640px){nav{overflow-x:auto}nav::-webkit-scrollbar{display:none}}
+    /* FTC ribbon under header */
+    .ftc{background:#0d1530;border-bottom:1px solid rgba(255,255,255,.06)}
+    .ftc .row{display:flex;align-items:center;gap:10px;padding:8px 0;color:#cfe0ff;font-size:13px}
+    .ftc .dot{width:6px;height:6px;border-radius:50%;background:#fff}
 
-      /* Cards & Borders */
-      --card:#fff;
-      --card-b:#e5e7eb;
+    /* Page card */
+    .card{background:linear-gradient(180deg,var(--card),#111a35);border:1px solid rgba(255,255,255,.08);border-radius:16px;box-shadow:0 10px 30px rgba(0,0,0,.35)}
+    .pad{padding:16px}
+    h1{font-size:clamp(22px,4.5vw,36px);line-height:1.2;margin:0 0 8px;text-align:center}
+    .sub{color:var(--muted);font-size:15px;text-align:center;margin:0 0 12px}
+    .prose{color:#d8e3ff}
+    .prose h2{color:#eaf1ff;margin:18px 0 6px}
+    .prose h3{color:#dbe6ff;margin:14px 0 6px;font-size:1.05rem}
+    .prose p,.prose li{color:#d8e3ff}
+    .prose a{color:#a7c6ff;text-decoration:underline}
 
-      /* Shadows */
-      --shadow:0 10px 30px rgba(0,0,0,.12);
+    /* Mobile dual-action bar */
+    .mobile-bar{position:fixed;left:0;right:0;bottom:0;background:#0b1220;color:#fff;display:flex;gap:8px;padding:.6rem;z-index:10000}
+    .mobile-bar a{flex:1;text-align:center;border-radius:10px;padding:.75rem .5rem;font-weight:900;text-decoration:none}
+    .mobile-call{background:var(--ok);color:#fff}
+    .mobile-est{background:var(--cta);color:#fff}
+    @media (min-width:769px){.mobile-bar{display:none}}
 
-      /* Dynamic Spacing Vars */
-      --callbar-h: 64px;    /* measured at runtime */
-      --sitemap-h: 52px;    /* floating sitemap height */
-    }
-
-    /* Reset-ish */
-    *{ box-sizing:border-box }
-    html,body{ margin:0; padding:0 }
-
-    body{
-      font-family:'Inter',system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;
-      background:var(--bg);
-      color:var(--ink);
-      line-height:1.55;
-      padding-top:76px; /* space for sticky top nav */
-      padding-bottom: calc(var(--sitemap-h) + 14px); /* clear floating sitemap */
-    }
-
-    /* Accessibility: Skip to content */
-    .skip-link{
-      position:absolute; left:-999px; top:auto; width:1px; height:1px; overflow:hidden;
-    }
-    .skip-link:focus{
-      position:fixed; left:12px; top:12px;
-      padding:.5rem .75rem; background:#000; color:#fff; z-index:10000; border-radius:6px;
-    }
-
-    /* ============================
-       Sticky Top Navigation
-    ============================= */
-    .sticky-nav{
-      position:fixed; top:0; left:0; right:0;
-      background:var(--brand-2);
-      z-index:9999;
-      box-shadow:0 2px 5px rgba(0,0,0,.1);
-    }
-    .sticky-nav ul{
-      display:flex; gap:.75rem;
-      margin:0; padding:.75rem 1rem;
-      overflow-x:auto; white-space:nowrap;
-      list-style:none;
-    }
-    .sticky-nav a{
-      color:#fff; font-weight:600; text-decoration:none;
-      padding:.45rem .7rem; border-radius:6px; flex:0 0 auto;
-    }
-    .sticky-nav a[aria-current="page"]{ color:#ffdd00 }
-    .sticky-nav a:hover, .sticky-nav a:focus{ text-decoration:underline; outline:none }
-
-    /* ============================
-       Desktop Sticky Phone Pill
-    ============================= */
-    .desk-call{
-      position:fixed; right:14px; bottom:14px; z-index:10002;
-      display:none; align-items:center; gap:.4rem;
-      padding:.7rem 1rem; border-radius:999px;
-      background:var(--ok); color:#fff; font-weight:900; text-decoration:none;
-      box-shadow:0 10px 24px rgba(0,0,0,.18);
-    }
-    @media (min-width:769px){ .desk-call{ display:inline-flex } }
-
-    /* ============================
-       Blue Card Hero (Conversion)
-    ============================= */
-    header.hero{
-      max-width:960px; margin:1rem auto;
-      background:var(--brand); color:#fff;
-      text-align:center;
-      padding:2rem 1.5rem;
-      border-radius:12px;
-      box-shadow:0 6px 18px rgba(0,0,0,.08);
-    }
-    header.hero h1{
-      margin:.2rem 0 .6rem;
-      font-size:clamp(1.7rem,3vw + 1rem,2.2rem);
-      font-weight:800;
-    }
-    header.hero .sub{
-      margin:0 auto .8rem;
-      color:#f1f5f9;
-      max-width:780px;
-    }
-    .hero-ctas{
-      display:flex; justify-content:center; gap:.6rem; flex-wrap:wrap;
-    }
-    .btn{
-      display:inline-flex; align-items:center; justify-content:center; gap:.4rem;
-      border-radius:10px; padding:.7rem 1.05rem; font-weight:800; text-decoration:none; cursor:pointer;
-    }
-    .btn.btn-primary{ background:var(--cta); color:#fff; box-shadow:var(--shadow) }
-    .btn.btn-outline{ background:transparent; color:#fff; border:2px solid rgba(255,255,255,.75) }
-
-    /* ============================
-       Main Content Container
-    ============================= */
-    main{
-      max-width:960px; margin:1.25rem auto;
-      background:var(--card);
-      border:1px solid var(--card-b);
-      border-radius:12px;
-      padding:1.5rem;
-      box-shadow:0 2px 12px rgba(0,0,0,.06);
-    }
-    h2{font-size:1.7rem;margin:0 0 .75rem}
-    h3{margin:1.3rem 0 .5rem;font-size:1.25rem;color:#0f2f4f}
-    p, li{color:#444}
-
-    /* ============================
-       Bottom Legal Footer
-    ============================= */
-    footer.legal{
-      max-width:960px;
-      margin:1.25rem auto 5.5rem;
-      text-align:center; color:#666;
-    }
-    footer.legal a{color:#0055aa;text-decoration:none}
-    footer.legal a:hover{text-decoration:underline}
-
-    /* ============================
-       Mobile Dual-Action Bar
-    ============================= */
-    .mobile-bar{
-      position:fixed; left:0; right:0; bottom:0;
-      background:#0b1220; color:#fff; display:flex; gap:8px;
-      padding:.6rem; z-index:10000;
-    }
-    .mobile-bar a{
-      flex:1; text-align:center; border-radius:10px;
-      padding:.75rem .5rem; font-weight:900; text-decoration:none;
-    }
-    .mobile-call{ background:var(--ok); color:#fff }
-    .mobile-est{ background:var(--cta); color:#fff }
-    @media (min-width:769px){ .mobile-bar{ display:none } }
-
-    /* ============================
-       Floating Bottom Sitemap
-    ============================= */
-    .sticky-menu{
-      position:fixed; left:0; right:0;
-      bottom: calc(var(--callbar-h) + env(safe-area-inset-bottom));
-      background:#004488; color:#fff;
-      border-top:2px solid #2563eb;
-      height:var(--sitemap-h);
-      display:flex; align-items:center; z-index:9997;
-    }
-    .sticky-menu nav{
-      display:flex; gap:1rem; overflow-x:auto; white-space:nowrap;
-      padding:0 .75rem; width:100%; align-items:center; scrollbar-width:none;
-    }
-    .sticky-menu nav::-webkit-scrollbar{ display:none }
-    .sticky-menu nav a{
-      color:#ffdd00; text-decoration:none; padding:.35rem .55rem; border-radius:6px;
-      font-weight:700; font-size:.92rem; flex:0 0 auto;
-    }
-    .sticky-menu nav a:hover, .sticky-menu nav a:focus{
-      background:rgba(255,255,255,.1); outline:none;
-    }
-
-    /* Small screens: leave space for mobile bars */
-    @media (max-width:768px){
-      body, main{ padding-bottom: calc(var(--callbar-h) + var(--sitemap-h) + env(safe-area-inset-bottom) + 14px); }
-    }
+    /* Chat FAB (016) */
+    .gfsr-chat-fab{position:fixed;right:14px;bottom:calc(var(--sitemap-h) + 18px);z-index:10002;display:inline-flex;align-items:center;gap:.4rem;padding:.7rem 1rem;border-radius:999px;background:var(--cta);color:#fff;font-weight:900;text-decoration:none;box-shadow:0 10px 24px rgba(0,0,0,.18)}
   </style>
-
-  <!-- =========================================
-       Structured Data (JSON-LD)
-       - WebSite
-       - BreadcrumbList
-       - PrivacyPolicy
-       - Organization/FinancialService (shared @id)
-  ========================================== -->
-  <script type="application/ld+json">
-  {
-    "@context":"https://schema.org",
-    "@type":"WebSite",
-    "name":"DebtReliefGuard",
-    "url":"https://debtreliefguard.com/",
-    "publisher": { "@id": "https://gatewaydebthelp.com/#gfsr" }
-  }
-  </script>
-
-  <script type="application/ld+json">
-  {
-    "@context":"https://schema.org",
-    "@type":"BreadcrumbList",
-    "itemListElement":[
-      { "@type":"ListItem","position":1,"name":"Home","item":"https://debtreliefguard.com/" },
-      { "@type":"ListItem","position":2,"name":"Privacy Policy","item":"https://debtreliefguard.com/privacy.policy.index.html" }
-    ]
-  }
-  </script>
-
-  <script type="application/ld+json">
-  {
-    "@context":"https://schema.org",
-    "@type":"PrivacyPolicy",
-    "name":"Privacy Policy",
-    "url":"https://debtreliefguard.com/privacy.policy.index.html",
-    "inLanguage":"en-US",
-    "description":"DebtReliefGuard privacy policy describing collection, use, and rights under FTC, TCPA, and GDPR."
-  }
-  </script>
-
-  <script type="application/ld+json">
-  {
-    "@context":"https://schema.org",
-    "@type":["Organization","FinancialService"],
-    "@id":"https://gatewaydebthelp.com/#gfsr",
-    "name":"Gateway Financial Settlement Relief, LLC",
-    "legalName":"Gateway Financial Settlement Relief, LLC",
-    "alternateName":["Gateway Debt Help","GFSR"],
-    "url":"https://gatewaydebthelp.com/",
-    "logo":"https://debtreliefguard.com/og-cover.jpg",
-    "telephone":"+1-888-437-7141",
-    "address":{"@type":"PostalAddress","addressCountry":"US","addressRegion":"FL"},
-    "areaServed":{"@type":"Country","name":"United States"},
-    "sameAs":[
-      "https://gatewayfinancialsettlementrelief.com/",
-      "https://debthelpform.com/",
-      "https://debtreliefguard.com/",
-      "https://gatewaydebthelp.com/"
-    ],
-    "contactPoint":{
-      "@type":"ContactPoint",
-      "telephone":"+1-888-437-7141",
-      "contactType":"customer service",
-      "areaServed":"US",
-      "availableLanguage":["English"]
-    },
-    "disambiguatingDescription":"Florida-operated, Wyoming-registered debt relief company using 'Gateway Debt Help' as a marketing tagline. Not affiliated with Gateway Debt Relief of Costa Mesa, CA."
-  }
-  </script>
 </head>
-
 <body>
-  <!-- =========================================
-       Skip Link (a11y)
-  ========================================== -->
-  <a href="#main" class="skip-link">Skip to content</a>
 
-  <!-- =========================================
-       Sticky Top Navigation (Full Site Map)
-  ========================================== -->
-  <nav class="sticky-nav" role="navigation" aria-label="Main navigation">
-    <ul>
-      <li><a href="/" title="Home">Home</a></li>
-      <li><a href="/compare.us.html" title="Compare">Compare</a></li>
-      <li><a href="/how.it.works.index.html" title="How It Works">How It Works</a></li>
-      <li><a href="/debt.relief.option.index.html" title="Debt Relief Options">Debt Relief Options</a></li>
-      <li><a href="/credit.card.relief.index.html" title="Credit Card Relief">Credit Card Relief</a></li>
-      <li><a href="/savings.calculator.html" title="Savings Calculator">Calculator</a></li>
-      <li><a href="/reviews.index.html" title="Reviews">Reviews</a></li>
-      <li><a href="/blog.index.html" title="Blog">Blog</a></li>
-      <li><a href="/scam.warning.index.html" title="Scam Warnings">Scam Warnings</a></li>
-      <li><a href="/faq.index.html" title="FAQ">FAQ</a></li>
-      <li><a href="/contact.index.html" title="Contact">Contact</a></li>
-      <li><a href="/privacy.policy.index.html" aria-current="page" title="Privacy">Privacy</a></li>
-      <li><a href="/terms.index.html" title="Terms">Terms</a></li>
-      <li><a href="https://debthelpform.com/#lead-form" target="_blank" rel="noopener" title="Get Your Free Secure Estimate">Get Estimate</a></li>
-      <li><a href="https://gatewaydebthelp.com" target="_blank" rel="noopener" title="Gateway Debt Help">GatewayDebtHelp.com</a></li>
-      <li><a href="https://gatewayfinancialsettlementrelief.com" target="_blank" rel="noopener" title="GFSR Owner"><strong>GFSR Owner</strong></a></li>
-    </ul>
-  </nav>
-
-  <!-- =========================================
-       Desktop Sticky Phone Pill
-  ========================================== -->
-  <a class="desk-call" href="tel:+18884377141">📞 888-437-7141</a>
-
-  <!-- =========================================
-       HERO (Blue Card)
-  ========================================== -->
-  <header class="hero" role="banner" aria-label="Privacy hero">
-    <h1 id="ab-cta-text">Privacy Policy — DebtReliefGuard.com</h1>
-    <p class="sub">We protect your data with FTC, TCPA, and GDPR-aligned practices. No selling. No spam. Clear rights and controls.</p>
-    <div class="hero-ctas" role="group" aria-label="Primary actions">
-      <a class="btn btn-primary" href="https://debthelpform.com/#lead-form" target="_blank" rel="noopener">🔒 Start Secure Estimate</a>
-      <a class="btn btn-outline" href="tel:+18884377141" rel="noopener">📞 Talk to a Specialist</a>
-    </div>
+  <!-- Sticky peeled header (exact 5-pill like homepage/terms) -->
+  <header class="top">
+    <div class="wrap"><div class="row">
+      <a class="brand" href="/"><span class="logo">DRG</span><span>Debt Relief Guard</span></a>
+      <nav>
+        <a class="btn ghost" href="/">Home</a>
+        <a class="btn ghost" href="/how.it.works.index.html">How It Works</a>
+        <a class="btn ghost" href="/faq.index.html">FAQ</a>
+        <a class="btn ghost" href="https://debthelpform.com/geo-debt-relief.html" rel="noopener">State Programs</a>
+        <a class="btn ghost" href="/blog.index.html">Blog</a>
+      </nav>
+      <div class="call"><a class="btn primary" href="tel:+18884377141" aria-label="Call now: 888-437-7141">Call</a></div>
+    </div></div>
+    <div class="ftc"><div class="wrap"><div class="row"><div class="dot"></div> <strong>FTC‑aligned</strong> • No upfront fees • Transparent savings estimates</div></div></div>
   </header>
 
-  <!-- =========================================
-       MAIN (PRIVACY CONTENT)
-  ========================================== -->
-  <main id="main" role="main" aria-label="Privacy policy content">
-    <h2>Effective Date: August 2025</h2>
-
-    <h3>1) Who We Are</h3>
-    <p>DebtReliefGuard.com (“<strong>DebtReliefGuard</strong>”, “we”, “us”, “our”) is an independent educational website operated by <strong>Gateway Financial Settlement Relief, LLC</strong> (“GFSR”). We are not a lender, law firm, or settlement provider. We help consumers compare legitimate debt relief options and understand program tradeoffs.</p>
-    <p>We collaborate with verified providers that follow applicable laws and consumer-protection standards, including the FTC’s Telemarketing Sales Rule (TSR). We prioritize transparency, consent, and data minimization.</p>
-
-    <h3>2) Information We Collect</h3>
-    <ul>
-      <li><strong>Voluntary Information</strong> you provide via forms or email: name, email, phone, state, approximate debt, and questions.</li>
-      <li><strong>Technical Information</strong>: IP address, device type, browser/OS, page URLs, referrer, timestamps—used for security, compliance logging, and performance analytics.</li>
-      <li><strong>Engagement Data</strong>: button clicks (e.g., “Start Estimate”), scroll depth, and experiment variants from our AI Loop Optimizer (050).</li>
-      <li><strong>TCPA Consent Meta</strong>: time/date stamps and consent checkboxes when you request a phone call or contact.</li>
-    </ul>
-
-    <h3>3) How We Use Your Information</h3>
-    <ul>
-      <li><strong>Provide Services</strong>: generate a free, secure estimate and route it to a single verified provider (no bulk selling or “lead list” blasts).</li>
-      <li><strong>Compliance</strong>: maintain logs necessary under <strong>FTC TSR</strong> and <strong>TCPA</strong> for consent and audit trails.</li>
-      <li><strong>Site Reliability & Security</strong>: detect abuse (bot honeypots), prevent fraud, and improve page performance.</li>
-      <li><strong>Optimization</strong>: run A/B tests (050) to improve clarity and user outcomes without using dark patterns.</li>
-    </ul>
-
-    <h3>4) Lawful Bases (GDPR)</h3>
-    <p>Where GDPR applies, we process your personal data under: (a) <em>Consent</em> (e.g., when you request contact), (b) <em>Legitimate Interests</em> (fraud prevention, platform optimization), and (c) <em>Legal Obligations</em> (compliance logs, safety, and dispute resolution).</p>
-
-    <h3>5) Data Sharing & Disclosure</h3>
-    <ul>
-      <li><strong>One Verified Provider</strong>: If you request an estimate, your form goes to one provider for evaluation—<em>not</em> a reseller marketplace.</li>
-      <li><strong>Vendors</strong>: We use reputable vendors (e.g., secure form tech) under contracts that limit use of your data to the services we request.</li>
-      <li><strong>Legal Requirements</strong>: We may disclose data if required by law, court order, or to protect rights, safety, or security.</li>
-      <li><strong>No Selling</strong>: We do <em>not</em> sell, lease, or rent personal information.</li>
-    </ul>
-
-    <h3>6) Cookies, Local Storage & A/B Testing</h3>
-    <p>We use limited cookies/local storage for session analytics, experiment assignment, and performance metrics—no third-party advertising cookies. You may disable cookies in your browser, but some features (e.g., experiment persistence or chat history) might degrade.</p>
-
-    <h3>7) TCPA Disclosures</h3>
-    <p>If you request a phone call, you may consent to be contacted at the number you provide. You can revoke consent at any time by telling us or the provider. We honor “Do Not Call” requests and record consent metadata to comply with TCPA.</p>
-
-    <h3>8) Your Privacy Rights</h3>
-    <ul>
-      <li><strong>Access</strong>: Request a copy of the personal data we maintain about you.</li>
-      <li><strong>Correction</strong>: Request corrections for inaccuracies.</li>
-      <li><strong>Deletion</strong>: Request deletion subject to legal retention needs.</li>
-      <li><strong>Restriction/Objection</strong>: Where applicable, request we limit certain processing activities.</li>
-      <li><strong>Withdraw Consent</strong>: If processing is based on consent, you can withdraw it at any time.</li>
-    </ul>
-    <p>To exercise these rights, email <a href="mailto:info@gatewaydebthelp.com">info@gatewaydebthelp.com</a>. We will verify your identity before fulfilling requests.</p>
-
-    <h3>9) Data Security</h3>
-    <p>We apply administrative, technical, and physical safeguards: transport-layer encryption (HTTPS), access controls, least-privilege vendor access, bot honeypots, and secure session telemetry. No system is 100% secure, but we work to detect and mitigate risks quickly.</p>
-
-    <h3>10) Data Retention</h3>
-    <p>We retain data only as long as needed for legitimate business or compliance purposes—then securely delete or de-identify it. Retention periods vary by category (e.g., consent logs vs. general analytics).</p>
-
-    <h3>11) Geography & Restricted States</h3>
-    <p>Users in <strong>CA, WI, WV, RI, and OR</strong> may browse the site but cannot submit estimate forms. If a form is submitted from a restricted state, we log it for compliance and decline the request respectfully.</p>
-
-    <h3>12) Children’s Privacy</h3>
-    <p>Our services are not intended for children under 13 (or under 16 in certain jurisdictions). We do not knowingly collect personal information from children. If you believe a child has provided data, contact us to remove it.</p>
-
-    <h3>13) International Transfers</h3>
-    <p>Where international transfers occur, we implement safeguards (e.g., Standard Contractual Clauses) as required under GDPR to protect your information.</p>
-
-    <h3>14) Changes to This Policy</h3>
-    <p>We may update this policy to reflect operational or legal changes. The “Effective Date” will be revised, and material changes will be highlighted on this page.</p>
-
-    <h3>15) Contact Us</h3>
-    <p>Questions or privacy requests? Email <a href="mailto:info@gatewaydebthelp.com">info@gatewaydebthelp.com</a> or call <a href="tel:+18884377141">+1 (888) 437-7141</a>.</p>
-  </main>
-
-  <!-- =========================================
-       Mobile Dual-Action Bar (Small Screens)
-  ========================================== -->
-  <div id="drgMobileBar" class="mobile-bar" aria-label="Quick actions">
-    <a class="mobile-call" href="tel:+18884377141">📞 Call 888-437-7141</a>
-    <a class="mobile-est" href="https://debthelpform.com/#lead-form" target="_blank" rel="noopener">🔒 Start Secure Estimate</a>
-  </div>
-
-  <!-- =========================================
-       Floating Bottom Sitemap (Consistent Site Links)
-  ========================================== -->
-  <footer class="sticky-menu" role="navigation" aria-label="Site map">
-    <nav>
-      <a href="/">Home</a>
-      <a href="/compare.us.html">Compare</a>
-      <a href="/how.it.works.index.html">How It Works</a>
-      <a href="/debt.relief.option.index.html">Debt Relief Options</a>
-      <a href="/credit.card.relief.index.html">Credit Card Relief</a>
-      <a href="/savings.calculator.html">Calculator</a>
-      <a href="/reviews.index.html">Reviews</a>
-      <a href="/blog.index.html">Blog</a>
-      <a href="/scam.warning.index.html">Scam Warnings</a>
-      <a href="/faq.index.html">FAQ</a>
-      <a href="/contact.index.html">Contact</a>
-      <a href="/privacy.policy.index.html" aria-current="page">Privacy</a>
-      <a href="/terms.index.html">Terms</a>
-      <a href="/geo-blocked.html" rel="nofollow">Geo-Blocked</a>
-      <a href="https://debthelpform.com" target="_blank" rel="noopener">DebtHelpForm.com</a>
-      <a href="https://gatewaydebthelp.com" target="_blank" rel="noopener">GatewayDebtHelp.com</a>
-    </nav>
-  </footer>
-
-  <!-- =========================================
-       Footer Legal / Brand Disambiguation
-  ========================================== -->
-  <footer class="legal">
-    <p>&copy; 2025 DebtReliefGuard.com — Independent, Secure, Compliant.</p>
-    <p>Website operated by <a href="https://gatewayfinancialsettlementrelief.com" target="_blank" rel="noopener">Gateway Financial Settlement Relief</a></p>
-    <p style="font-size:.82rem; color:#999">
-      “Gateway Debt Help” is the marketing brand of <strong>Gateway Financial Settlement Relief, LLC</strong>.
-      Not affiliated with “Gateway Debt Relief” of Costa Mesa, CA.
-    </p>
-  </footer>
-
-  <!-- =========================================
-       Bot Heuristic (simple honeypot)
-  ========================================== -->
-  <script>
-    (function(){
-      const honeypot = document.createElement("input");
-      honeypot.type = "text";
-      honeypot.name = "website";
-      honeypot.autocomplete = "off";
-      honeypot.hidden = true;
-      honeypot.setAttribute("aria-hidden","true");
-      document.body.appendChild(honeypot);
-
-      let userMoved = false, t = 0;
-      addEventListener('mousemove', () => userMoved = true, { passive:true });
-      addEventListener('keydown',   () => userMoved = true, { passive:true });
-      setInterval(() => t++, 1000);
-
-      window.validateBotProtections = () => (honeypot.value === "" && userMoved && t >= 3);
-    })();
-  </script>
-
-  <!-- =========================================
-       Dynamic Spacing for Mobile Bar
-  ========================================== -->
-  <script>
-    (function(){
-      const root = document.documentElement;
-      const mb   = document.getElementById('drgMobileBar');
-
-      function setH(){
-        const h = mb && getComputedStyle(mb).display !== 'none' ? mb.offsetHeight : 0;
-        root.style.setProperty('--callbar-h', h + 'px');
-      }
-
-      setH();
-      addEventListener('resize', setH, { passive:true });
-      setTimeout(setH, 250);
-      setTimeout(setH, 1000);
-    })();
-  </script>
-
-  <!-- =========================================
-       015: Telemetry Ping (Session Analytics)
-  ========================================== -->
-  <script>
-    (function(){
-      try{
-        const key = 'drg:sess:v1';
-        let sid   = sessionStorage.getItem(key);
-        if(!sid){
-          sid = crypto.randomUUID();
-          sessionStorage.setItem(key, sid);
-        }
-
-        const payload = {
-          v:1,
-          ts: Date.now(),
-          sid,
-          url: location.href,
-          ref: document.referrer || null,
-          w: innerWidth,
-          h: innerHeight
-        };
-
-        const blob = new Blob([JSON.stringify(payload)], { type:'application/json' });
-
-        if(navigator.sendBeacon){
-          navigator.sendBeacon('/ingest', blob);
-        }else{
-          fetch('/ingest', {
-            method:'POST',
-            body: blob,
-            keepalive:true,
-            headers:{ 'Content-Type':'application/json' }
-          }).catch(()=>{});
-        }
-      }catch(_){}
-    })();
-  </script>
-
-  <!-- =========================================
-       016 Chat (Bottom-Right): Markup + Behavior
-  ========================================== -->
-  <!-- Chat FAB -->
-  <button
-    id="gfsrChatFab"
-    class="gfsr-chat-fab"
-    aria-haspopup="dialog"
-    aria-expanded="false"
-    aria-controls="gfsrChatSheet"
-    style="
-      position:fixed; right:14px;
-      bottom:calc(var(--callbar-h) + var(--sitemap-h) + 14px);
-      z-index:10003;
-      display:inline-flex; align-items:center; gap:.5rem;
-      padding:.8rem 1rem; border-radius:999px; border:1px solid rgba(0,0,0,.06);
-      background:#0b63f6; color:#fff; box-shadow:0 10px 30px rgba(0,0,0,.18);
-      font:600 14px/1.1 system-ui,-apple-system,Segoe UI,Roboto,Arial;
-    ">
-    💬 Chat
-  </button>
-
-  <!-- Chat Sheet -->
-  <section
-    id="gfsrChatSheet"
-    class="gfsr-chat-sheet"
-    role="dialog"
-    aria-modal="true"
-    aria-labelledby="gfsrChatTitle"
-    aria-describedby="gfsrChatDesc"
-    hidden
-    style="
-      position:fixed; inset:auto 0 0 0; margin:auto; width:100%;
-      max-width:420px; right:12px; left:auto;
-      border-radius:18px 18px 0 0; background:#fff; box-shadow:0 10px 30px rgba(0,0,0,.18);
-      transform:translateY(110%); transition:transform .28s ease; border:1px solid rgba(0,0,0,.06);
-      z-index:10004
-    ">
-    <header class="gfsr-chat-head" style="display:flex; align-items:center; justify-content:space-between; padding:12px 14px; border-bottom:1px solid rgba(0,0,0,.06); background:#f9fafb; border-radius:inherit">
-      <div>
-        <div id="gfsrChatTitle" class="gfsr-chat-title" style="font-weight:700; font-size:15px">Debt Help Assistant</div>
-        <div id="gfsrChatDesc" class="sr-only">Chat with our assistant. Press Escape to close.</div>
-      </div>
-      <button id="gfsrChatClose" class="gfsr-chat-close" aria-label="Close chat" style="background:transparent; border:none; padding:8px; border-radius:10px; cursor:pointer">✕</button>
-    </header>
-
-    <div id="gfsrChatBody" class="gfsr-chat-body" tabindex="0" style="display:flex; flex-direction:column; gap:8px; padding:12px; height:min(70vh, 520px); overflow:auto; -webkit-overflow-scrolling:touch"></div>
-
-    <form id="gfsrChatForm" class="gfsr-chat-input" style="display:flex; gap:8px; padding:10px; border-top:1px solid rgba(0,0,0,.06); background:#fff; border-radius:0 0 18px 18px">
-      <label class="sr-only" for="gfsrChatInput">Type your message</label>
-      <textarea id="gfsrChatInput" rows="1" placeholder="Type a message…" aria-label="Message" style="flex:1; resize:none; min-height:42px; max-height:120px; padding:10px 12px; border:1px solid #e5e7eb; border-radius:12px; font-size:14px; line-height:1.35"></textarea>
-      <button id="gfsrChatSend" class="gfsr-chat-send" type="submit" style="background:#0b63f6; color:#fff; border:none; padding:12px 14px; border-radius:12px; font-weight:700">Send</button>
-    </form>
+  <!-- HERO -->
+  <section class="wrap" aria-label="Privacy hero" style="padding:8px 0 0">
+    <div class="card pad center">
+      <h1>Privacy Policy</h1>
+      <p class="sub">Effective Date: <strong>August 2025</strong></p>
+    </div>
   </section>
 
-  <!-- Chat Behavior -->
+  <!-- MAIN -->
+  <main id="main" class="wrap" role="main" style="padding:12px 0 80px">
+    <article class="card pad prose" aria-label="Privacy Policy">
+
+      <!-- ===== Paste your current privacy text below. The structure mirrors Terms. ===== -->
+      <!-- BEGIN PRIVACY TEXT (paste 1:1 from current live privacy page) -->
+      <h2>1) Scope</h2>
+      <p>This Privacy Policy describes how DebtReliefGuard.com (the “Site”) collects, uses, and shares information. By using the Site, you consent to these practices.</p>
+
+      <h2>2) Information We Collect</h2>
+      <ul>
+        <li>Information you provide (e.g., form entries such as email, phone, state, and debt amount).</li>
+        <li>Device and usage data (e.g., IP address, browser, pages viewed, timestamps).</li>
+        <li>Cookies and similar technologies for analytics, security, and personalization.</li>
+      </ul>
+
+      <h2>3) How We Use Information</h2>
+      <ul>
+        <li>To operate, maintain, and improve the Site.</li>
+        <li>To respond to inquiries and provide educational resources or estimates you request.</li>
+        <li>To prevent fraud and abuse, including security, debugging, and compliance.</li>
+      </ul>
+
+      <h2>4) Sharing</h2>
+      <p>We may share information with service providers who help us operate the Site (e.g., hosting, communications, analytics). We do not sell personal information. We may disclose information as required by law or to protect rights and safety.</p>
+
+      <h2>5) Your Choices</h2>
+      <ul>
+        <li>You may disable cookies in your browser; some features may not function properly.</li>
+        <li>You may opt out of non‑essential communications by following unsubscribe instructions.</li>
+      </ul>
+
+      <h2>6) Data Security</h2>
+      <p>We implement reasonable administrative, technical, and physical safeguards. No method of transmission or storage is 100% secure.</p>
+
+      <h2>7) Retention</h2>
+      <p>We retain information for as long as necessary to fulfill the purposes described and comply with legal obligations.</p>
+
+      <h2>8) Children</h2>
+      <p>The Site is not directed to individuals under 18. If you believe a minor provided information, contact us to remove it.</p>
+
+      <h2>9) Changes</h2>
+      <p>We may update this Policy periodically. Material changes will be posted with a new Effective Date.</p>
+
+      <h2>10) Contact</h2>
+      <p>Questions about this Policy: <a href="mailto:privacy@gatewaydebthelp.com">privacy@gatewaydebthelp.com</a> or <a href="tel:+18884377141">+1 (888) 437‑7141</a>.</p>
+      <!-- END PRIVACY TEXT -->
+
+      <!-- Optional: educational disclosure (visible, non‑deceptive) -->
+      <details>
+        <summary style="font-weight:800;color:#a7c6ff">How estimates work (Educational)</summary>
+        <p style="margin-top:.5rem">Estimates are for educational purposes, based on user‑provided inputs and typical program ranges. Actual results may vary. No legal, tax, or financial advice.</p>
+      </details>
+
+    </article>
+  </main>
+
+  <!-- Mobile CTA bar -->
+  <div id="drgMobileBar" class="mobile-bar" aria-label="Quick actions">
+    <a class="mobile-call" href="tel:+18884377141" onclick="window.GFSR?.log?.('mobile_call_cta')">📞 Call 888‑437‑7141</a>
+    <a class="mobile-est" href="/#lead-form" onclick="window.GFSR?.log?.('mobile_estimate_cta')">🔒 Start Secure Estimate</a>
+  </div>
+
+  <!-- Worker hooks: ONLY 016 + 036 -->
   <script>
-    (function(){
-      const el = {
-        fab:   document.getElementById('gfsrChatFab'),
-        sheet: document.getElementById('gfsrChatSheet'),
-        close: document.getElementById('gfsrChatClose'),
-        body:  document.getElementById('gfsrChatBody'),
-        form:  document.getElementById('gfsrChatForm'),
-        input: document.getElementById('gfsrChatInput'),
-        send:  document.getElementById('gfsrChatSend'),
-      };
+    // Safe preview handling — external links open new tab in preview, same‑origin stays same tab
+    (function(){try{var isPreview=(/chatgpt\.com$/i.test(location.hostname)||location.hostname.indexOf('chatgpt')>-1);if(!isPreview)return;document.addEventListener('click',function(e){var a=e.target.closest('a');if(!a)return;var href=a.getAttribute('href')||'';var sameOrigin=a.origin===location.origin||href.startsWith('/')||href.startsWith('#');if(a.protocol==='tel:'){e.preventDefault();alert('Tap‑to‑call is blocked in preview. On your live site this will dial 888‑437‑7141.');return;}if(!sameOrigin){a.target='_blank';a.rel='noopener';}},true);}catch(e){}})();
 
-      const openChat = () => {
-        el.sheet.removeAttribute('hidden');
-        el.sheet.classList.add('open');
-        el.sheet.style.transform = 'translateY(0)';
-        el.fab.setAttribute('aria-expanded','true');
-        setTimeout(()=>el.input.focus(),120);
-      };
-
-      const closeChat = () => {
-        el.sheet.classList.remove('open');
-        el.sheet.style.transform = 'translateY(110%)';
-        el.fab.setAttribute('aria-expanded','false');
-        el.sheet.setAttribute('hidden','');
-        el.fab.focus();
-      };
-
-      el.fab.addEventListener('click', openChat);
-      el.close.addEventListener('click', closeChat);
-      addEventListener('keydown', e => { if (e.key==='Escape' && !el.sheet.hasAttribute('hidden')) closeChat(); });
-
-      const addMsg = (text, who='bot') => {
-        const div = document.createElement('div');
-        div.className = `gfsr-msg ${who}`;
-        div.style.maxWidth = '88%';
-        div.style.padding = '10px 12px';
-        div.style.borderRadius = '14px';
-        div.style.fontSize = '14px';
-        div.style.lineHeight = '1.35';
-
-        if (who === 'user'){
-          div.style.marginLeft = 'auto';
-          div.style.background = '#0b63f6';
-          div.style.color = '#fff';
-          div.style.borderTopRightRadius = '4px';
-        }else if (who === 'bot'){
-          div.style.background = '#eef2ff';
-          div.style.color = '#111';
-          div.style.borderTopLeftRadius = '4px';
-        }else{
-          div.style.background = '#f3f4f6';
-          div.style.color = '#444';
-          div.style.fontSize = '12px';
-          div.style.margin = '4px auto';
-        }
-
-        div.textContent = (text ?? '').toString();
-        el.body.appendChild(div);
-        el.body.scrollTop = el.body.scrollHeight;
-      };
-
-      const KEY = 'drg:chat-history';
-      try {
-        (JSON.parse(localStorage.getItem(KEY) || '[]'))
-          .slice(-20)
-          .forEach(m => addMsg(m.text, m.who));
-      } catch {}
-
-      const remember = (t,w) => {
-        try{
-          const h = JSON.parse(localStorage.getItem(KEY) || '[]');
-          h.push({ text:t, who:w, t:Date.now() });
-          localStorage.setItem(KEY, JSON.stringify(h).slice(-8000));
-        }catch{}
-      };
-
-      /* Interaction gate + strong client nonce */
-      let interacted = false;
-      addEventListener('mousemove', () => interacted = true, { once:true, passive:true });
-      addEventListener('keydown',   () => interacted = true, { once:true, passive:true });
-      const nonce = () => Array.from(crypto.getRandomValues(new Uint8Array(12))).map(b=>b.toString(16).padStart(2,'0')).join('');
-
-      const API  = `${location.origin}/chat`;
-      let busy   = false;
-
-      el.form.addEventListener('submit', async (e) => {
-        e.preventDefault();
-        if (!interacted || busy) return;
-
-        const message = (el.input.value || '').trim();
-        if (!message) return;
-
-        addMsg(message,'user');
-        remember(message,'user');
-        el.input.value = '';
-        busy = true;
-        el.send.disabled = true;
-
-        try{
-          const r = await fetch(API, {
-            method:'POST',
-            headers:{
-              'Content-Type':'application/json',
-              'Accept':'application/json',
-              'X-Requested-With':'XMLHttpRequest',
-              'X-Client-Nonce': nonce()
-            },
-            body: JSON.stringify({
-              messages:[{ role:'user', content: message }],
-              source:'frontend',
-              url: location.href
-            })
-          });
-
-          if (!r.ok){
-            const t = await r.text().catch(()=> '');
-            addMsg(`Service error ${r.status}.`, 'meta');
-            console.error('CHAT ERROR', r.status, t);
-            return;
-          }
-
-          const ct = r.headers.get('content-type') || '';
-          let reply = '';
-          if (ct.includes('application/json')){
-            const d = await r.json();
-            reply = d.reply || d.message || JSON.stringify(d);
-          }else{
-            reply = await r.text();
-          }
-          addMsg(reply || 'Happy to help further.', 'bot');
-          remember(reply || '', 'bot');
-
-        }catch(err){
-          console.error('CHAT NETWORK ERROR', err);
-          addMsg('Network error — please try again.', 'meta');
-
-        }finally{
-          busy = false;
-          el.send.disabled = false;
-          el.input.focus();
-        }
-      });
-
-      /* Seed welcome if empty */
-      if (!el.body.children.length) addMsg('Questions about how we handle your data? Ask me anything.');
-    })();
-  </script>
-
-  <!-- =========================================
-       <noscript> fallback
-  ========================================== -->
-  <noscript>
-    <p style="text-align:center; color:#666">
-      Enable JavaScript to view dynamic features and chat.
-    </p>
-  </noscript>
-
-  <!-- 050: Savings message loader (updates #ab-cta-text if API is present) -->
-  <script>
-    (function(){
-      const el = document.querySelector('#ab-cta-text'); if(!el) return;
-      const FALLBACK = el.textContent || '';
-      const CACHE_KEY = 'drg:savings:v1'; const MAX_AGE_MS = 10*60*1000;
-
+    // Lightweight client integrity beacon (036)
+    (async function(){
       try{
-        const raw = localStorage.getItem(CACHE_KEY);
-        if(raw){
-          const { ts, message } = JSON.parse(raw);
-          if(ts && (Date.now()-ts) < MAX_AGE_MS && message) el.textContent = (message ?? '').toString();
-        }
-      }catch{}
+        const ctl=new AbortController();setTimeout(()=>ctl.abort(),3000);
+        const metrics={tz:Intl.DateTimeFormat().resolvedOptions().timeZone||'na',lang:navigator.language||'na',plat:navigator.platform||'na',cores:navigator.hardwareConcurrency||0,mem:navigator.deviceMemory||0};
+        fetch('/api/mesh/036-lead-router/ingest',{method:'POST',headers:{'content-type':'application/json','x-ts':String(Date.now())},body:JSON.stringify({event:'privacy_view',site:'DRG',page:'privacy.policy.index',metrics}),signal:ctl.signal,keepalive:true}).catch(()=>{});
+      }catch(_){}}
+    )();
 
-      (async ()=>{
-        const sleep = (ms)=>new Promise(r=>setTimeout(r,ms));
-        const attempt = async (ms) => {
-          const ctrl=new AbortController(); const to=setTimeout(()=>ctrl.abort(), ms);
-          try{
-            const r = await fetch('/api/savings-message', {
-              headers:{'Accept':'application/json','X-Requested-With':'XMLHttpRequest'},
-              cache:'no-store', credentials:'omit', signal:ctrl.signal
-            });
-            clearTimeout(to);
-            if(!r.ok || !((r.headers.get('content-type')||'').includes('application/json'))) throw new Error();
-            const data = await r.json();
-            if(data && data.message){
-              el.textContent = (data.message ?? '').toString();
-              try{ localStorage.setItem(CACHE_KEY, JSON.stringify({ ts: Date.now(), message: data.message })); }catch{}
-              return true;
-            }
-          }catch{}
-          return false;
-        };
-        let ok = await attempt(3500);
-        if(!ok){ await sleep(180); ok = await attempt(4500); }
-        if(!ok) el.textContent = FALLBACK;
-      })();
-    })();
+    // 016 Chat launcher
+    function openGfsrChat(){
+      const url='/api/mesh/016-persona-evolution-engine/ui?source=privacy';
+      try{window.open(url,'_blank','noopener');}catch(e){location.href='mailto:info@gatewaydebthelp.com?subject=Debt%20Relief%20Help%20Question';}
+    }
   </script>
 
-  <!-- Page bridge for 015 / 016 / 057 (non-visual; no-ops unless called) -->
-  <script>
-    (function(){
-      if (window.GFSR && window.GFSR.bridgeReady) return;
-      const $ = (s)=>document.querySelector(s);
-      const api = {
-        bridgeReady: true,
-        page: document.querySelector('meta[name="x-ai-optimizer-page"]')?.content || null,
-        slots: (window.__ab && window.__ab.slots) ? window.__ab.slots : {},
-        // 050/015: controlled content setters
-        setHeadline(txt){ const h = $('#ab-cta-text'); if(h && typeof txt==='string') h.textContent = txt; },
-        setPrimaryCta({text, href}={}){ const a=$('.hero-ctas .btn.btn-primary'); if(a){ if(typeof text==='string') a.textContent=text; if(typeof href==='string') a.href=href; } },
-        // 057: log helper
-        log(name, data={}){
-          try{
-            const b=new Blob([JSON.stringify({ name, ts:Date.now(), url:location.href, ...data })],{type:'application/json'});
-            if(navigator.sendBeacon) navigator.sendBeacon('/ingest', b);
-            else fetch('/ingest',{ method:'POST', body:b, keepalive:true, headers:{'Content-Type':'application/json'} }).catch(()=>{});
-          }catch{}
-        },
-        // 016: programmatic chat send
-        chatSend(text){
-          const input=document.getElementById('gfsrChatInput');
-          const form =document.getElementById('gfsrChatForm');
-          if(input && form){ input.value = text || ''; form.requestSubmit(); }
-        }
-      };
-      // 015: optional client API (safe if server exposes /ab/*)
-      api.w015 = {
-        decide: (experimentKey, context={}) =>
-          fetch('/ab/decide', { method:'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify({ experimentKey, context }) }).then(r=>r.json()),
-        report: (experimentKey, variant, outcome, meta={}) =>
-          fetch('/ab/report', { method:'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify({ experimentKey, variant, outcome, meta }) }).then(r=>r.ok)
-      };
-      window.GFSR = Object.assign(window.GFSR || {}, api);
-    })();
-  </script>
+  <!-- Chat FAB (016) -->
+  <button class="gfsr-chat-fab" type="button" onclick="openGfsrChat()" aria-label="Chat with a specialist">💬 Chat</button>
 </body>
 </html>
