@@ -1,462 +1,317 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <!-- Charset & Compatibility -->
   <meta charset="UTF-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-
-  <!-- Viewport -->
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0" />
-
-  <!-- =========================
-       TITLE & DESCRIPTION (SEO)
-       ========================= -->
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5" />
   <title>Blog | DebtReliefGuard</title>
-  <meta name="description" content="DebtReliefGuard blog: guides and tutorials to navigate debt relief with clarity." />
-  <meta name="robots" content="index,follow,max-image-preview:large" />
+  <meta name="description" content="DebtReliefGuard Blog — clear, FTC‑aligned guides with gentle CTAs to compare your savings." />
   <link rel="canonical" href="https://debtreliefguard.com/blog.index.html" />
-
-  <!-- Open Graph / Twitter -->
-  <meta property="og:type" content="website" />
-  <meta property="og:url" content="https://debtreliefguard.com/blog.index.html" />
-  <meta property="og:title" content="DebtReliefGuard Blog — Scam-Free Guides & Tutorials" />
-  <meta property="og:description" content="Clear, FTC-aligned guides to help you compare debt relief options with confidence." />
-  <meta property="og:site_name" content="DebtReliefGuard.com" />
-  <meta property="og:image" content="https://debtreliefguard.com/og-cover.jpg" />
-  <meta name="twitter:card" content="summary" />
-  <meta name="twitter:title" content="DebtReliefGuard Blog — Scam-Free Guides & Tutorials" />
-  <meta name="twitter:description" content="Clear, FTC-aligned guides to help you compare debt relief options with confidence." />
-  <meta name="twitter:image" content="https://debtreliefguard.com/og-cover.jpg" />
-
-  <!-- Fonts -->
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet" />
-
-  <!-- ===== A/B hook for AI Loop Optimizer (050) ===== -->
   <meta name="x-ai-optimizer-page" content="drg:blog" />
+  <meta name="theme-color" content="#0a5cff" />
 
-  <!-- Make brand schema easy to discover -->
-  <link rel="alternate" type="application/ld+json" href="/brand.schema.jsonld" />
+  <!-- Brand JSON-LD (shared @id) -->
+  <script type="application/ld+json">{
+    "@context":"https://schema.org",
+    "@type":["Organization","FinancialService"],
+    "@id":"https://gatewaydebthelp.com/#gfsr",
+    "name":"Gateway Financial Settlement Relief, LLC",
+    "legalName":"Gateway Financial Settlement Relief, LLC",
+    "alternateName":["Gateway Debt Help","GFSR"],
+    "url":"https://gatewaydebthelp.com/",
+    "logo":"https://debtreliefguard.com/og-cover.jpg",
+    "telephone":"+1-888-437-7141",
+    "address":{"@type":"PostalAddress","addressCountry":"US","addressRegion":"FL"},
+    "areaServed":{"@type":"Country","name":"United States"},
+    "sameAs":[
+      "https://gatewayfinancialsettlementrelief.com/",
+      "https://debthelpform.com/",
+      "https://debtreliefguard.com/",
+      "https://gatewaydebthelp.com/"
+    ],
+    "disambiguatingDescription":"Florida‑operated, Wyoming‑registered debt relief company using 'Gateway Debt Help' as a marketing tagline. Not affiliated with Gateway Debt Relief of Costa Mesa, CA."
+  }</script>
+  <script type="application/ld+json">{
+    "@context":"https://schema.org",
+    "@type":"CollectionPage",
+    "name":"DebtReliefGuard Blog",
+    "url":"https://debtreliefguard.com/blog.index.html",
+    "publisher":{"@id":"https://gatewaydebthelp.com/#gfsr"}
+  }</script>
 
-  <!-- =========================
-       STYLES (THEME-MATCHED)
-       ========================= -->
   <style>
     :root{
-      --ink:#222; --bg:#f9fafe; --brand:#004477; --brand-2:#003057;
-      --cta:#2563eb; --ok:#007b55; --card:#fff; --card-b:#e5e7eb;
-      --shadow:0 10px 30px rgba(0,0,0,.12);
-      --callbar-h:64px; --sitemap-h:52px;
+      --bg:#0b1220; --card:#0f1730; --ink:#e6ecf8; --muted:#9fb1d6;
+      --brand:#0a5cff; --brand2:#072a86; --cta:#0a5cff; --ok:#2ecc71;
+      --sitemap-h:52px; --callbar-h:0px; --max:1080px;
     }
     *{box-sizing:border-box}
-    html,body{margin:0;padding:0}
-    body{
-      font-family:'Inter',system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;
-      background:var(--bg); color:var(--ink); line-height:1.55;
-      padding-top:76px;
-      padding-bottom: calc(var(--sitemap-h) + 14px);
-    }
-    a{color:#0b63f6;text-decoration:none}
-    a:hover{text-decoration:underline}
+    html,body{margin:0;padding:0;background:var(--bg);color:var(--ink);font:16px/1.55 system-ui,-apple-system,Segoe UI,Roboto,Ubuntu,"Helvetica Neue",Arial;overflow-x:hidden}
+    a{color:#cfe0ff;text-decoration:none}
+    a:hover{opacity:.95;text-decoration:underline}
     .sr-only{position:absolute;width:1px;height:1px;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}
-    .skip-link{position:absolute;left:-999px;width:1px;height:1px;overflow:hidden}
-    .skip-link:focus{position:fixed;left:12px;top:12px;padding:.5rem .75rem;background:#000;color:#fff;z-index:10000;border-radius:6px}
 
-    /* Sticky nav (match home) */
-    .sticky-nav{
-      position:fixed; top:0; left:0; right:0; background:var(--brand-2);
-      z-index:9999; display:flex; gap:.75rem; padding:.75rem 1rem; overflow-x:auto; white-space:nowrap;
-      box-shadow:0 2px 5px rgba(0,0,0,.08)
-    }
-    .sticky-nav a{ color:#fff; font-weight:600; text-decoration:none; padding:.5rem .75rem; flex:0 0 auto; border-radius:6px }
-    .sticky-nav a[aria-current="page"]{ background:rgba(255,255,255,.12) }
-    .sticky-nav a:hover,.sticky-nav a:focus{ text-decoration:underline; outline:none }
-    .sticky-nav::-webkit-scrollbar{ display:none }
+    /* Top header (match How It Works layout) */
+    header.top{position:sticky;top:0;z-index:60;background:rgba(11,18,32,.92);backdrop-filter:blur(8px);border-bottom:1px solid rgba(255,255,255,.06)}
+    .wrap{max-width:var(--max);margin:0 auto;padding:0 16px}
+    .row{display:flex;align-items:center;gap:10px;padding:10px 0}
+    .brand{display:flex;align-items:center;gap:8px;font-weight:800;color:#fff;text-decoration:none}
+    .logo{display:inline-flex;align-items:center;justify-content:center;width:28px;height:28px;border-radius:8px;background:linear-gradient(180deg,var(--brand),var(--brand2));font-size:12px}
+    nav.pills{display:flex;gap:8px;margin-left:8px}
+    nav.pills .btn{scroll-snap-align:center}
+    nav.pills::-webkit-scrollbar{display:none}
+    .btn{display:inline-flex;align-items:center;gap:8px;border:0;border-radius:999px;padding:8px 14px;font-weight:800;cursor:pointer;text-decoration:none}
+    .btn.ghost{background:transparent;color:#dbe6ff;border:1px solid rgba(255,255,255,.15)}
+    .btn.primary{background:linear-gradient(180deg,var(--brand),var(--brand2));color:white;box-shadow:0 6px 18px rgba(10,92,255,.35)}
+    .call{margin-left:auto}
 
-    /* Desktop sticky phone pill */
-    .desk-call{
-      position:fixed; right:14px; bottom:14px; z-index:10002; display:none; align-items:center; gap:.4rem;
-      padding:.7rem 1rem; border-radius:999px; background:#007b55; color:#fff; font-weight:900; text-decoration:none;
-      box-shadow:0 10px 24px rgba(0,0,0,.18);
-    }
-    @media (min-width:769px){ .desk-call{ display:inline-flex } }
+    .ftc{border-top:1px solid rgba(255,255,255,.06);font-weight:700;color:#cfe0ff;background:#0c1b3d}
+    .ftc .row{display:flex;gap:8px;align-items:center}
+    .dot{width:7px;height:7px;border-radius:999px;background:#22c55e;display:inline-block}
 
-    /* Container + cards */
-    main.container{
-      max-width:960px; margin:1.25rem auto 4rem; background:#fff;
-      padding:1.25rem; border-radius:12px; box-shadow:0 2px 12px rgba(0,0,0,.06);
-      border:1px solid var(--card-b)
-    }
-    h1{ margin:.2rem 0 .6rem; font-size:clamp(1.6rem,2.5vw + 1rem,2.2rem); font-weight:800; text-align:center }
-    p.sub{ text-align:center; color:#6b7280; margin:0 0 1.2rem }
-    .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:16px}
-    .card{background:#fff;border:1px solid #e5e7eb;border-radius:12px;box-shadow:0 2px 10px rgba(0,0,0,.05);overflow:hidden;display:flex;flex-direction:column}
-    .card img{width:100%;height:180px;object-fit:cover;background:#f3f4f6}
+    /* Main */
+    main{max-width:var(--max);margin:0 auto;padding:14px 16px 90px}
+    h1{margin:.8rem 0 .25rem;font-size:2rem}
+    p.sub{margin:0 0 1rem;color:var(--muted)}
+
+    .layout{display:grid;grid-template-columns:1fr;gap:16px}
+    @media(min-width:980px){.layout{grid-template-columns:2fr 1fr}}
+
+    .grid{display:grid;grid-template-columns:1fr;gap:14px}
+    @media(min-width:640px){.grid{grid-template-columns:repeat(2,1fr)}}
+    @media(min-width:980px){.grid{grid-template-columns:repeat(3,1fr)}}
+
+    .card{background:var(--card);border:1px solid rgba(255,255,255,.08);border-radius:14px;overflow:hidden;box-shadow:0 10px 30px rgba(0,0,0,.12)}
+    .card img{width:100%;height:180px;object-fit:cover;background:#111827}
     .card-body{padding:14px}
     .card h2{margin:0 0 6px;font-size:18px;line-height:1.35}
-    .meta{font-size:12px;color:#6b7280}
-    .tag{display:inline-block;font-size:12px;background:#f8fafc;border:1px solid #e5e7eb;padding:4px 8px;border-radius:999px;margin-right:6px;color:#334155}
-    .muted-text{ color:#6b7280; font-size:.95rem }
+    .meta{font-size:12px;color:#9fb1d6}
+    .excerpt{color:#cbd5e1;font-size:.95rem}
+    .inline-cta{display:flex;justify-content:space-between;align-items:center;margin-top:8px;border-top:1px dashed rgba(255,255,255,.12);padding-top:8px}
+    .inline-cta a{font-weight:900}
 
-    /* Mobile dual action bar */
-    .mobile-bar{
-      position:fixed; left:0; right:0; bottom:0; background:#0b1220; color:#fff;
-      display:flex; gap:8px; padding:.6rem; z-index:9998;
-    }
-    .mobile-bar a{ flex:1; text-align:center; border-radius:10px; padding:.75rem .5rem; font-weight:900; text-decoration:none }
-    .mobile-call{ background:var(--ok); color:#fff }
-    .mobile-est{ background:#0b63f6; color:#fff }
-    @media (min-width:769px){ .mobile-bar{ display:none } }
+    /* Sidebar */
+    aside.sidebar{position:sticky;top:92px;display:grid;gap:12px;height:fit-content}
+    .sidecard{background:var(--card);border:1px solid rgba(255,255,255,.08);border-radius:14px;padding:14px}
+    .sidecard h3{margin:0 0 6px}
+    .bbb{display:flex;align-items:center;gap:8px;font-size:14px;color:#cbd5e1}
 
-    /* Bottom sticky sitemap (match home) */
-    .sticky-menu{
-      position:fixed; left:0; right:0;
-      bottom: calc(var(--callbar-h) + env(safe-area-inset-bottom));
-      background:#004488; color:#fff; z-index:9997;
-      border-top:2px solid #2563eb; height: var(--sitemap-h); display:flex; align-items:center;
-    }
-    @media (min-width:769px){ .sticky-menu{ bottom:0 } }
-    .sticky-menu nav{
-      display:flex; gap:1rem; overflow-x:auto; white-space:nowrap;
-      padding:0 .75rem; width:100%; align-items:center; scrollbar-width:none;
-    }
-    .sticky-menu nav::-webkit-scrollbar{ display:none }
-    .sticky-menu nav a{
-      color:#ffdd00; text-decoration:none; padding:.35rem .55rem; border-radius:6px;
-      font-weight:700; font-size:.92rem; flex:0 0 auto;
-    }
-    .sticky-menu nav a:hover, .sticky-menu nav a:focus{
-      background:rgba(255,255,255,.1); outline:none;
-    }
+    /* Mobile CTA bar */
+    .mobile-bar{position:fixed;left:0;right:0;bottom:0;background:#0b1220;color:#fff;display:flex;gap:8px;padding:.6rem;z-index:10000}
+    .mobile-bar a{flex:1;text-align:center;border-radius:10px;padding:.75rem .5rem;font-weight:900;text-decoration:none}
+    .mobile-call{background:var(--ok);color:#fff}
+    .mobile-est{background:var(--cta);color:#fff}
+    @media (min-width:769px){.mobile-bar{display:none}}
 
-    footer.note{ max-width:960px; margin:1rem auto 5.5rem; text-align:center; color:#666 }
-    footer.note p{ font-size:.82rem; color:#999 }
-
-    /* ensure content clears bars on mobile */
-    @media (max-width:768px){
-      body, main { padding-bottom: calc(var(--callbar-h) + var(--sitemap-h) + env(safe-area-inset-bottom) + 14px); }
-    }
+    /* Bottom 5‑pill sitemap */
+    footer.sticky-menu{position:fixed;left:0;right:0;bottom:calc(var(--callbar-h) + env(safe-area-inset-bottom));background:#003a84;color:#fff;border-top:2px solid #2563eb;height:var(--sitemap-h);display:flex;align-items:center;z-index:9997}
+    @media(min-width:769px){footer.sticky-menu{bottom:0}}
+    footer.sticky-menu nav{display:flex;gap:10px;overflow-x:auto;white-space:nowrap;padding:0 .75rem;width:100%;align-items:center;scrollbar-width:none;scroll-snap-type:x mandatory}
+    footer.sticky-menu nav::-webkit-scrollbar{display:none}
+    footer.sticky-menu nav a{scroll-snap-align:center}
+    footer.sticky-menu nav a{color:#ffdd00;text-decoration:none;padding:.35rem .55rem;border-radius:6px;font-weight:800;font-size:.92rem;flex:0 0 auto}
+    footer.sticky-menu nav a:hover{background:rgba(255,255,255,.1)}
+    .navwrap{display:grid;grid-template-columns:auto 1fr auto;align-items:center;gap:6px}
+    .nav-arrow{background:transparent;border:1px solid rgba(255,255,255,.18);color:#dbe6ff;border-radius:10px;padding:6px 8px;cursor:pointer}
+    .nav-arrow:focus{outline:2px solid #2563eb;outline-offset:2px}
+    .scroller{display:flex;gap:8px;overflow-x:auto;white-space:nowrap;scrollbar-width:none;scroll-snap-type:x mandatory}
+    .scroller::-webkit-scrollbar{display:none}
   </style>
+</head>
+<body>
+  <!-- Accessible skip -->
+  <a href="#main" class="sr-only">Skip to content</a>
 
-  <!-- =========================
-       STRUCTURED DATA (JSON-LD)
-       ========================= -->
-  <script type="application/ld+json">
-  {"@context":"https://schema.org","@type":"CollectionPage","name":"DebtReliefGuard Blog","url":"https://debtreliefguard.com/blog.index.html","publisher":{"@id":"https://gatewaydebthelp.com/#gfsr"}}
+  <!-- ===== Unified Header (5-pill nav) ===== -->
+  <header class="top" role="banner">
+    <div class="wrap"><div class="row">
+      <a class="brand" href="/"><span class="logo">DRG</span><span>Debt Relief Guard</span></a>
+      <div class="navwrap" role="navigation" aria-label="Primary">
+        <button class="nav-arrow prev" aria-label="Scroll left" type="button">◀</button>
+        <nav class="pills scroller" tabindex="0">
+          <a class="btn ghost" href="/">Home</a>
+          <a class="btn ghost" href="/how.it.works.index.html">How It Works</a>
+          <a class="btn ghost" href="/faq.index.html">FAQ</a>
+          <a class="btn ghost" href="/geo-blocked.html">State Programs</a>
+          <a class="btn ghost" href="/blog.index.html" aria-current="page">Blog</a>
+        </nav>
+        <button class="nav-arrow next" aria-label="Scroll right" type="button">▶</button>
+      </div>
+      <div class="call"><a class="btn primary" href="tel:+18884377141" aria-label="Call now: 888-437-7141">Call</a></div>
+    </div></div>
+    <div class="ftc"><div class="wrap"><div class="row"><span class="dot"></span> <strong>FTC‑aligned</strong> • No upfront fees • Transparent savings estimates</div></div></div>
+  </header>
+
+  <!-- ===== Main ===== -->
+  <main id="main" role="main" class="wrap" style="padding-bottom:calc(var(--sitemap-h) + 90px)">
+    <h1 id="ab-cta-text">Latest Articles</h1>
+    <p class="sub">Guides to help you compare consolidation vs settlement and choose confidently.</p>
+
+    <section class="layout" aria-label="Blog list and sidebar">
+      <!-- Post Grid -->
+      <div>
+        <div id="blogGrid" class="grid" aria-live="polite" aria-busy="true"></div>
+        <!-- Empty state -->
+        <div id="emptyState" class="sidecard" style="display:none;margin-top:10px">
+          <h3>Guides coming soon</h3>
+          <p class="sub">Meanwhile, see how much you can save today.</p>
+          <p><a class="btn primary" href="/#get-started" target="_blank" rel="noopener">🔒 Start Secure Estimate</a></p>
+        </div>
+      </div>
+
+      <!-- Sidebar CTAs -->
+      <aside class="sidebar" aria-label="Helpful actions">
+        <div class="sidecard">
+          <h3>Estimate Your Savings</h3>
+          <p class="sub">Private, fast, no hard credit check.</p>
+          <p><a class="btn primary" href="/#get-started" target="_blank" rel="noopener">Get Free Estimate</a></p>
+        </div>
+        <div class="sidecard">
+          <h3>Talk to a Specialist</h3>
+          <p class="sub">Prefer the phone? We’re here to help.</p>
+          <p><a class="btn ghost" href="tel:+18884377141">📞 888‑437‑7141</a></p>
+        </div>
+        <div class="sidecard bbb">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="10" stroke="#9fb1d6"/><path d="M7 12l3 3 7-7" stroke="#22c55e" stroke-width="2"/></svg>
+          <span>Trusted and consumer‑first.</span>
+        </div>
+      </aside>
+    </section>
+  </main>
+
+  <!-- Mobile CTA bar -->
+  <div id="drgMobileBar" class="mobile-bar" aria-label="Quick actions">
+    <a class="mobile-call" href="tel:+18884377141">📞 Call 888‑437‑7141</a>
+    <a class="mobile-est" href="/#get-started" target="_blank" rel="noopener">🔒 Start Secure Estimate</a>
+  </div>
+
+  <!-- Bottom 5‑pill sitemap -->
+  <footer class="sticky-menu" role="navigation" aria-label="Site map">
+    <div class="navwrap">
+      <button class="nav-arrow prev" aria-label="Scroll left" type="button">◀</button>
+      <nav class="pills scroller" tabindex="0">
+        <a href="/">Home</a>
+        <a href="/how.it.works.index.html">How It Works</a>
+        <a href="/faq.index.html">FAQ</a>
+        <a href="/geo-blocked.html">State Programs</a>
+        <a href="/blog.index.html" aria-current="page">Blog</a>
+      </nav>
+      <button class="nav-arrow next" aria-label="Scroll right" type="button">▶</button>
+    </div>
+  </footer>
+
+  <script>
+    // Toggle/scrollable menus (top & bottom) without moving the page
+    (function(){
+      function initWrap(root){
+        const scroller = root.querySelector('.scroller');
+        const prev = root.querySelector('.nav-arrow.prev');
+        const next = root.querySelector('.nav-arrow.next');
+        if(!scroller||!prev||!next) return;
+        const by = () => Math.max(140, Math.floor(scroller.clientWidth*0.8));
+        prev.addEventListener('click', ()=> scroller.scrollBy({left:-by(), behavior:'smooth'}));
+        next.addEventListener('click', ()=> scroller.scrollBy({left: by(), behavior:'smooth'}));
+        // Keyboard
+        scroller.addEventListener('keydown', (e)=>{
+          if(e.key==='ArrowLeft'){ scroller.scrollBy({left:-by(), behavior:'smooth'}); }
+          if(e.key==='ArrowRight'){ scroller.scrollBy({left: by(), behavior:'smooth'}); }
+        });
+      }
+      document.querySelectorAll('.navwrap').forEach(initWrap);
+    })();
   </script>
 
-  <!-- A/B slots (050) defaults (light) -->
+  <!-- ===== A/B hook (050 parity) kept minimal ===== -->
   <script>
     window.__ab = {
       pageKey: 'drg:blog',
       slots: { headline: '#ab-cta-text' },
-      defaults: { }
+      defaults: {}
     };
   </script>
-</head>
-<body>
-  <a href="#main" class="skip-link">Skip to content</a>
 
-  <!-- Sticky Header (match home) -->
-  <nav class="sticky-nav" role="navigation" aria-label="Main navigation">
-    <a href="/">Home</a>
-    <a href="/compare.us.html">Compare Us</a>
-    <a href="/how.it.works.index.html">How It Works</a>
-    <a href="/debt.relief.option.index.html">Relief Options</a>
-    <a href="/credit.card.relief.index.html">Credit Card Relief</a>
-    <a href="/savings.calculator.html">Calculator</a>
-    <a href="/reviews.index.html">Reviews</a>
-    <a href="/blog.index.html" aria-current="page">Blog</a>
-    <a href="/scam.warning.index.html">Scam Warnings</a>
-    <a href="/faq.index.html">FAQ</a>
-    <a href="/contact.index.html">Contact</a>
-    <a href="/privacy.policy.index.html">Privacy</a>
-    <a href="/terms.index.html">Terms</a>
-    <a href="https://debthelpform.com/#lead-form" style="background:#2563eb;color:white;padding:0.5rem 0.75rem;border-radius:6px;">Estimate</a>
-    <a href="https://gatewaydebthelp.com" target="_blank" rel="noopener">GatewayDebtHelp.com</a>
-    <a href="https://gatewayfinancialsettlementrelief.com" target="_blank" rel="noopener"><strong>GFSR Owner</strong></a>
-  </nav>
-
-  <!-- Desktop sticky phone pill (toll-free) -->
-  <a class="desk-call" href="tel:+18884377141">📞 888-437-7141</a>
-
-  <!-- MAIN -->
-  <main id="main" class="container" role="main">
-    <h1 id="ab-cta-text">Latest Articles</h1>
-    <p class="sub">Guides to help you compare consolidation vs settlement and choose confidently.</p>
-
-    <!-- Blog Cards from blogs.json -->
-    <section id="blog-list" class="grid" aria-live="polite" aria-busy="true"></section>
-  </main>
-
-  <!-- Mobile dual action bar (toll-free + estimate) -->
-  <div id="drgMobileBar" class="mobile-bar" aria-label="Quick actions">
-    <a class="mobile-call" href="tel:+18884377141" onclick="window.GFSR?.log('mobile_call_cta')">📞 Call 888-437-7141</a>
-    <a class="mobile-est" href="https://debthelpform.com/#lead-form" target="_blank" rel="noopener" onclick="window.GFSR?.log('mobile_estimate_cta')">🔒 Start Secure Estimate</a>
-  </div>
-
-  <!-- Bottom sticky sitemap (match home) -->
-  <footer class="sticky-menu" role="navigation" aria-label="Site map">
-    <nav>
-      <a href="/">Home</a>
-      <a href="/compare.us.html">Compare</a>
-      <a href="/how.it.works.index.html">How It Works</a>
-      <a href="/debt.relief.option.index.html">Debt Relief Options</a>
-      <a href="/credit.card.relief.index.html">Credit Card Relief</a>
-      <a href="/savings.calculator.html">Calculator</a>
-      <a href="/reviews.index.html">Reviews</a>
-      <a href="/blog.index.html" aria-current="page">Blog</a>
-      <a href="/scam.warning.index.html">Scam Warnings</a>
-      <a href="/faq.index.html">FAQ</a>
-      <a href="/contact.index.html">Contact</a>
-      <a href="/privacy.policy.index.html">Privacy</a>
-      <a href="/terms.index.html">Terms</a>
-      <a href="/geo-blocked.html" rel="nofollow">Geo-Blocked</a>
-      <a href="https://debthelpform.com" target="_blank" rel="noopener">DebtHelpForm.com</a>
-      <a href="https://gatewaydebthelp.com" target="_blank" rel="noopener">GatewayDebtHelp.com</a>
-    </nav>
-  </footer>
-
-  <!-- Footer legal/disambiguation -->
-  <footer class="note">
-    <p>© 2025 DebtReliefGuard.com — Trust-First. Scam-Free. GFSR Verified.</p>
-    <p>Website operated by <a href="https://gatewayfinancialsettlementrelief.com" target="_blank" rel="noopener">Gateway Financial Settlement Relief</a></p>
-    <p>“Gateway Debt Help” is the marketing brand of <strong>Gateway Financial Settlement Relief, LLC</strong>. Not affiliated with “Gateway Debt Relief” of Costa Mesa, CA.</p>
-  </footer>
-
-  <!-- Dynamic spacing for mobile bar -->
+  <!-- ===== Preview Safety: disable tel: in preview; open externals in new tab ===== -->
   <script>
     (function(){
-      const root = document.documentElement;
-      const mb = document.getElementById('drgMobileBar');
-      const setH = () => {
-        const h = mb && getComputedStyle(mb).display !== 'none' ? mb.offsetHeight : 0;
-        root.style.setProperty('--callbar-h', h + 'px');
-      };
-      setH();
-      addEventListener('resize', setH, {passive:true});
-      setTimeout(setH, 250);
-      setTimeout(setH, 1000);
+      try{
+        var isPreview=(/chatgpt\.com$/i.test(location.hostname)||location.hostname.indexOf('chatgpt')>-1);
+        if(!isPreview) return;
+        document.addEventListener('click',function(e){
+          var a=e.target.closest('a'); if(!a) return;
+          var href=a.getAttribute('href')||'';
+          if(a.protocol==='tel:'){ e.preventDefault(); alert('Tap‑to‑call is blocked in preview. On your live site this will dial 888‑437‑7141.'); return; }
+          var same = href.startsWith('/') || href.startsWith('#') || (a.origin && a.origin===location.origin);
+          if(!same){ a.target='_blank'; a.rel='noopener'; }
+        }, true);
+      }catch(e){}
     })();
   </script>
 
-  <!-- 015/016/050/057: page bridge + logging (match home) -->
+  <!-- ===== Blog Loader with inline CTAs ===== -->
   <script>
-  (function(){
-    if (window.GFSR && window.GFSR.bridgeReady) return;
-    const $ = (sel) => document.querySelector(sel);
-    const api = {
-      bridgeReady: true,
-      page: document.querySelector('meta[name="x-ai-optimizer-page"]')?.content || null,
-      slots: (window.__ab && window.__ab.slots) ? window.__ab.slots : {},
-      setHeadline(text){ const h=$('#ab-cta-text'); if(h && typeof text==='string') h.textContent = text; },
-      setPrimaryCta({text, href}={}) {
-        const a = document.querySelector('.hero-ctas .btn.btn-primary');
-        if(!a) return;
-        if (typeof text==='string') a.textContent = text;
-        if (typeof href==='string') a.href = href;
-      },
-      log(name, data={}) {
-        try{
-          const b=new Blob([JSON.stringify({ name, ts:Date.now(), url:location.href, ...data })],{type:'application/json'});
-          if(navigator.sendBeacon) navigator.sendBeacon('/ingest', b);
-          else fetch('/ingest',{ method:'POST', body:b, keepalive:true, headers:{'Content-Type':'application/json'} }).catch(()=>{});
-        }catch{}
-      },
-      chatSend(text){
-        const input = document.getElementById('gfsrChatInput');
-        const form  = document.getElementById('gfsrChatForm');
-        if(input && form){ input.value = text || ''; form.requestSubmit(); }
-      }
-    };
-    window.GFSR = Object.assign(window.GFSR || {}, api);
-  })();
-  </script>
-
-  <!-- 016 Chat FAB + Sheet (same component as home) -->
-  <button id="gfsrChatFab" class="gfsr-chat-fab" aria-haspopup="dialog" aria-expanded="false" aria-controls="gfsrChatSheet" style="position:fixed; right:14px; bottom:calc(var(--callbar-h) + var(--sitemap-h) + 14px); z-index:10003; display:inline-flex; align-items:center; gap:.5rem; padding:.8rem 1rem; border-radius:999px; border:1px solid rgba(0,0,0,.06); background:#0b63f6; color:#fff; box-shadow:0 10px 30px rgba(0,0,0,.18); font:600 14px/1.1 system-ui,-apple-system,Segoe UI,Roboto,Arial">💬 Chat</button>
-
-  <section id="gfsrChatSheet" class="gfsr-chat-sheet" role="dialog" aria-modal="true"
-           aria-labelledby="gfsrChatTitle" aria-describedby="gfsrChatDesc" hidden
-           style="position:fixed; inset:auto 0 0 0; margin:auto; width:100%; max-width:420px; right:12px; left:auto;
-                  border-radius:18px 18px 0 0; background:#fff; box-shadow:0 10px 30px rgba(0,0,0,.18);
-                  transform:translateY(110%); transition:transform .28s ease; border:1px solid rgba(0,0,0,.06); z-index:10004">
-    <header class="gfsr-chat-head" style="display:flex; align-items:center; justify-content:space-between; padding:12px 14px; border-bottom:1px solid rgba(0,0,0,.06); background:#f9fafb; border-radius:inherit">
-      <div>
-        <div id="gfsrChatTitle" class="gfsr-chat-title" style="font-weight:700; font-size:15px">Debt Help Assistant</div>
-        <div id="gfsrChatDesc" class="sr-only">Chat with our assistant. Press Escape to close.</div>
-      </div>
-      <button id="gfsrChatClose" class="gfsr-chat-close" aria-label="Close chat" style="background:transparent; border:none; padding:8px; border-radius:10px; cursor:pointer">✕</button>
-    </header>
-    <div id="gfsrChatBody" class="gfsr-chat-body" tabindex="0" style="display:flex; flex-direction:column; gap:8px; padding:12px; height:min(70vh, 520px); overflow:auto; -webkit-overflow-scrolling:touch"></div>
-
-    <form id="gfsrChatForm" class="gfsr-chat-input" style="display:flex; gap:8px; padding:10px; border-top:1px solid rgba(0,0,0,.06); background:#fff; border-radius:0 0 18px 18px">
-      <label class="sr-only" for="gfsrChatInput">Type your message</label>
-      <textarea id="gfsrChatInput" rows="1" placeholder="Type a message…" aria-label="Message" style="flex:1; resize:none; min-height:42px; max-height:120px; padding:10px 12px; border:1px solid #e5e7eb; border-radius:12px; font-size:14px; line-height:1.35"></textarea>
-      <button id="gfsrChatSend" class="gfsr-chat-send" type="submit" style="background:#0b63f6; color:#fff; border:none; padding:12px 14px; border-radius:12px; font-weight:700">Send</button>
-    </form>
-  </section>
-
-  <script>
-  (() => {
-    const el = {
-      fab:   document.getElementById('gfsrChatFab'),
-      sheet: document.getElementById('gfsrChatSheet'),
-      close: document.getElementById('gfsrChatClose'),
-      body:  document.getElementById('gfsrChatBody'),
-      form:  document.getElementById('gfsrChatForm'),
-      input: document.getElementById('gfsrChatInput'),
-      send:  document.getElementById('gfsrChatSend'),
-    };
-
-    const openChat = () => {
-      el.sheet.removeAttribute('hidden');
-      el.sheet.classList.add('open');
-      el.sheet.style.transform='translateY(0)';
-      el.fab.setAttribute('aria-expanded','true');
-      setTimeout(()=>el.input.focus(),120);
-    };
-    const closeChat = () => {
-      el.sheet.classList.remove('open');
-      el.sheet.style.transform='translateY(110%)';
-      el.fab.setAttribute('aria-expanded','false');
-      el.sheet.setAttribute('hidden','');
-      el.fab.focus();
-    };
-    el.fab.addEventListener('click', openChat);
-    el.close.addEventListener('click', closeChat);
-    window.addEventListener('keydown', e => { if (e.key==='Escape' && !el.sheet.hasAttribute('hidden')) closeChat(); });
-
-    const addMsg = (text, who='bot') => {
-      const div = document.createElement('div'); div.className = `gfsr-msg ${who}`;
-      div.style.maxWidth='88%'; div.style.padding='10px 12px'; div.style.borderRadius='14px';
-      div.style.fontSize='14px'; div.style.lineHeight='1.35';
-      if (who==='user'){ div.style.marginLeft='auto'; div.style.background='#0b63f6'; div.style.color='#fff'; div.style.borderTopRightRadius='4px'; }
-      else if (who==='bot'){ div.style.background='#eef2ff'; div.style.color='#111'; div.style.borderTopLeftRadius='4px'; }
-      else { div.style.background='#f3f4f6'; div.style.color='#444'; div.style.fontSize='12px'; div.style.margin='4px auto'; }
-      div.textContent = (text??'').toString();
-      el.body.appendChild(div); el.body.scrollTop = el.body.scrollHeight;
-    };
-
-    const KEY='gfsr-chat-history';
-    try { (JSON.parse(localStorage.getItem(KEY)||'[]')).slice(-20).forEach(m=>addMsg(m.text,m.who)); } catch {}
-    const remember=(t,w)=>{ try{ const h=JSON.parse(localStorage.getItem(KEY)||'[]'); h.push({text:t,who:w,t:Date.now()}); localStorage.setItem(KEY, JSON.stringify(h).slice(-8000)); }catch{} };
-
-    let interacted=false;
-    addEventListener('mousemove',()=>interacted=true,{once:true,passive:true});
-    addEventListener('keydown', ()=>interacted=true,{once:true,passive:true});
-    const nonce = () => Array.from(crypto.getRandomValues(new Uint8Array(12))).map(b=>b.toString(16).padStart(2,'0')).join('');
-
-    const API = `${location.origin}/chat`;
-    let busy = false;
-
-    el.form.addEventListener('submit', async (e) => {
-      e.preventDefault();
-      if (!interacted || busy) return;
-
-      const message = (el.input.value||'').trim();
-      if (!message) return;
-
-      addMsg(message,'user'); remember(message,'user');
-      el.input.value=''; busy=true; el.send.disabled=true;
-
+    (async function(){
+      const grid = document.getElementById('blogGrid');
+      const empty = document.getElementById('emptyState');
       try{
-        const r = await fetch(API, {
-          method:'POST',
-          headers:{
-            'Content-Type':'application/json',
-            'Accept':'application/json',
-            'X-Requested-With':'XMLHttpRequest',
-            'X-Client-Nonce': nonce()
-          },
-          body: JSON.stringify({
-            messages:[{ role:'user', content: message }],
-            source:'frontend',
-            url: location.href
-          })
-        });
-        if(!r.ok){
-          const t=await r.text().catch(()=> ''); addMsg(`Service error ${r.status}.`, 'meta'); console.error('CHAT ERROR', r.status, t); return;
-        }
-        const ct = r.headers.get('content-type')||''; let reply='';
-        if (ct.includes('application/json')) {
-          const d = await r.json();
-          reply = d.reply || d.message || JSON.stringify(d);
-        } else {
-          reply = await r.text();
-        }
-        addMsg(reply || 'Hi — how else can I help?','bot'); remember(reply||'','bot');
-      }catch(err){
-        console.error('CHAT NETWORK ERROR', err);
-        addMsg('Network error — please try again.','meta');
-      }finally{
-        busy=false; el.send.disabled=false; el.input.focus();
-      }
-    });
+        const isPreview = /chatgpt\.com$/i.test(location.hostname) || location.hostname.includes('chatgpt');
+        const src = isPreview ? 'https://debtreliefguard.com/blogs.json' : '/blogs.json';
+        const res = await fetch(src, {cache:'no-store'});
+        const list = await res.json();
+        const posts = Array.isArray(list) ? list : [];
+        if(!posts.length){ empty.style.display='block'; grid.setAttribute('aria-busy','false'); return; }
 
-    el.input.addEventListener('keydown', e => { if(e.key==='Enter' && !e.shiftKey){ e.preventDefault(); el.form.requestSubmit(); } });
-
-    if (!el.body.children.length) addMsg('Hi! I can help you compare debt relief options and next steps.');
-  })();
+        grid.innerHTML = posts.map(p=>{
+          const href = p.url || (p.slug ? `/blog/${p.slug}.html` : '#');
+          const date = p.date_published ? new Date(p.date_published).toLocaleDateString() : '';
+          const img  = p.image || '/og-cover.jpg';
+          const title= p.title || 'Untitled';
+          const ex   = p.excerpt || '';
+          const tags = Array.isArray(p.tags)?p.tags.slice(0,3):[];
+          return `
+            <article class="card">
+              <a href="${href}"><img alt="" src="${img}" loading="lazy"></a>
+              <div class="card-body">
+                <h2><a href="${href}">${title}</a></h2>
+                <div class="meta">${date}${tags.length?` · ${tags.join(' · ')}`:''}</div>
+                <p class="excerpt">${ex}</p>
+                <div class="inline-cta">
+                  <a href="${href}">Read more →</a>
+                  <a href="/#get-started" target="_blank" rel="noopener">See savings →</a>
+                </div>
+              </div>
+            </article>`;
+        }).join('');
+      }catch(err){ empty.style.display='block'; }
+      finally{ grid.setAttribute('aria-busy','false'); }
+    })();
   </script>
 
-  <!-- 057 Telemetry ping (match home) -->
+  <!-- ===== Core workers (ONLY 016 + 036) ===== -->
   <script>
-  (() => {
-    try{
-      const key='drg:sess:v1'; let sid=sessionStorage.getItem(key);
-      if(!sid){ sid=crypto.randomUUID(); sessionStorage.setItem(key, sid); }
-      const payload={ v:1, ts:Date.now(), sid, url:location.href, ref:document.referrer||null, w:innerWidth, h:innerHeight };
-      const blob=new Blob([JSON.stringify(payload)],{type:'application/json'});
-      if(navigator.sendBeacon){ navigator.sendBeacon('/ingest', blob); }
-      else { fetch('/ingest', { method:'POST', body: blob, keepalive:true, headers:{'Content-Type':'application/json'} }).catch(()=>{}); }
-    }catch(_){}
-  })();
+    (function(){
+      // 036 (lead router) pageview beacon
+      try{
+        const ctl=new AbortController(); setTimeout(()=>ctl.abort(),3000);
+        const metrics={ tz:Intl.DateTimeFormat().resolvedOptions().timeZone||'na', lang:navigator.language||'na', plat:navigator.platform||'na', cores:navigator.hardwareConcurrency||0, mem:navigator.deviceMemory||0 };
+        fetch('/api/mesh/036-lead-router/ingest',{
+          method:'POST', headers:{'content-type':'application/json','x-ts':String(Date.now())},
+          body:JSON.stringify({event:'blog_view',site:'DRG',page:'blog.index',metrics}), signal:ctl.signal, keepalive:true
+        }).catch(()=>{});
+      }catch(_){}
+      // 016 (chatbot) presence ping — non-blocking GET
+      try{
+        fetch('/api/mesh/016-persona-evolution-engine/health',{method:'GET',mode:'no-cors'});
+      }catch(_){}
+    })();
   </script>
 
-  <!-- Blog list loader (unchanged logic; theme-safe) -->
+  <!-- Dynamic spacing: keep sitemap above mobile bar on phones -->
   <script>
-  (async function(){
-    const el = document.getElementById('blog-list');
-    try{
-      const res = await fetch('/blogs.json', {cache:'no-store', credentials:'omit'});
-      if(!res.ok) throw new Error('HTTP '+res.status);
-      const items = await res.json();
-
-      const html = (Array.isArray(items) ? items : []).map(p => {
-        const href = p.url || p.content_url || (p.slug ? `/blog/${p.slug}.html` : '#');
-        const img = p.image ? `<img src="${p.image}" alt="">` : '';
-        const tags = Array.isArray(p.tags) ? p.tags.slice(0,3).map(t=>`<span class="tag">${t}</span>`).join('') : '';
-        const date = p.date_published ? new Date(p.date_published).toLocaleDateString() : '';
-        return `
-          <article class="card">
-            ${img}
-            <div class="card-body">
-              <h2><a href="${href}" onclick="window.GFSR?.log('blog_card_click',{slug:${JSON.stringify(p.slug||null)}})">${p.title || 'Untitled'}</a></h2>
-              <div class="meta">${date}${p.author ? ' · ' + p.author : ''}</div>
-              <p style="margin:12px 0 14px;color:#4b5563">${p.excerpt || ''}</p>
-              <div>${tags}</div>
-            </div>
-          </article>
-        `;
-      }).join('');
-      el.innerHTML = html || '<p>No posts yet.</p>';
-      el.setAttribute('aria-busy','false');
-    } catch(err){
-      console.error('BLOG LIST ERROR', err);
-      el.innerHTML = `<p>Sorry, we couldn’t load the blog list. Please refresh.</p>`;
-      el.setAttribute('aria-busy','false');
-    }
-  })();
+    (function(){
+      const root=document.documentElement, mb=document.getElementById('drgMobileBar');
+      function setH(){ const v = mb && getComputedStyle(mb).display !== 'none'; root.style.setProperty('--callbar-h', (v?mb.offsetHeight:0)+'px'); }
+      setH(); addEventListener('resize', setH, {passive:true}); setTimeout(setH,250); setTimeout(setH,1000);
+    })();
   </script>
-
-  <!-- Show mobile quick bar on small screens -->
-  <div class="mobile-bar" aria-label="Quick actions" style="display:none"></div>
-  <script>
-    if (window.matchMedia && window.matchMedia('(max-width: 768px)').matches) {
-      document.querySelectorAll('.mobile-bar').forEach(el=>el.style.display='flex');
-    }
-  </script>
-
-  <noscript><p style="text-align:center;color:#666">Enable JavaScript to view dynamic features and chat.</p></noscript>
 </body>
 </html>
