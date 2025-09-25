@@ -7,7 +7,6 @@
   <meta name="description" content="Contact Debt Relief Guard — FTC‑aligned answers about debt consolidation loans, settlement, and counseling. Call 888‑437‑7141 or send a secure message." />
   <link rel="canonical" href="https://debtreliefguard.com/contact.index.html" />
   <meta name="theme-color" content="#0a5cff" />
-  <meta name="last-modified" content="2025-09-24" />
   <meta name="x-ai-optimizer-page" content="DRG:contact" />
 
   <!-- Fonts (same as site) -->
@@ -20,11 +19,10 @@
       --ink:#eaf1ff; --muted:#a7c6ff; --bg:#0b1220;
       --brand:#0a5cff; --brand2:#072a86; --cta:#0b63f6; --ok:#007b55;
       --card:rgba(255,255,255,.03); --card-b:rgba(255,255,255,.08);
-      --sitemap-h: 56px; /* bottom sticky menu height */
+      --sitemap-h:56px; /* bottom sticky menu height */
     }
     *{box-sizing:border-box}
-    html,body{margin:0;padding:0}
-    body{font-family:'Inter',system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;background:var(--bg);color:var(--ink)}
+    html,body{margin:0;padding:0;background:var(--bg);color:var(--ink);font-family:'Inter',system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif}
 
     /* Peeled header (matches Home/FAQ) */
     header.top{position:sticky;top:0;z-index:1000;background:linear-gradient(180deg,#0b1220,rgba(11,18,32,.92) 70%,rgba(11,18,32,0));backdrop-filter:saturate(140%) blur(8px);border-bottom:1px solid rgba(255,255,255,.06)}
@@ -32,10 +30,17 @@
     header .row{display:flex;align-items:center;gap:10px}
     .brand{display:inline-flex;align-items:center;gap:8px;text-decoration:none;color:#fff;font-weight:900}
     .logo{display:inline-grid;place-items:center;width:32px;height:32px;border-radius:9px;background:#0a5cff;color:#fff;font-weight:900}
-    nav a.btn{border:1px solid rgba(255,255,255,.12);border-radius:999px;padding:.5rem .8rem;text-decoration:none;font-weight:800;color:#d8e3ff}
-    nav{display:flex;gap:8px;margin-left:auto;margin-right:8px}
-    .btn.primary{background:linear-gradient(180deg,var(--brand),var(--brand2));color:#fff;box-shadow:0 6px 18px rgba(10,92,255,.35)}
+
+    /* Unified 5‑pill menus (toggle horizontally) */
+    .navwrap{display:grid;grid-template-columns:auto 1fr auto;align-items:center;gap:6px;margin-left:auto;margin-right:8px}
+    .nav-arrow{background:transparent;border:1px solid rgba(255,255,255,.18);color:#dbe6ff;border-radius:10px;padding:6px 8px;cursor:pointer}
+    .nav-arrow:focus{outline:2px solid #2563eb;outline-offset:2px}
+    nav.pills{display:flex;gap:8px;overflow-x:auto;white-space:nowrap;scrollbar-width:none;scroll-snap-type:x mandatory}
+    nav.pills::-webkit-scrollbar{display:none}
+    nav.pills a.btn{border:1px solid rgba(255,255,255,.12);border-radius:999px;padding:.5rem .8rem;text-decoration:none;font-weight:800;color:#d8e3ff;scroll-snap-align:center}
     .btn.ghost:hover{background:rgba(255,255,255,.06)}
+    .btn.primary{background:linear-gradient(180deg,var(--brand),var(--brand2));color:#fff;box-shadow:0 6px 18px rgba(10,92,255,.35)}
+
     .call .pill-btn{display:inline-flex;align-items:center;gap:.4rem;padding:.55rem .9rem;font-size:.95rem;line-height:1;text-decoration:none;border-radius:999px;background:var(--ok);color:#fff;font-weight:900;box-shadow:0 4px 12px rgba(0,0,0,.2)}
     .ftc{border-top:1px solid rgba(255,255,255,.06);font-size:12px;color:#afc7ff}
     .ftc .row{display:flex;gap:8px;align-items:center;padding:8px 0}
@@ -49,8 +54,7 @@
     h1{font-size:clamp(22px,4.5vw,36px);line-height:1.2;margin:0 0 8px}
     .sub{color:var(--muted);font-size:15px;margin:0 0 12px}
 
-    /* Form */
-    form.contact{display:grid;gap:10px}
+    /* Contact blocks */
     .row2{display:grid;gap:10px}
     @media(min-width:720px){.row2{grid-template-columns:1fr 1fr}}
     label{font-weight:800;font-size:.95rem}
@@ -59,9 +63,10 @@
     .btn-row{display:flex;gap:8px;flex-wrap:wrap;justify-content:center}
     .btn.submit{background:var(--cta);color:#fff;border:none;border-radius:10px;padding:.8rem 1rem;font-weight:900;text-align:center}
     .btn.secondary{background:rgba(255,255,255,.06);color:#fff;border:1px solid rgba(255,255,255,.12);border-radius:10px;padding:.8rem 1rem;font-weight:900;text-decoration:none;text-align:center}
-    .msg{margin-top:6px;font-size:.95rem}
-    .msg.ok{color:#2ad27f}
-    .msg.err{color:#ff8080}
+
+    /* Better visibility for phone links (dark BG) */
+    a[href^="tel:"]{color:#ffdd00;text-decoration:underline;font-weight:900}
+    a[href^="tel:"]:hover{opacity:.9}
 
     /* Mobile CTA bar */
     .mobile-bar{position:fixed;left:0;right:0;bottom:0;background:#0b1220;color:#fff;display:flex;gap:8px;padding:.6rem;z-index:10000;justify-content:center}
@@ -70,28 +75,37 @@
     .mobile-est{background:var(--cta);color:#fff}
     @media (min-width:769px){.mobile-bar{display:none}}
 
-    /* Bottom sticky sitemap (5-pill menu, matches site) */
+    /* Bottom sticky sitemap (5‑pill menu, unified) */
     footer.sticky-menu{position:fixed;left:0;right:0;bottom:0;z-index:9999;background:linear-gradient(0deg,rgba(0,0,0,.42),rgba(0,0,0,.0));padding-bottom:env(safe-area-inset-bottom)}
-    footer.sticky-menu nav{display:flex;gap:1rem;overflow-x:auto;white-space:nowrap;padding:0 .75rem;align-items:center;scrollbar-width:none;justify-content:center}
+    footer.sticky-menu nav{display:flex;gap:1rem;overflow-x:auto;white-space:nowrap;padding:0 .75rem;align-items:center;scrollbar-width:none;justify-content:center;scroll-snap-type:x mandatory}
     footer.sticky-menu nav::-webkit-scrollbar{display:none}
-    footer.sticky-menu nav a{color:#ffdd00;text-decoration:none;padding:.35rem .55rem;border-radius:6px;font-weight:700;font-size:.92rem;flex:0 0 auto}
+    footer.sticky-menu nav a{color:#ffdd00;text-decoration:none;padding:.35rem .55rem;border-radius:6px;font-weight:700;font-size:.92rem;flex:0 0 auto;scroll-snap-align:center}
     footer.sticky-menu nav a:hover{background:rgba(255,255,255,.1)}
-
-    /* Chat FAB (016) */
-    .gfsr-chat-fab{position:fixed;right:14px;bottom:calc(var(--sitemap-h) + 18px);z-index:10002;display:inline-flex;align-items:center;gap:.4rem;padding:.7rem 1rem;border-radius:999px;background:var(--cta);color:#fff;font-weight:900;text-decoration:none;box-shadow:0 10px 24px rgba(0,0,0,.18)}
   </style>
+  <script>
+    // Centralize endpoints so we can swap routes without touching markup
+    window.DRG_ENDPOINTS = window.DRG_ENDPOINTS || {
+      sixteen: { health: "/api/mesh/016-persona-evolution-engine/health", chat: "/chat" },
+      thirtysix: { ingest: "/api/mesh/036-lead-router/ingest", config: "/api/mesh/036-lead-router/config" }
+    };
+  </script>
 </head>
 <body>
-  <!-- Sticky peeled header (5-pill menu exactly like Home/FAQ) -->
+  <!-- Sticky peeled header (5‑pill menu exactly like Home/FAQ) -->
   <header class="top">
     <div class="wrap"><div class="row">
       <a class="brand" href="/"><span class="logo">DRG</span><span>Debt Relief Guard</span></a>
-      <nav>
-        <a class="btn ghost" href="/how.it.works.index.html">How It Works</a>
-        <a class="btn ghost" href="/faq.index.html">FAQ</a>
-        <a class="btn ghost" href="/geo-blocked.html">State Programs</a>
-        <a class="btn ghost" href="/blog.index.html">Blog</a>
-      </nav>
+      <div class="navwrap" role="navigation" aria-label="Primary">
+        <button class="nav-arrow prev" aria-label="Scroll left" type="button">◀</button>
+        <nav class="pills" tabindex="0">
+          <a class="btn ghost" href="/">Home</a>
+          <a class="btn ghost" href="/how.it.works.index.html">How It Works</a>
+          <a class="btn ghost" href="/faq.index.html">FAQ</a>
+          <a class="btn ghost" href="/geo-blocked.html">State Programs</a>
+          <a class="btn ghost" href="/blog.index.html">Blog</a>
+        </nav>
+        <button class="nav-arrow next" aria-label="Scroll right" type="button">▶</button>
+      </div>
       <div class="call"><a class="pill-btn" href="tel:+18884377141" aria-label="Call now: 888-437-7141">📞 Call</a></div>
     </div></div>
     <div class="ftc"><div class="wrap"><div class="row"><div class="dot"></div> <strong>FTC‑aligned</strong> • No upfront fees • Transparent savings estimates</div></div></div>
@@ -110,11 +124,11 @@
   </section>
 
   <!-- MAIN -->
-  <main id="main" class="wrap" role="main" style="padding:12px 0 90px">
+  <main id="main" class="wrap" role="main" style="padding:12px 0 calc(var(--sitemap-h) + 90px)">
     <section class="card pad" aria-labelledby="contact-direct">
       <h2 id="contact-direct">Talk to a Specialist</h2>
       <div class="row2" aria-label="Direct contact options">
-        <div><strong>Phone:</strong> <a href="tel:+18884377141">+1 (888) 437‑7141</a></div>
+        <div><strong>Phone:</strong> <a class="phone-link" href="tel:+18884377141">+1 (888) 437‑7141</a></div>
         <div><strong>Email:</strong> <a href="mailto:info@gatewaydebthelp.com">info@gatewaydebthelp.com</a></div>
       </div>
       <p class="sub" style="margin-top:.6rem">Business hours: Mon–Fri 9am–7pm ET (US)</p>
@@ -155,6 +169,16 @@
         <div id="formMsg" class="msg" role="status" aria-live="polite" style="min-height:1.2em"></div>
       </form>
     </section>
+
+    <!-- Optional slot that 036 can override via /config -->
+    <section class="card pad" aria-labelledby="cta-override" style="margin-top:12px">
+      <h2 id="cta-override">Prefer the fast lane?</h2>
+      <p class="sub">036 can tune this block based on campaign/config.</p>
+      <div class="btn-row">
+        <a id="primaryCta" class="btn submit" href="/">🔒 Start Secure Estimate</a>
+        <a class="btn secondary" href="tel:+18884377141">📞 Call 888‑437‑7141</a>
+      </div>
+    </section>
   </main>
 
   <!-- Mobile CTA bar -->
@@ -163,7 +187,7 @@
     <a class="mobile-est" href="/">🔒 Start Secure Estimate</a>
   </div>
 
-  <!-- Bottom sitemap (5-pill menu) -->
+  <!-- Bottom sitemap (5‑pill menu) -->
   <footer class="sticky-menu" role="navigation" aria-label="Site map" style="height:var(--sitemap-h)">
     <nav>
       <a href="/">Home</a>
@@ -174,38 +198,73 @@
     </nav>
   </footer>
 
+  <!-- Toggle/scroll behavior for menus (does not move the page) -->
+  <script>
+    (function(){
+      function initWrap(root){
+        const scroller = root.querySelector('nav.pills');
+        const prev = root.querySelector('.nav-arrow.prev');
+        const next = root.querySelector('.nav-arrow.next');
+        if(!scroller||!prev||!next) return;
+        const by = () => Math.max(140, Math.floor(scroller.clientWidth*0.8));
+        prev.addEventListener('click', ()=> scroller.scrollBy({left:-by(), behavior:'smooth'}));
+        next.addEventListener('click', ()=> scroller.scrollBy({left: by(), behavior:'smooth'}));
+        scroller.addEventListener('keydown', (e)=>{
+          if(e.key==='ArrowLeft') scroller.scrollBy({left:-by(), behavior:'smooth'});
+          if(e.key==='ArrowRight') scroller.scrollBy({left: by(), behavior:'smooth'});
+        });
+      }
+      document.querySelectorAll('.navwrap').forEach(initWrap);
+    })();
+  </script>
+
+  <!-- Preview safety: keep external links in new tab; block tel: during preview -->
+  <script>
+    (function(){try{var isPreview=(/chatgpt\.com$/i.test(location.hostname)||location.hostname.indexOf('chatgpt')>-1);if(!isPreview) return;document.addEventListener('click',function(e){var a=e.target.closest('a');if(!a) return;var href=a.getAttribute('href')||'';if(a.protocol==='tel:'){e.preventDefault();alert('Tap‑to‑call is blocked in preview. On your live site this will dial 888‑437‑7141.');return;}var same=a.origin===location.origin||href.startsWith('/')||href.startsWith('#');if(!same){a.target='_blank';a.rel='noopener';}},true);}catch(e){}})();
+  </script>
+
   <!-- ===== Scripts (ONLY 016 + 036) ===== -->
   <script>
-    // Preview safety: keep external links in new tab; block tel: during preview
-    (function(){try{var isPreview=(/chatgpt\.com$/i.test(location.hostname)||location.hostname.indexOf('chatgpt')>-1);if(!isPreview) return;document.addEventListener('click',function(e){var a=e.target.closest('a');if(!a) return;var href=a.getAttribute('href')||'';var same=a.origin===location.origin||href.startsWith('/')||href.startsWith('#');if(a.protocol==='tel:'){e.preventDefault();alert('Tap‑to‑call is blocked in preview. On your live site this will dial 888‑437‑7141.');return;}if(!same){a.target='_blank';a.rel='noopener';}},true);}catch(e){}})();
-  </script>
-  <script>
-    // 036 Lead Router — pageview + contact submit
+    // 036 Lead Router — pageview (send)
     (function(){
       try{
         const ctl=new AbortController(); setTimeout(()=>ctl.abort(),3000);
-        const metrics={tz:Intl.DateTimeFormat().resolvedOptions().timeZone||'na',lang:navigator.language||'na',plat:navigator.platform||'na',cores:navigator.hardwareConcurrency||0,mem:navigator.deviceMemory||0};
-        fetch('/api/mesh/036-lead-router/ingest',{
+        const m={tz:Intl.DateTimeFormat().resolvedOptions().timeZone||'na',lang:navigator.language||'na',plat:navigator.platform||'na',cores:navigator.hardwareConcurrency||0,mem:navigator.deviceMemory||0};
+        fetch(window.DRG_ENDPOINTS.thirtysix.ingest,{
           method:'POST',headers:{'content-type':'application/json','x-ts':String(Date.now())},
-          body:JSON.stringify({event:'contact_view',site:'DRG',page:'contact.index',metrics}),signal:ctl.signal,keepalive:true
+          body:JSON.stringify({event:'contact_view',site:'DRG',page:'contact.index',metrics:m}),signal:ctl.signal,keepalive:true
         }).catch(()=>{});
-      }catch(_){}
+      }catch(_){ }
+    })();
 
-      const form=document.getElementById('contactForm');
-      const msg=document.getElementById('formMsg');
-      if(!form) return;
-      form.addEventListener('submit', async (e)=>{
-        e.preventDefault();
-        msg.className='msg'; msg.textContent='Sending…';
-        const data={
-          name:form.name.value.trim(), email:form.email.value.trim(), phone:form.phone.value.trim(), topic:form.topic.value.trim(), message:form.message.value.trim(), url:location.href, ts:Date.now()
-        };
-        if(!data.name||!data.email||!data.message){ msg.className='msg err'; msg.textContent='Please fill Name, Email, and Message.'; return; }
-        try{
-          const r=await fetch('/api/mesh/036-lead-router/contact',{
-            method:'POST', headers:{'Content-Type':'application/json','Accept':'application/json','X-Requested-With':'XMLHttpRequest'},
-            body:JSON.stringify(data)
-          });
-          if(!r.ok) throw new Error('HTTP '+r.status);
-          msg.className='msg ok'; msg.textContent='Thanks — your message was sent.'; form.reset();
-          fetch('/api/mesh/036-lead-router/ingest',{ method:'POST', headers:{'content-type':'application/json'}, body:JSON
+    // 036 Lead Router — config (receive)
+    (async function(){
+      try{
+        const r = await fetch(window.DRG_ENDPOINTS.thirtysix.config,{headers:{'Accept':'application/json'},cache:'no-store'});
+        if(!r.ok) return; const data = await r.json().catch(()=>null); const man = data?.config?.manifest || data?.manifest || null; if(!man) return;
+        const h = document.querySelector('h1'); if(h && typeof man.hero==='string') h.textContent = man.hero;
+        const a = document.getElementById('primaryCta'); if(a){ if(typeof man.cta?.text==='string') a.textContent = man.cta.text; if(typeof man.cta?.href==='string') a.href = man.cta.href; }
+      }catch(_){ /* soft fail */ }
+    })();
+
+    // 016 presence ping (send) + lightweight chat check (receive: 200/ok)
+    (async function(){
+      try{ fetch(window.DRG_ENDPOINTS.sixteen.health,{method:'GET',mode:'no-cors'}); }catch(_){}
+      try{
+        // Probe chat endpoint availability without sending user data
+        const r = await fetch(window.DRG_ENDPOINTS.sixteen.chat, { method:'OPTIONS' });
+        console.log('016 /chat availability:', r.status);
+      }catch(_){ }
+    })();
+  </script>
+
+  <!-- Mobile bar height sync --> (keeps sitemap flush) -->
+  <script>
+    (function(){
+      const root=document.documentElement, mb=document.getElementById('drgMobileBar');
+      function setH(){ const visible = mb && getComputedStyle(mb).display!=='none'; root.style.setProperty('--sitemap-h',(visible?mb.offsetHeight:56)+'px'); }
+      setH(); addEventListener('resize', setH, {passive:true}); setTimeout(setH, 250); setTimeout(setH, 1000);
+    })();
+  </script>
+</body>
+</html>
