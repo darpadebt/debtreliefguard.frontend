@@ -56,23 +56,23 @@
     label{font-weight:800;font-size:.95rem}
     input,textarea,select{width:100%;background:#0e1730;color:#eaf1ff;border:1px solid rgba(255,255,255,.14);border-radius:10px;padding:.7rem .8rem}
     textarea{min-height:120px}
-    .btn-row{display:flex;gap:8px;flex-wrap:wrap}
-    .btn.submit{background:var(--cta);color:#fff;border:none;border-radius:10px;padding:.8rem 1rem;font-weight:900}
-    .btn.secondary{background:rgba(255,255,255,.06);color:#fff;border:1px solid rgba(255,255,255,.12);border-radius:10px;padding:.8rem 1rem;font-weight:900;text-decoration:none}
+    .btn-row{display:flex;gap:8px;flex-wrap:wrap;justify-content:center}
+    .btn.submit{background:var(--cta);color:#fff;border:none;border-radius:10px;padding:.8rem 1rem;font-weight:900;text-align:center}
+    .btn.secondary{background:rgba(255,255,255,.06);color:#fff;border:1px solid rgba(255,255,255,.12);border-radius:10px;padding:.8rem 1rem;font-weight:900;text-decoration:none;text-align:center}
     .msg{margin-top:6px;font-size:.95rem}
     .msg.ok{color:#2ad27f}
     .msg.err{color:#ff8080}
 
     /* Mobile CTA bar */
-    .mobile-bar{position:fixed;left:0;right:0;bottom:0;background:#0b1220;color:#fff;display:flex;gap:8px;padding:.6rem;z-index:10000}
-    .mobile-bar a{flex:1;text-align:center;border-radius:10px;padding:.75rem .5rem;font-weight:900;text-decoration:none}
+    .mobile-bar{position:fixed;left:0;right:0;bottom:0;background:#0b1220;color:#fff;display:flex;gap:8px;padding:.6rem;z-index:10000;justify-content:center}
+    .mobile-bar a{flex:1;text-align:center;border-radius:10px;padding:.75rem .5rem;font-weight:900;text-decoration:none;max-width:50%}
     .mobile-call{background:var(--ok);color:#fff}
     .mobile-est{background:var(--cta);color:#fff}
     @media (min-width:769px){.mobile-bar{display:none}}
 
     /* Bottom sticky sitemap (5-pill menu, matches site) */
     footer.sticky-menu{position:fixed;left:0;right:0;bottom:0;z-index:9999;background:linear-gradient(0deg,rgba(0,0,0,.42),rgba(0,0,0,.0));padding-bottom:env(safe-area-inset-bottom)}
-    footer.sticky-menu nav{display:flex;gap:1rem;overflow-x:auto;white-space:nowrap;padding:0 .75rem;align-items:center;scrollbar-width:none}
+    footer.sticky-menu nav{display:flex;gap:1rem;overflow-x:auto;white-space:nowrap;padding:0 .75rem;align-items:center;scrollbar-width:none;justify-content:center}
     footer.sticky-menu nav::-webkit-scrollbar{display:none}
     footer.sticky-menu nav a{color:#ffdd00;text-decoration:none;padding:.35rem .55rem;border-radius:6px;font-weight:700;font-size:.92rem;flex:0 0 auto}
     footer.sticky-menu nav a:hover{background:rgba(255,255,255,.1)}
@@ -102,7 +102,7 @@
     <div class="card pad center">
       <h1>Contact Debt Relief Guard</h1>
       <p class="sub">Ask anything — no pressure. Prefer a quick estimate? Start securely with no hard credit check.</p>
-      <div class="btn-row" style="justify-content:center">
+      <div class="btn-row">
         <a class="btn secondary" href="tel:+18884377141">📞 Call 888‑437‑7141</a>
         <a class="btn submit" href="/">🔒 Start Secure Estimate</a>
       </div>
@@ -208,4 +208,4 @@
           });
           if(!r.ok) throw new Error('HTTP '+r.status);
           msg.className='msg ok'; msg.textContent='Thanks — your message was sent.'; form.reset();
-          fetch('/api/mesh/036-lead-router/ingest',{ method:'POST', headers:{'content-type':'application/json'}, body:JSON.stringify({event:'contact_submit',site:'DRG',page:'contact.index'}) }).
+          fetch('/api/mesh/036-lead-router/ingest',{ method:'POST', headers:{'content-type':'application/json'}, body:JSON
