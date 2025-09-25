@@ -8,24 +8,14 @@
   <link rel="canonical" href="https://debtreliefguard.com/how.it.works.index.html" />
   <meta name="x-ai-optimizer-page" content="DRG:how-it-works" />
   <meta name="theme-color" content="#0a5cff" />
-  <meta name="last-modified" content="2025-09-24" />
+  <meta name="last-modified" content="2025-09-25" />
 
-  <!-- JSON-LD WebPage + FAQ -->
-  <script type="application/ld+json">{
-    "@context":"https://schema.org",
-    "@type":"FAQPage",
-    "mainEntity":[
-      {"@type":"Question","name":"Does getting an estimate impact my credit?","acceptedAnswer":{"@type":"Answer","text":"No. Our estimate flow does not use a hard credit inquiry. You can review options without affecting your credit score."}},
-      {"@type":"Question","name":"What debts are eligible?","acceptedAnswer":{"@type":"Answer","text":"Unsecured debts like credit cards, personal loans and medical bills are commonly eligible. Secured debts (e.g., auto loans, mortgages) generally are not."}},
-      {"@type":"Question","name":"How fast is the process?","acceptedAnswer":{"@type":"Answer","text":"You can get an initial estimate in a couple of minutes. The exact timeline to a program depends on your chosen option and provider onboarding."}},
-      {"@type":"Question","name":"Does debt relief hurt my credit?","acceptedAnswer":{"@type":"Answer","text":"Debt relief options affect credit differently. Consolidation loans may cause a small, temporary dip from a hard inquiry, settlement generally has a more significant short-term impact but may reduce total payoff, and credit counseling typically does not require a hard inquiry."}},
-      {"@type":"Question","name":"Is debt settlement legitimate?","acceptedAnswer":{"@type":"Answer","text":"Yes—when done by compliant providers who follow the FTC Telemarketing Sales Rule (no upfront fees, clear disclosures). Settlement involves negotiating with creditors to accept less than the full balance."}},
-      {"@type":"Question","name":"Are debt consolidation loans a good idea?","acceptedAnswer":{"@type":"Answer","text":"Consolidation loans can simplify payments and potentially lower interest if you qualify. They usually require sufficient credit and stable income. We help compare payments, total cost, and eligibility side-by-side with other options."}}
-    ]
-  }</script>
+  <!-- JSON-LD FAQ kept for SEO parity -->
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"Does getting an estimate impact my credit?","acceptedAnswer":{"@type":"Answer","text":"No. Our estimate flow does not use a hard credit inquiry. You can review options without affecting your credit score."}}, {"@type":"Question","name":"What debts are eligible?","acceptedAnswer":{"@type":"Answer","text":"Unsecured debts like credit cards, personal loans and medical bills are commonly eligible. Secured debts (e.g., auto loans, mortgages) generally are not."}}, {"@type":"Question","name":"How fast is the process?","acceptedAnswer":{"@type":"Answer","text":"You can get an initial estimate in a couple of minutes. The exact timeline to a program depends on your chosen option and provider onboarding."}}, {"@type":"Question","name":"Does debt relief hurt my credit?","acceptedAnswer":{"@type":"Answer","text":"Debt relief options affect credit differently. Consolidation loans may cause a small, temporary dip from a hard inquiry, settlement generally has a more significant short-term impact but may reduce total payoff, and credit counseling typically does not require a hard inquiry."}}, {"@type":"Question","name":"Is debt settlement legitimate?","acceptedAnswer":{"@type":"Answer","text":"Yes—when done by compliant providers who follow the FTC Telemarketing Sales Rule (no upfront fees, clear disclosures). Settlement involves negotiating with creditors to accept less than the full balance."}}, {"@type":"Question","name":"Are debt consolidation loans a good idea?","acceptedAnswer":{"@type":"Answer","text":"Consolidation loans can simplify payments and potentially lower interest if you qualify. They usually require sufficient credit and stable income. We help compare payments, total cost, and eligibility side-by-side with other options."}}]}
+  </script>
 
   <style>
-    :root{--brand:#0a5cff;--brand2:#072a86;--bg:#0b1220;--card:#0f1730;--text:#e6ecf8;--muted:#89a0c7;--ok:#2ecc71;--cta:#0a5cff;--sitemap-h:52px}
+    :root{--brand:#0a5cff;--brand2:#072a86;--bg:#0b1220;--card:#0f1730;--text:#e6ecf8;--muted:#89a0c7;--ok:#2ecc71;--cta:#0a5cff;--sitemap-h:52px;--highlight:#ffd700}
     html,body{margin:0;padding:0;background:var(--bg);color:var(--text);font:16px/1.5 system-ui,-apple-system,Segoe UI,Roboto,Ubuntu,"Helvetica Neue",Arial}
     a{color:inherit}
     .wrap{max-width:1080px;margin:0 auto;padding:0 16px}
@@ -52,16 +42,20 @@
     .step h3{margin:.2rem 0 .35rem;color:#eaf1ff}
     .step p{margin:.25rem 0 .4rem;color:#d8e3ff}
     .kicker{display:inline-block;background:#0c1b3d;border:1px solid rgba(255,255,255,.06);border-radius:999px;padding:.35rem .6rem;color:#cfe0ff;font-weight:800}
+    .step .icon{display:inline-flex;align-items:center;justify-content:center;width:36px;height:36px;border-radius:10px;background:rgba(255,255,255,.08);margin-right:8px}
+    .bullet{display:flex;align-items:flex-start;gap:8px;margin:.35rem 0;color:#cfe0ff}
+    .bullet svg{flex:0 0 16px;margin-top:2px}
+    .micro{font-size:12px;color:#a9bbdf}
+    .phone-highlight{color:var(--highlight);font-weight:900;font-size:1.1em}
     .mobile-bar{position:fixed;left:0;right:0;bottom:0;background:#0b1220;color:#fff;display:flex;gap:8px;padding:.6rem;z-index:10000}
     .mobile-bar a{flex:1;text-align:center;border-radius:10px;padding:.75rem .5rem;font-weight:900;text-decoration:none}
     .mobile-call{background:var(--ok);color:#fff}
     .mobile-est{background:var(--cta);color:#fff}
     @media (min-width:769px){.mobile-bar{display:none}}
-    .gfsr-chat-fab{position:fixed;right:14px;bottom:calc(var(--sitemap-h) + 18px);z-index:10002;display:inline-flex;align-items:center;gap:.4rem;padding:.7rem 1rem;border-radius:999px;background:var(--cta);color:#fff;font-weight:900;text-decoration:none;box-shadow:0 10px 24px rgba(0,0,0,.18)}
+    .gfsr-chat-fab{display:none}
   </style>
 </head>
 <body>
-
   <header class="top">
     <div class="wrap"><div class="row">
       <a class="brand" href="/"><span class="logo">DRG</span><span>Debt Relief Guard</span></a>
@@ -86,26 +80,33 @@
   </section>
 
   <main id="main" class="wrap" role="main" style="padding:12px 0 80px">
-    <section class="grid cols-3">
+    <section class="grid cols-3" aria-label="3-step process">
       <article class="step">
-        <h3>1) Start Your Secure Estimate</h3>
-        <p>Answer a few questions about your unsecured debts. No hard credit check, no obligation.</p>
+        <div class="bullet"><span class="icon">📋</span><h3>1) Start Your Secure Estimate</h3></div>
+        <p>Answer a few questions about your unsecured debts. <strong>No hard credit check</strong>, no obligation.</p>
+        <div class="bullet"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg><span>60–90 seconds • works on mobile</span></div>
         <p><a class="btn primary" href="/#lead-form">Start Secure Estimate</a></p>
       </article>
+
       <article class="step">
-        <h3>2) Compare Verified Options</h3>
-        <p>We outline typical ranges for <strong>debt consolidation loans</strong>, <strong>debt settlement</strong>, and <strong>credit counseling</strong> — payments, timelines, and trade‑offs.</p>
+        <div class="bullet"><span class="icon">⚖️</span><h3>2) Compare Verified Options</h3></div>
+        <p>We outline typical ranges for <strong>debt consolidation loans</strong>, <strong>debt settlement</strong>, and <strong>credit counseling</strong>.</p>
+        <div class="bullet"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20l9-5-9-5-9 5 9 5z"/><path d="M12 12V4"/></svg><span>Side‑by‑side comparison</span></div>
+        <div class="bullet"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 8v8M8 12h8"/></svg><span>No upfront fees • FTC‑aligned guidance</span></div>
       </article>
+
       <article class="step">
-        <h3>3) Choose With Confidence</h3>
-        <p>We connect you to vetted providers and help you avoid scams with FTC‑aligned guidance and clear disclosures.</p>
+        <div class="bullet"><span class="icon">✅</span><h3>3) Choose With Confidence</h3></div>
+        <p>Connect with vetted providers. Review terms with a specialist. <strong>No pressure—just facts.</strong></p>
+        <div class="bullet"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><path d="M22 4L12 14.01l-3-3"/></svg><span>Scam‑avoidance tips baked in</span></div>
+        <p class="phone-highlight">📞 Toll‑Free: 888‑437‑7141</p>
       </article>
     </section>
 
     <section class="grid" style="margin-top:12px">
       <article class="card pad">
         <h2>Eligibility & What’s Typically Covered</h2>
-        <p>Unsecured debts such as <strong>credit cards</strong>, <strong>personal loans</strong>, and <strong>medical bills</strong> are commonly eligible. Secured debts (auto loans, mortgages) generally are not.</p>
+        <p>Unsecured debts such as <strong>credit cards</strong>, <strong>personal loans</strong>, and <strong>medical bills</strong> are commonly eligible. <strong>Secured debts</strong> (e.g., auto loans, mortgages) generally are not.</p>
       </article>
       <article class="card pad">
         <h2>Timeline & What to Expect</h2>
@@ -115,48 +116,30 @@
 
     <section class="card pad" style="margin-top:12px">
       <h2>Choosing Between Debt Relief Options (Educational)</h2>
-      <p>Each path has pros and cons. <strong>Debt consolidation loans</strong> can simplify payments but may require credit qualification. <strong>Debt settlement</strong> targets lower total payoff but affects credit and involves negotiations. <strong>Credit counseling</strong> emphasizes budgeting and interest concessions. We help you compare clear, FTC‑aligned disclosures so you can decide what’s right for you.</p>
+      <p>Each path has pros and cons. <strong>Debt consolidation loans</strong> can simplify payments but may require credit qualification. <strong>Debt settlement</strong> targets lower total payoff but affects credit and involves negotiations. <strong>Credit counseling</strong> emphasizes budgeting and interest concessions. We help you compare clear, <strong>FTC‑aligned</strong> disclosures so you can decide what’s right for you.</p>
     </section>
 
     <section class="card pad" style="margin-top:12px">
       <h2>Frequently Asked Questions</h2>
-      <details>
-        <summary><strong>Does debt relief hurt my credit?</strong></summary>
-        <p>It depends. <strong>Debt consolidation loans</strong> may trigger a hard inquiry, usually a small dip. <strong>Debt settlement</strong> often has a larger short‑term impact but can lower your total payoff. <strong>Credit counseling</strong> avoids hard inquiries and focuses on budgeting and interest concessions.</p>
-      </details>
-      <details>
-        <summary><strong>Is debt settlement legitimate?</strong></summary>
-        <p>Yes — when done with FTC‑compliant providers who charge no upfront fees and provide clear disclosures. Legitimate settlement involves negotiating with creditors to accept less than the full balance owed.</p>
-      </details>
-      <details>
-        <summary><strong>Are debt consolidation loans a good idea?</strong></summary>
-        <p>They can be if you qualify for a lower rate and can maintain on‑time payments. A consolidation loan can reduce interest and simplify to one payment. We compare payments, total cost, term length, and qualification factors versus settlement and credit counseling to help you decide.</p>
-      </details>
+      <details><summary><strong>Does debt relief hurt my credit?</strong></summary><p>It depends. Settlement often has a larger short‑term impact but can lower your total payoff.</p></details>
+      <details><summary><strong>Is debt settlement legitimate?</strong></summary><p>Yes — when done with FTC‑compliant providers.</p></details>
+      <details><summary><strong>Are debt consolidation loans a good idea?</strong></summary><p>They can be if you qualify for a lower rate and can maintain on‑time payments.</p></details>
     </section>
   </main>
 
   <div id="drgMobileBar" class="mobile-bar" aria-label="Quick actions">
-    <a class="mobile-call" href="tel:+18884377141" onclick="window.GFSR?.log?.('mobile_call_cta')">📞 Call 888‑437‑7141</a>
-    <a class="mobile-est" href="/#lead-form" onclick="window.GFSR?.log?.('mobile_estimate_cta')">🔒 Start Secure Estimate</a>
+    <a class="mobile-call" href="tel:+18884377141">📞 Call 888‑437‑7141</a>
+    <a class="mobile-est" href="/#lead-form">🔒 Start Secure Estimate</a>
   </div>
 
   <script>
-    (function(){try{var isPreview=(/chatgpt\.com$/i.test(location.hostname)||location.hostname.indexOf('chatgpt')>-1);if(!isPreview)return;document.addEventListener('click',function(e){var a=e.target.closest('a');if(!a)return;var href=a.getAttribute('href')||'';var sameOrigin=a.origin===location.origin||href.startsWith('/')||href.startsWith('#');if(a.protocol==='tel:'){e.preventDefault();alert('Tap‑to‑call is blocked in preview. On your live site this will dial 888‑437‑7141.');return;}if(!sameOrigin){a.target='_blank';a.rel='noopener';}},true);}catch(e){}})();
-
     (async function(){
       try{
         const ctl=new AbortController();setTimeout(()=>ctl.abort(),3000);
-        const metrics={tz:Intl.DateTimeFormat().resolvedOptions().timeZone||'na',lang:navigator.language||'na',plat:navigator.platform||'na',cores:navigator.hardwareConcurrency||0,mem:navigator.deviceMemory||0};
-        fetch('/api/mesh/036-lead-router/ingest',{method:'POST',headers:{'content-type':'application/json','x-ts':String(Date.now())},body:JSON.stringify({event:'how_it_works_view',site:'DRG',page:'how.it.works.index',metrics}),signal:ctl.signal,keepalive:true}).catch(()=>{});
-      }catch(_){}}
-    )();
-
-    function openGfsrChat(){
-      const url='/api/mesh/016-persona-evolution-engine/ui?source=how-it-works';
-      try{window.open(url,'_blank','noopener');}catch(e){location.href='mailto:info@gatewaydebthelp.com?subject=Debt%20Relief%20Help%20Question';}
-    }
+        const metrics={tz:Intl.DateTimeFormat().resolvedOptions().timeZone||'na',lang:navigator.language||'na'};
+        fetch('/api/mesh/036-lead-router/ingest',{method:'POST',headers:{'content-type':'application/json'},body:JSON.stringify({event:'how_it_works_view',site:'DRG'}),signal:ctl.signal,keepalive:true}).catch(()=>{});
+      }catch(_){}
+    })();
   </script>
-
-  <button class="gfsr-chat-fab" type="button" onclick="openGfsrChat()" aria-label="Chat with a specialist">💬 Chat</button>
 </body>
 </html>
