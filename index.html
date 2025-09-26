@@ -291,9 +291,23 @@
       const payload={...a,name,email,phone,site:'DRG',page:'step2',program:'debt_consolidation_loan',flow:'loan_flip'};
       try{
         const HS=window.__HUMAN_SIG__||{}; const env={tz:(Intl.DateTimeFormat().resolvedOptions().timeZone||null),lang:navigator.language,langs:navigator.languages,hw:navigator.hardwareConcurrency||null,rm:matchMedia('(prefers-reduced-motion: reduce)').matches?1:0,touch:('ontouchstart'in window)?1:0}; const idem=crypto.randomUUID();
-        await fetch('/api/mesh/036-lead-router/ingest',{method:'POST',headers:{'content-type':'application/json'},body:JSON.stringify({event:'step2_submit',...payload,human:{t:Date.now()-(HS.start||Date.now()),m:HS.moves||0,k:HS.keys||0,c:HS.clicks||0,f:HS.focus||0},env,idem})});
-      }catch{}
-      document.getElementById('s2form').hidden=true; document.getElementById('s2done').hidden=false;
+        const r = await fetch('/api/mesh/036-lead-router/ingest',{
+  method:'POST',
+  headers:{'content-type':'application/json'},
+  body:JSON.stringify({
+    event:'step2_submit', ...payload, site:'DRG',
+    human:{ t:Date.now()-(HS.start||Date.now()), m:HS.moves||0, k:HS.keys||0, c:HS.clicks||0, f:HS.focus||0 },
+    env, idem
+  }),
+  keepalive:true
+});
+const data = await r.json().catch(()=>null);
+if (!r.ok || !data || data.status !== 'accepted') {
+  alert('We could not submit your request. Please try again.');
+  return; // stop if not accepted
+}
+document.getElementById('s2form').hidden = true;
+document.getElementById('s2done').hidden = false;
     }
 
     function stickyPrimaryClick(ev){ev?.preventDefault();if(STEP===1){ submitStep1(ev); } else if(STEP===2){ document.getElementById('submit2').click(); }}
