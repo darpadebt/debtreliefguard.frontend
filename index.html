@@ -285,7 +285,19 @@
           }),
           keepalive:true
         });
-        if (!r.ok) { console.warn('036 non-2xx', r.status); alert('We could not submit your request. Please try again.'); return; }
+        if (!r.ok) {
+          let body = '';
+          try { body = await r.text(); } catch(_){ }
+          console.warn('036 non-2xx', r.status, body);
+          alert(`We could not submit your request.
+
+Status: ${r.status}
+Endpoint: ${API_URL}
+Response: ${body?.slice(0,300) || '(empty)'}
+
+If this keeps happening, wait 5–10 seconds and try again.`);
+          return;
+        }
         document.getElementById('s2form').hidden = true; document.getElementById('s2done').hidden = false;
       }catch{}
     }
