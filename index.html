@@ -228,6 +228,9 @@
     // Utils/state
     const fmt=(n)=>new Intl.NumberFormat('en-US',{style:'currency',currency:'USD',maximumFractionDigits:0}).format(n||0);
     let STEP=1;
+    // Capture when the form first rendered for backend MIN_FILL_MS checks
+    window.__FORM_TS = window.__FORM_TS || Date.now();
+    const API_URL = `${location.origin}/api/mesh/036-lead-router/ingest`; // absolute endpoint for live
 
     function syncRanges(){
       const debt=+document.getElementById('debt').value;
@@ -244,11 +247,11 @@
       const email=(document.getElementById('email').value||'').trim();
       // basic email check
       if(!/^\S+@\S+\.\S+$/.test(email)){document.getElementById('email').focus();alert('Please enter a valid email.');return;}
-      const payload={debt,accts,email,site:'DRG',page:'step1',program:'debt_consolidation_loan',flow:'loan_flip'};
+      const payload={debt,accts,accounts:accts,debt_amount:debt,email,site:'DRG',page:'step1',program:'debt_consolidation_loan',flow:'loan_flip',form_ts: (window.__FORM_TS||Date.now())};
       localStorage.setItem('lead_prefill',JSON.stringify({...payload,ts:Date.now()}));
       try{
         const HS=window.__HUMAN_SIG__||{}; const env={tz:(Intl.DateTimeFormat().resolvedOptions().timeZone||null),lang:navigator.language,langs:navigator.languages,hw:navigator.hardwareConcurrency||null,rm:matchMedia('(prefers-reduced-motion: reduce)').matches?1:0,touch:('ontouchstart'in window)?1:0}; const idem=crypto.randomUUID();
-        await fetch('/api/mesh/036-lead-router/ingest',{method:'POST',headers:{'content-type':'application/json'},body:JSON.stringify({event:'step1_submit',...payload,human:{t:Date.now()-(HS.start||Date.now()),m:HS.moves||0,k:HS.keys||0,c:HS.clicks||0,f:HS.focus||0},env,idem})});
+        await fetch(API_URL,{method:'POST',headers:{'content-type':'application/json'},body:JSON.stringify({event:'step1_submit',...payload,human:{t:Date.now()-(HS.start||Date.now()),m:HS.moves||0,k:HS.keys||0,c:HS.clicks||0,f:HS.focus||0},env,idem})});
       }catch{}
       STEP=2; document.getElementById('s1').hidden=true; document.getElementById('s2').hidden=false; document.getElementById('stickyLabel').textContent='Step 2 of 2';
       document.getElementById('sumDebt').textContent=fmt(debt);
@@ -263,10 +266,14 @@
       const phone=document.getElementById('phone').value.trim();
       if(!name||!phone){alert('Please enter name and phone.');return;}
       let a={}; try{a=JSON.parse(localStorage.getItem('lead_prefill')||'{}')}catch{}
-      const payload={...a,name,phone,site:'DRG',page:'step2',program:'debt_consolidation_loan',flow:'loan_flip'};
+      const payload={...a,name,phone,site:'DRG',page:'step2',program:'debt_consolidation_loan',flow:'loan_flip',form_ts: (window.__FORM_TS||Date.now())};
+      if (payload.debt_amount==null && payload.debt!=null) payload.debt_amount = payload.debt;
+      if (payload.accounts==null && payload.accts!=null) payload.accounts = payload.accts;
+      if (payload.debt_amount==null && payload.debt!=null) payload.debt_amount = payload.debt;
+      if (payload.accounts==null && payload.accts!=null) payload.accounts = payload.accts;
       try{
         const HS=window.__HUMAN_SIG__||{}; const env={tz:(Intl.DateTimeFormat().resolvedOptions().timeZone||null),lang:navigator.language,langs:navigator.languages,hw:navigator.hardwareConcurrency||null,rm:matchMedia('(prefers-reduced-motion: reduce)').matches?1:0,touch:('ontouchstart'in window)?1:0}; const idem=crypto.randomUUID();
-        const r = await fetch('/api/mesh/036-lead-router/ingest',{
+        const r = await fetch(API_URL,{
           method:'POST',
           headers:{'content-type':'application/json'},
           body:JSON.stringify({
