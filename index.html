@@ -159,8 +159,8 @@
           </form>
         </div>
         <div id="s2done" hidden>
-          <h2>Thanks! You’re all set.</h2>
-          <p class="muted">A specialist will reach out shortly with your consolidation loan options and savings estimate. Check your SMS and email for confirmations.</p>
+          <h2>Thank you! We’ll contact you soon.</h2>
+          <p class="muted">We received your request and a specialist will reach out shortly by phone or email with your personalized plan and savings estimate.</p>
         </div>
       </aside>
     </div>
@@ -270,7 +270,9 @@
           method:'POST',
           headers:{'content-type':'application/json'},
           body:JSON.stringify({
-            event:'step2_submit', ...payload, site:'DRG',
+            event:'step2_submit', ...payload,
+            consent: { terms: true, marketing: false },
+            consent_ts: Date.now(),
             human:{ t:Date.now()-(HS.start||Date.now()), m:HS.moves||0, k:HS.keys||0, c:HS.clicks||0, f:HS.focus||0 },
             env, idem
           }),
