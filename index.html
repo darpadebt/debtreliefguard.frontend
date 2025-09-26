@@ -149,9 +149,10 @@
           <span class="pill">Accounts: <span id="sumAccts">—</span></span>
         </div>
         <div id="s2form">
+          <div id="drgDebug" style="display:none;background:#2b0b0b;color:#ffd7d7;border:1px solid #8b0000;border-radius:10px;padding:10px;margin-bottom:10px;font-size:12px"></div>
           <form id="formStep2">
             <input type="text" name="company" id="hp2" tabindex="-1" autocomplete="off" style="position:absolute;left:-9999px;opacity:0" aria-hidden="true" />
-            <!-- CHANGED: Step 2 now only asks for name + phone (email moved to step 1) -->
+            <!-- Step 2 asks for name + phone only -->
             <div class="field"><div class="label"><label for="name">Full Name</label></div><input id="name" class="input" placeholder="Jane Doe" required /></div>
             <div class="field"><div class="label"><label for="phone">Phone</label></div><input id="phone" class="input" inputmode="tel" placeholder="555-555-5555" required /></div>
             <button id="submit2" class="btn primary" type="submit" style="width:100%;justify-content:center;margin-top:8px">Get My Personalized Plan →</button>
@@ -210,27 +211,15 @@
   <!-- Preview safety (keeps tel: from firing in canvas) -->
   <script>(function(){try{var isPreview=(/chatgpt\.com$/i.test(location.hostname)||location.hostname.indexOf('chatgpt')>-1);if(!isPreview)return;document.addEventListener('click',function(e){var a=e.target.closest('a');if(!a)return;if(a.href && a.protocol!=='tel:'){a.target='_blank';a.rel='noopener';}if(a.protocol==='tel:'){e.preventDefault();alert('Tap-to-call is blocked in preview. On your live site this will dial 888-437-7141.');}},true);}catch(e){}})();</script>
 
-  <!-- Human-signal tracker + gate (bot hardening) -->
-  <script>
-    (function(){
-      const HS = { start: Date.now(), moves:0, keys:0, clicks:0, focus:0 };
-      addEventListener('mousemove', ()=>HS.moves++, {passive:true});
-      addEventListener('keydown',  ()=>HS.keys++,  {passive:true});
-      addEventListener('click',    ()=>HS.clicks++, {passive:true});
-      addEventListener('focus',    ()=>HS.focus++, true);
-      function gate(btn){ if(!btn) return; btn.disabled = true; const t = setInterval(()=>{ const elapsed = Date.now()-HS.start; const ok = elapsed>2500 && (HS.moves+HS.keys+HS.clicks)>0; btn.disabled = !ok; if(ok) clearInterval(t); }, 150); }
-      window.__HUMAN_SIG__ = HS; window.__gateButton__ = gate;
-    })();
-  </script>
-
   <!-- Main app script (bottom) -->
   <script>
-    // Utils/state
+    // ---------- utility & state ----------
     const fmt=(n)=>new Intl.NumberFormat('en-US',{style:'currency',currency:'USD',maximumFractionDigits:0}).format(n||0);
     let STEP=1;
-    // Capture when the form first rendered for backend MIN_FILL_MS checks
     window.__FORM_TS = window.__FORM_TS || Date.now();
-    const PRIMARY_API_URL = `${location.origin}/api/mesh/036-lead-router/ingest`; // default guess
+
+    // ---------- endpoint auto-discovery (front-end only) ----------
+    const PRIMARY_API_URL = `${location.origin}/api/mesh/036-lead-router/ingest`;
     const ALT_API_URLS = [
       `${location.origin}/api/mesh/036-lead-router`,
       `${location.origin}/036-lead-router/ingest`,
@@ -239,26 +228,49 @@
       `${location.origin}/api/036-lead-router/ingest`
     ];
     const IS_PREVIEW = (/chatgpt\.com$/i.test(location.hostname) || location.hostname.indexOf('chatgpt')>-1);
-    async function postWithFallback(url, payload){
-      // Preview: pretend success so the UI can be verified visually
+    let RESOLVED_API_URL = null;
+
+    async function post036(payload){
       if (IS_PREVIEW) {
-        return { r: new Response('{"status":"accepted"}', {status:200, headers:{'content-type':'application/json'}}), url };
+        return { r: new Response('{"status":"accepted"}', {status:200, headers:{'content-type':'application/json'}}), url: 'preview://mock' };
       }
       const headers={ 'content-type':'application/json' };
-      let r; let bodyText='';
-      try{ r = await fetch(url,{method:'POST',headers,body:JSON.stringify(payload)});}catch(_){ }
-      if (r && r.ok) return {r, url};
-      if (r){ try{ bodyText = await r.text(); }catch(_){} }
-      const shouldFallback = r && ((r.status===404 && /not_found/i.test(bodyText||'')) || r.status===405 || r.status===400);
-      if (!shouldFallback){ return {r, url, bodyText}; }
-      for (const alt of ALT_API_URLS){
+      const candidates = RESOLVED_API_URL ? [RESOLVED_API_URL] : [PRIMARY_API_URL, ...ALT_API_URLS];
+      let last = { r: null, url: candidates[0], bodyText: '' };
+      for (const url of candidates){
         try{
-          const rr = await fetch(alt,{method:'POST',headers,body:JSON.stringify(payload)});
-          if (rr.ok) return {r: rr, url: alt};
-        }catch(_){ }
+          const r = await fetch(url,{method:'POST',headers,body:JSON.stringify(payload),keepalive:true});
+          if (r.ok){ RESOLVED_API_URL = url; return { r, url }; }
+          // only fallback on 404/not_found or 405/400
+          let bodyText=''; try{ bodyText = await r.clone().text(); }catch(_){ }
+          last = { r, url, bodyText };
+          const fallbackable = (r.status===404 && /not_found/i.test(bodyText||'')) || r.status===405 || r.status===400;
+          if (!fallbackable){ return last; }
+        }catch(_){ /* proceed to next candidate */ }
       }
-      return {r, url, bodyText};
+      return last;
     }
+
+    function envInfo(){
+      try{
+        return {
+          tz: (Intl.DateTimeFormat().resolvedOptions().timeZone||null),
+          lang: navigator.language,
+          langs: navigator.languages,
+          hw: navigator.hardwareConcurrency||null,
+          rm: matchMedia('(prefers-reduced-motion: reduce)').matches?1:0,
+          touch: ('ontouchstart' in window)?1:0
+        };
+      }catch(_){ return {}; }
+    }
+
+    const HS = { start: Date.now(), moves:0, keys:0, clicks:0, focus:0 };
+    addEventListener('mousemove', ()=>HS.moves++, {passive:true});
+    addEventListener('keydown',  ()=>HS.keys++,  {passive:true});
+    addEventListener('click',    ()=>HS.clicks++, {passive:true});
+    addEventListener('focus',    ()=>HS.focus++, true);
+
+    function showDebug(msg){ try{ const el=document.getElementById('drgDebug'); if(!el) return; el.style.display='block'; el.textContent=String(msg).slice(0,600); }catch(_){} }
 
     function syncRanges(){
       const debt=+document.getElementById('debt').value;
@@ -273,14 +285,14 @@
       const debt=+document.getElementById('debt').value;
       const accts=+document.getElementById('accts').value;
       const email=(document.getElementById('email').value||'').trim();
-      // basic email check
       if(!/^\S+@\S+\.\S+$/.test(email)){document.getElementById('email').focus();alert('Please enter a valid email.');return;}
-      const payload={debt,accts,accounts:accts,debt_amount:debt,email,site:'DRG',page:'step1',program:'debt_consolidation_loan',flow:'loan_flip',form_ts: (window.__FORM_TS||Date.now())};
-      localStorage.setItem('lead_prefill',JSON.stringify({...payload,ts:Date.now()}));
+      const base={debt,accts,accounts:accts,debt_amount:debt,email,site:'DRG',page:'step1',program:'debt_consolidation_loan',flow:'loan_flip',form_ts:(window.__FORM_TS||Date.now())};
+      localStorage.setItem('lead_prefill',JSON.stringify({...base,ts:Date.now()}));
       try{
-        const HS=window.__HUMAN_SIG__||{}; const env={tz:(Intl.DateTimeFormat().resolvedOptions().timeZone||null),lang:navigator.language,langs:navigator.languages,hw:navigator.hardwareConcurrency||null,rm:matchMedia('(prefers-reduced-motion: reduce)').matches?1:0,touch:('ontouchstart'in window)?1:0}; const idem=crypto.randomUUID();
-        await postWithFallback(PRIMARY_API_URL, $1);
-      }catch{}
+        const idem = (crypto && crypto.randomUUID) ? crypto.randomUUID() : String(Date.now());
+        const payload = { event:'step1_submit', ...base, human:{t:Date.now()-(HS.start||Date.now()),m:HS.moves||0,k:HS.keys||0,c:HS.clicks||0,f:HS.focus||0}, env: envInfo(), idem };
+        await post036(payload);
+      }catch(err){ showDebug(err && (err.stack||err.message||String(err))); }
       STEP=2; document.getElementById('s1').hidden=true; document.getElementById('s2').hidden=false; document.getElementById('stickyLabel').textContent='Step 2 of 2';
       document.getElementById('sumDebt').textContent=fmt(debt);
       document.getElementById('sumAccts').textContent=accts;
@@ -293,95 +305,42 @@
       const name=document.getElementById('name').value.trim();
       const phone=document.getElementById('phone').value.trim();
       if(!name||!phone){alert('Please enter name and phone.');return;}
-      let a={}; try{a=JSON.parse(localStorage.getItem('lead_prefill')||'{}')}catch{}
-      const payload={...a,name,phone,site:'DRG',page:'step2',program:'debt_consolidation_loan',flow:'loan_flip',form_ts: (window.__FORM_TS||Date.now())};
-      if (payload.debt_amount==null && payload.debt!=null) payload.debt_amount = payload.debt;
-      if (payload.accounts==null && payload.accts!=null) payload.accounts = payload.accts;
-      if (payload.debt_amount==null && payload.debt!=null) payload.debt_amount = payload.debt;
-      if (payload.accounts==null && payload.accts!=null) payload.accounts = payload.accts;
+      let a={}; try{a=JSON.parse(localStorage.getItem('lead_prefill')||'{}')}catch(_){a={}};
+      const base={...a,name,phone,site:'DRG',page:'step2',program:'debt_consolidation_loan',flow:'loan_flip',form_ts:(window.__FORM_TS||Date.now())};
+      if (base.debt_amount==null && base.debt!=null) base.debt_amount = base.debt;
+      if (base.accounts==null && base.accts!=null) base.accounts = base.accts;
       try{
-        const HS=window.__HUMAN_SIG__||{}; const env={tz:(Intl.DateTimeFormat().resolvedOptions().timeZone||null),lang:navigator.language,langs:navigator.languages,hw:navigator.hardwareConcurrency||null,rm:matchMedia('(prefers-reduced-motion: reduce)').matches?1:0,touch:('ontouchstart'in window)?1:0}; const idem=crypto.randomUUID();
-        const { r, url: usedUrl, bodyText } = await postWithFallback(PRIMARY_API_URL, $1);
-        if (!r.ok) {
-          let body = '';
-          try { body = await r.text(); } catch(_){ }
-          console.warn('036 non-2xx', r.status, body);
-          alert(`We could not submit your request.
-
-Status: ${r.status}
-Endpoint: ${usedUrl || PRIMARY_API_URL}
-Response: ${(bodyText||'').slice(0,300) || '(empty)'}
-
-If this keeps happening, wait 5–10 seconds and try again.`);
+        const idem = (crypto && crypto.randomUUID) ? crypto.randomUUID() : String(Date.now());
+        const payload = { event:'step2_submit', ...base, consent:{terms:true,marketing:false}, consent_ts: Date.now(), human:{t:Date.now()-(HS.start||Date.now()),m:HS.moves||0,k:HS.keys||0,c:HS.clicks||0,f:HS.focus||0}, env: envInfo(), idem };
+        const { r, url, bodyText } = await post036(payload);
+        if (!r || !r.ok) {
+          const status = r ? r.status : 'fetch_error';
+          alert(`We could not submit your request.\n\nStatus: ${status}\nEndpoint: ${url || '(unknown)'}\nResponse: ${(bodyText||'').slice(0,300) || '(empty)'}\n\nIf this keeps happening, wait 5–10 seconds and try again.`);
           return;
         }
         document.getElementById('s2form').hidden = true; document.getElementById('s2done').hidden = false;
-      }catch{}
+      }catch(err){ showDebug(err && (err.stack||err.message||String(err))); }
     }
 
     function stickyPrimaryClick(ev){ev?.preventDefault();if(STEP===1){ submitStep1(ev); } else if(STEP===2){ document.getElementById('submit2').click(); }}
 
-    // Bind after DOM ready
+    // ---------- bind on ready ----------
     document.addEventListener('DOMContentLoaded',()=>{
-      syncRanges();
-      document.getElementById('debt').addEventListener('input', syncRanges);
-      document.getElementById('accts').addEventListener('input', syncRanges);
-      document.getElementById('btnStep1').addEventListener('click', submitStep1);
-      document.getElementById('formStep1').addEventListener('submit', submitStep1);
-      document.getElementById('formStep2').addEventListener('submit', submitStep2);
-      document.getElementById('stickyContinue').addEventListener('click', stickyPrimaryClick);
-      if (window.__gateButton__) { window.__gateButton__(document.getElementById('btnStep1')); window.__gateButton__(document.getElementById('submit2')); }
-      console.assert(typeof submitStep1 === 'function','submitStep1 should be defined');
-      console.assert(typeof submitStep2 === 'function','submitStep2 should be defined');
-      console.assert(!!document.getElementById('btnStep1'),'#btnStep1 exists');
-      console.assert(!!document.getElementById('formStep1'),'#formStep1 exists');
+      try{
+        syncRanges();
+        document.getElementById('debt').addEventListener('input', syncRanges);
+        document.getElementById('accts').addEventListener('input', syncRanges);
+        document.getElementById('btnStep1').addEventListener('click', submitStep1);
+        document.getElementById('formStep1').addEventListener('submit', submitStep1);
+        document.getElementById('formStep2').addEventListener('submit', submitStep2);
+        const s2btn=document.getElementById('submit2'); if(s2btn){ s2btn.addEventListener('click', submitStep2); }
+        document.getElementById('stickyContinue').addEventListener('click', stickyPrimaryClick);
+        console.assert(typeof submitStep1 === 'function','submitStep1 should be defined');
+        console.assert(typeof submitStep2 === 'function','submitStep2 should be defined');
+        console.assert(!!document.getElementById('btnStep1'),'#btnStep1 exists');
+        console.assert(!!document.getElementById('formStep1'),'#formStep1 exists');
+      }catch(err){ showDebug(err && (err.stack||err.message||String(err))); }
     });
-  </script>
-
-  <!-- Fetch wrapper: annotate requests to 036 (kept) -->
-  <script>
-    (function(){
-      try {
-        window.GFSR_CHAT = { endpoint: '/api/mesh/016-persona-evolution-engine', site: 'DRG' };
-        window.__step = 1;
-        const _setStep2 = window.submitStep1;
-        if (typeof _setStep2 === 'function') {
-          window.submitStep1 = async function(e){
-            const r = await _setStep2.call(this,e);
-            if (document.getElementById('s2') && !document.getElementById('s2').hasAttribute('hidden')) { window.__step = 2; }
-            return r;
-          }
-        }
-        var __flowStart = Date.now(); var FLOW = 'drg-2step-loanflip-v1';
-        var _fetch = window.fetch;
-        window.fetch = async function(input, init){
-          try {
-            var url = (typeof input === 'string') ? input : (input && input.url) || '';
-            if (url.includes('/api/mesh/036-lead-router/ingest')) {
-              var isPreview = (/chatgpt\.com$/i.test(location.hostname) || location.hostname.indexOf('chatgpt')>-1);
-              if (isPreview) { return new Response('{"status":"accepted"}', {status:200, headers:{'content-type':'application/json'}}); }
-
-              init = init || {}; init.headers = init.headers || {};
-              var h = new Headers(init.headers);
-              h.set('x-flow', FLOW);
-              h.set('x-client-t0', String(__flowStart));
-              h.set('x-page', (window.__step||1) === 1 ? 'step1' : 'step2');
-              if (init.body && typeof init.body === 'string' && (h.get('content-type')||'').includes('application/json')){
-                try{
-                  var obj = JSON.parse(init.body);
-                  var hp = {}; var hp1 = document.getElementById('hp1'); if (hp1) hp.website = hp1.value || '';
-                  var hp2 = document.getElementById('hp2'); if (hp2) hp.company = hp2.value || '';
-                  obj.hp_fields = Object.assign({}, obj.hp_fields||{}, hp);
-                  init.body = JSON.stringify(obj);
-                }catch(_){}
-              }
-              init.headers = h;
-            }
-          } catch(_){ }
-          return _fetch(input, init);
-        };
-      } catch (e) { /* no-op */ }
-    })();
   </script>
 </body>
 </html>
