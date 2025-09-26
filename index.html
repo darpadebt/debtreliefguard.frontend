@@ -59,6 +59,10 @@
     .bot .btn.ghost{font-size:12px;opacity:.85}
     footer{padding:22px 0;color:#9fb2d8}
     [hidden]{display:none !important}
+
+    /* Floating preview button (top-right) */
+    .preview-btn{position:fixed;z-index:70;top:10px;right:10px;display:inline-flex;align-items:center;gap:6px;padding:8px 12px;border-radius:999px;font-weight:800;border:1px solid rgba(255,255,255,.2);background:rgba(11,18,32,.85);backdrop-filter:blur(6px)}
+    .preview-btn .dot{width:8px;height:8px;border-radius:50%;background:#22c55e;box-shadow:0 0 8px rgba(34,197,94,.6)}
   </style>
   <!-- JSON-LD -->
   <script type="application/ld+json">
@@ -93,7 +97,13 @@
   </script>
 </head>
 <body>
-  <header class="top">
+  <!-- In-canvas Preview button (also visible live, harmless) -->
+  <a class="preview-btn" id="previewBtn" href="#" aria-label="Preview">
+    <span class="dot" aria-hidden="true"></span>
+    <span>Preview</span>
+  </a>
+
+  <header id="top" class="top">
     <div class="wrap">
       <div class="row">
         <a class="brand" href="/"><span class="logo">DRG</span><span>Debt Relief Guard</span></a>
@@ -118,7 +128,7 @@
         <div class="trust" style="margin-top:8px">
           <a href="https://www.bbb.org/us/fl/inglis/profile/debt-relief-services/gateway-financial-settlement-relief-llc-0733-235973278" target="_blank" rel="noopener">BBB Profile — See our A– rating</a>
         </div>
-        <form id="formStep1">
+        <form id="formStep1" autocomplete="on">
           <input type="text" name="website" id="hp1" tabindex="-1" autocomplete="off" style="position:absolute;left:-9999px;opacity:0" aria-hidden="true" />
           <div class="field">
             <div class="label"><label for="debt">About how much unsecured debt?</label> <span class="range-val" id="debtOut">$10,000</span></div>
@@ -129,10 +139,10 @@
             <div class="label"><label for="accts">About how many accounts?</label> <span class="range-val" id="acctsOut">3 accounts</span></div>
             <input id="accts" type="range" min="1" max="20" step="1" value="3" />
           </div>
-          <!-- CHANGED: ZIP -> EMAIL in Step 1 -->
+          <!-- ZIP -> EMAIL in Step 1 -->
           <div class="field">
             <div class="label"><label for="email">Email</label></div>
-            <input id="email" class="input" type="email" placeholder="you@example.com" required />
+            <input id="email" class="input" type="email" placeholder="you@example.com" required autocomplete="email" />
           </div>
           <p class="teaser">Estimated savings preview: <strong id="teaserSave">$3,500</strong> vs. paying minimums.</p>
           <button id="btnStep1" class="btn primary" type="button" style="width:100%;justify-content:center;margin-top:8px"><span>Check My Loan Options →</span></button>
@@ -150,18 +160,18 @@
         </div>
         <div id="s2form">
           <div id="drgDebug" style="display:none;background:#2b0b0b;color:#ffd7d7;border:1px solid #8b0000;border-radius:10px;padding:10px;margin-bottom:10px;font-size:12px"></div>
-          <form id="formStep2">
+          <form id="formStep2" autocomplete="on">
             <input type="text" name="company" id="hp2" tabindex="-1" autocomplete="off" style="position:absolute;left:-9999px;opacity:0" aria-hidden="true" />
             <!-- Step 2 asks for name + phone only -->
-            <div class="field"><div class="label"><label for="name">Full Name</label></div><input id="name" class="input" placeholder="Jane Doe" required /></div>
-            <div class="field"><div class="label"><label for="phone">Phone</label></div><input id="phone" class="input" inputmode="tel" placeholder="555-555-5555" required /></div>
+            <div class="field"><div class="label"><label for="name">Full Name</label></div><input id="name" class="input" placeholder="Jane Doe" required autocomplete="name" /></div>
+            <div class="field"><div class="label"><label for="phone">Phone</label></div><input id="phone" class="input" inputmode="tel" placeholder="555-555-5555" required autocomplete="tel" /></div>
             <button id="submit2" class="btn primary" type="submit" style="width:100%;justify-content:center;margin-top:8px">Get My Personalized Plan →</button>
             <p class="muted" style="text-align:center;margin-top:8px">By submitting, you agree to our <a href="/terms.index.html">Terms</a> &amp; <a href="/privacy.policy.index.html">Privacy</a>. No upfront fees. FTC‑aligned.</p>
           </form>
         </div>
         <div id="s2done" hidden>
-          <h2>Thank you! We’ll contact you soon.</h2>
-          <p class="muted">We received your request and a specialist will reach out shortly by phone or email with your personalized plan and savings estimate.</p>
+          <h2>Thank you! We’ll contact you shortly.</h2>
+          <p class="muted">We received your request. A debt specialist will reach out soon by phone or email with your personalized plan and savings estimate.</p>
         </div>
       </aside>
     </div>
@@ -208,8 +218,15 @@
   </footer>
   <script>document.getElementById('y').textContent=new Date().getFullYear();</script>
 
-  <!-- Preview safety (keeps tel: from firing in canvas) -->
-  <script>(function(){try{var isPreview=(/chatgpt\.com$/i.test(location.hostname)||location.hostname.indexOf('chatgpt')>-1);if(!isPreview)return;document.addEventListener('click',function(e){var a=e.target.closest('a');if(!a)return;if(a.href && a.protocol!=='tel:'){a.target='_blank';a.rel='noopener';}if(a.protocol==='tel:'){e.preventDefault();alert('Tap-to-call is blocked in preview. On your live site this will dial 888-437-7141.');}},true);}catch(e){}})();</script>
+  <!-- Preview safety (keeps tel: from firing in canvas) & Preview button behavior -->
+  <script>(function(){try{
+    var isPreview=(/chatgpt\.com$/i.test(location.hostname)||location.hostname.indexOf('chatgpt')>-1);
+    var btn=document.getElementById('previewBtn');
+    if(btn){btn.addEventListener('click',function(e){e.preventDefault();alert('Preview mode: This is a live rendering of index.html for review. Links open in a new tab; tel: is blocked here.');});}
+    if(!isPreview)return;
+    document.addEventListener('click',function(e){var a=e.target.closest('a');if(!a)return;if(a.href && a.protocol!=='tel:'){a.target='_blank';a.rel='noopener';}
+      if(a.protocol==='tel:'){e.preventDefault();alert('Tap-to-call is blocked in preview. On your live site this will dial 888-437-7141.');}},true);
+  }catch(e){}})();</script>
 
   <!-- Main app script (bottom) -->
   <script>
@@ -217,6 +234,10 @@
     const fmt=(n)=>new Intl.NumberFormat('en-US',{style:'currency',currency:'USD',maximumFractionDigits:0}).format(n||0);
     let STEP=1;
     window.__FORM_TS = window.__FORM_TS || Date.now();
+
+    // Double-submit guards
+    let SUBMITTING_S1=false;
+    let SUBMITTING_S2=false;
 
     // ---------- endpoint auto-discovery (front-end only) ----------
     const PRIMARY_API_URL = `${location.origin}/api/mesh/036-lead-router/ingest`;
@@ -241,7 +262,6 @@
         try{
           const r = await fetch(url,{method:'POST',headers,body:JSON.stringify(payload),keepalive:true});
           if (r.ok){ RESOLVED_API_URL = url; return { r, url }; }
-          // only fallback on 404/not_found or 405/400
           let bodyText=''; try{ bodyText = await r.clone().text(); }catch(_){ }
           last = { r, url, bodyText };
           const fallbackable = (r.status===404 && /not_found/i.test(bodyText||'')) || r.status===405 || r.status===400;
@@ -282,10 +302,11 @@
 
     async function submitStep1(e){
       e?.preventDefault();
+      if(SUBMITTING_S1) return; SUBMITTING_S1=true;
       const debt=+document.getElementById('debt').value;
       const accts=+document.getElementById('accts').value;
       const email=(document.getElementById('email').value||'').trim();
-      if(!/^\S+@\S+\.\S+$/.test(email)){document.getElementById('email').focus();alert('Please enter a valid email.');return;}
+      if(!/^\S+@\S+\.\S+$/.test(email)){document.getElementById('email').focus();alert('Please enter a valid email.');SUBMITTING_S1=false;return;}
       const base={debt,accts,accounts:accts,debt_amount:debt,email,site:'DRG',page:'step1',program:'debt_consolidation_loan',flow:'loan_flip',form_ts:(window.__FORM_TS||Date.now())};
       localStorage.setItem('lead_prefill',JSON.stringify({...base,ts:Date.now()}));
       try{
@@ -298,13 +319,15 @@
       document.getElementById('sumAccts').textContent=accts;
       document.getElementById('s2').scrollIntoView({behavior:'smooth', block:'start'});
       setTimeout(()=>document.getElementById('name').focus(), 250);
+      SUBMITTING_S1=false;
     }
 
     async function submitStep2(e){
       e?.preventDefault();
+      if(SUBMITTING_S2) return; SUBMITTING_S2=true;
       const name=document.getElementById('name').value.trim();
       const phone=document.getElementById('phone').value.trim();
-      if(!name||!phone){alert('Please enter name and phone.');return;}
+      if(!name||!phone){alert('Please enter name and phone.');SUBMITTING_S2=false;return;}
       let a={}; try{a=JSON.parse(localStorage.getItem('lead_prefill')||'{}')}catch(_){a={}};
       const base={...a,name,phone,site:'DRG',page:'step2',program:'debt_consolidation_loan',flow:'loan_flip',form_ts:(window.__FORM_TS||Date.now())};
       if (base.debt_amount==null && base.debt!=null) base.debt_amount = base.debt;
@@ -316,10 +339,14 @@
         if (!r || !r.ok) {
           const status = r ? r.status : 'fetch_error';
           alert(`We could not submit your request.\n\nStatus: ${status}\nEndpoint: ${url || '(unknown)'}\nResponse: ${(bodyText||'').slice(0,300) || '(empty)'}\n\nIf this keeps happening, wait 5–10 seconds and try again.`);
-          return;
+          SUBMITTING_S2=false; return;
         }
-        document.getElementById('s2form').hidden = true; document.getElementById('s2done').hidden = false;
+        // Show thank-you without jumping to top
+        document.getElementById('s2form').hidden = true; 
+        document.getElementById('s2done').hidden = false;
+        document.getElementById('s2done').scrollIntoView({behavior:'smooth', block:'start'});
       }catch(err){ showDebug(err && (err.stack||err.message||String(err))); }
+      finally { SUBMITTING_S2=false; }
     }
 
     function stickyPrimaryClick(ev){ev?.preventDefault();if(STEP===1){ submitStep1(ev); } else if(STEP===2){ document.getElementById('submit2').click(); }}
