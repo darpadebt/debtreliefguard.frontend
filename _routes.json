@@ -3,6 +3,7 @@
   "include": ["/*"],
   "exclude": [
     "/api/*",
+    "/api/mesh/*",
     "/036-*/notify",
     "/036/*",
     "/api/036/*"
