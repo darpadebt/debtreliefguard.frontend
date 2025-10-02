@@ -2,6 +2,9 @@
   "version": 1,
   "include": ["/*"],
   "exclude": [
-    "/api/mesh/*"
+    "/api/*",
+    "/036-*/notify",      // extra belt-and-suspenders in case any non-mesh path gets used
+    "/036/*",
+    "/api/036/*"
   ]
 }
