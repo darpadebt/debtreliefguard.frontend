@@ -1,357 +1,415 @@
-<!doctype html>
-<html lang="en">
-<head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Debt Relief Guard — Debt Consolidation Loan (2‑Step Estimate)</title>
-  <meta name="description" content="Loan Flip: check eligibility for a debt consolidation loan in ~60 seconds. Step 1: debt, accounts, email. Step 2: name, phone. FTC‑aligned." />
-  <link rel="canonical" href="https://debtreliefguard.com/" />
-  <meta property="og:title" content="Debt Consolidation Loan — Free Savings Estimate" />
-  <meta property="og:description" content="Answer 3 quick questions, then confirm contact to receive your consolidation loan options and savings estimate." />
-  <meta property="og:type" content="website" />
-  <meta property="og:url" content="https://debtreliefguard.com/" />
-  <meta name="twitter:card" content="summary_large_image" />
-  <meta name="theme-color" content="#0a5cff" />
-  <meta name="x-ai-optimizer-page" content="DRG:index" />
-  <style>
-    :root{--brand:#0a5cff;--brand2:#072a86;--bg:#0b1220;--card:#0f1730;--text:#e6ecf8;--muted:#89a0c7}
-    html,body{margin:0;padding:0;background:var(--bg);color:var(--text);font:16px/1.45 system-ui,-apple-system,Segoe UI,Roboto,Ubuntu,"Helvetica Neue",Arial}
-    a{color:inherit}
-    .wrap{max-width:1080px;margin:0 auto;padding:0 16px}
-    .top{position:sticky;top:0;z-index:60;background:rgba(11,18,32,.92);backdrop-filter:blur(8px);border-bottom:1px solid rgba(255,255,255,.06)}
-    .top .row{display:flex;align-items:center;gap:10px;padding:10px 0}
-    .brand{display:flex;align-items:center;gap:8px;font-weight:800;text-decoration:none}
-    .logo{display:inline-flex;align-items:center;justify-content:center;width:28px;height:28px;border-radius:8px;background:linear-gradient(180deg,var(--brand),var(--brand2));font-size:12px}
-    nav{display:flex;gap:8px}
-    .btn{display:inline-flex;align-items:center;gap:8px;border:0;border-radius:999px;padding:8px 14px;font-weight:700;cursor:pointer;text-decoration:none}
-    .btn.primary{background:linear-gradient(180deg,var(--brand),var(--brand2));color:white;box-shadow:0 6px 18px rgba(10,92,255,.35)}
-    .btn.ghost{background:transparent;color:var(--text);border:1px solid rgba(255,255,255,.15)}
-    .call{margin-left:auto}
-    @media(max-width:640px){nav{overflow-x:auto}nav::-webkit-scrollbar{display:none}}
-    .ftc{background:#0d1530;border-bottom:1px solid rgba(255,255,255,.06)}
-    .ftc .row{display:flex;align-items:center;gap:10px;padding:8px 0;color:#cfe0ff;font-size:13px}
-    .ftc .dot{width:6px;height:6px;border-radius:50%;background:#fff}
-    .card{background:linear-gradient(180deg,var(--card),#111a35);border:1px solid rgba(255,255,255,.08);border-radius:16px;box-shadow:0 10px 30px rgba(0,0,0,.35)}
-    .pad{padding:16px}
-    h1{font-size:clamp(22px,4.5vw,36px);line-height:1.2;margin:0 0 8px;text-align:center}
-    h2{margin:0 0 6px}
-    .sub{color:var(--muted);font-size:15px;text-align:center;margin:0 0 12px}
-    .mini{font-size:12px;color:#9ab0db}
-    .muted{color:var(--muted);font-size:13px}
-    .badge{display:inline-flex;align-items:center;gap:8px;background:rgba(34,197,94,.12);color:#b7f8cf;border:1px solid rgba(34,197,94,.35);padding:6px 10px;border-radius:999px;font-weight:700;font-size:12px}
-    .stepper{display:flex;gap:8px;align-items:center;justify-content:center;margin:10px 0}
-    .pill{padding:4px 9px;border-radius:999px;border:1px solid rgba(255,255,255,.12);font-size:12px;color:#cfe0ff}
-    .pill.live{background:rgba(10,92,255,.18);border-color:rgba(10,92,255,.4)}
-    .field{margin:12px 0}
-    .label{display:flex;justify-content:space-between;align-items:center;margin-bottom:6px;color:#d7e6ff}
-    .help{color:var(--muted);font-size:12px}
-    input[type=range]{width:100%}
-    .input{width:100%;padding:12px;border-radius:10px;border:1px solid rgba(255,255,255,.15);background:#0b142b;color:#e8f2ff}
-    .range-val{font-weight:800}
-    .teaser{font-size:14px;color:#b9c6e6;margin-top:6px;text-align:center}
-    .trust{display:flex;flex-wrap:wrap;gap:12px;align-items:center;justify-content:center;color:#c9d6f5;font-size:13px;margin:10px 0}
-    .badge-svg{height:20px;opacity:.92}
-    .hero{padding:8px 0}
-    .center{max-width:520px;margin:0 auto}
-    .bot{position:sticky;bottom:0;background:rgba(11,18,32,.95);backdrop-filter:blur(8px);border-top:1px solid rgba(255,255,255,.06);z-index:55}
-    .bot .row{display:flex;gap:10px;align-items:center;justify-content:space-between;padding:10px 0}
-    .bot .btn.primary{font-size:18px;padding:14px 22px}
-    .bot .btn.ghost{font-size:12px;opacity:.85}
-    footer{padding:22px 0;color:#9fb2d8}
-    [hidden]{display:none !important}
-  </style>
+<!DOCTYPE html>  <html lang="en">  
+<head>  
+  <meta charset="utf-8" />  
+  <meta name="viewport" content="width=device-width, initial-scale=1" />  
+  <title>DebtReliefGuard – Friendly 60‑Second Survey (No Upfront Fees)</title>  
+  <meta name="description" content="Answer a few quick questions to see your debt relief options. No upfront fees, FTC‑aligned, privacy‑first." />  
+  <meta name="robots" content="index,follow" />  
+  <style>  
+    :root {  
+      --brand: #0f766e;   /* teal-700 */  
+      --brand-600: #0d9488; /* teal-600 */  
+      --ink: #0f172a;     /* slate-900 */  
+      --muted: #475569;   /* slate-600 */  
+      --bg: #f8fafc;      /* slate-50 */  
+      --card: #ffffff;  
+      --ring: rgba(13,148,136,.35);  
+      --ok: #16a34a;  
+    }  
+    *, *::before, *::after { box-sizing: border-box; }  
+    html, body { height: 100%; }  
+    body { margin: 0; font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Ubuntu, Cantarell, Noto Sans, sans-serif; color: var(--ink); background: var(--bg); }  
+    a { color: var(--brand); text-decoration: none; }  
+    a:hover { text-decoration: underline; }  header { position: sticky; top: 0; z-index: 50; backdrop-filter: saturate(180%) blur(6px); background: rgba(255,255,255,.8); border-bottom: 1px solid #e2e8f0; }  
+.wrap { max-width: 1100px; margin: 0 auto; padding: 14px 18px; }  
+.nav { display: flex; align-items: center; gap: 18px; justify-content: space-between; }  
+.logo { display: flex; align-items: center; gap: 10px; font-weight: 800; letter-spacing: .2px; }  
+.badge { font-size: 12px; padding: 4px 8px; border-radius: 999px; background: #e6fffa; color: var(--brand); border: 1px solid #99f6e4; }  
+
+/* mobile menu */  
+.menu { position: relative; }  
+.menu-btn { display:inline-flex; align-items:center; justify-content:center; background:#ffffff; border:1px solid #e2e8f0; border-radius:10px; padding:8px 10px; cursor:pointer; }  
+.menu-panel { display:none; position:absolute; right:0; top:44px; background:#fff; border:1px solid #e2e8f0; border-radius:12px; box-shadow:0 10px 30px rgba(2,6,23,.12); padding:8px; min-width:180px; }  
+.menu-panel.open { display:block; }  
+.menu-link { display:block; padding:8px 10px; border-radius:8px; color:var(--ink); }  
+.menu-link:hover { background:#f1f5f9; text-decoration:none; }  
+
+.hero { padding: 28px 18px 10px; }  
+.hero h1 { font-size: clamp(24px, 3vw + 16px, 38px); margin: 0 0 8px; line-height: 1.1; }  
+.hero p { color: var(--muted); margin: 0; }  
+
+.grid { display: grid; grid-template-columns: 1fr; gap: 18px; }  
+@media (min-width: 900px) { .grid { grid-template-columns: 1.1fr .9fr; align-items: start; } }  
+
+.card { background: var(--card); border: 1px solid #e2e8f0; border-radius: 14px; box-shadow: 0 8px 26px rgba(2,6,23,0.06); }  
+.card .pad { padding: 16px; }  
+
+.steps { display: flex; gap: 8px; align-items: center; margin-bottom: 14px; }  
+.step { flex: 1; height: 8px; background: #e2e8f0; border-radius: 999px; overflow: hidden; }  
+.step > span { display: block; height: 100%; width: 0; background: linear-gradient(90deg, var(--brand), var(--brand-600)); transition: width .35s ease; }  
+
+label { font-size: 14px; font-weight: 600; display: block; margin: 12px 0 6px; }  
+input, select { width: 100%; padding: 12px 12px; border: 1px solid #cbd5e1; border-radius: 10px; font-size: 16px; outline: none; background: white; }  
+input:focus, select:focus { border-color: var(--brand-600); box-shadow: 0 0 0 4px var(--ring); }  
+
+.choices { display:flex; flex-wrap:wrap; gap:10px; }  
+.chip { display:inline-flex; align-items:center; gap:8px; padding:10px 12px; border:1px solid #cbd5e1; border-radius:999px; cursor:pointer; user-select:none; background:#fff; }  
+.chip[aria-pressed="true"], .chip input:checked + span { border-color: var(--brand-600); box-shadow: 0 0 0 3px var(--ring); }  
+.chip input { display:none; }  
+
+.row { display: grid; grid-template-columns: 1fr; gap: 10px; }  
+@media (min-width: 640px) { .row.two { grid-template-columns: 1fr 1fr; } }  
+
+.btn { display: inline-flex; align-items: center; justify-content: center; gap: 8px; cursor: pointer; padding: 12px 16px; border-radius: 10px; border: none; font-weight: 700; }  
+.btn.primary { background: linear-gradient(180deg, var(--brand-600), var(--brand)); color: white; }  
+.btn.ghost { background: #ecfeff; color: var(--brand); border: 1px solid #99f6e4; }  
+.btn:disabled { opacity: .6; cursor: not-allowed; }  
+
+.support { display: grid; gap: 10px; }  
+.kv { display: grid; grid-template-columns: 20px 1fr; gap: 8px; align-items: start; font-size: 14px; }  
+.kv svg { margin-top: 2px; }  
+.small { font-size: 12px; color: var(--muted); }  
+.legal { font-size: 12px; color: var(--muted); margin-top: 8px; }  
+
+.alert { display:none; margin: 10px 0; padding: 10px 12px; border-radius: 10px; }  
+.alert.err { background: #fee2e2; color: #7f1d1d; border: 1px solid #fecaca; }  
+.alert.ok { background: #dcfce7; color: #14532d; border: 1px solid #bbf7d0; }  
+
+footer { padding: 20px 18px 40px; color: var(--muted); font-size: 13px; }
+
+  </style>    <!-- Schema -->    <script type="application/ld+json">  
+  {  
+    "@context": "https://schema.org",  
+    "@type": ["Organization", "FinancialService"],  
+    "@id": "https://gatewaydebthelp.com/#gfsr",  
+    "name": "Gateway Financial Settlement Relief, LLC",  
+    "alternateName": ["Gateway Debt Help", "DebtReliefGuard"],  
+    "url": "https://www.debtreliefguard.com/",  
+    "logo": "https://www.debtreliefguard.com/assets/logo.svg",  
+    "disambiguatingDescription": "Not affiliated with Gateway Debt Relief of Costa Mesa, CA.",  
+    "sameAs": ["https://www.bbb.org/us/fl/tarpon-springs/profile/debt-relief-services/gateway-financial-settlement-relief-llc-0653-90608465"],  
+    "areaServed": "US",  
+    "serviceType": "Debt relief option comparison and consultation"  
+  }  
+  </script>  </head>  
+<body>  
+  <header>  
+    <div class="wrap nav">  
+      <div class="logo">  
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M12 2l7 4v6c0 5-3.5 8-7 10-3.5-2-7-5-7-10V6l7-4z" stroke="currentColor" stroke-width="1.5" fill="none"/></svg>  
+        DebtReliefGuard  
+        <span class="badge">FTC‑aligned · No upfront fees</span>  
+      </div>  
+      <div class="menu">  
+        <button id="menuBtn" class="menu-btn" aria-label="Open menu" aria-expanded="false">  
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h12" stroke="currentColor" stroke-width="2"/></svg>  
+        </button>  
+        <nav id="menuPanel" class="menu-panel" aria-label="Primary">  
+          <a class="menu-link" href="/compare">Compare</a>  
+          <a class="menu-link" href="/privacy">Privacy</a>  
+          <a class="menu-link" href="/terms">Terms</a>  
+          <a class="menu-link" target="_blank" rel="noopener" href="https://www.bbb.org/us/fl/tarpon-springs/profile/debt-relief-services/gateway-financial-settlement-relief-llc-0653-90608465">BBB Profile</a>  
+        </nav>  
+      </div>  
+    </div>  
+  </header>    <div class="wrap hero">  
+    <div class="grid">  
+      <!-- LEFT: Multi‑step survey -->  
+      <div class="card">  
+        <div class="pad">  
+          <h1>Quick survey to see your options</h1>  
+          <p>Friendly, 60‑second intake. No sliders. No upfront fees.</p>  <div class="steps" aria-hidden="true">  
+        <div class="step"><span id="s1"></span></div>  
+        <div class="step"><span id="s2"></span></div>  
+        <div class="step"><span id="s3"></span></div>  
+        <div class="step"><span id="s4"></span></div>  
+        <div class="step"><span id="s5"></span></div>  
+        <div class="step"><span id="s6"></span></div>  
+      </div>  
+
+      <div id="alert" class="alert err" role="alert"></div>  
+
+      <form id="leadForm" novalidate>  
+        <!-- hidden system fields -->  
+        <input type="hidden" name="hp" id="hp" value="" autocomplete="off" />  
+        <input type="hidden" name="form_ts" id="form_ts" value="" />  
+        <input type="hidden" name="site" value="DRG" />  
+        <input type="hidden" name="source" value="form" />  
+        <input type="hidden" name="page_url" id="page_url" value="" />  
+
+        <!-- STEP 1: Debt amount -->  
+        <section class="step-pane" data-step="1">  
+          <label for="debt_amount">Estimated unsecured debt</label>  
+          <select id="debt_amount" name="debt_amount" required>  
+            <option value="" selected disabled>Select an amount</option>  
+            <option value="5000">$5,000 – $9,999</option>  
+            <option value="10000">$10,000 – $14,999</option>  
+            <option value="15000">$15,000 – $24,999</option>  
+            <option value="25000">$25,000 – $39,999</option>  
+            <option value="40000">$40,000+</option>  
+          </select>  
+        </section>  
+
+        <!-- STEP 2: Type of debt (multi-select chips) -->  
+        <section class="step-pane" data-step="2" hidden>  
+          <label>Type of debt (pick all that apply)</label>  
+          <div class="choices" id="debt_types">  
+            <label class="chip"><input type="checkbox" value="credit_cards"><span>Credit cards</span></label>  
+            <label class="chip"><input type="checkbox" value="personal_loans"><span>Personal loans</span></label>  
+            <label class="chip"><input type="checkbox" value="medical_bills"><span>Medical bills</span></label>  
+            <label class="chip"><input type="checkbox" value="collections"><span>Collections</span></label>  
+            <label class="chip"><input type="checkbox" value="private_student_loans"><span>Private student loans</span></label>  
+          </div>  
+        </section>  
+
+        <!-- STEP 3: Payment status (single-select chips) -->  
+        <section class="step-pane" data-step="3" hidden>  
+          <label>How are payments going?</label>  
+          <div class="choices" id="pay_status">  
+            <label class="chip"><input type="radio" name="paying" value="current"><span>Current on payments</span></label>  
+            <label class="chip"><input type="radio" name="paying" value="min_only"><span>Only making minimums</span></label>  
+            <label class="chip"><input type="radio" name="paying" value="30_59"><span>30–59 days behind</span></label>  
+            <label class="chip"><input type="radio" name="paying" value="60_89"><span>60–89 days behind</span></label>  
+            <label class="chip"><input type="radio" name="paying" value="90_plus"><span>90+ days behind</span></label>  
+          </div>  
+        </section>  
+
+        <!-- STEP 4: Credit score range + dynamic note -->  
+        <section class="step-pane" data-step="4" hidden>  
+          <label>Credit score range</label>  
+          <div class="choices" id="credit_range">  
+            <label class="chip"><input type="radio" name="credit" value="720_plus"><span>720+</span></label>  
+            <label class="chip"><input type="radio" name="credit" value="660_719"><span>660–719</span></label>  
+            <label class="chip"><input type="radio" name="credit" value="600_659"><span>600–659</span></label>  
+            <label class="chip"><input type="radio" name="credit" value="501_599"><span>501–599</span></label>  
+            <label class="chip"><input type="radio" name="credit" value="500_or_below"><span>500 or below</span></label>  
+          </div>  
+          <p id="credit_msg" class="small" style="margin-top:8px; display:none;"></p>  
+        </section>  
+
+        <!-- STEP 5: Can you afford ~$250? -->  
+        <section class="step-pane" data-step="5" hidden>  
+          <label>If you qualified for a consolidation loan, could you comfortably afford around $250/month?</label>  
+          <div class="choices" id="afford_250">  
+            <label class="chip"><input type="radio" name="afford" value="yes"><span>Yes</span></label>  
+            <label class="chip"><input type="radio" name="afford" value="no"><span>No</span></label>  
+            <label class="chip"><input type="radio" name="afford" value="not_sure"><span>Not sure</span></label>  
+          </div>  
+        </section>  
+
+        <!-- STEP 6: Contact (Name, Email, Phone) -->  
+        <section class="step-pane" data-step="6" hidden>  
+          <div class="row two">  
+            <div>  
+              <label for="first">First name</label>  
+              <input id="first" name="first" autocomplete="given-name" required />  
+            </div>  
+            <div>  
+              <label for="email">Email</label>  
+              <input id="email" name="email" type="email" autocomplete="email" required placeholder="you@example.com" />  
+            </div>  
+          </div>  
+          <div class="row two">  
+            <div>  
+              <label for="phone">Mobile phone</label>  
+              <input id="phone" name="phone" type="tel" inputmode="tel" pattern="^[+]?\d[\d\s().-]{7,}$" title="Enter a valid phone number" required placeholder="(555) 123‑4567" />  
+            </div>  
+            <div>  
+              <label for="zip">ZIP (optional)</label>  
+              <input id="zip" name="zip" inputmode="numeric" pattern="\d{5}" title="Enter a 5‑digit ZIP" placeholder="e.g., 34449" />  
+            </div>  
+          </div>  
+
+          <label style="display:flex; gap:10px; align-items:start; font-weight:500; margin-top:12px;">  
+            <input type="checkbox" id="terms" required />  
+            <span>By submitting, you agree to our <a href="/privacy">Privacy Policy</a> and <a href="/terms">Terms</a>. Standard call/SMS rates may apply. We never charge upfront fees.</span>  
+          </label>  
+
+          <button class="btn primary" id="submitBtn" type="submit" style="margin-top:12px;">Get My Options</button>  
+          <div id="ok" class="alert ok" role="status" style="display:none;margin-top:10px;">Thanks! If live, this would securely route to our lead router.</div>  
+        </section>  
+
+        <div class="row" style="margin-top:12px;">  
+          <button type="button" class="btn ghost" id="backBtn" disabled>Back</button>  
+          <button type="button" class="btn primary" id="nextBtn">Next</button>  
+        </div>  
+      </form>  
+
+      <p class="legal">FTC alignment: We do not charge upfront fees for debt relief services. Options and eligibility vary by state and creditor.  
+        <br/>  
+        <strong>BBB:</strong> View our public profile on the Better Business Bureau website (we are not a paying member). <a target="_blank" rel="noopener" href="https://www.bbb.org/us/fl/tarpon-springs/profile/debt-relief-services/gateway-financial-settlement-relief-llc-0653-90608465">Open BBB profile</a>.  
+      </p>  
+    </div>  
+  </div>  
+
+  <!-- RIGHT: Trust & Differentiators -->  
+  <aside class="card">  
+    <div class="pad support">  
+      <h2 style="margin:0 0 6px;">Why DebtReliefGuard?</h2>  
+      <div class="kv">  
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M5 13l4 4L19 7" stroke="currentColor" stroke-width="2" fill="none"/></svg>  
+        <div><strong><a href="/compare">Compare, don’t commit.</a></strong> See options side‑by‑side—settlement, hardship plans, and more—before you decide.</div>  
+      </div>  
+      <div class="kv">  
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M5 13l4 4L19 7" stroke="currentColor" stroke-width="2" fill="none"/></svg>  
+        <div><strong><a href="/privacy">Privacy‑first intake.</a></strong> Step one collects only what’s needed to pre‑qualify. Full details happen after you preview.</div>  
+      </div>  
+      <div class="kv">  
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M5 13l4 4L19 7" stroke="currentColor" stroke-width="2" fill="none"/></svg>  
+        <div><strong><a href="/terms">Transparent by design.</a></strong> FTC‑aligned, no upfront fees, and easy access to our <a href="/terms">Terms</a>.</div>  
+      </div>  
+      <hr style="border:none; border-top:1px solid #e2e8f0;" />  
+      <p class="small">Note: We do not publish reviews or testimonials because we’re a new business and we never use fake reviews.</p>  
+    </div>  
+  </aside>  
+</div>
+
+  </div>    <footer class="wrap">  
+    <div id="privacy">  
+      <strong>Privacy</strong> · We only use your information to help you evaluate options.  
+    </div>  
+    <div id="terms" style="margin-top:6px;">  
+      <strong>Terms</strong> · Requesting options does not obligate you to enroll.  
+    </div>  
+  </footer>    <noscript>  
+    <div class="wrap"><div class="alert err" style="display:block;">JavaScript is required for this survey.</div></div>  
+  </noscript>    <script>  
+    (function () {  
+      const $ = (s) => document.querySelector(s);  
+      const $$ = (s) => Array.from(document.querySelectorAll(s));  
   
-  <!-- JSON-LD -->
-  <script type="application/ld+json">
-  {"@context":"https://schema.org","@type":"FinancialService","@id":"https://gatewaydebthelp.com/#gfsr","name":"Gateway Financial Settlement Relief, LLC","alternateName":["Gateway Debt Help","Debt Relief Guard"],"disambiguatingDescription":"Debt Relief Guard and Debt Help Form are services of Gateway Financial Settlement Relief, LLC (GFSR). Not affiliated with Gateway Debt Relief of Costa Mesa, CA.","url":"https://gatewaydebthelp.com/","logo":"https://debtreliefguard.com/assets/logo.png","sameAs":["https://debtreliefguard.com/","https://debthelpform.com/"]}
-  </script>
-  <script type="application/ld+json">
-  {"@context":"https://schema.org","@type":"WebSite","url":"https://debtreliefguard.com/","name":"Debt Relief Guard","potentialAction":{"@type":"SearchAction","target":"https://debtreliefguard.com/search?q={query}","query-input":"required name=query"}}
-  </script>
-  <!-- SEO/Bot directives -->
-  <meta name="robots" content="index,follow,max-snippet:-1,max-image-preview:large,max-video-preview:-1">
-  <meta name="googlebot" content="index,follow">
-  <meta name="bingbot" content="index,follow">
-  <link rel="dns-prefetch" href="//debthelpform.com">
-  <link rel="preconnect" href="https://debthelpform.com" crossorigin>
-  <link rel="dns-prefetch" href="//gatewaydebthelp.com">
-  <link rel="preconnect" href="https://gatewaydebthelp.com" crossorigin>
-  <!-- FAQPage schema (kept) -->
-  <script type="application/ld+json">
-  {
-    "@context": "https://schema.org",
-    "@type": "FAQPage",
-    "mainEntity": [
-      {"@type": "Question","name": "Will checking my consolidation options hurt my credit?","acceptedAnswer": {"@type": "Answer","text": "No. This pre‑qualification flow uses a soft inquiry that won’t affect your credit score."}},
-      {"@type": "Question","name": "What information do I need to get a consolidation estimate?","acceptedAnswer": {"@type": "Answer","text": "About how much unsecured debt you have, how many accounts, your email, and basic contact details to share your options."}},
-      {"@type": "Question","name": "Is Debt Relief Guard affiliated with Gateway Debt Relief of Costa Mesa, CA?","acceptedAnswer": {"@type": "Answer","text": "No. Debt Relief Guard is operated by Gateway Financial Settlement Relief, LLC (Gateway Debt Help) and is not affiliated with Gateway Debt Relief of Costa Mesa, CA."}}
-    ]
-  }
-  </script>
-  <!-- Breadcrumbs -->
-  <script type="application/ld+json">
-  {"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://debtreliefguard.com/"}]}
-  </script>
-</head>
-<body>
-  <!-- (Preview button removed; nothing shows on live site) -->
+      // menu toggle  
+      const menuBtn = $('#menuBtn');  
+      const menuPanel = $('#menuPanel');  
+      if (menuBtn && menuPanel) {  
+        menuBtn.addEventListener('click', () => {  
+          const open = menuPanel.classList.toggle('open');  
+          menuBtn.setAttribute('aria-expanded', open ? 'true' : 'false');  
+        });  
+      }  
+  
+      // progress bars  
+      const bars = ['#s1','#s2','#s3','#s4','#s5','#s6'].map((id) => $(id));  
+      const panes = $$('.step-pane');  
+      let step = 1; // 1..6  
+  
+      const alertBox = $('#alert');  
+      const nextBtn = $('#nextBtn');  
+      const backBtn = $('#backBtn');  
+  
+      const form = $('#leadForm');  
+      const formTs = $('#form_ts');  
+      const hp = $('#hp');  
+      const pageUrl = $('#page_url');  
+  
+      formTs.value = String(Date.now());  
+      pageUrl.value = location.href;  
+      setTimeout(() => { hp.value = ''; }, 600);  
+  
+      function setStep(n){  
+        step = n; panes.forEach(p => p.hidden = Number(p.dataset.step) !== step);  
+        bars.forEach((b, i) => { if (!b) return; b.style.width = (i < step) ? '100%' : '0%'; });  
+        backBtn.disabled = step === 1;  
+        nextBtn.style.display = step === 6 ? 'none' : 'inline-flex';  
+      }  
+  
+      function showError(msg){ alertBox.textContent = msg; alertBox.style.display='block'; }  
+      function clearError(){ alertBox.textContent=''; alertBox.style.display='none'; }  
+  
+      // validations per step  
+      function validateCurrent(){  
+        clearError();  
+        if (step === 1) {  
+          const debt = $('#debt_amount').value;  
+          if (!debt) return 'Select your estimated unsecured debt.';  
+        }  
+        if (step === 2) {  
+          const any = $$('#debt_types input:checked').length > 0;  
+          if (!any) return 'Pick at least one debt type.';  
+        }  
+        if (step === 3) {  
+          const any = $$('#pay_status input:checked').length > 0;  
+          if (!any) return 'Choose a payment status.';  
+        }  
+        if (step === 4) {  
+          const chosen = $('input[name="credit"]:checked');  
+          if (!chosen) return 'Choose your credit score range.';  
+        }  
+        if (step === 5) {  
+          const chosen = $('input[name="afford"]:checked');  
+          if (!chosen) return 'Select an answer.';  
+        }  
+        return '';  
+      }  
+  
+      // dynamic credit message  
+      $$('#credit_range input').forEach(el => {  
+        el.addEventListener('change', () => {  
+          const v = el.value; const msg = $('#credit_msg');  
+          if (!msg) return;  
+          msg.style.display = 'block';  
+          if (v === '500_or_below') {  
+            msg.textContent = 'Thanks—lower credit can still qualify for hardship or settlement options. We’ll tailor results accordingly.';  
+          } else {  
+            msg.textContent = 'You may be eligible for a consolidation loan depending on other factors. We’ll check alongside other options.';  
+          }  
+        });  
+      });  
+  
+      nextBtn.addEventListener('click', () => {  
+        const err = validateCurrent(); if (err) return showError(err);  
+        if (step < 6) setStep(step + 1);  
+      });  
+      backBtn.addEventListener('click', () => { if (step > 1) setStep(step - 1); clearError(); });  
+      setStep(1);  
+  
+      // submit handler  
+      form.addEventListener('submit', async (e) => {  
+        e.preventDefault(); clearError();  
+  
+        // basic end-step validation  
+        const first = $('#first'); const email = $('#email'); const phone = $('#phone'); const terms = $('#terms');  
+        if (!first.value.trim()) return showError('Please enter your first name.');  
+        if (!email.checkValidity()) return showError('Enter a valid email address.');  
+        if (!phone.checkValidity()) return showError('Please enter a valid phone number.');  
+        if (!terms.checked) return showError('Please agree to the terms to continue.');  
+  
+        const payload = {  
+          name: first.value.trim(),  
+          email: email.value.trim(),  
+          phone: phone.value.trim(),  
+          zip: ($('#zip')?.value || '').trim(),  
+          debt_amount: Number($('#debt_amount').value),  
+          debt_types: $$('#debt_types input:checked').map(i => i.value),  
+          payment_status: ($('input[name="paying"]:checked')||{}).value || null,  
+          credit: ($('input[name="credit"]:checked')||{}).value || null,  
+          afford_250: ($('input[name="afford"]:checked')||{}).value || null,  
+          consent: { terms: true },  
+          hp: hp.value,  
+          form_ts: Number(formTs.value),  
+          source: 'form',  
+          site: 'DRG',  
+          page_url: pageUrl.value,  
+          utm: Object.fromEntries(new URLSearchParams(location.search).entries())  
+        };  
+  
+        const endpoint = '/api/mesh/036-lead-router/ingest';  
+        const okBox = $('#ok');  
+        try {  
+          const res = await fetch(endpoint, {  
+            method: 'POST',  
+            headers: { 'content-type': 'application/json' },  
+            body: JSON.stringify(payload),  
+          });  
+          if (!res.ok) throw new Error('HTTP ' + res.status);  
+          okBox.style.display = 'block';  
+          form.reset(); setStep(1);  
+        } catch (err) {  
+          console.warn('POST failed (likely preview env):', err);  
+          okBox.style.display = 'block';  
+        }  
+      });  
+    })();  
+  </script>  </body>  
+</html>  Send that code back to me with the button here in chatgpt so I can preview it visually here
 
-  <header id="top" class="top">
-    <div class="wrap">
-      <div class="row">
-        <a class="brand" href="/"><span class="logo">DRG</span><span>Debt Relief Guard</span></a>
-        <nav>
-          <a class="btn ghost" href="/how.it.works.index.html">How It Works</a>
-          <a class="btn ghost" href="/faq.index.html">FAQ</a>
-          <a class="btn ghost" href="/geo-blocked.html">State Programs</a>
-          <a class="btn ghost" href="/blog.index.html">Blog</a>
-        </nav>
-        <div class="call"><a class="btn primary" href="tel:+18884377141" aria-label="Call now: 888-437-7141">Call</a></div>
-    </div></div>
-    <div class="ftc"><div class="wrap"><div class="row"><div class="dot"></div> <strong>FTC‑aligned</strong> • No upfront fees • Transparent savings estimates</div></div></div>
-  </header>
-
-  <section class="hero">
-    <div class="wrap">
-      <aside id="s1" class="card pad center" aria-labelledby="s1title">
-        <div style="display:flex;gap:8px;justify-content:center"><span class="badge">Debt Consolidation Loan Check</span></div>
-        <div class="stepper"><span class="pill live">Step 1 of 2</span><span class="pill">~60 seconds</span></div>
-        <h1 id="s1title">Lower your payments with a debt consolidation loan</h1>
-        <p class="sub">Answer 3 quick questions. No name or phone yet.</p>
-        <div class="trust" style="margin-top:8px">
-          <a href="https://www.bbb.org/us/fl/inglis/profile/debt-relief-services/gateway-financial-settlement-relief-llc-0733-235973278" target="_blank" rel="noopener">BBB Profile — See our A– rating</a>
-        </div>
-        <form id="formStep1" autocomplete="on">
-          <input type="text" name="website" id="hp1" tabindex="-1" autocomplete="off" style="position:absolute;left:-9999px;opacity:0" aria-hidden="true" />
-          <div class="field">
-            <div class="label"><label for="debt">About how much unsecured debt?</label> <span class="range-val" id="debtOut">$10,000</span></div>
-            <input id="debt" type="range" min="3000" max="80000" step="500" value="10000" aria-describedby="debtHelp" />
-            <div class="help" id="debtHelp">Includes credit cards, personal loans, medical bills.</div>
-          </div>
-          <div class="field">
-            <div class="label"><label for="accts">About how many accounts?</label> <span class="range-val" id="acctsOut">3 accounts</span></div>
-            <input id="accts" type="range" min="1" max="20" step="1" value="3" />
-          </div>
-          <!-- ZIP -> EMAIL in Step 1 -->
-          <div class="field">
-            <div class="label"><label for="email">Email</label></div>
-            <input id="email" class="input" type="email" placeholder="you@example.com" required autocomplete="email" />
-          </div>
-          <p class="teaser">Estimated savings preview: <strong id="teaserSave">$3,500</strong> vs. paying minimums.</p>
-          <button id="btnStep1" class="btn primary" type="button" style="width:100%;justify-content:center;margin-top:8px"><span>Check My Loan Options →</span></button>
-          <p class="muted" style="text-align:center;margin-top:8px">By continuing, you agree to our <a href="/terms.index.html">Terms</a> &amp; <a href="/privacy.policy.index.html">Privacy</a>.</p>
-        </form>
-      </aside>
-
-      <aside id="s2" class="card pad center" aria-labelledby="s2title" hidden>
-        <div class="stepper"><span class="pill live">Step 2 of 2</span><span class="pill">Confirm contact</span></div>
-        <h1 id="s2title">Great — last step to get your loan options</h1>
-        <p class="sub">We’ll send your personalized consolidation loan options and savings estimate.</p>
-        <div style="display:flex;gap:8px;justify-content:center;margin:6px 0 12px">
-          <span class="pill">Your debt: <span id="sumDebt">—</span></span>
-          <span class="pill">Accounts: <span id="sumAccts">—</span></span>
-        </div>
-        <div id="s2form">
-          <div id="drgDebug" style="display:none;background:#2b0b0b;color:#ffd7d7;border:1px solid #8b0000;border-radius:10px;padding:10px;margin-bottom:10px;font-size:12px"></div>
-          <form id="formStep2" autocomplete="on">
-            <input type="text" name="company" id="hp2" tabindex="-1" autocomplete="off" style="position:absolute;left:-9999px;opacity:0" aria-hidden="true" />
-            <!-- Step 2 asks for name + phone only -->
-            <div class="field"><div class="label"><label for="name">Full Name</label></div><input id="name" class="input" placeholder="Jane Doe" required autocomplete="name" /></div>
-            <div class="field"><div class="label"><label for="phone">Phone</label></div><input id="phone" class="input" inputmode="tel" placeholder="555-555-5555" required autocomplete="tel" /></div>
-            <button id="submit2" class="btn primary" type="submit" style="width:100%;justify-content:center;margin-top:8px">Get My Personalized Plan →</button>
-            <p class="muted" style="text-align:center;margin-top:8px">By submitting, you agree to our <a href="/terms.index.html">Terms</a> &amp; <a href="/privacy.policy.index.html">Privacy</a>. No upfront fees. FTC‑aligned.</p>
-          </form>
-        </div>
-        <div id="s2done" hidden>
-          <h2>Thank you! We’ll contact you shortly.</h2>
-          <p class="muted">We received your request. A debt specialist will reach out soon by phone or email with your personalized plan and savings estimate.</p>
-        </div>
-      </aside>
-    </div>
-  </section>
-
-  <section class="wrap" aria-label="Explore debt relief resources" style="padding:8px 0 16px">
-    <div class="card pad center">
-      <h2 style="margin:0 0 8px;text-align:center">Explore debt relief resources</h2>
-      <p class="muted" style="text-align:center;margin:0 0 10px">Learn how consolidation compares to settlement, what FTC rules require, and your state‑specific options.</p>
-      <nav style="display:flex;flex-wrap:wrap;gap:10px;justify-content:center">
-        <a class="btn ghost" href="https://debtreliefguard.com/how.it.works.index.html" rel="noopener">How debt relief works</a>
-        <a class="btn ghost" href="https://debtreliefguard.com/faq.index.html" rel="noopener">FAQ (FTC‑aligned)</a>
-        <a class="btn ghost" href="https://debthelpform.com/geo-debt-relief.html" rel="noopener">State programs</a>
-        <a class="btn ghost" href="/blog.index.html" rel="noopener">Guides & tips</a>
-      </nav>
-    </div>
-  </section>
-
-  <div class="bot">
-    <div class="wrap">
-      <div class="row">
-        <div class="mini" id="stickyLabel">Step 1 of 2 — ~60 seconds</div>
-        <div style="display:flex;gap:10px;align-items:center">
-          <a class="btn ghost" href="#top">Back to top</a>
-          <a id="stickyContinue" class="btn primary" href="#">Continue →</a>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <footer>
-    <div class="wrap">
-      <p class="mini"><strong>Debt Relief Guard</strong> is a service of Gateway Financial Settlement Relief, LLC (GFSR). © <span id="y"></span>. Not affiliated with “Gateway Debt Relief” of Costa Mesa, CA.</p>
-      <div class="trust" style="margin-top:8px">
-        <a href="https://www.bbb.org/us/fl/inglis/profile/debt-relief-services/gateway-financial-settlement-relief-llc-0733-235973278" target="_blank" rel="noopener">BBB Profile — See our rating (<strong>A–</strong>)</a>
-      </div>
-    </div>
-    <div class="wrap" style="padding-top:8px">
-      <p class="mini">Our network: 
-        <a href="https://gatewaydebthelp.com/">GatewayDebtHelp.com</a> • 
-        <a href="https://gatewayfinancialsettlementrelief.com/">GatewayFinancialSettlementRelief.com</a> • 
-        <a href="https://debthelpform.com/">DebtHelpForm.com</a>
-      </p>
-    </div>
-  </footer>
-  <script>document.getElementById('y').textContent=new Date().getFullYear();</script>
-
-  <!-- Main app script (bottom) -->
-  <script>
-    // ---------- utility & state ----------
-    const fmt=(n)=>new Intl.NumberFormat('en-US',{style:'currency',currency:'USD',maximumFractionDigits:0}).format(n||0);
-    let STEP=1;
-    window.__FORM_TS = window.__FORM_TS || Date.now();
-
-    // Double-submit guards
-    let SUBMITTING_S1=false;
-    let SUBMITTING_S2=false;
-
-    // ---------- endpoint auto-discovery (front-end only) ----------
-    const PRIMARY_API_URL = `${location.origin}/api/mesh/036-lead-router/ingest`;
-    const ALT_API_URLS = [
-      `${location.origin}/api/mesh/036-lead-router`,
-      `${location.origin}/036-lead-router/ingest`,
-      `${location.origin}/api/mesh/036/ingest`,
-      `${location.origin}/036/ingest`,
-      `${location.origin}/api/036-lead-router/ingest`
-    ];
-    const IS_PREVIEW = (/chatgpt\.com$/i.test(location.hostname) || location.hostname.indexOf('chatgpt')>-1);
-    let RESOLVED_API_URL = null;
-
-    async function post036(payload){
-      if (IS_PREVIEW) {
-        return { r: new Response('{"status":"accepted"}', {status:200, headers:{'content-type':'application/json'}}), url: 'preview://mock' };
-      }
-      const headers={ 'content-type':'application/json' };
-      const candidates = RESOLVED_API_URL ? [RESOLVED_API_URL] : [PRIMARY_API_URL, ...ALT_API_URLS];
-      let last = { r: null, url: candidates[0], bodyText: '' };
-      for (const url of candidates){
-        try{
-          const r = await fetch(url,{method:'POST',headers,body:JSON.stringify(payload),keepalive:true});
-          if (r.ok){ RESOLVED_API_URL = url; return { r, url }; }
-          let bodyText=''; try{ bodyText = await r.clone().text(); }catch(_){ }
-          last = { r, url, bodyText };
-          const fallbackable = (r.status===404 && /not_found/i.test(bodyText||'') || r.status===405 || r.status===400);
-          if (!fallbackable){ return last; }
-        }catch(_){ /* proceed to next candidate */ }
-      }
-      return last;
-    }
-
-    function envInfo(){
-      try{
-        return {
-          tz: (Intl.DateTimeFormat().resolvedOptions().timeZone||null),
-          lang: navigator.language,
-          langs: navigator.languages,
-          hw: navigator.hardwareConcurrency||null,
-          rm: matchMedia('(prefers-reduced-motion: reduce)').matches?1:0,
-          touch: ('ontouchstart' in window)?1:0
-        };
-      }catch(_){ return {}; }
-    }
-
-    const HS = { start: Date.now(), moves:0, keys:0, clicks:0, focus:0 };
-    addEventListener('mousemove', ()=>HS.moves++, {passive:true});
-    addEventListener('keydown',  ()=>HS.keys++,  {passive:true});
-    addEventListener('click',    ()=>HS.clicks++, {passive:true});
-    addEventListener('focus',    ()=>HS.focus++, true);
-
-    function showDebug(msg){ try{ const el=document.getElementById('drgDebug'); if(!el) return; el.style.display='block'; el.textContent=String(msg).slice(0,600); }catch(_){} }
-
-    function syncRanges(){
-      const debt=+document.getElementById('debt').value;
-      const accts=+document.getElementById('accts').value;
-      document.getElementById('debtOut').textContent=fmt(debt);
-      document.getElementById('acctsOut').textContent=accts+(accts===1?' account':' accounts');
-      document.getElementById('teaserSave').textContent=fmt(Math.max(0,Math.round(debt*0.35)));
-    }
-
-    async function submitStep1(e){
-      e?.preventDefault();
-      if(SUBMITTING_S1) return; SUBMITTING_S1=true;
-      const debt=+document.getElementById('debt').value;
-      const accts=+document.getElementById('accts').value;
-      const email=(document.getElementById('email').value||'').trim();
-      if(!/^\S+@\S+\.\S+$/.test(email)){document.getElementById('email').focus();alert('Please enter a valid email.');SUBMITTING_S1=false;return;}
-      const base={debt,accts,accounts:accts,debt_amount:debt,email,site:'DRG',page:'step1',program:'debt_consolidation_loan',flow:'loan_flip',form_ts:(window.__FORM_TS||Date.now())};
-      localStorage.setItem('lead_prefill',JSON.stringify({...base,ts:Date.now()}));
-      try{
-        const idem = (crypto && crypto.randomUUID) ? crypto.randomUUID() : String(Date.now());
-        const payload = { event:'step1_submit', ...base, human:{t:Date.now()-(HS.start||Date.now()),m:HS.moves||0,k:HS.keys||0,c:HS.clicks||0,f:HS.focus||0}, env: envInfo(), idem };
-        await post036(payload);
-      }catch(err){ showDebug(err && (err.stack||err.message||String(err))); }
-      STEP=2; document.getElementById('s1').hidden=true; document.getElementById('s2').hidden=false; document.getElementById('stickyLabel').textContent='Step 2 of 2';
-      document.getElementById('sumDebt').textContent=fmt(debt);
-      document.getElementById('sumAccts').textContent=accts;
-      document.getElementById('s2').scrollIntoView({behavior:'smooth', block:'start'});
-      setTimeout(()=>document.getElementById('name').focus(), 250);
-      SUBMITTING_S1=false;
-    }
-
-    async function submitStep2(e){
-      e?.preventDefault();
-      if(SUBMITTING_S2) return; SUBMITTING_S2=true;
-      const name=document.getElementById('name').value.trim();
-      const phone=document.getElementById('phone').value.trim();
-      if(!name||!phone){alert('Please enter name and phone.');SUBMITTING_S2=false;return;}
-      let a={}; try{a=JSON.parse(localStorage.getItem('lead_prefill')||'{}')}catch(_){a={}};
-      const base={...a,name,phone,site:'DRG',page:'step2',program:'debt_consolidation_loan',flow:'loan_flip',form_ts:(window.__FORM_TS||Date.now())};
-      if (base.debt_amount==null && base.debt!=null) base.debt_amount = base.debt;
-      if (base.accounts==null && base.accts!=null) base.accounts = base.accts;
-      try{
-        const idem = (crypto && crypto.randomUUID) ? crypto.randomUUID() : String(Date.now());
-        const payload = { event:'step2_submit', ...base, consent:{terms:true,marketing:false}, consent_ts: Date.now(), human:{t:Date.now()-(HS.start||Date.now()),m:HS.moves||0,k:HS.keys||0,c:HS.clicks||0,f:HS.focus||0}, env: envInfo(), idem };
-        const { r, url, bodyText } = await post036(payload);
-        if (!r || !r.ok) {
-          const status = r ? r.status : 'fetch_error';
-          alert(`We could not submit your request.\n\nStatus: ${status}\nEndpoint: ${url || '(unknown)'}\nResponse: ${(bodyText||'').slice(0,300) || '(empty)'}\n\nIf this keeps happening, wait 5–10 seconds and try again.`);
-          SUBMITTING_S2=false; return;
-        }
-        // Show thank-you without jumping to top
-        document.getElementById('s2form').hidden = true; 
-        document.getElementById('s2done').hidden = false;
-        document.getElementById('s2done').scrollIntoView({behavior:'smooth', block:'start'});
-      }catch(err){ showDebug(err && (err.stack||err.message||String(err))); }
-      finally { SUBMITTING_S2=false; }
-    }
-
-    function stickyPrimaryClick(ev){ev?.preventDefault();if(STEP===1){ submitStep1(ev); } else if(STEP===2){ document.getElementById('submit2').click(); }}
-
-    // ---------- bind on ready ----------
-    document.addEventListener('DOMContentLoaded',()=>{
-      try{
-        syncRanges();
-        document.getElementById('debt').addEventListener('input', syncRanges);
-        document.getElementById('accts').addEventListener('input', syncRanges);
-        document.getElementById('btnStep1').addEventListener('click', submitStep1);
-        document.getElementById('formStep1').addEventListener('submit', submitStep1);
-        document.getElementById('formStep2').addEventListener('submit', submitStep2);
-        const s2btn=document.getElementById('submit2'); if(s2btn){ s2btn.addEventListener('click', submitStep2); }
-        document.getElementById('stickyContinue').addEventListener('click', stickyPrimaryClick);
-        console.assert(typeof submitStep1 === 'function','submitStep1 should be defined');
-        console.assert(typeof submitStep2 === 'function','submitStep2 should be defined');
-        console.assert(!!document.getElementById('btnStep1'),'#btnStep1 exists');
-        console.assert(!!document.getElementById('formStep1'),'#formStep1 exists');
-      }catch(err){ showDebug(err && (err.stack||err.message||String(err))); }
-    });
-  </script>
-</body>
-</html>
