@@ -95,7 +95,8 @@
     .hero-ctas{display:flex;justify-content:center;gap:.6rem;flex-wrap:wrap}
     .btn-outline{background:transparent;color:#0b63f6;border:2px solid #0b63f6}
     .lead{text-align:center;color:#444}
-
+    .badge{font-size:.85rem;font-weight:600;color:inherit}
+    
     /* Mobile dual-action bar */
     .mobile-bar{position:fixed;left:0;right:0;bottom:0;background:#0b1220;color:#fff;display:flex;gap:8px;padding:.6rem;z-index:9998}
     .mobile-bar a{flex:1;text-align:center;border-radius:10px;padding:.75rem .5rem;font-weight:900;text-decoration:none}
@@ -215,7 +216,7 @@
 
   <!-- HERO / Intro -->
   <header style="max-width:960px;margin:0 auto;text-align:center;background:#004477;color:#fff;padding:1.25rem 1rem;border-radius:12px;box-shadow:0 6px 18px rgba(0,0,0,.08)">
-    <span class="badge" style="display:inline-flex;gap:.35rem;align-items:center;justify-content:center;background:#0f172a;color:#e5e7eb;border:1px solid rgba(255,255,255,.18);border-radius:999px;padding:.35rem .6rem;font-size:.82rem">🛡️ Secure • FTC-Aligned • No Upfront Fees</span>
+    <span class="badge">🛡️ Secure • FTC-Aligned • No Upfront Fees</span>
     <h1 id="ab-cta-text" style="color:#fff">Debt Savings Calculator — See a Plan Before You Commit</h1>
     <p class="sub" style="color:#f1f5f9">Private, fast, and transparent. Estimate your monthly payment and timeline, then decide with confidence.</p>
   </header>
@@ -557,6 +558,19 @@
   <script>
     (function(){
       if (window.GFSR && window.GFSR.bridgeReady) return;
+      const badge = document.querySelector('.badge');
+      if (badge) {
+        badge.style.removeProperty('background');
+        badge.style.removeProperty('border');
+        badge.style.removeProperty('border-radius');
+        badge.style.removeProperty('padding');
+        badge.style.removeProperty('display');
+        badge.style.removeProperty('align-items');
+        badge.style.removeProperty('justify-content');
+        badge.style.removeProperty('gap');
+        badge.style.removeProperty('color');
+        badge.style.fontWeight = '600';
+      }
       const $ = (s)=>document.querySelector(s);
       const api = {
         bridgeReady: true,
