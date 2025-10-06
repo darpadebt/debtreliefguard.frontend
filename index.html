@@ -25,7 +25,21 @@
 .wrap { max-width: 1100px; margin: 0 auto; padding: 14px 18px; }
 .nav { display: flex; align-items: center; gap: 18px; }
 .logo { display: flex; align-items: center; gap: 10px; font-weight: 800; letter-spacing: .2px; flex-shrink: 0; }
-.badge { font-size: 12px; font-weight: 600; color: inherit; white-space: nowrap; }  
+.badge { font-size: 12px; font-weight: 600; color: inherit; white-space: nowrap; }
+
+.menu { margin-left: auto; position: relative; }
+.menu-btn { display: inline-flex; align-items: center; justify-content: center; width: 36px; height: 36px; border-radius: 999px; border: 1px solid #e2e8f0; background: #ffffff; color: var(--muted); cursor: pointer; transition: background .2s ease, color .2s ease, box-shadow .2s ease; }
+.menu-btn:hover, .menu-btn:focus-visible { background: #f8fafc; color: var(--brand); box-shadow: 0 0 0 3px var(--ring); outline: none; }
+.menu-panel { position: absolute; right: 0; top: calc(100% + 10px); min-width: 190px; display: none; flex-direction: column; background: #ffffff; border: 1px solid #e2e8f0; border-radius: 12px; box-shadow: 0 18px 36px rgba(15, 23, 42, 0.12); padding: 10px; z-index: 100; }
+.menu-panel.open { display: flex; }
+.menu-link { padding: 10px 12px; border-radius: 8px; color: var(--muted); font-weight: 600; }
+.menu-link:hover, .menu-link:focus-visible { background: #ecfeff; color: var(--brand); text-decoration: none; outline: none; }
+.menu-link[aria-current="page"] { background: #ecfeff; color: var(--brand); }
+
+@media (max-width: 640px) {
+  .menu { margin-left: 0; width: 100%; display: flex; justify-content: flex-end; }
+  .menu-panel { right: 12px; left: 12px; min-width: 0; }
+}  
 
 .nav-rail { margin-left: auto; display: flex; align-items: center; gap: 8px; flex: 1; min-width: 0; }
 .nav-arrow { flex-shrink: 0; width: 34px; height: 34px; border-radius: 999px; border: 1px solid #e2e8f0; background: #ffffff; color: var(--muted); display: inline-flex; align-items: center; justify-content: center; cursor: pointer; transition: background .2s ease, color .2s ease; }
@@ -117,12 +131,22 @@ footer { padding: 20px 18px 40px; color: var(--muted); font-size: 13px; }
         <button id="menuBtn" class="menu-btn" aria-label="Open menu" aria-expanded="false">  
           <svg width="22" height="22" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h12" stroke="currentColor" stroke-width="2"/></svg>  
         </button>  
-        <nav id="menuPanel" class="menu-panel" aria-label="Primary">  
-          <a class="menu-link" href="/compare">Compare</a>  
-          <a class="menu-link" href="/privacy">Privacy</a>  
-          <a class="menu-link" href="/terms">Terms</a>  
-          <a class="menu-link" target="_blank" rel="noopener" href="https://www.bbb.org/us/fl/tarpon-springs/profile/debt-relief-services/gateway-financial-settlement-relief-llc-0653-90608465">BBB Profile</a>  
-        </nav>  
+        <nav id="menuPanel" class="menu-panel" aria-label="Primary">
+          <a class="menu-link" href="/">Home</a>
+          <a class="menu-link" href="/compare.us.html">Compare Options</a>
+          <a class="menu-link" href="/how.it.works.index.html">How It Works</a>
+          <a class="menu-link" href="/debt.relief.option.index.html">Debt Relief Options</a>
+          <a class="menu-link" href="/credit.card.relief.index.html">Credit Card Relief</a>
+          <a class="menu-link" href="/savings.calculator.html">Savings Calculator</a>
+          <a class="menu-link" href="/reviews.index.html">Reviews</a>
+          <a class="menu-link" href="/faq.index.html">FAQ</a>
+          <a class="menu-link" href="/geo-blocked.html">State Programs</a>
+          <a class="menu-link" href="/scam.warning.index.html">Scam Warning</a>
+          <a class="menu-link" href="/contact.index.html">Contact</a>
+          <a class="menu-link" href="/blog.index.html">Blog</a>
+          <a class="menu-link" href="/privacy.policy.index.html">Privacy Policy</a>
+          <a class="menu-link" href="/terms.index.html">Terms</a>
+        </nav>
       </div>  
     </div>  
   </header>    <div class="wrap hero">  
@@ -235,7 +259,7 @@ footer { padding: 20px 18px 40px; color: var(--muted); font-size: 13px; }
 
           <label style="display:flex; gap:10px; align-items:start; font-weight:500; margin-top:12px;">  
             <input type="checkbox" id="terms" required />  
-            <span>By submitting, you agree to our <a href="/privacy">Privacy Policy</a> and <a href="/terms">Terms</a>. Standard call/SMS rates may apply. We never charge upfront fees.</span>  
+            <span>By submitting, you agree to our <a href="/privacy.policy.index.html">Privacy Policy</a> and <a href="/terms.index.html">Terms</a>. Standard call/SMS rates may apply. We never charge upfront fees.</span>
           </label>  
 
           <button class="btn primary" id="submitBtn" type="submit" style="margin-top:12px;">Get My Options</button>  
@@ -261,16 +285,13 @@ footer { padding: 20px 18px 40px; color: var(--muted); font-size: 13px; }
       <h2 style="margin:0 0 6px;">Why DebtReliefGuard?</h2>  
       <div class="kv">  
         <svg width="20" height="20" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M5 13l4 4L19 7" stroke="currentColor" stroke-width="2" fill="none"/></svg>  
-        <div><strong><a href="/compare">Compare</a> No Commitment</strong> See options side‑by‑side—settlement, hardship plans, and more—before you decide.</div>  
-      </div>  
+        <div><strong><a href="/compare.us.html">Compare</a> No Commitment</strong> See options side‑by‑side—settlement, hardship plans, and more—before you decide.</div>  
       <div class="kv">  
         <svg width="20" height="20" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M5 13l4 4L19 7" stroke="currentColor" stroke-width="2" fill="none"/></svg>  
-        <div><strong><a href="/privacy">Privacy</a>‑first intake.</strong> Step one collects only what’s needed to pre‑qualify. Full details happen after you preview.</div>  
-      </div>  
+        <div><strong><a href="/privacy.policy.index.html">Privacy</a>‑first intake.</strong> Step one collects only what’s needed to pre‑qualify. Full details happen after you preview.</div>  
       <div class="kv">  
         <svg width="20" height="20" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M5 13l4 4L19 7" stroke="currentColor" stroke-width="2" fill="none"/></svg>  
-        <div><strong><a href="/terms">Transparent by design.</a></strong> FTC‑aligned, no upfront fees, and easy access to our <a href="/terms">Terms</a>.</div>  
-      </div>  
+        <div><strong><a href="/terms.index.html">Transparent by design.</a></strong> FTC‑aligned, no upfront fees, and easy access to our <a href="/terms.index.html">Terms</a>.</div>  
       <hr style="border:none; border-top:1px solid #e2e8f0;" />  
       <p class="small">Note: We do not publish reviews or testimonials because we’re a new business and we never use fake reviews.</p>  
     </div>  
@@ -279,10 +300,10 @@ footer { padding: 20px 18px 40px; color: var(--muted); font-size: 13px; }
 
   </div>    <footer class="wrap">  
     <div id="privacy">
-      <strong><a href="/privacy">Privacy</a></strong> · We only use your information to help you evaluate options.  
+      <strong><a href="/privacy.policy.index.html">Privacy</a></strong> · We only use your information to help you evaluate options.  
     </div>  
     <div id="terms" style="margin-top:6px;">
-      <strong><a href="/terms">Terms</a></strong> · Requesting options does not obligate you to enroll.
+      <strong><a href="/terms.index.html">Terms</a></strong> · Requesting options does not obligate you to enroll.
     </div>  
   </footer>    <noscript>  
     <div class="wrap"><div class="alert err" style="display:block;">JavaScript is required for this survey.</div></div>  
@@ -294,11 +315,55 @@ footer { padding: 20px 18px 40px; color: var(--muted); font-size: 13px; }
       // menu toggle  
       const menuBtn = $('#menuBtn');  
       const menuPanel = $('#menuPanel');  
-      if (menuBtn && menuPanel) {  
-        menuBtn.addEventListener('click', () => {  
-          const open = menuPanel.classList.toggle('open');  
-          menuBtn.setAttribute('aria-expanded', open ? 'true' : 'false');  
-        });  
+      if (menuBtn && menuPanel) {
+        const menuLinks = Array.from(menuPanel.querySelectorAll('a'));
+        const normalizePath = (value) => {
+          const url = new URL(value, location.origin);
+          let path = url.pathname;
+          if (path.endsWith('.html')) path = path.slice(0, -'.html'.length);
+          if (path.endsWith('.index')) path = path.slice(0, -'.index'.length);
+          if (path !== '/' && path.endsWith('/')) path = path.slice(0, -1);
+          return path || '/';
+        };
+
+        const currentPath = normalizePath(location.pathname);
+        menuLinks.forEach((link) => {
+          const linkPath = normalizePath(link.getAttribute('href'));
+          if (linkPath === currentPath) {
+            link.setAttribute('aria-current', 'page');
+          }
+        });
+
+        const setMenuOpen = (open) => {
+          menuPanel.classList.toggle('open', open);
+          menuBtn.setAttribute('aria-expanded', open ? 'true' : 'false');
+        };
+
+        menuBtn.addEventListener('click', () => {
+          const next = !menuPanel.classList.contains('open');
+          setMenuOpen(next);
+        });
+
+        document.addEventListener('click', (event) => {
+          if (!menuPanel.classList.contains('open')) return;
+          if (event.target === menuBtn || menuBtn.contains(event.target)) return;
+          if (menuPanel.contains(event.target)) return;
+          setMenuOpen(false);
+        });
+
+        menuLinks.forEach((link) => {
+          link.addEventListener('click', () => {
+            if (!menuPanel.classList.contains('open')) return;
+            setMenuOpen(false);
+          }, { capture: true });
+        });
+
+        document.addEventListener('keydown', (event) => {
+          if (event.key !== 'Escape') return;
+          if (!menuPanel.classList.contains('open')) return;
+          setMenuOpen(false);
+          menuBtn.focus();
+        });
       }  
   
       // progress bars  
