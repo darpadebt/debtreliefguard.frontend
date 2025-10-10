@@ -238,12 +238,8 @@
   <script>
     // Safe preview handling
     (function(){try{var isPreview=(/chatgpt\.com$/i.test(location.hostname)||location.hostname.indexOf('chatgpt')>-1);if(!isPreview)return;document.addEventListener('click',function(e){var a=e.target.closest('a');if(!a)return;var href=a.getAttribute('href')||'';var sameOrigin=a.origin===location.origin||href.startsWith('/')||href.startsWith('#');if(a.protocol==='tel:'){e.preventDefault();alert('Tap‑to‑call is blocked in preview. On your live site this will dial 888‑437‑7141.');return;}if(!sameOrigin){a.target='_blank';a.rel='noopener';}},true);}catch(e){}})();
-
-    // Lightweight client integrity signals for 036 (backend must enforce real protection)
-    async function gfsrClientProof(){
-      try{
-        const ts=Date.now();
-        const rnd=crypto.getRandomValues(new Uint
+  </script>
+  
   <script>
     (function () {
       const menuBtn = document.getElementById('menuBtn');
