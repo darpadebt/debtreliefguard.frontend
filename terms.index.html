@@ -15,7 +15,7 @@
 
   <style>
     /* ===== DRG dark theme + peeled pill menu (matches homepage) ===== */
-    :root{--brand:#0a5cff;--brand2:#072a86;--bg:#0b1220;--card:#0f1730;--text:#e6ecf8;--muted:#89a0c7;--ok:#2ecc71;--cta:#0a5cff;--sitemap-h:52px;--callbar-h:0px}
+    :root{--brand:#0a5cff;--brand2:#072a86;--bg:#0b1220;--card:#0f1730;--text:#e6ecf8;--muted:#89a0c7;--ok:#2ecc71;--cta:#0a5cff;--sitemap-h:52px;--callbar-h:0px;--nav-backdrop:rgba(11,18,32,.92);--nav-border:rgba(255,255,255,.06);--nav-button-bg:rgba(15,23,42,.7);--nav-button-hover:rgba(37,99,235,.32);--nav-muted:#dbe6ff;--nav-brand:var(--brand);--nav-panel-bg:rgba(11,18,32,.96);--nav-link-hover-bg:rgba(37,99,235,.24);--nav-link-active-bg:rgba(37,99,235,.34);--nav-link-active-ring:rgba(59,130,246,.45);--nav-chip-hover-bg:rgba(148,163,184,.25);--nav-ink:var(--text);--nav-ring:rgba(37,99,235,.38)}
     html,body{margin:0;padding:0;background:var(--bg);color:var(--text);font:16px/1.5 system-ui,-apple-system,Segoe UI,Roboto,Ubuntu,"Helvetica Neue",Arial}
     a{color:inherit}
     .wrap{max-width:1080px;margin:0 auto;padding:0 16px}
@@ -61,25 +61,63 @@
 
     /* Chat FAB (016) */
     .chat-fab{position:fixed;right:14px;bottom:calc(var(--sitemap-h) + 18px);z-index:10002;display:inline-flex;align-items:center;gap:.4rem;padding:.7rem 1rem;border-radius:999px;background:var(--cta);color:#fff;font-weight:900;text-decoration:none;box-shadow:0 10px 24px rgba(0,0,0,.18)}
-  </style>
+   
+  header.site-header { position: sticky; top: 0; z-index: 50; backdrop-filter: saturate(180%) blur(6px); background: var(--nav-backdrop, rgba(255,255,255,.8)); border-bottom: 1px solid var(--nav-border, #e2e8f0); }
+  header.site-header .wrap { max-width: 1100px; margin: 0 auto; padding: 14px 18px; }
+  header.site-header .nav { display: flex; align-items: center; gap: 18px; }
+  header.site-header .logo { display: flex; align-items: center; gap: 10px; font-weight: 800; letter-spacing: .2px; flex-shrink: 0; }
+  header.site-header .badge { font-size: 12px; font-weight: 600; color: inherit; white-space: nowrap; }
+
+  header.site-header .menu { margin-left: auto; position: relative; }
+  header.site-header .menu-btn { display: inline-flex; align-items: center; justify-content: center; width: 36px; height: 36px; border-radius: 999px; border: 1px solid var(--nav-border, #e2e8f0); background: var(--nav-button-bg, #ffffff); color: var(--nav-muted, var(--muted, #475569)); cursor: pointer; transition: background .2s ease, color .2s ease, box-shadow .2s ease; }
+  header.site-header .menu-btn:hover, header.site-header .menu-btn:focus-visible { background: var(--nav-button-hover, #f8fafc); color: var(--nav-brand, var(--brand, #0f766e)); box-shadow: 0 0 0 3px var(--nav-ring, var(--ring, rgba(13,148,136,.35))); outline: none; }
+  header.site-header .menu-panel { position: absolute; right: 0; top: calc(100% + 10px); min-width: 190px; display: none; flex-direction: column; background: var(--nav-panel-bg, #ffffff); border: 1px solid var(--nav-border, #e2e8f0); border-radius: 12px; box-shadow: 0 18px 36px rgba(15, 23, 42, 0.12); padding: 10px; z-index: 100; }
+  header.site-header .menu-panel.open { display: flex; }
+  header.site-header .menu-link { padding: 10px 12px; border-radius: 8px; color: var(--nav-muted, var(--muted, #475569)); font-weight: 600; }
+  header.site-header .menu-link:hover, header.site-header .menu-link:focus-visible { background: var(--nav-link-hover-bg, #ecfeff); color: var(--nav-brand, var(--brand, #0f766e)); text-decoration: none; outline: none; }
+  header.site-header .menu-link[aria-current="page"] { background: var(--nav-link-active-bg, #ecfeff); color: var(--nav-brand, var(--brand, #0f766e)); }
+
+  @media (max-width: 640px) {
+    header.site-header .menu { margin-left: 0; width: 100%; display: flex; justify-content: flex-end; }
+    header.site-header .menu-panel { right: 12px; left: 12px; min-width: 0; }
+    header.site-header .wrap { padding: 12px 14px; }
+    header.site-header .nav { gap: 12px; flex-wrap: wrap; }
+    header.site-header .badge { font-size: 11px; }
+  }
+</style>
 </head>
 <body>
 
   <!-- ===== Sticky peeled header (copied structure from DRG home) ===== -->
-  <header class="top">
-    <div class="wrap"><div class="row">
-      <a class="brand" href="/"><span class="logo">DRG</span><span>Debt Relief Guard</span></a>
-      <!-- EXACTLY mirror homepage: 5-pill peeled menu -->
-      <nav>
-        <a class="btn ghost" href="/">Home</a>
-        <a class="btn ghost" href="/how.it.works.index.html">How It Works</a>
-        <a class="btn ghost" href="/faq.index.html">FAQ</a>
-        <a class="btn ghost" href="https://debthelpform.com/geo-debt-relief.html" rel="noopener">State Programs</a>
-        <a class="btn ghost" href="/blog.index.html">Blog</a>
-      </nav>
-      <div class="call"><a class="btn primary" href="tel:+18884377141" aria-label="Call now: 888-437-7141">Call</a></div>
-    </div></div>
-    <div class="ftc"><div class="wrap"><div class="row"><div class="dot"></div> <strong>FTC‑aligned</strong> • No upfront fees • Transparent savings estimates</div></div></div>
+  <header class="site-header">
+    <div class="wrap nav">
+      <div class="logo">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M12 2l7 4v6c0 5-3.5 8-7 10-3.5-2-7-5-7-10V6l7-4z" stroke="currentColor" stroke-width="1.5" fill="none"/></svg>
+        DebtReliefGuard
+        <span class="badge">FTC‑aligned · No upfront fees</span>
+      </div>
+      <div class="menu">
+        <button id="menuBtn" class="menu-btn" aria-label="Open menu" aria-expanded="false">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h12" stroke="currentColor" stroke-width="2"/></svg>
+        </button>
+        <nav id="menuPanel" class="menu-panel" aria-label="Primary">
+          <a class="menu-link" href="/">Home</a>
+          <a class="menu-link" href="/compare.us.html">Compare Options</a>
+          <a class="menu-link" href="/how.it.works.index.html">How It Works</a>
+          <a class="menu-link" href="/debt.relief.option.index.html">Debt Relief Options</a>
+          <a class="menu-link" href="/credit.card.relief.index.html">Credit Card Relief</a>
+          <a class="menu-link" href="/savings.calculator.html">Savings Calculator</a>
+          <a class="menu-link" href="/reviews.index.html">Reviews</a>
+          <a class="menu-link" href="/faq.index.html">FAQ</a>
+          <a class="menu-link" href="/geo-blocked.html">State Programs</a>
+          <a class="menu-link" href="/scam.warning.index.html">Scam Warning</a>
+          <a class="menu-link" href="/contact.index.html">Contact</a>
+          <a class="menu-link" href="/blog.index.html">Blog</a>
+          <a class="menu-link" href="/privacy.policy.index.html">Privacy Policy</a>
+          <a class="menu-link" href="/terms.index.html">Terms</a>
+        </nav>
+      </div>
+    </div>
   </header>
 
   <!-- ===== Hero / Title ===== -->
@@ -90,6 +128,7 @@
     </div>
   </section>
 
+  
   <!-- ===== Main Terms Content ===== -->
   <main id="main" class="wrap" role="main" style="padding:12px 0 80px">
     <article class="card pad prose" aria-label="Terms of Service">
@@ -190,3 +229,62 @@
       try{
         const ts=Date.now();
         const rnd=crypto.getRandomValues(new Uint
+  <script>
+    (function () {
+      const menuBtn = document.getElementById('menuBtn');
+      const menuPanel = document.getElementById('menuPanel');
+      if (!menuBtn || !menuPanel) return;
+
+      const menuLinks = Array.from(menuPanel.querySelectorAll('a'));
+      const normalizePath = (value) => {
+        const url = new URL(value, location.origin);
+        let path = url.pathname;
+        if (path.endsWith('.html')) path = path.slice(0, -'.html'.length);
+        if (path.endsWith('.index')) path = path.slice(0, -'.index'.length);
+        if (path !== '/' && path.endsWith('/')) path = path.slice(0, -1);
+        return path || '/';
+      };
+
+      const currentPath = normalizePath(location.pathname);
+      menuLinks.forEach((link) => {
+        const linkPath = normalizePath(link.getAttribute('href'));
+        if (linkPath === currentPath) {
+          link.setAttribute('aria-current', 'page');
+        }
+      });
+
+      const setMenuOpen = (open) => {
+        menuPanel.classList.toggle('open', open);
+        menuBtn.setAttribute('aria-expanded', open ? 'true' : 'false');
+      };
+
+      menuBtn.addEventListener('click', () => {
+        const next = !menuPanel.classList.contains('open');
+        setMenuOpen(next);
+      });
+
+      document.addEventListener('click', (event) => {
+        if (!menuPanel.classList.contains('open')) return;
+        if (event.target === menuBtn || menuBtn.contains(event.target)) return;
+        if (menuPanel.contains(event.target)) return;
+        setMenuOpen(false);
+      });
+
+      menuLinks.forEach((link) => {
+        link.addEventListener('click', () => {
+          if (!menuPanel.classList.contains('open')) return;
+          setMenuOpen(false);
+        }, { capture: true });
+      });
+
+      document.addEventListener('keydown', (event) => {
+        if (event.key !== 'Escape') return;
+        if (!menuPanel.classList.contains('open')) return;
+        setMenuOpen(false);
+        menuBtn.focus();
+      });
+    })();
+  </script>
+
+</body>
+</html>
