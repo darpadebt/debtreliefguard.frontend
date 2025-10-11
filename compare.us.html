@@ -1,409 +1,236 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 <head>
-  <!-- Charset & Viewport -->
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0" />
-
-  <!-- =========================
-       SEO
-       ========================= -->
-  <title>Compare Debt Relief Options & Why Choose Us | DebtReliefGuard</title>
-  <meta name="description" content="See debt settlement vs consolidation vs DMP vs bankruptcy side‑by‑side. Learn why Gateway Financial Settlement Relief’s privacy‑first, no‑upfront‑fee approach is different. Start a secure estimate in ~60 seconds." />
+  <meta charset="utf-8" />
+  <title>Compare Us | Consolidation First → Hardship Relief Fallback</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="robots" content="index,follow,max-image-preview:large" />
+  <meta name="description" content="See how our consolidation‑first approach compares to other debt relief paths. If consolidation isn’t a fit, we pivot to a hardship relief program automatically—no extra forms." />
   <link rel="canonical" href="https://debtreliefguard.com/compare.us.html" />
-  <meta name="theme-color" content="#0b63f6" />
-  <meta name="x-ai-optimizer-page" content="drg:compare" />
-
-  <!-- Open Graph / Twitter (light) -->
   <meta property="og:type" content="website" />
+  <meta property="og:title" content="Compare Us | Consolidation First" />
+  <meta property="og:description" content="We lead with consolidation for the simplest path. If not eligible, we switch to a hardship relief program instantly." />
   <meta property="og:url" content="https://debtreliefguard.com/compare.us.html" />
-  <meta property="og:title" content="Compare Debt Relief Options & Why Choose Us" />
-  <meta property="og:description" content="Transparent, FTC‑aligned comparison. Private intake. No upfront fees." />
-  <meta property="og:image" content="https://debtreliefguard.com/og-cover.jpg" />
-  <meta name="twitter:card" content="summary" />
+  <meta property="og:site_name" content="Gateway Financial Settlement Relief" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="Compare Us | Consolidation First" />
+  <meta name="twitter:description" content="We lead with consolidation; if not a fit, we pivot to a hardship relief program without repeating forms." />
 
-  <!-- Fonts -->
-  <link rel="preconnect" href="https://fonts.googleapis.com" crossorigin>
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet" />
-
-  <!-- =========================
-       STYLES — white theme (match index)
-       ========================= -->
-  <style>
-    :root{
-      --ink:#0f172a; --muted:#475569; --bg:#f8fafc; --card:#fff; --ring:rgba(13,148,136,.35);
-      --brand:#0d9488; /* teal-600 */
-      --brand-strong:#0f766e; /* teal-700 */
-      --cta:#0b63f6; --ok:#007b55; --b:#e2e8f0;
-      --radius:14px; --shadow:0 8px 26px rgba(2,6,23,.06);
-      --sitemap-h:52px; --callbar-h:0px;
-      --max:1100px;
-    }
-    *{box-sizing:border-box}
-    html,body{margin:0;padding:0;background:var(--bg);color:var(--ink);font:16px/1.55 Inter,ui-sans-serif,system-ui,"Segoe UI",Roboto,Ubuntu,Arial,sans-serif}
-    a{color:var(--cta);text-decoration:none}
-    a:hover{text-decoration:underline}
-    .wrap{max-width:var(--max);margin:0 auto;padding:14px 18px}
-
-    /* ===== Header (copied pattern from index.html) ===== */
-    header{position:sticky;top:0;z-index:60;backdrop-filter:saturate(180%) blur(6px);background:rgba(255,255,255,.88);border-bottom:1px solid var(--b)}
-    .nav{display:flex;align-items:center;gap:18px}
-    .logo{display:flex;align-items:center;gap:10px;font-weight:800;letter-spacing:.2px}
-    .badge{font-size:12px;font-weight:600;color:var(--muted);white-space:nowrap}
-    .menu{margin-left:auto;position:relative}
-    .menu-btn{display:inline-flex;align-items:center;justify-content:center;width:36px;height:36px;border-radius:999px;border:1px solid var(--b);background:#fff;color:var(--muted);cursor:pointer;transition:background .2s,color .2s,box-shadow .2s}
-    .menu-btn:hover,.menu-btn:focus-visible{background:#f8fafc;color:var(--brand-strong);box-shadow:0 0 0 3px var(--ring);outline:none}
-    .menu-panel{position:absolute;right:0;top:calc(100% + 10px);min-width:200px;display:none;flex-direction:column;background:#fff;border:1px solid var(--b);border-radius:12px;box-shadow:0 18px 36px rgba(15,23,42,.12);padding:10px;z-index:100}
-    .menu-panel.open{display:flex}
-    .menu-link{padding:10px 12px;border-radius:8px;color:var(--muted);font-weight:600}
-    .menu-link:hover,.menu-link:focus-visible{background:#ecfeff;color:var(--brand-strong);text-decoration:none;outline:none}
-    .menu-link[aria-current="page"]{background:#ecfeff;color:var(--brand-strong)}
-    @media(max-width:640px){.menu{margin-left:0;width:100%;display:flex;justify-content:flex-end}.menu-panel{right:12px;left:12px;min-width:0}.wrap{padding:12px 14px}}
-
-    /* ===== Page hero ===== */
-    .hero{padding:24px 0 6px}
-    .hero h1{font-size:clamp(24px,3vw + 16px,38px);margin:0 0 8px;line-height:1.1}
-    .hero p{margin:0;color:var(--muted)}
-    .hero-ctas{display:flex;gap:10px;flex-wrap:wrap;margin-top:10px}
-    .btn{display:inline-flex;align-items:center;gap:8px;padding:12px 14px;border-radius:10px;border:1px solid var(--b);font-weight:800;cursor:pointer;text-decoration:none}
-    .btn.btn-primary{background:linear-gradient(180deg,var(--brand),var(--brand-strong));color:#fff;border-color:transparent}
-    .btn.btn-outline{background:#fff;color:var(--brand-strong)}
-
-    /* ===== Compare grid ===== */
-    .compare{margin-top:16px}
-    .grid{display:grid;gap:12px}
-    @media(min-width:900px){.grid{grid-template-columns:1.2fr 1fr 1fr 1fr 1fr}}
-    .col{background:var(--card);border:1px solid var(--b);border-radius:var(--radius);box-shadow:var(--shadow)}
-    .col .pad{padding:14px}
-    .col h3{margin:0 0 6px;font-size:18px}
-    .col .sub{color:var(--muted);font-size:13px;margin:0 0 10px}
-    .item{display:grid;grid-template-columns:20px 1fr;gap:8px;align-items:start;margin:9px 0}
-    .item svg{margin-top:2px}
-    .hint{font-size:12px;color:var(--muted)}
-
-    /* ===== Why us (feature cards) ===== */
-    .features{margin-top:16px;display:grid;gap:12px}
-    @media(min-width:900px){.features{grid-template-columns:repeat(3,1fr)}}
-    .card{background:var(--card);border:1px solid var(--b);border-radius:var(--radius);box-shadow:var(--shadow)}
-    .card .pad{padding:14px}
-
-    /* ===== Sidebar (BBB / secondary CTAs) ===== */
-    .layout{display:grid;grid-template-columns:1fr;gap:14px;margin-top:16px}
-    @media(min-width:980px){.layout{grid-template-columns:1.75fr .95fr}}
-    aside.sidebar{position:sticky;top:84px;height:fit-content;display:grid;gap:12px}
-    .sidecard{background:var(--card);border:1px solid var(--b);border-radius:var(--radius);box-shadow:var(--shadow);padding:14px}
-    .sidecard h3{margin:0 0 6px}
-    .bbb{display:flex;align-items:center;gap:8px;color:var(--muted);font-size:14px}
-
-    /* ===== Mobile call bar ===== */
-    .mobile-bar{position:fixed;left:0;right:0;bottom:0;background:#0b1220;color:#fff;display:flex;gap:8px;padding:.6rem;z-index:10000}
-    .mobile-bar a{flex:1;text-align:center;border-radius:10px;padding:.75rem .5rem;font-weight:900;text-decoration:none}
-    .mobile-call{background:var(--ok);color:#fff}
-    .mobile-est{background:var(--cta);color:#fff}
-    @media(min-width:769px){.mobile-bar{display:none}}
-
-    /* ===== Footer sitemap (5‑pill) ===== */
-    footer.sticky-menu{position:fixed;left:0;right:0;bottom:calc(var(--callbar-h) + env(safe-area-inset-bottom));background:linear-gradient(0deg,rgba(2,6,23,.06),rgba(2,6,23,0));height:var(--sitemap-h);display:flex;align-items:center;z-index:9997}
-    footer.sticky-menu nav{display:flex;gap:10px;overflow-x:auto;white-space:nowrap;padding:0 .75rem;width:100%;align-items:center;scrollbar-width:none;justify-content:center}
-    footer.sticky-menu nav::-webkit-scrollbar{display:none}
-    footer.sticky-menu a{color:#0b63f6;text-decoration:none;padding:.35rem .55rem;border-radius:6px;font-weight:800;font-size:.92rem;flex:0 0 auto}
-    footer.sticky-menu a:hover{background:rgba(11,99,246,.08)}
-
-    /* Utilities */
-    .sr-only{position:absolute;width:1px;height:1px;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}
-    .small{font-size:12px;color:var(--muted)}
-  </style>
-
-  <!-- =========================
-       JSON‑LD (brand @id canonical)
-       ========================= -->
+  <!-- JSON-LD: Organization/FinancialService (canonical @id per brand standard) -->
   <script type="application/ld+json">
   {
-    "@context":"https://schema.org",
-    "@type":["Organization","FinancialService"],
-    "@id":"https://gatewaydebthelp.com/#gfsr",
-    "name":"Gateway Financial Settlement Relief, LLC",
-    "alternateName":["Gateway Debt Help","GFSR","Debt Help Form"],
-    "url":"https://debthelpform.com/",
-    "telephone":"+1-888-437-7141",
-    "sameAs":[
-      "https://debthelpform.com/",
-      "https://debtreliefguard.com/",
-      "https://gatewaydebthelp.com/",
-      "https://gatewayfinancialsettlementrelief.com/"
-    ],
-    "disambiguatingDescription":"Florida‑operated, Wyoming‑registered debt relief company using 'Gateway Debt Help' as a marketing tagline. Not affiliated with Gateway Debt Relief of Costa Mesa, CA."
+    "@context": "https://schema.org",
+    "@type": ["Organization", "FinancialService"],
+    "@id": "https://gatewaydebthelp.com/#gfsr",
+    "name": "Gateway Financial Settlement Relief, LLC",
+    "alternateName": "Gateway Debt Help",
+    "url": "https://debtreliefguard.com/",
+    "logo": "https://debtreliefguard.com/assets/logo.svg",
+    "sameAs": ["https://debtreliefguard.com/","https://gatewaydebthelp.com/"]
   }
   </script>
+  <!-- JSON-LD: Breadcrumbs -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      {"@type":"ListItem","position":1,"name":"Home","item":"https://debtreliefguard.com/"},
+      {"@type":"ListItem","position":2,"name":"Compare Us","item":"https://debtreliefguard.com/compare.us.html"}
+    ]
+  }
+  </script>
+  <!-- JSON-LD: ItemList (comparison targets) -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "ItemList",
+    "itemListElement": [
+      {"@type":"ListItem","position":1,"name":"Consolidation Loan"},
+      {"@type":"ListItem","position":2,"name":"Hardship Relief Program"},
+      {"@type":"ListItem","position":3,"name":"Balance Transfer"},
+      {"@type":"ListItem","position":4,"name":"Issuer Hardship Plans"}
+    ]
+  }
+  </script>
+
+  <style>
+    :root{ --bg:#ffffff; --ink:#0b1f16; --muted:#415a50; --brand:#0ea5a3; --brand-ink:#053d3a; --card:#f7faf9; --border:#e5eeeb; --ring:rgba(14,165,163,.25); --pad:clamp(16px,2vw,24px); --radius:16px; --max:1200px; --shadow:0 10px 30px rgba(0,0,0,.08);} 
+    *{box-sizing:border-box}
+    html,body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.5 Inter,system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif}
+    a{color:var(--brand);text-decoration:none}
+    a:hover{text-decoration:underline}
+    .container{max-width:var(--max);margin:0 auto;padding:0 var(--pad)}
+    .micro{font-size:.875rem;color:var(--muted)}
+
+    /* Header (match homepage) */
+    header{position:sticky;top:0;z-index:50;background:var(--bg);border-bottom:1px solid var(--border)}
+    .nav{display:flex;align-items:center;justify-content:space-between;padding:12px var(--pad)}
+    .brand{display:flex;align-items:center;gap:12px}
+    .brand img{height:34px;width:auto}
+    .brand .name{font-weight:800;letter-spacing:.2px}
+    .menu{display:flex;gap:18px;align-items:center}
+    .menu a{font-weight:600;color:var(--ink)}
+    .menu a[aria-current="page"]{color:var(--brand);text-decoration:underline}
+    .hamburger{display:none;appearance:none;border:1px solid var(--border);background:#fff;border-radius:10px;padding:8px 10px}
+    .hamburger:focus{outline:2px solid var(--ring)}
+    #menuPanel{display:flex;gap:18px}
+    @media (max-width: 900px){#menuPanel{display:none;position:absolute;left:0;right:0;top:64px;background:#fff;border-bottom:1px solid var(--border);padding:10px var(--pad);flex-direction:column}.hamburger{display:inline-block}}
+
+    /* Hero */
+    .hero{padding:28px 0 10px;border-bottom:1px solid var(--border)}
+    .hero h1{font-size:clamp(1.6rem,2.4vw,2.2rem);line-height:1.2;margin:.35rem 0 .5rem}
+    .hero .sub{max-width:860px;color:var(--muted)}
+    .hero-ctas{display:flex;gap:12px;margin-top:10px;flex-wrap:wrap}
+    .btn{display:inline-block;padding:10px 16px;border-radius:12px;font-weight:700;border:1px solid var(--border);text-decoration:none}
+    .btn-primary{background:var(--brand);color:#fff;border-color:var(--brand)}
+    .btn-outline{background:#fff;color:var(--brand-ink)}
+
+    /* Comparison table */
+    .section{padding:22px 0}
+    .table-wrap{overflow:auto}
+    table{width:100%;border-collapse:separate;border-spacing:0;background:#fff;border:1px solid var(--border);border-radius:16px;box-shadow:var(--shadow)}
+    th,td{padding:14px;border-bottom:1px solid var(--border);vertical-align:top}
+    thead th{position:sticky;top:0;background:#f7faf9;font-size:1rem}
+    tbody tr:last-child td{border-bottom:none}
+    th:first-child, td:first-child{position:sticky;left:0;background:#fff;font-weight:700;min-width:180px}
+    .col-head{font-weight:800}
+    .col-consolidation{background:#f0fbf7}
+    .check{display:inline-block;width:18px;height:18px;border:2px solid #16a34a;border-radius:50%}
+    .x{display:inline-block;width:18px;height:2px;background:#b91c1c;vertical-align:middle}
+
+    /* Footer */
+    footer{border-top:1px solid var(--border);margin-top:26px}
+    .foot{padding:14px var(--pad);color:var(--muted);font-size:.9rem}
+  </style>
 </head>
 <body>
-  <a href="#main" class="sr-only">Skip to content</a>
 
-  <!-- ===== Header (white) ===== -->
+  <!-- Header -->
   <header>
-    <div class="wrap nav">
-      <div class="logo">
-        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M12 2l7 4v6c0 5-3.5 8-7 10-3.5-2-7-5-7-10V6l7-4z" stroke="currentColor" stroke-width="1.5" fill="none"/></svg>
-        DebtReliefGuard <span class="badge">FTC‑aligned · No upfront fees</span>
-      </div>
-      <div class="menu">
-        <button id="menuBtn" class="menu-btn" aria-label="Open menu" aria-expanded="false">
-          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h12" stroke="currentColor" stroke-width="2"/></svg>
-        </button>
-        <nav id="menuPanel" class="menu-panel" aria-label="Primary">
-          <a class="menu-link" href="/">Home</a>
-          <a class="menu-link" href="/compare.us.html" aria-current="page">Compare Options</a>
-          <a class="menu-link" href="/how.it.works.index.html">How It Works</a>
-          <a class="menu-link" href="/debt.relief.option.index.html">Debt Relief Options</a>
-          <a class="menu-link" href="/credit.card.relief.index.html">Credit Card Relief</a>
-          <a class="menu-link" href="/savings.calculator.html">Savings Calculator</a>
-          <a class="menu-link" href="/reviews.index.html">Reviews</a>
-          <a class="menu-link" href="/faq.index.html">FAQ</a>
-          <a class="menu-link" href="/geo-blocked.html">State Programs</a>
-          <a class="menu-link" href="/scam.warning.index.html">Scam Warning</a>
-          <a class="menu-link" href="/contact.index.html">Contact</a>
-          <a class="menu-link" href="/blog.index.html">Blog</a>
-          <a class="menu-link" href="/privacy.policy.index.html">Privacy Policy</a>
-          <a class="menu-link" href="/terms.index.html">Terms</a>
-        </nav>
-      </div>
+    <div class="nav container" role="navigation" aria-label="Primary">
+      <a class="brand" href="/" aria-label="Gateway Financial Settlement Relief Home">
+        <img src="/assets/logo.svg" alt="GFSR logo" onerror="this.style.display='none'">
+        <span class="name">Gateway Financial Settlement Relief</span>
+      </a>
+      <button id="menuBtn" class="hamburger" aria-label="Open menu" aria-controls="menuPanel" aria-expanded="false">☰ Menu</button>
+      <nav id="menuPanel" class="menu" role="menu">
+        <a href="/" role="menuitem">Home</a>
+        <a href="/credit.card.relief.index.html" role="menuitem">Credit Card Relief</a>
+        <a href="/debt.relief.option.index.html" role="menuitem">Debt Relief Options</a>
+        <a href="/compare.us.html" role="menuitem" aria-current="page">Compare Us</a>
+        <a href="/faq.html" role="menuitem">FAQs</a>
+        <a href="/blog/index.html" role="menuitem">Blog</a>
+        <a href="/#leadForm" role="menuitem" class="btn btn-primary">Check My Options</a>
+      </nav>
     </div>
   </header>
 
-  <!-- ===== Hero ===== -->
-  <main id="main" class="wrap" style="padding-bottom:calc(var(--sitemap-h) + 96px)">
+  <main>
+    <!-- HERO -->
     <section class="hero">
-      <h1 id="ab-cta-text">Compare Your Options—Then Choose Confidently</h1>
-      <p>Side‑by‑side comparison with plain‑English pros/cons. Private, no‑pressure estimate when you’re ready.</p>
-      <div class="hero-ctas">
-        <a id="primaryCta" class="btn btn-primary" href="/#leadForm">🔒 Start Secure Estimate</a>
-        <a id="phoneCta" class="btn btn-outline" href="tel:+18884377141">📞 Call 888‑437‑7141</a>
-      </div>
-      <p class="small" style="margin-top:8px">We never charge upfront fees. Savings and eligibility vary by state and creditor.</p>
-    </section>
-
-    <!-- ===== Comparison Grid ===== -->
-    <section class="compare" aria-labelledby="gridTitle">
-      <h2 id="gridTitle" class="sr-only">Compare debt relief paths</h2>
-      <div class="grid" role="table" aria-label="Compare options">
-        <!-- Left: Factors -->
-        <article class="col" role="rowgroup">
-          <div class="pad">
-            <h3>What to compare</h3>
-            <p class="sub">Key factors most people care about.</p>
-            <div class="item"><svg width="20" height="20" viewBox="0 0 24 24"><path d="M5 13l4 4L19 7" stroke="currentColor" stroke-width="2" fill="none"/></svg><div>Monthly payment</div></div>
-            <div class="item"><svg width="20" height="20" viewBox="0 0 24 24"><path d="M5 13l4 4L19 7" stroke="currentColor" stroke-width="2" fill="none"/></svg><div>Time to become debt‑free</div></div>
-            <div class="item"><svg width="20" height="20" viewBox="0 0 24 24"><path d="M5 13l4 4L19 7" stroke="currentColor" stroke-width="2" fill="none"/></svg><div>Credit score impact</div></div>
-            <div class="item"><svg width="20" height="20" viewBox="0 0 24 24"><path d="M5 13l4 4L19 7" stroke="currentColor" stroke-width="2" fill="none"/></svg><div>Total cost / fees</div></div>
-            <div class="item"><svg width="20" height="20" viewBox="0 0 24 24"><path d="M5 13l4 4L19 7" stroke="currentColor" stroke-width="2" fill="none"/></svg><div>Who typically qualifies</div></div>
-            <p class="hint">We recommend comparing at least two options before deciding.</p>
-          </div>
-        </article>
-
-        <!-- Debt Settlement -->
-        <article class="col" role="rowgroup">
-          <div class="pad">
-            <h3>Debt Settlement</h3>
-            <p class="sub">Negotiate balances with creditors for less than owed.</p>
-            <div class="item"><svg width="20" height="20" viewBox="0 0 24 24"><circle cx="10" cy="10" r="4" fill="currentColor"/></svg><div>Usually lower than minimums; varies by hardship & balances.</div></div>
-            <div class="item"><svg width="20" height="20" viewBox="0 0 24 24"><circle cx="10" cy="10" r="4" fill="currentColor"/></svg><div>~24–48 months typical.</div></div>
-            <div class="item"><svg width="20" height="20" viewBox="0 0 24 24"><circle cx="10" cy="10" r="4" fill="currentColor"/></svg><div>May decrease during program; can recover post‑completion.</div></div>
-            <div class="item"><svg width="20" height="20" viewBox="0 0 24 24"><circle cx="10" cy="10" r="4" fill="currentColor"/></svg><div>No upfront fees; success‑based fees only when settlements are reached.*</div></div>
-            <div class="item"><svg width="20" height="20" viewBox="0 0 24 24"><circle cx="10" cy="10" r="4" fill="currentColor"/></svg><div>Hardship or behind on payments; unsecured debts only.</div></div>
-          </div>
-        </article>
-
-        <!-- Consolidation Loan -->
-        <article class="col" role="rowgroup">
-          <div class="pad">
-            <h3>Consolidation Loan</h3>
-            <p class="sub">One loan to pay off many balances.</p>
-            <div class="item"><svg width="20" height="20" viewBox="0 0 24 24"><path d="M5 12h14" stroke="currentColor" stroke-width="2"/></svg><div>Payment depends on rate & term; often near current minimums.</div></div>
-            <div class="item"><svg width="20" height="20" viewBox="0 0 24 24"><path d="M5 12h14" stroke="currentColor" stroke-width="2"/></svg><div>36–60+ months typical.</div></div>
-            <div class="item"><svg width="20" height="20" viewBox="0 0 24 24"><path d="M5 12h14" stroke="currentColor" stroke-width="2"/></svg><div>Requires credit check; can help if rate is much lower.</div></div>
-            <div class="item"><svg width="20" height="20" viewBox="0 0 24 24"><path d="M5 12h14" stroke="currentColor" stroke-width="2"/></svg><div>Origination fees may apply; interest accrues.</div></div>
-            <div class="item"><svg width="20" height="20" viewBox="0 0 24 24"><path d="M5 12h14" stroke="currentColor" stroke-width="2"/></svg><div>Best for steady income & fair‑to‑good credit.</div></div>
-          </div>
-        </article>
-
-        <!-- DMP -->
-        <article class="col" role="rowgroup">
-          <div class="pad">
-            <h3>Debt Management Plan (DMP)</h3>
-            <p class="sub">Agency consolidates payments; interest concessions only.</p>
-            <div class="item"><svg width="20" height="20" viewBox="0 0 24 24"><rect x="6" y="6" width="8" height="8" fill="currentColor"/></svg><div>Often close to current minimums (reduced APR helps).</div></div>
-            <div class="item"><svg width="20" height="20" viewBox="0 0 24 24"><rect x="6" y="6" width="8" height="8" fill="currentColor"/></svg><div>~36–60 months typical.</div></div>
-            <div class="item"><svg width="20" height="20" viewBox="0 0 24 24"><rect x="6" y="6" width="8" height="8" fill="currentColor"/></svg><div>Usually neutral after enrollment; requires on‑time payments.</div></div>
-            <div class="item"><svg width="20" height="20" viewBox="0 0 24 24"><rect x="6" y="6" width="8" height="8" fill="currentColor"/></svg><div>Monthly admin fees may apply; no balance reduction.</div></div>
-            <div class="item"><svg width="20" height="20" viewBox="0 0 24 24"><rect x="6" y="6" width="8" height="8" fill="currentColor"/></svg><div>Current or slightly behind; steady income needed.</div></div>
-          </div>
-        </article>
-
-        <!-- Bankruptcy -->
-        <article class="col" role="rowgroup">
-          <div class="pad">
-            <h3>Bankruptcy</h3>
-            <p class="sub">Federal court process to discharge or restructure debts.</p>
-            <div class="item"><svg width="20" height="20" viewBox="0 0 24 24"><path d="M12 6v12M6 12h12" stroke="currentColor" stroke-width="2"/></svg><div>Payment depends on Chapter (7 vs 13) and court plan.</div></div>
-            <div class="item"><svg width="20" height="20" viewBox="0 0 24 24"><path d="M12 6v12M6 12h12" stroke="currentColor" stroke-width="2"/></svg><div>Several months (Ch.7) or 36–60 months (Ch.13).</div></div>
-            <div class="item"><svg width="20" height="20" viewBox="0 0 24 24"><path d="M12 6v12M6 12h12" stroke="currentColor" stroke-width="2"/></svg><div>Major, long‑term credit impact; may be best for severe hardship.</div></div>
-            <div class="item"><svg width="20" height="20" viewBox="0 0 24 24"><path d="M12 6v12M6 12h12" stroke="currentColor" stroke-width="2"/></svg><div>Court & attorney fees apply.</div></div>
-            <div class="item"><svg width="20" height="20" viewBox="0 0 24 24"><path d="M12 6v12M6 12h12" stroke="currentColor" stroke-width="2"/></svg><div>Best discussed with a licensed attorney.</div></div>
-          </div>
-        </article>
-      </div>
-      <p class="small" style="margin-top:8px">*Fees are collected only after a settlement agreement is reached and a payment is made, consistent with FTC rules.</p>
-    </section>
-
-    <!-- ===== Why choose GFSR (vs marketplaces & others) ===== -->
-    <section class="features" aria-labelledby="whyTitle">
-      <h2 id="whyTitle" class="sr-only">Why choose us</h2>
-      <article class="card"><div class="pad">
-        <h3>Privacy‑first, not a lead broker</h3>
-        <p class="sub">We don’t sell your info. Your intake is used in‑house to help you decide—period.</p>
-      </div></article>
-      <article class="card"><div class="pad">
-        <h3>No upfront fees</h3>
-        <p class="sub">FTC‑aligned model. You don’t pay us anything until a settlement is reached.</p>
-      </div></article>
-      <article class="card"><div class="pad">
-        <h3>Human review + clear next steps</h3>
-        <p class="sub">You’ll see options first. Then a specialist confirms details and answers questions.</p>
-      </div></article>
-      <article class="card"><div class="pad">
-        <h3>Transparent by design</h3>
-        <p class="sub">Plain‑English comparisons, easy access to <a href="/terms.index.html">Terms</a> and <a href="/privacy.policy.index.html">Privacy</a>.</p>
-      </div></article>
-      <article class="card"><div class="pad">
-        <h3>Fast, secure estimate</h3>
-        <p class="sub">Most people finish step one in about a minute—no hard credit pull to preview options.</p>
-      </div></article>
-      <article class="card"><div class="pad">
-        <h3>U.S.‑based support</h3>
-        <p class="sub">Call <a href="tel:+18884377141">888‑437‑7141</a> or start securely online.</p>
-      </div></article>
-    </section>
-
-    <!-- ===== Layout: sidebar (secondary CTAs & BBB) ===== -->
-    <section class="layout" aria-label="Actions and trust">
-      <div class="card"><div class="pad">
-        <h3>Ready to see your savings?</h3>
-        <p class="sub">Private, quick, and tailored to your situation.</p>
+      <div class="container">
+        <span class="micro">No hard credit check to preview options</span>
+        <h1>Why we start with consolidation (and pivot if needed).</h1>
+        <p class="sub">You get a single, predictable payment if you qualify. If not, we instantly pivot to a hardship relief program—no extra forms or delays.</p>
         <div class="hero-ctas">
-          <a class="btn btn-primary" href="/#leadForm">🔒 Start Secure Estimate</a>
-          <a class="btn btn-outline" href="tel:+18884377141">📞 Call 888‑437‑7141</a>
+          <a class="btn btn-primary" href="/#leadForm">🔒 Check my options</a>
+          <a class="btn btn-outline" href="tel:+18884377141">📞 Talk to a specialist</a>
         </div>
-      </div></div>
-
-      <aside class="sidebar" aria-label="Helpful actions">
-        <div class="sidecard">
-          <h3>Estimate Your Savings</h3>
-          <p class="sub">No hard credit pull to preview.</p>
-          <p><a class="btn btn-primary" href="/#leadForm">Get Free Estimate</a></p>
-        </div>
-        <div class="sidecard">
-          <h3>Talk to a Specialist</h3>
-          <p class="sub">Prefer the phone? We’re here to help.</p>
-          <p><a class="btn btn-outline" href="tel:+18884377141">📞 888‑437‑7141</a></p>
-        </div>
-        <div class="sidecard bbb">
-          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" aria-hidden="true"><circle cx="12" cy="12" r="10" stroke="#64748b"/><path d="M7 12l3 3 7-7" stroke="#22c55e" stroke-width="2"/></svg>
-          <span>Public BBB profile (not a paid member): <a target="_blank" rel="noopener nofollow" href="https://www.bbb.org/us/fl/inglis/profile/debt-relief-services/gateway-financial-settlement-relief-llc-0733-235973278">Open BBB profile</a>.</span>
-        </div>
-      </aside>
+      </div>
     </section>
 
-    <p class="small" style="margin-top:8px">DebtReliefGuard.com is a marketing website for Gateway Financial Settlement Relief (GatewayDebtHelp.com). We only use your information to help you evaluate options.</p>
+    <!-- COMPARISON TABLE (Consolidation FIRST column) -->
+    <section class="section">
+      <div class="container table-wrap">
+        <table role="table" aria-label="Compare debt relief paths">
+          <thead>
+            <tr>
+              <th scope="col">What matters</th>
+              <th scope="col" class="col-head col-consolidation">Consolidation Loan</th>
+              <th scope="col" class="col-head">Hardship Relief Program</th>
+              <th scope="col" class="col-head">Balance Transfer</th>
+              <th scope="col" class="col-head">Issuer Hardship Plans</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <th scope="row">Monthly payment feel</th>
+              <td>Single predictable payment</td>
+              <td>Often lower than current minimums</td>
+              <td>Low during promo, higher after</td>
+              <td>Lower temporarily</td>
+            </tr>
+            <tr>
+              <th scope="row">Typical timeline</th>
+              <td>36–60+ months</td>
+              <td>~24–48 months</td>
+              <td>6–18 months promo window</td>
+              <td>3–12 months (varies)</td>
+            </tr>
+            <tr>
+              <th scope="row">When it’s a great fit</th>
+              <td>New APR is meaningfully lower than blended rate</td>
+              <td>Behind on payments or not eligible for a loan</td>
+              <td>Strong credit + ability to finish before promo ends</td>
+              <td>Short-term hardship with steady income</td>
+            </tr>
+            <tr>
+              <th scope="row">Credit profile</th>
+              <td>Best with fair‑to‑excellent</td>
+              <td>Designed for hardship scenarios</td>
+              <td>Good‑excellent usually required</td>
+              <td>Varies by issuer policy</td>
+            </tr>
+            <tr>
+              <th scope="row">Upfront fees</th>
+              <td>No upfront fees</td>
+              <td>No upfront fees</td>
+              <td>Transfer fee (typically 3–5%)</td>
+              <td>None</td>
+            </tr>
+            <tr>
+              <th scope="row">What we do</th>
+              <td>We pre‑qualify without a hard pull and, if eligible, roll cards into one payment.</td>
+              <td>If not eligible for a loan, we match you to a hardship relief program automatically.</td>
+              <td>We’ll surface offers if they beat your blended APR and timeline.</td>
+              <td>We help you ask your issuer the right questions.</td>
+            </tr>
+          </tbody>
+        </table>
+        <p class="micro" style="margin-top:8px">Results vary by creditor and state. We never charge upfront fees.</p>
+        <p style="margin-top:12px"><a class="btn btn-primary" href="/#leadForm">Start with consolidation</a></p>
+      </div>
+    </section>
+
+    <!-- TRUST / WHY US QUICK STRIP -->
+    <section class="section" aria-label="Why people choose us">
+      <div class="container" style="display:grid;gap:14px;grid-template-columns:repeat(3,minmax(0,1fr))">
+        <div class="card" style="padding:14px"><strong>No hard pull</strong><br><span class="micro">Preview options without impacting your score.</span></div>
+        <div class="card" style="padding:14px"><strong>Consolidation‑first</strong><br><span class="micro">Simple path when eligible; instant fallback otherwise.</span></div>
+        <div class="card" style="padding:14px"><strong>No upfront fees</strong><br><span class="micro">Transparent pricing; compliance‑first.</span></div>
+      </div>
+    </section>
   </main>
 
-  <!-- Mobile CTA bar -->
-  <div id="drgMobileBar" class="mobile-bar" aria-label="Quick actions">
-    <a class="mobile-call" href="tel:+18884377141">📞 Call 888‑437‑7141</a>
-    <a class="mobile-est" href="/#leadForm">🔒 Start Secure Estimate</a>
-  </div>
-
-  <!-- Bottom 5‑pill sitemap (match site) -->
-  <footer class="sticky-menu" role="navigation" aria-label="Site map">
-    <nav>
-      <a href="/">Home</a>
-      <a href="/how.it.works.index.html">How It Works</a>
-      <a href="/faq.index.html">FAQ</a>
-      <a href="/geo-blocked.html">State Programs</a>
-      <a href="/blog.index.html">Blog</a>
-    </nav>
+  <footer>
+    <div class="container foot">© <span id="y"></span> Gateway Financial Settlement Relief, LLC — Not affiliated with Gateway Debt Relief of Costa Mesa, CA.</div>
   </footer>
 
-  <!-- =========================
-       Scripts (menu; A/B; worker beacons; preview safety)
-       ========================= -->
   <script>
-    // Menu toggle + current page highlight
-    (function(){
-      const $ = (s)=>document.querySelector(s);
-      const menuBtn = $('#menuBtn');
-      const menuPanel = $('#menuPanel');
-      if(!menuBtn||!menuPanel) return;
-      const normalizePath=(value)=>{const url=new URL(value,location.origin);let p=url.pathname; if(p.endsWith('.html')) p=p.slice(0,-5); if(p.endsWith('.index')) p=p.slice(0,-6); if(p!=='/'&&p.endsWith('/')) p=p.slice(0,-1); return p||'/';};
-      const current = normalizePath(location.pathname);
-      menuPanel.querySelectorAll('a').forEach(a=>{const lp=normalizePath(a.getAttribute('href')); if(lp===current){a.setAttribute('aria-current','page');}});
-      const setOpen=(v)=>{menuPanel.classList.toggle('open',v); menuBtn.setAttribute('aria-expanded',v?'true':'false');};
-      menuBtn.addEventListener('click',()=>setOpen(!menuPanel.classList.contains('open')));
-      document.addEventListener('click',(e)=>{ if(!menuPanel.classList.contains('open')) return; if(e.target===menuBtn||menuBtn.contains(e.target)) return; if(menuPanel.contains(e.target)) return; setOpen(false); });
-      document.addEventListener('keydown',(e)=>{ if(e.key==='Escape'&&menuPanel.classList.contains('open')){ setOpen(false); menuBtn.focus(); }});
-      menuPanel.querySelectorAll('a').forEach(a=>a.addEventListener('click',()=>{ if(menuPanel.classList.contains('open')) setOpen(false); },{capture:true}));
-    })();
-  </script>
-  <script>
-    // A/B optimizer (050) slots
-    window.__ab = {
-      pageKey: 'drg:compare',
-      slots: {
-        headline:   '#ab-cta-text',
-        primaryCta: '#primaryCta',
-        phoneCta:   '#phoneCta'
-      },
-      defaults: {
-        primaryCtaText: '🔒 Start Secure Estimate',
-        primaryCtaHref: '/#leadForm'
-      }
-    };
-  </script>
-  <script>
-    // 036 Lead Router — pageview beacon
-    (function(){
-      try{
-        const ctl=new AbortController(); setTimeout(()=>ctl.abort(),3000);
-        const m={ tz:Intl.DateTimeFormat().resolvedOptions().timeZone||'na', lang:navigator.language||'na', plat:navigator.platform||'na', cores:navigator.hardwareConcurrency||0, mem:navigator.deviceMemory||0 };
-        fetch('/api/mesh/036-lead-router/ingest',{
-          method:'POST', headers:{'content-type':'application/json','x-ts':String(Date.now())},
-          body:JSON.stringify({event:'compare_view',site:'DRG',page:'compare.us',metrics:m}), signal:ctl.signal, keepalive:true
-        }).catch(()=>{});
-      }catch(_){ }
-    })();
-  </script>
-  <script>
-    // Preview safety: disable tel: in ChatGPT preview; open externals in new tab
-    (function(){
-      try{
-        var isPreview=(/chatgpt\.com$/i.test(location.hostname)||location.hostname.indexOf('chatgpt')>-1);
-        if(!isPreview) return;
-        document.addEventListener('click',function(e){
-          var a=e.target.closest('a'); if(!a) return; var href=a.getAttribute('href')||'';
-          if(a.protocol==='tel:'){ e.preventDefault(); alert('Tap‑to‑call is blocked in preview. On your live site this will dial 888‑437‑7141.'); return; }
-          var same = href.startsWith('/') || href.startsWith('#') || (a.origin && a.origin===location.origin);
-          if(!same){ a.target='_blank'; a.rel='noopener'; }
-        }, true);
-      }catch(e){}
-    })();
-  </script>
+    // Current year
+    (function(){var y=document.getElementById('y'); if(y){ y.textContent=new Date().getFullYear(); }})();
 
-  <!-- Dynamic spacing to keep sitemap above mobile bar on phones -->
-  <script>
+    // Hamburger toggle (match homepage)
     (function(){
-      const root=document.documentElement, mb=document.getElementById('drgMobileBar');
-      function setH(){ const v = mb && getComputedStyle(mb).display !== 'none'; root.style.setProperty('--callbar-h', (v?mb.offsetHeight:0)+'px'); }
-      setH(); addEventListener('resize', setH, {passive:true}); setTimeout(setH,250); setTimeout(setH,1000);
+      var btn = document.getElementById('menuBtn');
+      var panel = document.getElementById('menuPanel');
+      if(!btn || !panel) return;
+      function closeMenu(){ panel.style.display='none'; btn.setAttribute('aria-expanded','false'); }
+      function openMenu(){ panel.style.display='flex'; btn.setAttribute('aria-expanded','true'); }
+      btn.addEventListener('click', function(){ var open = panel.style.display === 'flex'; if(open) closeMenu(); else openMenu(); });
+      document.addEventListener('click', function(e){ if(!panel.contains(e.target) && e.target !== btn && window.innerWidth <= 900){ closeMenu(); } });
+      window.addEventListener('resize', function(){ if(window.innerWidth > 900){ panel.style.display='flex'; btn.setAttribute('aria-expanded','false'); } else { panel.style.display='none'; } });
     })();
   </script>
 </body>
