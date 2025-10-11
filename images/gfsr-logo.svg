@@ -1,71 +1,92 @@
-<!-- /images/gfsr-logo.svg -->
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 520 96" role="img" aria-labelledby="gfsrTitle gfsrDesc" style="display:inline-block;height:64px">
-  <title id="gfsrTitle">Gateway Financial Settlement Relief</title>
-  <desc id="gfsrDesc">Shield icon with a key and a document that reads Debt Free; wordmark to the right.</desc>
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- GFSR — Statue of Liberty silhouette with key + "DEBT FREE" tablet, plus GFSR wordmark -->
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 980 300" role="img" aria-labelledby="t d">
+  <title id="t">GFSR — Gateway Financial Settlement Relief</title>
+  <desc id="d">Statue of Liberty silhouette holding a key and a tablet labeled DEBT FREE; GFSR wordmark to the right.</desc>
 
   <style>
     :root,:host{
-      --gfsr-primary: var(--primary, #10a37f);
-      --gfsr-primary-700: var(--primary-700, #1a7f64);
-      --gfsr-text: var(--color-text, #282828);
-      --gfsr-soft: var(--color-background-primary-soft, #ededed);
-      --gfsr-mono: var(--font-mono, "SF Mono", ui-monospace, monospace);
-      --gfsr-sans: var(--font-sans, "OpenAI Sans", ui-sans-serif, system-ui, -apple-system, "Segoe UI", Helvetica, Arial, sans-serif);
+      --logo-accent: var(--primary, #10a37f);
+      --logo-accent-dark: var(--primary-700, #0e7b63);
+      --logo-ink: var(--color-text, #0f172a);
+      --logo-sans: var(--font-sans, "OpenAI Sans", Inter, ui-sans-serif, system-ui, -apple-system, "Segoe UI", Helvetica, Arial, sans-serif);
+      --logo-mono: var(--font-mono, "SF Mono", ui-monospace, Menlo, Consolas, monospace);
     }
-    .icon-fill{fill:var(--gfsr-primary)}
-    .icon-stroke{stroke:var(--gfsr-primary-700)}
-    .word{fill:var(--gfsr-text)}
-    text{font-family:var(--gfsr-sans);letter-spacing:.2px}
-    @media (width >= 768px){ svg{height:72px} }
+    .halo { paint-order: stroke fill; stroke: #fff; stroke-width: 6; }
+    .fill1 { fill: var(--logo-accent); }
+    .fill2 { fill: var(--logo-accent-dark); }
+    .ink   { fill: var(--logo-ink); }
+    text   { font-family: var(--logo-sans); letter-spacing: .2px; }
   </style>
 
-  <!-- Left icon: stylized shield containing a key and a document reading "Debt Free" -->
-  <g transform="translate(8,8)">
-    <!-- Shield body -->
-    <path class="icon-fill" d="M40,0 C40,0 70,8 96,8 V44 c0,22 -16,36 -38,44 C36,80 20,66 20,44 V8 C30,8 40,0 40,0 Z"/>
-    <!-- Shield accent stroke -->
-    <path d="M40,2 C40,2 68,10 94,10 V44 c0,19 -14,31 -34,38 C38,75 24,63 24,44 V10 C32,10 40,2 40,2 Z"
-          fill="none" class="icon-stroke" stroke-width="2"/>
+  <!-- ================= LEFT: LIBERTY SILHOUETTE ================= -->
+  <g transform="translate(40,10)">
+    <!-- Robe/body (stylized draped silhouette) -->
+    <path class="halo fill1" d="M105 92
+      c-12 16 -22 33 -28 52
+      c-7 22 -9 46 -9 96
+      c0 28 22 46 56 46
+      c34 0 56 -18 56 -46
+      c0 -44 -3 -73 -11 -100
+      c-2 -7 -6 -14 -10 -20
+      c-20 9 -41 14 -62 14
+      c-11 0 -21 -2 -31 -6 z"/>
 
-    <!-- Key (ring + shaft + bit) -->
-    <!-- Ring -->
-    <circle cx="40" cy="32" r="8" fill="none" class="icon-stroke" stroke-width="3"/>
-    <!-- Shaft -->
-    <rect x="48" y="30.5" width="26" height="3" rx="1.5" class="icon-fill"/>
-    <!-- Bit / teeth -->
-    <rect x="72" y="28" width="6" height="4" rx="1" class="icon-fill"/>
-    <rect x="72" y="33" width="6" height="4" rx="1" class="icon-fill"/>
-    <rect x="66" y="30.5" width="4" height="7" rx="1" class="icon-fill"/>
+    <!-- Head + neck -->
+    <path class="halo fill1" d="M150 80
+      c10 -10 28 -10 38 0
+      c7 7 7 19 0 26
+      c-6 6 -16 10 -19 10
+      v12 l18 16
+      c7 6 11 14 11 22
+      c0 10 -4 18 -12 24
+      c-12 9 -30 9 -42 0
+      c-8 -6 -12 -14 -12 -24
+      c0 -8 4 -16 11 -22
+      l18 -16 v-12
+      c-4 0 -13 -4 -19 -10
+      c-7 -7 -7 -19 0 -26 z"/>
 
-    <!-- Document with folded corner -->
-    <g transform="translate(48,12)">
-      <!-- Page -->
-      <rect x="0" y="0" width="30" height="22" rx="2" fill="#ffffff" opacity="0.95"/>
-      <!-- Folded corner -->
-      <path d="M26,0 L30,4 L30,0 Z" fill="var(--gfsr-soft)"/>
-      <!-- Document lines -->
-      <rect x="4" y="6" width="22" height="2" rx="1" fill="var(--gfsr-soft)"/>
-      <rect x="4" y="10" width="18" height="2" rx="1" fill="var(--gfsr-soft)"/>
-      <!-- "Debt Free" text -->
-      <text x="4" y="19" font-size="6.2" font-weight="700" font-family="var(--gfsr-mono)" fill="var(--gfsr-primary-700)">
-        Debt Free
-      </text>
+    <!-- Crown (7 spikes) -->
+    <g class="halo fill2" transform="translate(169,70)">
+      <path d="M0 0 l-32 -16 10 30 z"/>
+      <path d="M0 0 l-26 -28 6 32 z"/>
+      <path d="M0 0 l-10 -34 0 34 z"/>
+      <path d="M0 0 l 10 -34 0 34 z"/>
+      <path d="M0 0 l 26 -28 -6 32 z"/>
+      <path d="M0 0 l 32 -16 -10 30 z"/>
+      <circle cx="0" cy="0" r="8"/>
+    </g>
+
+    <!-- Raised arm -->
+    <path class="halo fill1" d="M125 106
+      c 20 -30 46 -52 78 -68
+      c 7 -3 15 1 17 8
+      l 6 16
+      c 3 8 -2 17 -10 20
+      c -22 9 -45 25 -66 48 z"/>
+
+    <!-- Key (replaces torch) -->
+    <g class="halo fill2" transform="translate(228,54)">
+      <circle cx="0" cy="0" r="18"/>
+      <rect x="18" y="-5" width="78" height="10" rx="5"/>
+      <rect x="82" y="-16" width="12" height="12" rx="2"/>
+      <rect x="82" y="6"  width="12" height="12" rx="2"/>
+    </g>
+
+    <!-- Tablet with "DEBT FREE" -->
+    <g transform="translate(190,168) rotate(-15)">
+      <rect class="halo" x="0" y="0" width="140" height="100" rx="8" fill="#ffffff"/>
+      <path d="M118 0 L140 22 L140 0 Z" fill="#e9edf2"/>
+      <rect x="14" y="24" width="104" height="8" rx="4" fill="#e9edf2"/>
+      <rect x="14" y="40" width="92"  height="8" rx="4" fill="#e9edf2"/>
+      <text x="14" y="74" font-size="28" font-weight="800" class="fill2" style="font-family:var(--logo-mono)">DEBT FREE</text>
     </g>
   </g>
 
-  <!-- Wordmark -->
-  <g transform="translate(130,58)">
-    <text class="word" x="0" y="0" font-size="30" font-weight="700">Gateway</text>
-    <text class="word" x="158" y="0" font-size="30" font-weight="600">Financial</text>
-  </g>
-  <g transform="translate(130,84)">
-    <rect x="-4" y="-22" width="388" height="2" fill="var(--gfsr-soft)"/>
-    <text class="word" x="0" y="0" font-size="18" font-weight="600" opacity=".9">Settlement Relief</text>
-  </g>
-
-  <!-- Right tag pill -->
-  <g transform="translate(460,18)">
-    <rect x="0" y="0" rx="12" width="52" height="28" fill="var(--gfsr-soft)"/>
-    <text x="26" y="19" font-size="14" font-weight="700" text-anchor="middle" fill="var(--gfsr-primary)">GFSR</text>
+  <!-- ================= RIGHT: WORDMARK ================= -->
+  <g transform="translate(480,160)">
+    <text class="halo ink" x="0" y="0" font-size="128" font-weight="800" letter-spacing="1">GFSR</text>
+    <text class="ink" x="4" y="46" font-size="30" font-weight="600" opacity=".92">Gateway Financial Settlement Relief</text>
   </g>
 </svg>
