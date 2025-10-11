@@ -2,269 +2,289 @@
 <html lang="en">
 <head>
   <meta charset="utf-8" />
+  <title>Contact Us | Gateway Financial Settlement Relief</title>
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Contact Us | Debt Relief Guard</title>
-  <meta name="description" content="Contact Debt Relief Guard — FTC‑aligned answers about debt consolidation loans, settlement, and counseling. Call 888‑437‑7141 or send a secure message." />
+  <meta name="robots" content="index,follow,max-image-preview:large" />
+  <meta name="description" content="Questions about consolidation or hardship relief? Contact Gateway Financial Settlement Relief. No upfront fees and no hard credit pull to preview options." />
   <link rel="canonical" href="https://debtreliefguard.com/contact.index.html" />
-  <meta name="theme-color" content="#0a5cff" />
-  <meta name="x-ai-optimizer-page" content="DRG:contact" />
 
-  <!-- Fonts (same as site) -->
-  <link rel="preconnect" href="https://fonts.googleapis.com" crossorigin>
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet" />
+  <!-- Open Graph / Twitter -->
+  <meta property="og:type" content="website" />
+  <meta property="og:title" content="Contact Gateway Financial Settlement Relief" />
+  <meta property="og:description" content="Get help with debt consolidation and hardship relief options. U.S.-based specialists. No hard credit pull to check eligibility." />
+  <meta property="og:url" content="https://debtreliefguard.com/contact.index.html" />
+  <meta property="og:site_name" content="Gateway Financial Settlement Relief" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="Contact Gateway Financial Settlement Relief" />
+  <meta name="twitter:description" content="U.S.-based specialists. Consolidation-first, with hardship relief fallback if needed." />
+
+  <!-- JSON-LD: Organization/FinancialService (canonical @id) + BreadcrumbList + ContactPage -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": ["Organization","FinancialService"],
+        "@id": "https://gatewaydebthelp.com/#gfsr",
+        "name": "Gateway Financial Settlement Relief, LLC",
+        "alternateName": "Gateway Debt Help",
+        "url": "https://debtreliefguard.com/",
+        "logo": "https://debtreliefguard.com/assets/logo.svg",
+        "contactPoint": [{
+          "@type":"ContactPoint",
+          "telephone":"+1-888-437-7141",
+          "contactType":"customer service",
+          "areaServed":"US"
+        }]
+      },
+      {
+        "@type":"BreadcrumbList",
+        "itemListElement":[
+          {"@type":"ListItem","position":1,"name":"Home","item":"https://debtreliefguard.com/"},
+          {"@type":"ListItem","position":2,"name":"Contact","item":"https://debtreliefguard.com/contact.index.html"}
+        ]
+      },
+      {
+        "@type":"ContactPage",
+        "name":"Contact Gateway Financial Settlement Relief",
+        "url":"https://debtreliefguard.com/contact.index.html",
+        "about":{"@id":"https://gatewaydebthelp.com/#gfsr"}
+      }
+    ]
+  }
+  </script>
 
   <style>
-    :root{
-      --ink:#eaf1ff; --muted:#a7c6ff; --bg:#0b1220;
-      --brand:#0a5cff; --brand2:#072a86; --cta:#0b63f6; --ok:#007b55;
-      --card:rgba(255,255,255,.03); --card-b:rgba(255,255,255,.08);
-      --sitemap-h:56px; /* bottom sticky menu height */
-    }
+    :root{ --bg:#ffffff; --ink:#0b1f16; --muted:#415a50; --brand:#0ea5a3; --brand-ink:#053d3a; --card:#f7faf9; --border:#e5eeeb; --ring:rgba(14,165,163,.25); --pad:clamp(16px,2vw,24px); --radius:16px; --max:1200px; --shadow:0 10px 30px rgba(0,0,0,.08);} 
     *{box-sizing:border-box}
-    html,body{margin:0;padding:0;background:var(--bg);color:var(--ink);font-family:'Inter',system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif}
+    html,body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.5 Inter,system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif}
+    a{color:var(--brand);text-decoration:none}
+    a:hover{text-decoration:underline}
+    .container{max-width:var(--max);margin:0 auto;padding:0 var(--pad)}
 
-    /* Peeled header (matches Home/FAQ) */
-    header.top{position:sticky;top:0;z-index:1000;background:linear-gradient(180deg,#0b1220,rgba(11,18,32,.92) 70%,rgba(11,18,32,0));backdrop-filter:saturate(140%) blur(8px);border-bottom:1px solid rgba(255,255,255,.06)}
-    header .wrap{max-width:1100px;margin:0 auto;padding:10px 14px}
-    header .row{display:flex;align-items:center;gap:10px}
-    .brand{display:inline-flex;align-items:center;gap:8px;text-decoration:none;color:#fff;font-weight:900}
-    .logo{display:inline-grid;place-items:center;width:32px;height:32px;border-radius:9px;background:#0a5cff;color:#fff;font-weight:900}
+    header{position:sticky;top:0;z-index:50;background:var(--bg);border-bottom:1px solid var(--border)}
+    .nav{display:flex;align-items:center;justify-content:space-between;padding:12px var(--pad)}
+    .brand{display:flex;align-items:center;gap:12px}
+    .brand img{height:34px;width:auto}
+    .brand .name{font-weight:800;letter-spacing:.2px}
+    .menu{display:flex;gap:18px;align-items:center}
+    .menu a{font-weight:600;color:var(--ink)}
+    .menu a[aria-current="page"]{color:var(--brand);text-decoration:underline}
+    .hamburger{display:none;appearance:none;border:1px solid var(--border);background:#fff;border-radius:10px;padding:8px 10px}
+    .hamburger:focus{outline:2px solid var(--ring)}
+    #menuPanel{display:flex;gap:18px}
+    @media (max-width: 900px){ #menuPanel{display:none;position:absolute;left:0;right:0;top:64px;background:#fff;border-bottom:1px solid var(--border);padding:10px var(--pad);flex-direction:column} .hamburger{display:inline-block} }
 
-    /* Unified 5‑pill menus (toggle horizontally) */
-    .navwrap{display:grid;grid-template-columns:auto 1fr auto;align-items:center;gap:6px;margin-left:auto;margin-right:8px}
-    .nav-arrow{background:transparent;border:1px solid rgba(255,255,255,.18);color:#dbe6ff;border-radius:10px;padding:6px 8px;cursor:pointer}
-    .nav-arrow:focus{outline:2px solid #2563eb;outline-offset:2px}
-    nav.pills{display:flex;gap:8px;overflow-x:auto;white-space:nowrap;scrollbar-width:none;scroll-snap-type:x mandatory}
-    nav.pills::-webkit-scrollbar{display:none}
-    nav.pills a.btn{border:1px solid rgba(255,255,255,.12);border-radius:999px;padding:.5rem .8rem;text-decoration:none;font-weight:800;color:#d8e3ff;scroll-snap-align:center}
-    .btn.ghost:hover{background:rgba(255,255,255,.06)}
-    .btn.primary{background:linear-gradient(180deg,var(--brand),var(--brand2));color:#fff;box-shadow:0 6px 18px rgba(10,92,255,.35)}
+    .hero{padding:28px 0 10px;border-bottom:1px solid var(--border)}
+    .hero h1{font-size:clamp(1.6rem,2.4vw,2.2rem);line-height:1.2;margin:.35rem 0 .5rem}
+    .hero .sub{max-width:860px;color:var(--muted)}
 
-    .call .pill-btn{display:inline-flex;align-items:center;gap:.4rem;padding:.55rem .9rem;font-size:.95rem;line-height:1;text-decoration:none;border-radius:999px;background:var(--ok);color:#fff;font-weight:900;box-shadow:0 4px 12px rgba(0,0,0,.2)}
-    .ftc{border-top:1px solid rgba(255,255,255,.06);font-size:12px;color:#afc7ff}
-    .ftc .row{display:flex;gap:8px;align-items:center;padding:8px 0}
-    .ftc .dot{width:8px;height:8px;border-radius:50%;background:#27c15e;box-shadow:0 0 12px rgba(39,193,94,.7)}
+    .section{padding:22px 0}
+    .grid{display:grid;grid-template-columns:1.15fr .85fr;gap:16px}
+    @media (max-width:900px){.grid{grid-template-columns:1fr}}
 
-    /* Layout */
-    .wrap{max-width:1100px;margin:0 auto;padding:12px 14px}
-    .card{background:var(--card);border:1px solid var(--card-b);border-radius:14px;box-shadow:0 10px 24px rgba(0,0,0,.18)}
-    .pad{padding:14px}
-    .center{text-align:center}
-    h1{font-size:clamp(22px,4.5vw,36px);line-height:1.2;margin:0 0 8px}
-    .sub{color:var(--muted);font-size:15px;margin:0 0 12px}
+    .card{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);box-shadow:var(--shadow)}
+    .pad{padding:clamp(14px,1.8vw,20px)}
+    label{font-weight:700}
+    input,select,textarea{width:100%;padding:12px;border:1px solid #cbd5e1;border-radius:10px;background:#fff;font-size:16px}
+    input:focus,select:focus,textarea:focus{border-color:#0ea5a3;box-shadow:0 0 0 4px var(--ring);outline:none}
+    textarea{min-height:120px;resize:vertical}
+    .row{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+    @media (max-width:640px){.row{grid-template-columns:1fr}}
+    .micro{font-size:.875rem;color:var(--muted)}
+    .btn{display:inline-block;padding:10px 16px;border-radius:12px;font-weight:700;border:1px solid var(--border);text-decoration:none}
+    .btn-primary{background:var(--brand);color:#fff;border-color:var(--brand)}
+    .btn-outline{background:#fff;color:var(--brand-ink)}
+    .ok{color:#065f5b}
 
-    /* Contact blocks */
-    .row2{display:grid;gap:10px}
-    @media(min-width:720px){.row2{grid-template-columns:1fr 1fr}}
-    label{font-weight:800;font-size:.95rem}
-    input,textarea,select{width:100%;background:#0e1730;color:#eaf1ff;border:1px solid rgba(255,255,255,.14);border-radius:10px;padding:.7rem .8rem}
-    textarea{min-height:120px}
-    .btn-row{display:flex;gap:8px;flex-wrap:wrap;justify-content:center}
-    .btn.submit{background:var(--cta);color:#fff;border:none;border-radius:10px;padding:.8rem 1rem;font-weight:900;text-align:center}
-    .btn.secondary{background:rgba(255,255,255,.06);color:#fff;border:1px solid rgba(255,255,255,.12);border-radius:10px;padding:.8rem 1rem;font-weight:900;text-decoration:none;text-align:center}
-
-    /* Better visibility for phone links (dark BG) */
-    a[href^="tel:"]{color:#ffdd00;text-decoration:underline;font-weight:900}
-    a[href^="tel:"]:hover{opacity:.9}
-
-    /* Mobile CTA bar */
-    .mobile-bar{position:fixed;left:0;right:0;bottom:0;background:#0b1220;color:#fff;display:flex;gap:8px;padding:.6rem;z-index:10000;justify-content:center}
-    .mobile-bar a{flex:1;text-align:center;border-radius:10px;padding:.75rem .5rem;font-weight:900;text-decoration:none;max-width:50%}
-    .mobile-call{background:var(--ok);color:#fff}
-    .mobile-est{background:var(--cta);color:#fff}
-    @media (min-width:769px){.mobile-bar{display:none}}
-
-    /* Bottom sticky sitemap (5‑pill menu, unified) */
-    footer.sticky-menu{position:fixed;left:0;right:0;bottom:0;z-index:9999;background:linear-gradient(0deg,rgba(0,0,0,.42),rgba(0,0,0,.0));padding-bottom:env(safe-area-inset-bottom)}
-    footer.sticky-menu nav{display:flex;gap:1rem;overflow-x:auto;white-space:nowrap;padding:0 .75rem;align-items:center;scrollbar-width:none;justify-content:center;scroll-snap-type:x mandatory}
-    footer.sticky-menu nav::-webkit-scrollbar{display:none}
-    footer.sticky-menu nav a{color:#ffdd00;text-decoration:none;padding:.35rem .55rem;border-radius:6px;font-weight:700;font-size:.92rem;flex:0 0 auto;scroll-snap-align:center}
-    footer.sticky-menu nav a:hover{background:rgba(255,255,255,.1)}
+    footer{border-top:1px solid var(--border);margin-top:26px}
+    .foot{padding:14px var(--pad);color:var(--muted);font-size:.9rem}
   </style>
-  <script>
-    // Centralize endpoints so we can swap routes without touching markup
-    window.DRG_ENDPOINTS = window.DRG_ENDPOINTS || {
-      sixteen: { health: "/api/mesh/016-persona-evolution-engine/health", chat: "/chat" },
-      thirtysix: { ingest: "/api/mesh/036-lead-router/ingest", config: "/api/mesh/036-lead-router/config" }
-    };
-  </script>
 </head>
 <body>
-  <!-- Sticky peeled header (5‑pill menu exactly like Home/FAQ) -->
-  <header class="top">
-    <div class="wrap"><div class="row">
-      <a class="brand" href="/"><span class="logo">DRG</span><span>Debt Relief Guard</span></a>
-      <div class="navwrap" role="navigation" aria-label="Primary">
-        <button class="nav-arrow prev" aria-label="Scroll left" type="button">◀</button>
-        <nav class="pills" tabindex="0">
-          <a class="btn ghost" href="/">Home</a>
-          <a class="btn ghost" href="/how.it.works.index.html">How It Works</a>
-          <a class="btn ghost" href="/faq.index.html">FAQ</a>
-          <a class="btn ghost" href="/geo-blocked.html">State Programs</a>
-          <a class="btn ghost" href="/blog.index.html">Blog</a>
-        </nav>
-        <button class="nav-arrow next" aria-label="Scroll right" type="button">▶</button>
-      </div>
-      <div class="call"><a class="pill-btn" href="tel:+18884377141" aria-label="Call now: 888-437-7141">📞 Call</a></div>
-    </div></div>
-    <div class="ftc"><div class="wrap"><div class="row"><div class="dot"></div> <strong>FTC‑aligned</strong> • No upfront fees • Transparent savings estimates</div></div></div>
-  </header>
 
-  <!-- HERO -->
-  <section class="wrap" aria-label="Contact hero" style="padding:8px 0 0">
-    <div class="card pad center">
-      <h1>Contact Debt Relief Guard</h1>
-      <p class="sub">Ask anything — no pressure. Prefer a quick estimate? Start securely with no hard credit check.</p>
-      <div class="btn-row">
-        <a class="btn secondary" href="tel:+18884377141">📞 Call 888‑437‑7141</a>
-        <a class="btn submit" href="/">🔒 Start Secure Estimate</a>
-      </div>
+<header>
+  <div class="nav container" role="navigation" aria-label="Primary">
+    <a class="brand" href="/" aria-label="Gateway Financial Settlement Relief Home">
+      <img src="/assets/logo.svg" alt="GFSR logo" onerror="this.style.display='none'">
+      <span class="name">Gateway Financial Settlement Relief</span>
+    </a>
+    <button id="menuBtn" class="hamburger" aria-label="Open menu" aria-controls="menuPanel" aria-expanded="false">☰ Menu</button>
+    <nav id="menuPanel" class="menu" role="menu">
+      <a href="/" role="menuitem">Home</a>
+      <a href="/credit.card.relief.index.html" role="menuitem">Credit Card Relief</a>
+      <a href="/debt.relief.option.index.html" role="menuitem">Debt Relief Options</a>
+      <a href="/compare.us.html" role="menuitem">Compare Us</a>
+      <a href="/faq.html" role="menuitem">FAQs</a>
+      <a href="/blog/index.html" role="menuitem">Blog</a>
+      <a href="/savings.calculator.html" role="menuitem">Savings Calculator</a>
+      <a href="/geo-blocked.html" role="menuitem">State Programs</a>
+      <a href="/contact.index.html" role="menuitem" aria-current="page">Contact</a>
+      <a href="/privacy.policy.index.html" role="menuitem">Privacy Policy</a>
+      <a href="/terms.index.html" role="menuitem">Terms</a>
+      <a href="/#leadForm" role="menuitem" class="btn btn-primary">Check My Options</a>
+    </nav>
+  </div>
+</header>
+
+<main>
+  <section class="hero">
+    <div class="container">
+      <span class="micro">U.S.-based specialists • No hard credit pull to preview options</span>
+      <h1>Contact Gateway Financial Settlement Relief</h1>
+      <p class="sub">We’ll try a consolidation loan first. If it isn’t a fit, we pivot to a hardship relief program automatically—no extra forms.</p>
     </div>
   </section>
 
-  <!-- MAIN -->
-  <main id="main" class="wrap" role="main" style="padding:12px 0 calc(var(--sitemap-h) + 90px)">
-    <section class="card pad" aria-labelledby="contact-direct">
-      <h2 id="contact-direct">Talk to a Specialist</h2>
-      <div class="row2" aria-label="Direct contact options">
-        <div><strong>Phone:</strong> <a class="phone-link" href="tel:+18884377141">+1 (888) 437‑7141</a></div>
-        <div><strong>Email:</strong> <a href="mailto:info@gatewaydebthelp.com">info@gatewaydebthelp.com</a></div>
-      </div>
-      <p class="sub" style="margin-top:.6rem">Business hours: Mon–Fri 9am–7pm ET (US)</p>
-    </section>
+  <section class="section">
+    <div class="container grid">
+      <!-- Contact Form -->
+      <article class="card pad" aria-labelledby="h-contact-form">
+        <h2 id="h-contact-form">Send us a message</h2>
+        <form id="contactForm" novalidate>
+          <!-- Honeypot -->
+          <input type="text" name="hp" id="hpK" class="micro" autocomplete="off" style="position:absolute;left:-9999px" aria-hidden="true" tabindex="-1">
 
-    <section class="card pad" aria-labelledby="contact-form-title" style="margin-top:12px">
-      <h2 id="contact-form-title">Send a Secure Message</h2>
-      <form id="contactForm" class="contact" novalidate>
-        <div class="row2">
-          <div>
-            <label for="name">Your Name</label>
-            <input id="name" name="name" type="text" placeholder="Jane Doe" required />
+          <div class="row">
+            <div>
+              <label for="name">Full name</label>
+              <input id="name" name="name" type="text" required placeholder="Jane Doe">
+            </div>
+            <div>
+              <label for="state">State</label>
+              <select id="state" name="state" required></select>
+            </div>
+          </div>
+          <div class="row">
+            <div>
+              <label for="email">Email</label>
+              <input id="email" name="email" type="email" required placeholder="you@example.com">
+            </div>
+            <div>
+              <label for="phone">Phone</label>
+              <input id="phone" name="phone" type="tel" inputmode="tel" placeholder="(555) 555‑5555">
+            </div>
           </div>
           <div>
-            <label for="email">Email</label>
-            <input id="email" name="email" type="email" placeholder="you@example.com" required />
+            <label for="topic">How can we help?</label>
+            <select id="topic" name="topic" required>
+              <option value="consolidation">Consolidation loan questions</option>
+              <option value="hardship">Hardship relief program questions</option>
+              <option value="status">Check my application status</option>
+              <option value="other">Other</option>
+            </select>
           </div>
-        </div>
-        <div class="row2">
           <div>
-            <label for="phone">Phone (optional)</label>
-            <input id="phone" name="phone" type="text" placeholder="(555) 555‑5555" />
+            <label for="msg">Message</label>
+            <textarea id="msg" name="message" placeholder="Share a little about your situation (optional)"></textarea>
           </div>
-          <div>
-            <label for="topic">Topic</label>
-            <input id="topic" name="topic" type="text" placeholder="Billing, Estimate, Eligibility…" />
+          <div class="micro" style="margin-top:6px">
+            <label style="display:flex;gap:8px;align-items:flex-start">
+              <input id="consent" type="checkbox" required>
+              <span>I agree to be contacted about my options. This is not a loan offer. We never charge upfront fees. <a href="/privacy.policy.index.html">Privacy Policy</a>.</span>
+            </label>
           </div>
-        </div>
-        <div>
-          <label for="message">How can we help?</label>
-          <textarea id="message" name="message" placeholder="Tell us what’s going on…" required></textarea>
-        </div>
-        <p class="sub">By contacting us, you agree to our <a href="/privacy.policy.index.html">Privacy Policy</a>. We never sell your information.</p>
-        <div class="btn-row">
-          <button type="submit" class="btn submit">Send Message</button>
-          <a class="btn secondary" href="mailto:info@gatewaydebthelp.com">Email Instead</a>
-        </div>
-        <div id="formMsg" class="msg" role="status" aria-live="polite" style="min-height:1.2em"></div>
-      </form>
-    </section>
+          <p style="margin-top:10px"><button type="submit" class="btn btn-primary">Send message</button></p>
+          <div id="contactOut" class="micro" aria-live="polite"></div>
+        </form>
+      </article>
 
-    <!-- Optional slot that 036 can override via /config -->
-    <section class="card pad" aria-labelledby="cta-override" style="margin-top:12px">
-      <h2 id="cta-override">Prefer the fast lane?</h2>
-      <p class="sub">036 can tune this block based on campaign/config.</p>
-      <div class="btn-row">
-        <a id="primaryCta" class="btn submit" href="/">🔒 Start Secure Estimate</a>
-        <a class="btn secondary" href="tel:+18884377141">📞 Call 888‑437‑7141</a>
-      </div>
-    </section>
-  </main>
+      <!-- Direct Contact / Hours / Phone -->
+      <aside class="card pad" aria-labelledby="h-contact-info">
+        <h2 id="h-contact-info">Call or text</h2>
+        <p><a class="btn btn-outline" href="tel:+18884377141">📞 888‑437‑7141</a></p>
+        <p class="micro">Hours: Mon–Fri 9am–7pm ET</p>
+        <hr style="border:none;border-top:1px solid var(--border);margin:12px 0">
+        <h3>What to expect</h3>
+        <ul class="micro">
+          <li>No hard credit pull to preview options</li>
+          <li>Consolidation‑first; hardship relief fallback if needed</li>
+          <li>Plain‑English timelines and disclosures</li>
+        </ul>
+        <p class="micro">Gateway Financial Settlement Relief, LLC is listed with the <a href="https://www.bbb.org/" target="_blank" rel="noopener nofollow">Better Business Bureau</a> for public transparency.</p>
+      </aside>
+    </div>
+  </section>
 
-  <!-- Mobile CTA bar -->
-  <div id="drgMobileBar" class="mobile-bar" aria-label="Quick actions">
-    <a class="mobile-call" href="tel:+18884377141">📞 Call 888‑437‑7141</a>
-    <a class="mobile-est" href="/">🔒 Start Secure Estimate</a>
-  </div>
+  <section class="section" aria-label="Get started">
+    <div class="container" style="text-align:center">
+      <h2>Prefer to start online?</h2>
+      <p class="micro">It takes about a minute. We’ll try a consolidation loan first and pivot automatically if it isn’t a fit.</p>
+      <a class="btn btn-primary" href="/#leadForm">🔒 Check my options</a>
+    </div>
+  </section>
+</main>
 
-  <!-- Bottom sitemap (5‑pill menu) -->
-  <footer class="sticky-menu" role="navigation" aria-label="Site map" style="height:var(--sitemap-h)">
-    <nav>
-      <a href="/">Home</a>
-      <a href="/how.it.works.index.html">How It Works</a>
-      <a href="/faq.index.html">FAQ</a>
-      <a href="/geo-blocked.html">State Programs</a>
-      <a href="/blog.index.html">Blog</a>
-    </nav>
-  </footer>
+<footer>
+  <div class="container foot">© <span id="y"></span> Gateway Financial Settlement Relief, LLC — Not affiliated with Gateway Debt Relief of Costa Mesa, CA.</div>
+</footer>
 
-  <!-- Toggle/scroll behavior for menus (does not move the page) -->
-  <script>
-    (function(){
-      function initWrap(root){
-        const scroller = root.querySelector('nav.pills');
-        const prev = root.querySelector('.nav-arrow.prev');
-        const next = root.querySelector('.nav-arrow.next');
-        if(!scroller||!prev||!next) return;
-        const by = () => Math.max(140, Math.floor(scroller.clientWidth*0.8));
-        prev.addEventListener('click', ()=> scroller.scrollBy({left:-by(), behavior:'smooth'}));
-        next.addEventListener('click', ()=> scroller.scrollBy({left: by(), behavior:'smooth'}));
-        scroller.addEventListener('keydown', (e)=>{
-          if(e.key==='ArrowLeft') scroller.scrollBy({left:-by(), behavior:'smooth'});
-          if(e.key==='ArrowRight') scroller.scrollBy({left: by(), behavior:'smooth'});
-        });
-      }
-      document.querySelectorAll('.navwrap').forEach(initWrap);
-    })();
-  </script>
+<script>
+  // Year
+  (function(){var y=document.getElementById('y'); if(y){ y.textContent=new Date().getFullYear(); }})();
 
-  <!-- Preview safety: keep external links in new tab; block tel: during preview -->
-  <script>
-    (function(){try{var isPreview=(/chatgpt\.com$/i.test(location.hostname)||location.hostname.indexOf('chatgpt')>-1);if(!isPreview) return;document.addEventListener('click',function(e){var a=e.target.closest('a');if(!a) return;var href=a.getAttribute('href')||'';if(a.protocol==='tel:'){e.preventDefault();alert('Tap‑to‑call is blocked in preview. On your live site this will dial 888‑437‑7141.');return;}var same=a.origin===location.origin||href.startsWith('/')||href.startsWith('#');if(!same){a.target='_blank';a.rel='noopener';}},true);}catch(e){}})();
-  </script>
+  // Hamburger toggle (matches homepage)
+  (function(){
+    var btn = document.getElementById('menuBtn');
+    var panel = document.getElementById('menuPanel');
+    if(!btn || !panel) return;
+    function closeMenu(){ panel.style.display='none'; btn.setAttribute('aria-expanded','false'); }
+    function openMenu(){ panel.style.display='flex'; btn.setAttribute('aria-expanded','true'); }
+    btn.addEventListener('click', function(){ var open = panel.style.display === 'flex'; if(open) closeMenu(); else openMenu(); });
+    document.addEventListener('click', function(e){ if(!panel.contains(e.target) && e.target !== btn && window.innerWidth <= 900){ closeMenu(); } });
+    window.addEventListener('resize', function(){ if(window.innerWidth > 900){ panel.style.display='flex'; btn.setAttribute('aria-expanded','false'); } else { panel.style.display='none'; } });
+  })();
 
-  <!-- ===== Scripts (ONLY 016 + 036) ===== -->
-  <script>
-    // 036 Lead Router — pageview (send)
-    (function(){
+  // Populate states
+  (function(){
+    var S=[["AL","Alabama"],["AK","Alaska"],["AZ","Arizona"],["AR","Arkansas"],["CA","California"],["CO","Colorado"],["CT","Connecticut"],["DE","Delaware"],["DC","District of Columbia"],["FL","Florida"],["GA","Georgia"],["HI","Hawaii"],["ID","Idaho"],["IL","Illinois"],["IN","Indiana"],["IA","Iowa"],["KS","Kansas"],["KY","Kentucky"],["LA","Louisiana"],["ME","Maine"],["MD","Maryland"],["MA","Massachusetts"],["MI","Michigan"],["MN","Minnesota"],["MS","Mississippi"],["MO","Missouri"],["MT","Montana"],["NE","Nebraska"],["NV","Nevada"],["NH","New Hampshire"],["NJ","New Jersey"],["NM","New Mexico"],["NY","New York"],["NC","North Carolina"],["ND","North Dakota"],["OH","Ohio"],["OK","Oklahoma"],["OR","Oregon"],["PA","Pennsylvania"],["RI","Rhode Island"],["SC","South Carolina"],["SD","South Dakota"],["TN","Tennessee"],["TX","Texas"],["UT","Utah"],["VT","Vermont"],["VA","Virginia"],["WA","Washington"],["WV","West Virginia"],["WI","Wisconsin"],["WY","Wyoming"]];
+    var el=document.getElementById('state'); if(!el) return; el.innerHTML=S.map(function(p){return '<option value="'+p[0]+'">'+p[1]+'</option>';}).join('');
+  })();
+
+  // Contact form logic with bot protections + telemetry beacon
+  (function(){
+    var form = document.getElementById('contactForm');
+    var out  = document.getElementById('contactOut');
+    if(!form) return;
+    var startedAt = Date.now();
+
+    function nz(v){ return typeof v==='string' ? v.trim().length>0 : !!v; }
+
+    form.addEventListener('submit', function(e){
+      e.preventDefault();
       try{
-        const ctl=new AbortController(); setTimeout(()=>ctl.abort(),3000);
-        const m={tz:Intl.DateTimeFormat().resolvedOptions().timeZone||'na',lang:navigator.language||'na',plat:navigator.platform||'na',cores:navigator.hardwareConcurrency||0,mem:navigator.deviceMemory||0};
-        fetch(window.DRG_ENDPOINTS.thirtysix.ingest,{
-          method:'POST',headers:{'content-type':'application/json','x-ts':String(Date.now())},
-          body:JSON.stringify({event:'contact_view',site:'DRG',page:'contact.index',metrics:m}),signal:ctl.signal,keepalive:true
-        }).catch(()=>{});
-      }catch(_){ }
-    })();
+        // Honeypot and human-speed guard
+        if(document.getElementById('hpK').value){ return; }
+        if((Date.now()-startedAt) < 1200){ out.textContent='Please take a moment to complete the form.'; return; }
 
-    // 036 Lead Router — config (receive)
-    (async function(){
-      try{
-        const r = await fetch(window.DRG_ENDPOINTS.thirtysix.config,{headers:{'Accept':'application/json'},cache:'no-store'});
-        if(!r.ok) return; const data = await r.json().catch(()=>null); const man = data?.config?.manifest || data?.manifest || null; if(!man) return;
-        const h = document.querySelector('h1'); if(h && typeof man.hero==='string') h.textContent = man.hero;
-        const a = document.getElementById('primaryCta'); if(a){ if(typeof man.cta?.text==='string') a.textContent = man.cta.text; if(typeof man.cta?.href==='string') a.href = man.cta.href; }
-      }catch(_){ /* soft fail */ }
-    })();
+        var payload = {
+          event: 'contact_submit',
+          site: 'DRG', page: 'contact', ts: Date.now(),
+          name: document.getElementById('name').value || '',
+          email: document.getElementById('email').value || '',
+          phone: document.getElementById('phone').value || '',
+          state: document.getElementById('state').value || '',
+          topic: document.getElementById('topic').value || 'other',
+          message: document.getElementById('msg').value || ''
+        };
 
-    // 016 presence ping (send) + lightweight chat check (receive: 200/ok)
-    (async function(){
-      try{ fetch(window.DRG_ENDPOINTS.sixteen.health,{method:'GET',mode:'no-cors'}); }catch(_){}
-      try{
-        // Probe chat endpoint availability without sending user data
-        const r = await fetch(window.DRG_ENDPOINTS.sixteen.chat, { method:'OPTIONS' });
-        console.log('016 /chat availability:', r.status);
-      }catch(_){ }
-    })();
-  </script>
+        if(!nz(payload.name) || !nz(payload.email) || !nz(payload.state) || !document.getElementById('consent').checked){
+          out.textContent = 'Please complete required fields (name, email, state, consent).';
+          return;
+        }
 
-  <!-- Mobile bar height sync --> (keeps sitemap flush) -->
-  <script>
-    (function(){
-      const root=document.documentElement, mb=document.getElementById('drgMobileBar');
-      function setH(){ const visible = mb && getComputedStyle(mb).display!=='none'; root.style.setProperty('--sitemap-h',(visible?mb.offsetHeight:56)+'px'); }
-      setH(); addEventListener('resize', setH, {passive:true}); setTimeout(setH, 250); setTimeout(setH, 1000);
-    })();
-  </script>
+        // Non-blocking send (036 can route to CRM/email)
+        var ctl = new AbortController(); setTimeout(function(){ctl.abort();}, 2500);
+        fetch('/api/mesh/036-lead-router/ingest', {
+          method:'POST', headers:{'content-type':'application/json'},
+          body: JSON.stringify(payload), signal: ctl.signal, keepalive:true
+        }).catch(function(){});
+
+        out.innerHTML = '<span class="ok">Thanks — your message was sent. A specialist will reach out shortly.</span>';
+        form.reset();
+      }catch(err){ out.textContent='Something went wrong. Please call 888‑437‑7141.'; }
+    });
+  })();
+</script>
 </body>
 </html>
