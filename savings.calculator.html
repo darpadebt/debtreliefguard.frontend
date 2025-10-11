@@ -5,7 +5,7 @@
   <title>Savings Calculator | Consolidation Payment & Hardship Program Estimate</title>
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="robots" content="index,follow,max-image-preview:large" />
-  <meta name="description" content="Run two quick calculators: your consolidation loan payment and a hardship relief program estimate. No hard credit pull. Educational estimates—actual offers vary." />
+  <meta name="description" content="Run two quick calculators: your consolidation loan payment and a hardship relief program estimate that compares against status‑quo minimum payments. Educational estimates—actual offers vary." />
   <link rel="canonical" href="https://debtreliefguard.com/savings.calculator.html" />
 
   <!-- Open Graph / Twitter -->
@@ -124,7 +124,7 @@
       <div class="container">
         <span class="micro">No hard credit pull • Educational estimates</span>
         <h1>Savings Calculator</h1>
-        <p class="sub">Start with a <strong>consolidation loan</strong>. If it isn’t a fit, preview a <strong>hardship relief program</strong> estimate—no extra forms.</p>
+        <p class="sub">Start with a <strong>consolidation loan</strong>. If it isn’t a fit, compare a <strong>hardship relief program</strong> estimate against your status‑quo minimum payments.</p>
       </div>
     </section>
 
@@ -168,27 +168,33 @@
           <p class="disclaimer">Estimates are informational only. APRs and terms are determined by lending partners based on credit profile and other factors. No hard credit pull to preview options.</p>
         </article>
 
-        <!-- HARDSHIP RELIEF PROGRAM (Settlement‑style, soft language) -->
+        <!-- HARDSHIP RELIEF PROGRAM (Status‑quo comparison model) -->
         <article class="card pad" aria-labelledby="h-hardship">
-          <h2 id="h-hardship">Hardship Relief Program — Estimate</h2>
-          <p class="micro">If you’ve had a qualifying hardship (job loss, medical event, loss of income, etc.), this program may reduce balances. Enter a few details to see an educational estimate.</p>
+          <h2 id="h-hardship">Hardship Relief Program — Estimate vs. Status‑Quo Payments</h2>
+          <p class="micro">This compares what you may pay if you keep making minimum payments at your current APR <em>versus</em> an educational hardship program estimate. We avoid hard pulls and show transparent math.</p>
           <form id="hardForm" novalidate>
             <input type="text" name="hp" id="hpH" class="micro" autocomplete="off" style="position:absolute;left:-9999px" aria-hidden="true" tabindex="-1">
             <div class="row">
               <div>
                 <label for="h_debt">Total unsecured debt</label>
-                <input id="h_debt" type="number" min="0" step="0.01" placeholder="e.g., 15000" required>
+                <input id="h_debt" type="number" min="0" step="0.01" placeholder="e.g., 10000" required>
               </div>
               <div>
-                <label for="h_reduce">Estimated balance reduction (%)</label>
-                <input id="h_reduce" type="number" min="0" max="80" step="0.1" value="40" required>
+                <label for="h_apr">Current blended APR (%)</label>
+                <input id="h_apr" type="number" min="0" step="0.01" placeholder="e.g., 22.99" value="22.99" required>
               </div>
             </div>
             <div class="row">
               <div>
-                <label for="h_fee">Program service fee (%)</label>
-                <input id="h_fee" type="number" min="0" max="35" step="0.1" value="22" required>
+                <label for="h_minpct">Minimum payment (% of balance)</label>
+                <input id="h_minpct" type="number" min="1" max="5" step="0.1" value="2.5" required>
               </div>
+              <div>
+                <label for="h_minfloor">Minimum payment floor ($)</label>
+                <input id="h_minfloor" type="number" min="0" step="1" value="25" required>
+              </div>
+            </div>
+            <div class="row">
               <div>
                 <label for="h_term">Program length (months)</label>
                 <select id="h_term" required>
@@ -197,8 +203,12 @@
                   <option value="48">48</option>
                 </select>
               </div>
+              <div>
+                <label for="h_progTotal">Program target total ($)</label>
+                <input id="h_progTotal" type="number" min="0" step="0.01" placeholder="defaults to your debt amount">
+              </div>
             </div>
-            <p><button class="btn btn-primary" type="button" id="calcHBtn">Estimate plan</button></p>
+            <p><button class="btn btn-primary" type="button" id="calcHBtn">Compare plans</button></p>
           </form>
           <div class="out" id="h_out" aria-live="polite"></div>
           <p class="disclaimer">This is an educational estimate, not a promise of results. Eligibility and outcomes vary by creditor, state, and hardship. We never charge upfront fees.</p>
@@ -242,14 +252,34 @@
       const r = (aprPct/100)/12; if (n<=0) return 0; if (r===0) return P/n; return P * (r / (1 - Math.pow(1+r, -n)));
     }
 
-    // Hardship estimate (educational):
-    // reduced = debt * (1 - reducePct), fee = debt * feePct, total_target = reduced + fee, monthly = total_target / months
-    function hardshipEstimate(totalDebt, reducePct, feePct, months){
-      const reducedAmount = totalDebt * (1 - (reducePct/100));
-      const serviceFee    = totalDebt * (feePct/100);
-      const targetTotal   = reducedAmount + serviceFee;
-      const monthly       = months>0 ? (targetTotal / months) : 0;
-      return { reducedAmount, serviceFee, targetTotal, monthly };
+    // Status‑quo payoff simulator: min payment = max(minPct% of balance, floor). Returns {months,totalPaid}
+    function statusQuoPayoff(balance, aprPct, minPct, floor){
+      let b = balance, m=0, total=0; const r = (aprPct/100)/12; const minP = Math.max(0.01, minPct/100);
+      const maxMonths = 600; // guard
+      while(b>0.009 && m<maxMonths){
+        // interest accrues monthly
+        const interest = b * r;
+        // minimum payment
+        let pay = Math.max(b*minP, floor);
+        if (pay > b + interest) pay = b + interest; // final payment
+        // apply
+        const principal = pay - interest;
+        b = Math.max(0, b - principal);
+        total += pay; m++;
+        // guard: if interest >= pay, bump pay to avoid negative amortization
+        if (pay <= interest + 0.01) { pay = interest + 1; total += 1; b -= 1; }
+      }
+      return { months:m, totalPaid: total };
+    }
+
+    // Hardship model: target total defaults to original debt; monthly = target / months; compare vs status‑quo
+    function hardshipCompare(debt, aprPct, minPct, floor, months, targetOverride){
+      const base = statusQuoPayoff(debt, aprPct, minPct, floor); // what you might pay without a program
+      const targetTotal = (Number.isFinite(targetOverride) && targetOverride>0) ? targetOverride : debt; // your instruction: pay back ~ what you owe (principal)
+      const monthly = months>0 ? (targetTotal / months) : 0;
+      const savings = Math.max(0, base.totalPaid - targetTotal);
+      const savingsPct = base.totalPaid>0 ? (savings / base.totalPaid)*100 : 0;
+      return { base, targetTotal, monthly, savings, savingsPct };
     }
 
     // Simple input guard
@@ -287,18 +317,24 @@
     (function(){
       const startedAt = Date.now();
       const debt = document.getElementById('h_debt');
-      const red = document.getElementById('h_reduce');
-      const fee = document.getElementById('h_fee');
-      const term = document.getElementById('h_term');
+      const apr = document.getElementById('h_apr');
+      const minpct = document.getElementById('h_minpct');
+      const floor = document.getElementById('h_minfloor');
+      const months = document.getElementById('h_term');
+      const override = document.getElementById('h_progTotal');
       const out = document.getElementById('h_out');
       document.getElementById('calcHBtn').addEventListener('click', function(){
-        const D = parseFloat(debt.value); const rp = parseFloat(red.value); const fp = parseFloat(fee.value); const n = parseInt(term.value,10);
-        if(!nz(D)||!nz(rp)||!nz(fp)||!Number.isInteger(n)||n<=0){ out.textContent='Please enter valid numbers.'; return; }
-        const est = hardshipEstimate(D, rp, fp, n);
-        out.innerHTML = `<div><strong>Estimated monthly program amount:</strong> ${fmt.format(est.monthly)}</div>
-                         <div class="micro ok">Estimated target amount over ${n} months: ${fmt.format(est.targetTotal)}</div>
-                         <div class="micro">Includes an estimated reduction target of ${fmt.format(est.reducedAmount)} and an estimated service fee of ${fmt.format(est.serviceFee)}.</div>`;
-        safeBeacon('/api/mesh/057-heat-map-tracker/ingest', {event:'calc_hardship', debt:D, reducePct:rp, feePct:fp, months:n, ts:Date.now()}, 'hpH', startedAt);
+        const D = parseFloat(debt.value); const A = parseFloat(apr.value); const MP = parseFloat(minpct.value); const F = parseFloat(floor.value); const N = parseInt(months.value,10);
+        const O = parseFloat(override.value);
+        if(!nz(D)||!nz(A)||!nz(MP)||!nz(F)||!Number.isInteger(N)||N<=0){ out.textContent='Please enter valid numbers.'; return; }
+        const cmp = hardshipCompare(D, A, MP, F, N, O);
+        out.innerHTML = `<div><strong>Estimated monthly program amount:</strong> ${fmt.format(cmp.monthly)}</div>
+                         <div class="micro ok">Program target amount over ${N} months: ${fmt.format(cmp.targetTotal)}</div>
+                         <hr style="border:none;border-top:1px dashed #cbd5e1;margin:8px 0">
+                         <div class="micro">If you keep making minimum payments at ${A}% APR (min ${MP}% or $${F}):</div>
+                         <div class="micro">Estimated total paid: <strong>${fmt.format(cmp.base.totalPaid)}</strong> over ~${cmp.base.months} months</div>
+                         <div class="micro"><strong>Estimated savings vs. status‑quo:</strong> ${fmt.format(cmp.savings)} (~${cmp.savingsPct.toFixed(1)}%)</div>`;
+        safeBeacon('/api/mesh/057-heat-map-tracker/ingest', {event:'calc_hardship_statusquo', debt:D, apr:A, minPct:MP, floor:F, months:N, target:cmp.targetTotal, ts:Date.now()}, 'hpH', startedAt);
       });
     })();
   </script>
