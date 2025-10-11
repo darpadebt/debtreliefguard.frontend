@@ -2,19 +2,19 @@
 <html lang="en">
 <head>
   <meta charset="utf-8" />
-  <title>Compare Us | Consolidation First → Hardship Relief Fallback</title>
+  <title>Compare Us | Why More Americans Choose Gateway Financial Settlement Relief</title>
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="robots" content="index,follow,max-image-preview:large" />
-  <meta name="description" content="See how our consolidation‑first approach compares to other debt relief paths. If consolidation isn’t a fit, we pivot to a hardship relief program automatically—no extra forms." />
+  <meta name="description" content="See how Gateway Financial Settlement Relief compares: transparent pricing, no upfront fees, U.S.-based specialists, and AI‑powered plan matching. Start with consolidation, pivot to a hardship relief program if needed—no extra forms." />
   <link rel="canonical" href="https://debtreliefguard.com/compare.us.html" />
   <meta property="og:type" content="website" />
-  <meta property="og:title" content="Compare Us | Consolidation First" />
-  <meta property="og:description" content="We lead with consolidation for the simplest path. If not eligible, we switch to a hardship relief program instantly." />
+  <meta property="og:title" content="Compare Us | Gateway Financial Settlement Relief" />
+  <meta property="og:description" content="Transparent pricing. No upfront fees. U.S.-based specialists. AI‑powered matching. See why people choose us." />
   <meta property="og:url" content="https://debtreliefguard.com/compare.us.html" />
   <meta property="og:site_name" content="Gateway Financial Settlement Relief" />
   <meta name="twitter:card" content="summary_large_image" />
-  <meta name="twitter:title" content="Compare Us | Consolidation First" />
-  <meta name="twitter:description" content="We lead with consolidation; if not a fit, we pivot to a hardship relief program without repeating forms." />
+  <meta name="twitter:title" content="Compare Us | Gateway Financial Settlement Relief" />
+  <meta name="twitter:description" content="Transparent pricing. No upfront fees. U.S.-based specialists. AI‑powered matching." />
 
   <!-- JSON-LD: Organization/FinancialService (canonical @id per brand standard) -->
   <script type="application/ld+json">
@@ -29,6 +29,7 @@
     "sameAs": ["https://debtreliefguard.com/","https://gatewaydebthelp.com/"]
   }
   </script>
+
   <!-- JSON-LD: Breadcrumbs -->
   <script type="application/ld+json">
   {
@@ -40,16 +41,28 @@
     ]
   }
   </script>
-  <!-- JSON-LD: ItemList (comparison targets) -->
+
+  <!-- JSON-LD: FAQPage (for rich results) -->
   <script type="application/ld+json">
   {
     "@context": "https://schema.org",
-    "@type": "ItemList",
-    "itemListElement": [
-      {"@type":"ListItem","position":1,"name":"Consolidation Loan"},
-      {"@type":"ListItem","position":2,"name":"Hardship Relief Program"},
-      {"@type":"ListItem","position":3,"name":"Balance Transfer"},
-      {"@type":"ListItem","position":4,"name":"Issuer Hardship Plans"}
+    "@type": "FAQPage",
+    "mainEntity": [
+      {
+        "@type": "Question",
+        "name": "Do you charge upfront fees?",
+        "acceptedAnswer": {"@type":"Answer","text":"No. We never charge upfront fees. You’ll see transparent terms before enrollment."}
+      },
+      {
+        "@type": "Question",
+        "name": "Will checking my options hurt my credit?",
+        "acceptedAnswer": {"@type":"Answer","text":"No. We can pre‑qualify without a hard credit pull to show available options."}
+      },
+      {
+        "@type": "Question",
+        "name": "What happens if I don’t qualify for a consolidation loan?",
+        "acceptedAnswer": {"@type":"Answer","text":"We automatically pivot to a hardship relief program designed to reduce balances—without asking you to repeat forms."}
+      }
     ]
   }
   </script>
@@ -86,8 +99,14 @@
     .btn-primary{background:var(--brand);color:#fff;border-color:var(--brand)}
     .btn-outline{background:#fff;color:var(--brand-ink)}
 
-    /* Comparison table */
+    /* Trust grid */
     .section{padding:22px 0}
+    .grid3{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px}
+    @media (max-width:900px){.grid3{grid-template-columns:1fr}}
+    .card{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);box-shadow:var(--shadow)}
+    .pad{padding:clamp(14px,1.8vw,20px)}
+
+    /* Comparison table (Us vs. Traditional Companies) */
     .table-wrap{overflow:auto}
     table{width:100%;border-collapse:separate;border-spacing:0;background:#fff;border:1px solid var(--border);border-radius:16px;box-shadow:var(--shadow)}
     th,td{padding:14px;border-bottom:1px solid var(--border);vertical-align:top}
@@ -95,9 +114,7 @@
     tbody tr:last-child td{border-bottom:none}
     th:first-child, td:first-child{position:sticky;left:0;background:#fff;font-weight:700;min-width:180px}
     .col-head{font-weight:800}
-    .col-consolidation{background:#f0fbf7}
-    .check{display:inline-block;width:18px;height:18px;border:2px solid #16a34a;border-radius:50%}
-    .x{display:inline-block;width:18px;height:2px;background:#b91c1c;vertical-align:middle}
+    .col-us{background:#f0fbf7}
 
     /* Footer */
     footer{border-top:1px solid var(--border);margin-top:26px}
@@ -131,8 +148,8 @@
     <section class="hero">
       <div class="container">
         <span class="micro">No hard credit check to preview options</span>
-        <h1>Why we start with consolidation (and pivot if needed).</h1>
-        <p class="sub">You get a single, predictable payment if you qualify. If not, we instantly pivot to a hardship relief program—no extra forms or delays.</p>
+        <h1>Why more Americans choose Gateway Financial Settlement Relief</h1>
+        <p class="sub">We lead with a consolidation loan for simplicity. If that isn’t a fit, we pivot instantly to a hardship relief program—no extra forms, no runaround.</p>
         <div class="hero-ctas">
           <a class="btn btn-primary" href="/#leadForm">🔒 Check my options</a>
           <a class="btn btn-outline" href="tel:+18884377141">📞 Talk to a specialist</a>
@@ -140,75 +157,80 @@
       </div>
     </section>
 
-    <!-- COMPARISON TABLE (Consolidation FIRST column) -->
-    <section class="section">
+    <!-- TRUST STRIP -->
+    <section class="section" aria-label="Trust & Compliance">
+      <div class="container grid3">
+        <div class="card pad"><strong>Transparent pricing</strong><br><span class="micro">No upfront fees. Clear terms before enrollment.</span></div>
+        <div class="card pad"><strong>U.S.-based specialists</strong><br><span class="micro">Personalized guidance—not a call center script.</span></div>
+        <div class="card pad"><strong>AI‑powered matching</strong><br><span class="micro">Faster pre‑qual and smarter plan routing.</span></div>
+      </div>
+    </section>
+
+    <!-- COMPARISON: Us vs Traditional Companies -->
+    <section class="section" aria-label="How we compare">
       <div class="container table-wrap">
-        <table role="table" aria-label="Compare debt relief paths">
+        <table role="table" aria-label="Gateway vs traditional debt companies">
           <thead>
             <tr>
               <th scope="col">What matters</th>
-              <th scope="col" class="col-head col-consolidation">Consolidation Loan</th>
-              <th scope="col" class="col-head">Hardship Relief Program</th>
-              <th scope="col" class="col-head">Balance Transfer</th>
-              <th scope="col" class="col-head">Issuer Hardship Plans</th>
+              <th scope="col" class="col-head col-us">Gateway Financial Settlement Relief</th>
+              <th scope="col" class="col-head">Traditional Debt Companies</th>
             </tr>
           </thead>
           <tbody>
             <tr>
-              <th scope="row">Monthly payment feel</th>
-              <td>Single predictable payment</td>
-              <td>Often lower than current minimums</td>
-              <td>Low during promo, higher after</td>
-              <td>Lower temporarily</td>
-            </tr>
-            <tr>
-              <th scope="row">Typical timeline</th>
-              <td>36–60+ months</td>
-              <td>~24–48 months</td>
-              <td>6–18 months promo window</td>
-              <td>3–12 months (varies)</td>
-            </tr>
-            <tr>
-              <th scope="row">When it’s a great fit</th>
-              <td>New APR is meaningfully lower than blended rate</td>
-              <td>Behind on payments or not eligible for a loan</td>
-              <td>Strong credit + ability to finish before promo ends</td>
-              <td>Short-term hardship with steady income</td>
-            </tr>
-            <tr>
-              <th scope="row">Credit profile</th>
-              <td>Best with fair‑to‑excellent</td>
-              <td>Designed for hardship scenarios</td>
-              <td>Good‑excellent usually required</td>
-              <td>Varies by issuer policy</td>
-            </tr>
-            <tr>
               <th scope="row">Upfront fees</th>
-              <td>No upfront fees</td>
-              <td>No upfront fees</td>
-              <td>Transfer fee (typically 3–5%)</td>
-              <td>None</td>
+              <td><strong>No upfront fees.</strong> You’ll see terms before enrollment.</td>
+              <td>May require assessments or hidden setup costs.</td>
             </tr>
             <tr>
-              <th scope="row">What we do</th>
-              <td>We pre‑qualify without a hard pull and, if eligible, roll cards into one payment.</td>
-              <td>If not eligible for a loan, we match you to a hardship relief program automatically.</td>
-              <td>We’ll surface offers if they beat your blended APR and timeline.</td>
-              <td>We help you ask your issuer the right questions.</td>
+              <th scope="row">Plan discovery</th>
+              <td><strong>Consolidation‑first</strong> with automatic pivot to hardship relief (no extra forms).</td>
+              <td>Single‑path sales flow; if declined, you start over elsewhere.</td>
+            </tr>
+            <tr>
+              <th scope="row">Speed to first answer</th>
+              <td>Pre‑qual without a hard pull; tailored options fast.</td>
+              <td>Slower intake; multiple calls or hard checks early.</td>
+            </tr>
+            <tr>
+              <th scope="row">Guidance quality</th>
+              <td>U.S.-based specialists trained on compliance and financial coaching.</td>
+              <td>Generalized scripts; inconsistent coaching.</td>
+            </tr>
+            <tr>
+              <th scope="row">Technology</th>
+              <td>AI‑assisted routing via our mesh—keeps you moving forward.</td>
+              <td>Manual routing; higher drop‑off and repeat forms.</td>
+            </tr>
+            <tr>
+              <th scope="row">Transparency</th>
+              <td>Plain‑English timelines, costs, and what to expect.</td>
+              <td>Jargon‑heavy; details after sign‑up.</td>
             </tr>
           </tbody>
         </table>
-        <p class="micro" style="margin-top:8px">Results vary by creditor and state. We never charge upfront fees.</p>
-        <p style="margin-top:12px"><a class="btn btn-primary" href="/#leadForm">Start with consolidation</a></p>
+        <p class="micro" style="margin-top:8px">Eligibility and results vary by creditor and state.</p>
+        <p style="margin-top:12px"><a class="btn btn-primary" href="/#leadForm">Get my personalized plan</a></p>
       </div>
     </section>
 
-    <!-- TRUST / WHY US QUICK STRIP -->
-    <section class="section" aria-label="Why people choose us">
-      <div class="container" style="display:grid;gap:14px;grid-template-columns:repeat(3,minmax(0,1fr))">
-        <div class="card" style="padding:14px"><strong>No hard pull</strong><br><span class="micro">Preview options without impacting your score.</span></div>
-        <div class="card" style="padding:14px"><strong>Consolidation‑first</strong><br><span class="micro">Simple path when eligible; instant fallback otherwise.</span></div>
-        <div class="card" style="padding:14px"><strong>No upfront fees</strong><br><span class="micro">Transparent pricing; compliance‑first.</span></div>
+    <!-- HOW IT WORKS (3 steps) -->
+    <section class="section" aria-label="How it works">
+      <div class="container grid3">
+        <div class="card pad"><strong>1) Check options</strong><br><span class="micro">60‑second form; no hard pull.</span></div>
+        <div class="card pad"><strong>2) See a plan</strong><br><span class="micro">Consolidation first; automatic pivot if needed.</span></div>
+        <div class="card pad"><strong>3) Start saving</strong><br><span class="micro">Specialist helps you lock in a path and timeline.</span></div>
+      </div>
+    </section>
+
+    <!-- FAQ PREVIEW (mirrors FAQPage JSON-LD) -->
+    <section class="section" aria-label="Common questions">
+      <div class="container">
+        <details class="card pad"><summary><strong>Do you charge upfront fees?</strong></summary><div class="micro">No. You’ll see transparent terms before enrollment.</div></details>
+        <details class="card pad" style="margin-top:10px"><summary><strong>Will checking my options hurt my credit?</strong></summary><div class="micro">No. We can pre‑qualify without a hard credit pull.</div></details>
+        <details class="card pad" style="margin-top:10px"><summary><strong>What happens if I don’t qualify for a consolidation loan?</strong></summary><div class="micro">We pivot to a hardship relief program automatically—no extra forms.</div></details>
+        <p style="margin-top:12px"><a class="btn btn-outline" href="/faq.html">See all FAQs</a></p>
       </div>
     </section>
   </main>
@@ -227,7 +249,7 @@
       var panel = document.getElementById('menuPanel');
       if(!btn || !panel) return;
       function closeMenu(){ panel.style.display='none'; btn.setAttribute('aria-expanded','false'); }
-      function openMenu(){ panel.style.display='flex'; btn.setAttribute('aria-expanded','true'); }
+      function openMenu(){ panel.style.display='flex'; btn.setAttribute='true'; btn.setAttribute('aria-expanded','true'); }
       btn.addEventListener('click', function(){ var open = panel.style.display === 'flex'; if(open) closeMenu(); else openMenu(); });
       document.addEventListener('click', function(e){ if(!panel.contains(e.target) && e.target !== btn && window.innerWidth <= 900){ closeMenu(); } });
       window.addEventListener('resize', function(){ if(window.innerWidth > 900){ panel.style.display='flex'; btn.setAttribute('aria-expanded','false'); } else { panel.style.display='none'; } });
