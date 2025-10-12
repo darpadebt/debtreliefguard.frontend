@@ -94,9 +94,10 @@ input:focus, select:focus { border-color: var(--brand-600); box-shadow: 0 0 0 4p
 .btn.ghost { background: #ecfeff; color: var(--brand); border: 1px solid #99f6e4; }  
 .btn:disabled { opacity: .6; cursor: not-allowed; }  
 
-.support { display: grid; gap: 10px; }  
-.kv { display: grid; grid-template-columns: 20px 1fr; gap: 8px; align-items: start; font-size: 14px; }  
-.kv svg { margin-top: 2px; }  
+.support { display: grid; gap: 10px; }
+.kv { display: grid; grid-template-columns: 20px 1fr; gap: 8px; align-items: start; font-size: 14px; }
+.kv svg { margin-top: 2px; }
+.support .kv > div { text-align: center; }  
 .small { font-size: 12px; color: var(--muted); }  
 .legal { font-size: 12px; color: var(--muted); margin-top: 8px; }  
 
@@ -286,15 +287,18 @@ footer { padding: 20px 18px 40px; color: var(--muted); font-size: 13px; }
   <aside class="card">  
     <div class="pad support">  
       <h2 style="margin:0 0 6px;">Why DebtReliefGuard?</h2>  
-      <div class="kv">  
-        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M5 13l4 4L19 7" stroke="currentColor" stroke-width="2" fill="none"/></svg>  
-        <div><strong><a href="/compare.us.html">Compare</a> No Commitment</strong> See options side by side, we offer easy to apply for debt relief/consolidation loans, hardship programs and more. We work with a network of over 25 lenders and offer a variety of options. Fill out the short survey, and find your key to becoming debt free today.</div>  
-      <div class="kv">  
-        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M5 13l4 4L19 7" stroke="currentColor" stroke-width="2" fill="none"/></svg>  
-        <div><strong><a href="/privacy.policy.index.html">Privacy</a>‑first intake.</strong> Step one collects only what’s needed to pre‑qualify. Full details happen after you preview.</div>  
-      <div class="kv">  
-        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M5 13l4 4L19 7" stroke="currentColor" stroke-width="2" fill="none"/></svg>  
-        <div><strong><a href="/terms.index.html">Transparent by design.</a></strong> FTC‑aligned, no upfront fees, and easy access to our <a href="/terms.index.html">Terms</a>.</div>  
+      <div class="kv">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M5 13l4 4L19 7" stroke="currentColor" stroke-width="2" fill="none"/></svg>
+        <div><strong><a href="/compare.us.html">Compare</a> No Commitment</strong> See options side by side, we offer easy to apply for debt relief/consolidation loans, hardship programs and more. We work with a network of over 25 lenders and offer a variety of options. Fill out the short survey, and find your key to becoming debt free today.</div>
+      </div>
+      <div class="kv">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M5 13l4 4L19 7" stroke="currentColor" stroke-width="2" fill="none"/></svg>
+        <div><strong><a href="/privacy.policy.index.html">Privacy</a>‑first intake.</strong> Step one collects only what’s needed to pre‑qualify. Full details happen after you preview.</div>
+      </div>
+      <div class="kv">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M5 13l4 4L19 7" stroke="currentColor" stroke-width="2" fill="none"/></svg>
+        <div><strong><a href="/terms.index.html">Transparent by design.</a></strong> FTC‑aligned, no upfront fees, and easy access to our <a href="/terms.index.html">Terms</a>.</div>
+      </div>  
       <hr style="border:none; border-top:1px solid #e2e8f0;" />      
     </div>  
   </aside>  
