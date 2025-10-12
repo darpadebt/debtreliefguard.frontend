@@ -6,40 +6,42 @@
   <meta name="description" content="Answer a few quick questions to see your debt relief options. No upfront fees, FTC‑aligned, privacy‑first." />  
   <meta name="robots" content="index,follow" />  
   <style>  
-    :root {  
-      --brand: #0f766e;   /* teal-700 */  
-      --brand-600: #0d9488; /* teal-600 */  
-      --ink: #0f172a;     /* slate-900 */  
-      --muted: #475569;   /* slate-600 */  
-      --bg: #f8fafc;      /* slate-50 */  
-      --card: #ffffff;  
-      --ring: rgba(13,148,136,.35);  
-      --ok: #16a34a;  
+    :root {
+      --brand: #0f766e;   /* teal-700 */
+      --brand-600: #0d9488; /* teal-600 */
+      --ink: #0f172a;     /* slate-900 */
+      --muted: #475569;   /* slate-600 */
+      --bg: #f8fafc;      /* slate-50 */
+      --card: #ffffff;
+      --ring: rgba(13,148,136,.35);
+      --ok: #16a34a;
+      --pad: clamp(16px, 2vw, 24px);
+      --max: 1200px;
+      --b: #e2e8f0;
+      --brand-ink: #065f5b;
     }  
     *, *::before, *::after { box-sizing: border-box; }  
     html, body { height: 100%; }  
     body { margin: 0; font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Ubuntu, Cantarell, Noto Sans, sans-serif; color: var(--ink); background: var(--bg); }  
     a { color: var(--brand); text-decoration: none; }  
     a:hover { text-decoration: underline; }
-    header { position: sticky; top: 0; z-index: 50; backdrop-filter: saturate(180%) blur(6px); background: rgba(255,255,255,.8); border-bottom: 1px solid #e2e8f0; }
-.wrap { max-width: 1100px; margin: 0 auto; padding: 14px 18px; }
-.nav { display: flex; align-items: center; gap: 18px; }
-.logo { display: flex; align-items: center; gap: 10px; font-weight: 800; letter-spacing: .2px; flex-shrink: 0; }
-.badge { font-size: 12px; font-weight: 600; color: inherit; white-space: nowrap; }
-
-.menu { margin-left: auto; position: relative; }
-.menu-btn { display: inline-flex; align-items: center; justify-content: center; width: 36px; height: 36px; border-radius: 999px; border: 1px solid #e2e8f0; background: #ffffff; color: var(--muted); cursor: pointer; transition: background .2s ease, color .2s ease, box-shadow .2s ease; }
-.menu-btn:hover, .menu-btn:focus-visible { background: #f8fafc; color: var(--brand); box-shadow: 0 0 0 3px var(--ring); outline: none; }
-.menu-panel { position: absolute; right: 0; top: calc(100% + 10px); min-width: 190px; display: none; flex-direction: column; background: #ffffff; border: 1px solid #e2e8f0; border-radius: 12px; box-shadow: 0 18px 36px rgba(15, 23, 42, 0.12); padding: 10px; z-index: 100; }
-.menu-panel.open { display: flex; }
-.menu-link { padding: 10px 12px; border-radius: 8px; color: var(--muted); font-weight: 600; }
-.menu-link:hover, .menu-link:focus-visible { background: #ecfeff; color: var(--brand); text-decoration: none; outline: none; }
-.menu-link[aria-current="page"] { background: #ecfeff; color: var(--brand); }
-
-@media (max-width: 640px) {
-  .menu { margin-left: 0; width: 100%; display: flex; justify-content: flex-end; }
-  .menu-panel { right: 12px; left: 12px; min-width: 0; }
-}  
+    header { position: sticky; top: 0; z-index: 50; background: #fff; border-bottom: 1px solid var(--b); }
+    .container { max-width: var(--max); margin: 0 auto; padding: 0 var(--pad); }
+    .wrap { max-width: 1100px; margin: 0 auto; padding: 14px 18px; }
+    .nav { display: flex; align-items: center; justify-content: space-between; padding: 12px var(--pad); }
+    .brand { display: flex; align-items: center; gap: 12px; }
+    .brand img { display: block; height: 72px; padding: 6px 20px; border-radius: 14px; background: #ecfdf5; border: 1px solid rgba(14,165,163,.3); box-shadow: 0 10px 26px rgba(6,95,91,.18); }
+    .menu { display: flex; gap: 18px; align-items: center; }
+    .menu a { font-weight: 600; color: var(--ink); }
+    .menu a[aria-current="page"] { color: var(--brand); text-decoration: underline; }
+    .hamburger { display: none; appearance: none; border: 1px solid var(--b); background: #fff; border-radius: 10px; padding: 8px 10px; }
+    .hamburger:focus { outline: 2px solid rgba(14,165,163,.35); }
+    #menuPanel { display: flex; gap: 18px; }
+    @media (max-width: 900px) {
+      .nav { padding: 12px var(--pad); }
+      #menuPanel { display: none; position: absolute; left: 0; right: 0; top: 64px; background: #fff; border-bottom: 1px solid var(--b); padding: 10px var(--pad); flex-direction: column; }
+      .hamburger { display: inline-block; }
+    }  
 
 .nav-rail { margin-left: auto; display: flex; align-items: center; gap: 8px; flex: 1; min-width: 0; }
 .nav-arrow { flex-shrink: 0; width: 34px; height: 34px; border-radius: 999px; border: 1px solid #e2e8f0; background: #ffffff; color: var(--muted); display: inline-flex; align-items: center; justify-content: center; cursor: pointer; transition: background .2s ease, color .2s ease; }
@@ -125,37 +127,31 @@ footer { padding: 20px 18px 40px; color: var(--muted); font-size: 13px; }
     }
   </script>
   </head>  
-<body>  
-  <header>  
-    <div class="wrap nav">  
-      <div class="logo">  
-        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M12 2l7 4v6c0 5-3.5 8-7 10-3.5-2-7-5-7-10V6l7-4z" stroke="currentColor" stroke-width="1.5" fill="none"/></svg>  
-        DebtReliefGuard  
-        <span class="badge">FTC‑aligned · No upfront fees</span>  
-      </div>  
-      <div class="menu">  
-        <button id="menuBtn" class="menu-btn" aria-label="Open menu" aria-expanded="false">  
-          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h12" stroke="currentColor" stroke-width="2"/></svg>  
-        </button>  
-        <nav id="menuPanel" class="menu-panel" aria-label="Primary">
-          <a class="menu-link" href="/">Home</a>
-          <a class="menu-link" href="/compare.us.html">Compare Options</a>
-          <a class="menu-link" href="/how.it.works.index.html">How It Works</a>
-          <a class="menu-link" href="/debt.relief.option.index.html">Debt Relief Options</a>
-          <a class="menu-link" href="/credit.card.relief.index.html">Credit Card Relief</a>
-          <a class="menu-link" href="/savings.calculator.html">Savings Calculator</a>
-          <a class="menu-link" href="/reviews.index.html">Reviews</a>
-          <a class="menu-link" href="/faq.index.html">FAQ</a>
-          <a class="menu-link" href="/geo-blocked.html">State Programs</a>
-          <a class="menu-link" href="/scam.warning.index.html">Scam Warning</a>
-          <a class="menu-link" href="/contact.index.html">Contact</a>
-          <a class="menu-link" href="/blog.index.html">Blog</a>
-          <a class="menu-link" href="/privacy.policy.index.html">Privacy Policy</a>
-          <a class="menu-link" href="/terms.index.html">Terms</a>
-        </nav>
-      </div>  
-    </div>  
-  </header>    <div class="wrap hero">  
+<body>
+  <header>
+    <div class="nav container" role="navigation" aria-label="Primary">
+      <a class="brand" href="/" aria-label="Gateway Financial Settlement Relief Home">
+        <img src="/images/gfsr-logo.svg" alt="Gateway Financial Settlement Relief logo" onerror="this.style.display='none'">
+      </a>
+      <button id="menuBtn" class="hamburger" aria-label="Open menu" aria-controls="menuPanel" aria-expanded="false">☰ Menu</button>
+      <nav id="menuPanel" class="menu" role="menu">
+        <a href="/" role="menuitem" aria-current="page">Home</a>
+        <a href="/credit.card.relief.index.html" role="menuitem">Credit Card Relief</a>
+        <a href="/debt.relief.option.index.html" role="menuitem">Debt Relief Options</a>
+        <a href="/compare.us.html" role="menuitem">Compare Us</a>
+        <a href="/faq.index.html" role="menuitem">FAQs</a>
+        <a href="/blog.index.html" role="menuitem">Blog</a>
+        <a href="/savings.calculator.html" role="menuitem">Savings Calculator</a>
+        <a href="/geo-blocked.html" role="menuitem">State Programs</a>
+        <a href="/scam.warning.index.html" role="menuitem">Scam Warning</a>
+        <a href="/contact.index.html" role="menuitem">Contact</a>
+        <a href="/privacy.policy.index.html" role="menuitem">Privacy Policy</a>
+        <a href="/terms.index.html" role="menuitem">Terms</a>
+        <a href="/#leadForm" role="menuitem" class="btn primary" style="color:#fff;">Check My Options</a>
+      </nav>
+    </div>
+  </header>
+  <div class="wrap hero">  
     <div class="grid">  
       <!-- LEFT: Multi‑step survey -->  
       <div class="card">  
@@ -318,9 +314,9 @@ footer { padding: 20px 18px 40px; color: var(--muted); font-size: 13px; }
       const $ = (s) => document.querySelector(s);  
       const $$ = (s) => Array.from(document.querySelectorAll(s));  
   
-      // menu toggle  
-      const menuBtn = $('#menuBtn');  
-      const menuPanel = $('#menuPanel');  
+      // menu toggle (match scam warning header)
+      const menuBtn = document.getElementById('menuBtn');
+      const menuPanel = document.getElementById('menuPanel');  
       if (menuBtn && menuPanel) {
         const menuLinks = Array.from(menuPanel.querySelectorAll('a'));
         const normalizePath = (value) => {
@@ -334,43 +330,70 @@ footer { padding: 20px 18px 40px; color: var(--muted); font-size: 13px; }
 
         const currentPath = normalizePath(location.pathname);
         menuLinks.forEach((link) => {
-          const linkPath = normalizePath(link.getAttribute('href'));
+          const href = link.getAttribute('href') || '';
+          if (href.includes('#')) return;
+          const linkPath = normalizePath(href);
           if (linkPath === currentPath) {
             link.setAttribute('aria-current', 'page');
           }
         });
 
-        const setMenuOpen = (open) => {
-          menuPanel.classList.toggle('open', open);
-          menuBtn.setAttribute('aria-expanded', open ? 'true' : 'false');
+        const closeMenu = () => {
+          if (window.innerWidth > 900) return;
+          menuPanel.style.display = 'none';
+          menuBtn.setAttribute('aria-expanded', 'false');
         };
 
+        const openMenu = () => {
+          menuPanel.style.display = 'flex';
+          menuBtn.setAttribute('aria-expanded', 'true');
+        };
+
+        const syncMenuForViewport = () => {
+          if (window.innerWidth > 900) {
+            menuPanel.style.display = 'flex';
+            menuBtn.setAttribute('aria-expanded', 'false');
+          } else {
+            menuPanel.style.display = 'none';
+            menuBtn.setAttribute('aria-expanded', 'false');
+          }
+        };
+        
+        syncMenuForViewport();
+        
         menuBtn.addEventListener('click', () => {
-          const next = !menuPanel.classList.contains('open');
-          setMenuOpen(next);
+          const isOpen = menuPanel.style.display === 'flex';
+          if (isOpen) {
+            closeMenu();
+          } else {
+            openMenu();
+          }
         });
 
         document.addEventListener('click', (event) => {
-          if (!menuPanel.classList.contains('open')) return;
+          if (window.innerWidth > 900) return;
           if (event.target === menuBtn || menuBtn.contains(event.target)) return;
           if (menuPanel.contains(event.target)) return;
-          setMenuOpen(false);
+          closeMenu();
         });
 
         menuLinks.forEach((link) => {
           link.addEventListener('click', () => {
-            if (!menuPanel.classList.contains('open')) return;
-            setMenuOpen(false);
-          }, { capture: true });
+            if (window.innerWidth > 900) return;
+            closeMenu();
+          });
         });
 
         document.addEventListener('keydown', (event) => {
           if (event.key !== 'Escape') return;
-          if (!menuPanel.classList.contains('open')) return;
-          setMenuOpen(false);
+          if (window.innerWidth > 900) return;
+          if (menuPanel.style.display !== 'flex') return;
+          closeMenu();
           menuBtn.focus();
         });
-      }  
+
+        window.addEventListener('resize', syncMenuForViewport);
+      }
   
       // progress bars  
       const bars = ['#s1','#s2','#s3','#s4','#s5','#s6'].map((id) => $(id));  
