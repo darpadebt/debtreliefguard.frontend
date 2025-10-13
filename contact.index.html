@@ -55,25 +55,28 @@
   </script>
 
   <style>
-    :root{ --bg:#ffffff; --ink:#0b1f16; --muted:#415a50; --brand:#0ea5a3; --brand-ink:#053d3a; --card:#f7faf9; --border:#e5eeeb; --ring:rgba(14,165,163,.25); --pad:clamp(16px,2vw,24px); --radius:16px; --max:1200px; --shadow:0 10px 30px rgba(0,0,0,.08);} 
+    :root{ --bg:#ffffff; --ink:#0b1f16; --muted:#415a50; --brand:#0ea5a3; --brand-600:#0d9488; --brand-ink:#053d3a; --card:#f7faf9; --border:#e5eeeb; --ring:rgba(14,165,163,.25); --pad:clamp(16px,2vw,24px); --radius:16px; --max:1200px; --shadow:0 10px 30px rgba(0,0,0,.08);} 
     *{box-sizing:border-box}
     html,body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.5 Inter,system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif}
     a{color:var(--brand);text-decoration:none}
     a:hover{text-decoration:underline}
     .container{max-width:var(--max);margin:0 auto;padding:0 var(--pad)}
 
-    header{position:sticky;top:0;z-index:50;background:var(--bg);border-bottom:1px solid var(--border)}
+    header{position:sticky;top:0;z-index:50;background:#fff;border-bottom:1px solid var(--border)}
     .nav{display:flex;align-items:center;justify-content:space-between;padding:12px var(--pad)}
     .brand{display:flex;align-items:center;gap:12px}
-    .brand img{height:34px;width:auto}
-    .brand .name{font-weight:800;letter-spacing:.2px}
+    .brand img{display:block;height:72px;padding:6px 20px;border-radius:14px;background:#ecfdf5;border:1px solid rgba(14,165,163,.3);box-shadow:0 10px 26px rgba(6,95,91,.18)}
     .menu{display:flex;gap:18px;align-items:center}
     .menu a{font-weight:600;color:var(--ink)}
     .menu a[aria-current="page"]{color:var(--brand);text-decoration:underline}
     .hamburger{display:none;appearance:none;border:1px solid var(--border);background:#fff;border-radius:10px;padding:8px 10px}
-    .hamburger:focus{outline:2px solid var(--ring)}
+    .hamburger:focus{outline:2px solid rgba(14,165,163,.35)}
     #menuPanel{display:flex;gap:18px}
-    @media (max-width: 900px){ #menuPanel{display:none;position:absolute;left:0;right:0;top:64px;background:#fff;border-bottom:1px solid var(--border);padding:10px var(--pad);flex-direction:column} .hamburger{display:inline-block} }
+    @media (max-width: 900px){
+      .nav{padding:12px var(--pad)}
+      #menuPanel{display:none;position:absolute;left:0;right:0;top:64px;background:#fff;border-bottom:1px solid var(--border);padding:10px var(--pad);flex-direction:column}
+      .hamburger{display:inline-block}
+    }
 
     .hero{padding:28px 0 10px;border-bottom:1px solid var(--border)}
     .hero h1{font-size:clamp(1.6rem,2.4vw,2.2rem);line-height:1.2;margin:.35rem 0 .5rem}
@@ -92,8 +95,9 @@
     .row{display:grid;grid-template-columns:1fr 1fr;gap:10px}
     @media (max-width:640px){.row{grid-template-columns:1fr}}
     .micro{font-size:.875rem;color:var(--muted)}
-    .btn{display:inline-block;padding:10px 16px;border-radius:12px;font-weight:700;border:1px solid var(--border);text-decoration:none}
-    .btn-primary{background:var(--brand);color:#fff;border-color:var(--brand)}
+    .btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;padding:12px 16px;border-radius:10px;font-weight:700;text-decoration:none;cursor:pointer;border:1px solid var(--border)}
+    .btn-primary{background:var(--brand);color:#fff;border:1px solid var(--brand)}
+    .btn.primary{background:linear-gradient(180deg,var(--brand-600),var(--brand));color:#fff;border:none}
     .btn-outline{background:#fff;color:var(--brand-ink)}
     .ok{color:#065f5b}
 
@@ -106,8 +110,7 @@
 <header>
   <div class="nav container" role="navigation" aria-label="Primary">
     <a class="brand" href="/" aria-label="Gateway Financial Settlement Relief Home">
-      <img src="/assets/logo.svg" alt="GFSR logo" onerror="this.style.display='none'">
-      <span class="name">Gateway Financial Settlement Relief</span>
+      <img src="/images/gfsr-logo.svg" alt="Gateway Financial Settlement Relief logo" onerror="this.style.display='none'">
     </a>
     <button id="menuBtn" class="hamburger" aria-label="Open menu" aria-controls="menuPanel" aria-expanded="false">☰ Menu</button>
     <nav id="menuPanel" class="menu" role="menu">
@@ -115,14 +118,15 @@
       <a href="/credit.card.relief.index.html" role="menuitem">Credit Card Relief</a>
       <a href="/debt.relief.option.index.html" role="menuitem">Debt Relief Options</a>
       <a href="/compare.us.html" role="menuitem">Compare Us</a>
-      <a href="/faq.html" role="menuitem">FAQs</a>
-      <a href="/blog/index.html" role="menuitem">Blog</a>
+      <a href="/faq.index.html" role="menuitem">FAQs</a>
+      <a href="/blog.index.html" role="menuitem">Blog</a>
       <a href="/savings.calculator.html" role="menuitem">Savings Calculator</a>
       <a href="/geo-blocked.html" role="menuitem">State Programs</a>
+      <a href="/scam.warning.index.html" role="menuitem">Scam Warning</a>
       <a href="/contact.index.html" role="menuitem" aria-current="page">Contact</a>
       <a href="/privacy.policy.index.html" role="menuitem">Privacy Policy</a>
       <a href="/terms.index.html" role="menuitem">Terms</a>
-      <a href="/#leadForm" role="menuitem" class="btn btn-primary">Check My Options</a>
+      <a href="/#leadForm" role="menuitem" class="btn primary" style="color:#fff;">Check My Options</a>
     </nav>
   </div>
 </header>
