@@ -164,12 +164,8 @@ footer { padding: 20px 18px 40px; color: var(--muted); font-size: 13px; }
         <div class="pad">  
           <h1>Quick consolidation loan survey. See if you qualify.</h1>  
           <p>Quick 30-second form. No hard credit check, No cost, No obligation.</p>  <div class="steps" aria-hidden="true">  
-        <div class="step"><span id="s1"></span></div>  
-        <div class="step"><span id="s2"></span></div>  
-        <div class="step"><span id="s3"></span></div>  
-        <div class="step"><span id="s4"></span></div>  
-        <div class="step"><span id="s5"></span></div>  
-        <div class="step"><span id="s6"></span></div>  
+        <div class="step"><span id="s1"></span></div>
+        <div class="step"><span id="s2"></span></div>
       </div>  
 
       <div id="alert" class="alert err" role="alert"></div>  
@@ -195,83 +191,36 @@ footer { padding: 20px 18px 40px; color: var(--muted); font-size: 13px; }
           </select>  
         </section>  
 
-        <!-- STEP 2: Type of debt (multi-select chips) -->  
-        <section class="step-pane" data-step="2" hidden>  
-          <label>Type of debt (pick all that apply)</label>  
-          <div class="choices" id="debt_types">  
-            <label class="chip"><input type="checkbox" value="credit_cards"><span>Credit cards</span></label>  
-            <label class="chip"><input type="checkbox" value="personal_loans"><span>Personal loans</span></label>  
-            <label class="chip"><input type="checkbox" value="medical_bills"><span>Medical bills</span></label>  
-            <label class="chip"><input type="checkbox" value="collections"><span>Collections</span></label>  
-            <label class="chip"><input type="checkbox" value="private_student_loans"><span>Private student loans</span></label>  
-          </div>  
-        </section>  
+        <!-- STEP 2: Contact (Name, Email, Phone) -->
+        <section class="step-pane" data-step="2" hidden>
+          <div class="row two">
+            <div>
+              <label for="full_name">First name, last name</label>
+              <input id="full_name" name="full_name" autocomplete="name" required placeholder="Jane Doe" />
+            </div>
+            <div>
+              <label for="email">Email</label>
+              <input id="email" name="email" type="email" autocomplete="email" required placeholder="you@example.com" />
+            </div>
+          </div>
+          <div class="row two">
+            <div>
+              <label for="phone">Mobile phone</label>
+              <input id="phone" name="phone" type="tel" inputmode="tel" autocomplete="tel" pattern="^[+]?\d[\d\s().-]{7,}$" title="Enter a valid phone number" required placeholder="(555) 123‑4567" />
+            </div>
+            <div>
+              <label for="zip">ZIP (optional)</label>
+              <input id="zip" name="zip" inputmode="numeric" autocomplete="postal-code" pattern="\d{5}" title="Enter a 5‑digit ZIP" placeholder="e.g., 34449" />
+            </div>
+          </div>
 
-        <!-- STEP 3: Payment status (single-select chips) -->  
-        <section class="step-pane" data-step="3" hidden>  
-          <label>How are payments going?</label>  
-          <div class="choices" id="pay_status">  
-            <label class="chip"><input type="radio" name="paying" value="current"><span>Current on payments</span></label>  
-            <label class="chip"><input type="radio" name="paying" value="min_only"><span>Only making minimums</span></label>  
-            <label class="chip"><input type="radio" name="paying" value="30_59"><span>30–59 days behind</span></label>  
-            <label class="chip"><input type="radio" name="paying" value="60_89"><span>60–89 days behind</span></label>  
-            <label class="chip"><input type="radio" name="paying" value="90_plus"><span>90+ days behind</span></label>  
-          </div>  
-        </section>  
-
-        <!-- STEP 4: Credit score range + dynamic note -->  
-        <section class="step-pane" data-step="4" hidden>  
-          <label>Credit score range</label>  
-          <div class="choices" id="credit_range">  
-            <label class="chip"><input type="radio" name="credit" value="720_plus"><span>720+</span></label>  
-            <label class="chip"><input type="radio" name="credit" value="660_719"><span>660–719</span></label>  
-            <label class="chip"><input type="radio" name="credit" value="600_659"><span>600–659</span></label>  
-            <label class="chip"><input type="radio" name="credit" value="501_599"><span>501–599</span></label>  
-            <label class="chip"><input type="radio" name="credit" value="500_or_below"><span>500 or below</span></label>  
-          </div>  
-          <p id="credit_msg" class="small" style="margin-top:8px; display:none;"></p>  
-        </section>  
-
-        <!-- STEP 5: Can you afford ~$250? -->  
-        <section class="step-pane" data-step="5" hidden>  
-          <label>If you qualified for a consolidation loan, could you comfortably afford around $250/month?</label>  
-          <div class="choices" id="afford_250">  
-            <label class="chip"><input type="radio" name="afford" value="yes"><span>Yes</span></label>  
-            <label class="chip"><input type="radio" name="afford" value="no"><span>No</span></label>  
-            <label class="chip"><input type="radio" name="afford" value="not_sure"><span>Not sure</span></label>  
-          </div>  
-        </section>  
-
-        <!-- STEP 6: Contact (Name, Email, Phone) -->  
-        <section class="step-pane" data-step="6" hidden>  
-          <div class="row two">  
-            <div>  
-              <label for="first">First name</label>  
-              <input id="first" name="first" autocomplete="given-name" required />  
-            </div>  
-            <div>  
-              <label for="email">Email</label>  
-              <input id="email" name="email" type="email" autocomplete="email" required placeholder="you@example.com" />  
-            </div>  
-          </div>  
-          <div class="row two">  
-            <div>  
-              <label for="phone">Mobile phone</label>  
-              <input id="phone" name="phone" type="tel" inputmode="tel" pattern="^[+]?\d[\d\s().-]{7,}$" title="Enter a valid phone number" required placeholder="(555) 123‑4567" />  
-            </div>  
-            <div>  
-              <label for="zip">ZIP (optional)</label>  
-              <input id="zip" name="zip" inputmode="numeric" pattern="\d{5}" title="Enter a 5‑digit ZIP" placeholder="e.g., 34449" />  
-            </div>  
-          </div>  
-
-          <label style="display:flex; gap:10px; align-items:start; font-weight:500; margin-top:12px;">  
+          <label style="display:flex; gap:10px; align-items:start; font-weight:500; margin-top:12px;">
             <input type="checkbox" id="terms" required />  
             <span>By submitting, you agree to our <a href="/privacy.policy.index.html">Privacy Policy</a> and <a href="/terms.index.html">Terms</a>. Standard call/SMS rates may apply. We never charge upfront fees.</span>
           </label>  
 
-          <button class="btn primary" id="submitBtn" type="submit" style="margin-top:12px;">Get My Options</button>  
-          <div id="ok" class="alert ok" role="status" style="display:none;margin-top:10px;">Thanks! If live, this would securely route to our lead router.</div>  
+          <button class="btn primary" id="submitBtn" type="submit" style="margin-top:12px;">Get My Options</button>
+          <div id="ok" class="alert ok" role="status" style="display:none;margin-top:10px;">Thanks! If live, this would securely route to our lead router.</div>
         </section>  
 
         <div class="row" style="margin-top:12px;">  
@@ -405,9 +354,10 @@ footer { padding: 20px 18px 40px; color: var(--muted); font-size: 13px; }
       }
   
       // progress bars  
-      const bars = ['#s1','#s2','#s3','#s4','#s5','#s6'].map((id) => $(id));  
-      const panes = $$('.step-pane');  
-      let step = 1; // 1..6  
+      const panes = $$('.step-pane');
+      const bars = panes.map((_, idx) => $('#s' + (idx + 1)));
+      const totalSteps = panes.length;
+      let step = 1; // 1..totalSteps  
   
       const alertBox = $('#alert');  
       const nextBtn = $('#nextBtn');  
@@ -424,9 +374,9 @@ footer { padding: 20px 18px 40px; color: var(--muted); font-size: 13px; }
   
       function setStep(n){  
         step = n; panes.forEach(p => p.hidden = Number(p.dataset.step) !== step);  
-        bars.forEach((b, i) => { if (!b) return; b.style.width = (i < step) ? '100%' : '0%'; });  
-        backBtn.disabled = step === 1;  
-        nextBtn.style.display = step === 6 ? 'none' : 'inline-flex';  
+        bars.forEach((b, i) => { if (!b) return; b.style.width = (i < step) ? '100%' : '0%'; });
+        backBtn.disabled = step === 1;
+        nextBtn.style.display = step === totalSteps ? 'none' : 'inline-flex';
       }  
   
       function showError(msg){ alertBox.textContent = msg; alertBox.style.display='block'; }  
@@ -439,44 +389,14 @@ footer { padding: 20px 18px 40px; color: var(--muted); font-size: 13px; }
           const debt = $('#debt_amount').value;  
           if (!debt) return 'Select your estimated unsecured debt.';  
         }  
-        if (step === 2) {  
-          const any = $$('#debt_types input:checked').length > 0;  
-          if (!any) return 'Pick at least one debt type.';  
-        }  
-        if (step === 3) {  
-          const any = $$('#pay_status input:checked').length > 0;  
-          if (!any) return 'Choose a payment status.';  
-        }  
-        if (step === 4) {  
-          const chosen = $('input[name="credit"]:checked');  
-          if (!chosen) return 'Choose your credit score range.';  
-        }  
-        if (step === 5) {  
-          const chosen = $('input[name="afford"]:checked');  
-          if (!chosen) return 'Select an answer.';  
-        }  
-        return '';  
-      }  
-  
-      // dynamic credit message  
-      $$('#credit_range input').forEach(el => {  
-        el.addEventListener('change', () => {  
-          const v = el.value; const msg = $('#credit_msg');  
-          if (!msg) return;  
-          msg.style.display = 'block';  
-          if (v === '500_or_below') {  
-            msg.textContent = 'Thanks—lower credit can still qualify for hardship or settlement options. We’ll tailor results accordingly.';  
-          } else {  
-            msg.textContent = 'You may be eligible for a consolidation loan depending on other factors. We’ll check alongside other options.';  
-          }  
-        });  
-      });  
-  
-      nextBtn.addEventListener('click', () => {  
-        const err = validateCurrent(); if (err) return showError(err);  
-        if (step < 6) setStep(step + 1);  
-      });  
-      backBtn.addEventListener('click', () => { if (step > 1) setStep(step - 1); clearError(); });  
+                return '';
+      }
+
+      nextBtn.addEventListener('click', () => {
+        const err = validateCurrent(); if (err) return showError(err);
+        if (step < totalSteps) setStep(step + 1);
+      });
+      backBtn.addEventListener('click', () => { if (step > 1) setStep(step - 1); clearError(); });
       setStep(1);  
   
       // submit handler  
@@ -484,22 +404,18 @@ footer { padding: 20px 18px 40px; color: var(--muted); font-size: 13px; }
         e.preventDefault(); clearError();  
   
         // basic end-step validation  
-        const first = $('#first'); const email = $('#email'); const phone = $('#phone'); const terms = $('#terms');  
-        if (!first.value.trim()) return showError('Please enter your first name.');  
-        if (!email.checkValidity()) return showError('Enter a valid email address.');  
-        if (!phone.checkValidity()) return showError('Please enter a valid phone number.');  
-        if (!terms.checked) return showError('Please agree to the terms to continue.');  
-  
-        const payload = {  
-          name: first.value.trim(),  
-          email: email.value.trim(),  
-          phone: phone.value.trim(),  
-          zip: ($('#zip')?.value || '').trim(),  
-          debt_amount: Number($('#debt_amount').value),  
-          debt_types: $$('#debt_types input:checked').map(i => i.value),  
-          payment_status: ($('input[name="paying"]:checked')||{}).value || null,  
-          credit: ($('input[name="credit"]:checked')||{}).value || null,  
-          afford_250: ($('input[name="afford"]:checked')||{}).value || null,  
+        const fullName = $('#full_name'); const email = $('#email'); const phone = $('#phone'); const terms = $('#terms');
+        if (!fullName.value.trim()) return showError('Please enter your first and last name.');
+        if (!email.checkValidity()) return showError('Enter a valid email address.');
+        if (!phone.checkValidity()) return showError('Please enter a valid phone number.');
+        if (!terms.checked) return showError('Please agree to the terms to continue.');
+
+        const payload = {
+          name: fullName.value.trim(),
+          email: email.value.trim(),
+          phone: phone.value.trim(),
+          zip: ($('#zip')?.value || '').trim(),
+          debt_amount: Number($('#debt_amount').value),
           consent: { terms: true },  
           hp: hp.value,  
           form_ts: Number(formTs.value),  
