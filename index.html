@@ -64,7 +64,8 @@
 }
     
 .hero { padding: 28px 18px 10px; }  
-.hero h1 { font-size: clamp(24px, 3vw + 16px, 38px); margin: 0 0 8px; line-height: 1.1; }  
+.hero h1 { font-size: clamp(24px, 3vw + 16px, 38px); margin: 0 0 8px; line-height: 1.1; }
+.survey-title { color: var(--brand); }  
 .hero p { color: var(--muted); margin: 0; }  
 
 .grid { display: grid; grid-template-columns: 1fr; gap: 18px; }  
@@ -160,9 +161,9 @@ footer { padding: 20px 18px 40px; color: var(--muted); font-size: 13px; }
   <div class="wrap hero">  
     <div class="grid">  
       <!-- LEFT: Multi‑step survey -->  
-      <div class="card survey-highlight">  
-        <div class="pad">  
-          <<h1>Debt Consolidation See If You Qualify.</h1>
+      <div class="card survey-highlight">
+        <div class="pad">
+          <h1 class="survey-title">Debt Consolidation See If You Qualify.</h1>
           <p>No hard credit check, No cost, No obligation. Quick and Easy.</p>
           <div class="steps" aria-hidden="true">  
         <div class="step"><span id="s1"></span></div>
@@ -220,13 +221,13 @@ footer { padding: 20px 18px 40px; color: var(--muted); font-size: 13px; }
             <span>By submitting, you agree to our <a href="/privacy.policy.index.html">Privacy Policy</a> and <a href="/terms.index.html">Terms</a>. Standard call/SMS rates may apply. We never charge upfront fees.</span>
           </label>  
 
-          <button class="btn primary" id="submitBtn" type="submit" style="margin-top:12px;">Get My Options</button>
+          <button class="btn primary" id="submitBtn" type="submit" style="margin-top:12px;">Unlock Options</button>
           <div id="ok" class="alert ok" role="status" style="display:none;margin-top:10px;">Thanks! If live, this would securely route to our lead router.</div>
         </section>  
 
         <div class="row" style="margin-top:12px;">  
           <button type="button" class="btn ghost" id="backBtn" disabled>Back</button>  
-          <button type="button" class="btn primary" id="nextBtn">Get Your Keys to Debt Relief</button>  
+          <button type="button" class="btn primary" id="nextBtn">Get Key to Debt Relief</button>  
         </div>  
       </form>  
 
