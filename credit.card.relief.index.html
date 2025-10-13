@@ -342,7 +342,8 @@
         const isOpen=menuPanel.style.display==='flex';
         if(isOpen){
           closeMenu();
-          closeMenu();
+          }else{
+          openMenu();
         }
       });
 
@@ -351,8 +352,6 @@
         if(event.target===menuBtn||menuBtn.contains(event.target)) return;
         if(menuPanel.contains(event.target)) return;
         closeMenu();
-        }else{
-          openMenu();
       });
 
       menuLinks.forEach((link)=>{
