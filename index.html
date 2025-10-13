@@ -70,7 +70,12 @@
 .grid { display: grid; grid-template-columns: 1fr; gap: 18px; }  
 @media (min-width: 900px) { .grid { grid-template-columns: 1.1fr .9fr; align-items: start; } }  
 
-.card { background: var(--card); border: 1px solid #e2e8f0; border-radius: 14px; box-shadow: 0 8px 26px rgba(2,6,23,0.06); }  
+.card { background: var(--card); border: 1px solid #e2e8f0; border-radius: 14px; box-shadow: 0 8px 26px rgba(2,6,23,0.06); }
+.card.survey-highlight {
+  background: radial-gradient(circle at 20% 20%, #fff9f1 0%, #fff3e0 55%, #ffe7c7 100%);
+  border-color: rgba(249,115,22,.25);
+  box-shadow: 0 18px 46px rgba(249,115,22,.18);
+}  
 .card .pad { padding: 16px; }  
 
 .steps { display: flex; gap: 8px; align-items: center; margin-bottom: 14px; }  
@@ -155,7 +160,7 @@ footer { padding: 20px 18px 40px; color: var(--muted); font-size: 13px; }
   <div class="wrap hero">  
     <div class="grid">  
       <!-- LEFT: Multi‑step survey -->  
-      <div class="card">  
+      <div class="card survey-highlight">  
         <div class="pad">  
           <h1>Quick consolidation loan survey. See if you qualify.</h1>  
           <p>Quick 30-second form. No hard credit check, No cost, No obligation.</p>  <div class="steps" aria-hidden="true">  
