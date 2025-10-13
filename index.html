@@ -116,7 +116,8 @@ input:focus, select:focus { border-color: var(--brand-600); box-shadow: 0 0 0 4p
 
 .btn { display: inline-flex; align-items: center; justify-content: center; gap: 8px; cursor: pointer; padding: 12px 16px; border-radius: 10px; border: none; font-weight: 700; }  
 .btn.primary { background: linear-gradient(180deg, var(--brand-600), var(--brand)); color: white; }
-#nextBtn { background: #3CB371; }  
+#nextBtn { background: #3CB371; }
+#submitBtn { background: #3CB371; }  
 .btn.ghost { background: #3CB371; color: var(--brand); border: 1px solid #99f6e4; }  
 .btn:disabled { opacity: .6; cursor: not-allowed; }  
 
@@ -245,10 +246,10 @@ footer { padding: 20px 18px 40px; color: var(--muted); font-size: 13px; }
           <div id="ok" class="alert ok" role="status" style="display:none;margin-top:10px;">Thanks! If live, this would securely route to our lead router.</div>
         </section>  
 
-        <div class="row" style="margin-top:12px;">  
-          <button type="button" class="btn ghost" id="backBtn" disabled>Back</button>  
-          <button type="button" class="btn primary" id="nextBtn">Get My Keys to Debt Relief</button>  
-        </div>  
+        <div class="row" style="margin-top:12px;">
+          <button type="button" class="btn primary" id="nextBtn">Get My Keys to Debt Relief</button>
+        </div>
+      </form>  
       </form>  
 
       <p class="legal">FTC alignment: We do not charge upfront fees for debt relief services. Options and eligibility vary by state and creditor.  
@@ -383,7 +384,6 @@ footer { padding: 20px 18px 40px; color: var(--muted); font-size: 13px; }
   
       const alertBox = $('#alert');  
       const nextBtn = $('#nextBtn');  
-      const backBtn = $('#backBtn');  
   
       const form = $('#leadForm');  
       const formTs = $('#form_ts');  
@@ -397,9 +397,8 @@ footer { padding: 20px 18px 40px; color: var(--muted); font-size: 13px; }
       function setStep(n){  
         step = n; panes.forEach(p => p.hidden = Number(p.dataset.step) !== step);  
         bars.forEach((b, i) => { if (!b) return; b.style.width = (i < step) ? '100%' : '0%'; });
-        backBtn.disabled = step === 1;
         nextBtn.style.display = step === totalSteps ? 'none' : 'inline-flex';
-      }  
+      }
   
       function showError(msg){ alertBox.textContent = msg; alertBox.style.display='block'; }  
       function clearError(){ alertBox.textContent=''; alertBox.style.display='none'; }  
@@ -418,7 +417,6 @@ footer { padding: 20px 18px 40px; color: var(--muted); font-size: 13px; }
         const err = validateCurrent(); if (err) return showError(err);
         if (step < totalSteps) setStep(step + 1);
       });
-      backBtn.addEventListener('click', () => { if (step > 1) setStep(step - 1); clearError(); });
       setStep(1);  
   
       // submit handler  
