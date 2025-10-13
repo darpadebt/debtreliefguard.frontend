@@ -54,7 +54,7 @@
 
   <style>
     :root{
-      --bg:#ffffff; --ink:#0b1f16; --muted:#415a50; --brand:#0ea5a3; --brand-ink:#053d3a;
+      --bg:#ffffff; --ink:#0b1f16; --muted:#415a50; --brand:#0ea5a3; --brand-ink:#053d3a; --brand-600:#0d9488;
       --card:#f7faf9; --border:#e5eeeb; --ring:rgba(14,165,163,.25);
       --pad:clamp(16px, 2vw, 24px);
       --radius:16px; --max:1200px; --shadow:0 10px 30px rgba(0,0,0,.08);
@@ -71,11 +71,12 @@
     header{position:sticky;top:0;z-index:50;background:var(--bg);border-bottom:1px solid var(--border)}
     .nav{display:flex;align-items:center;justify-content:space-between;padding:12px var(--pad)}
     .brand{display:flex;align-items:center;gap:12px}
-    .brand img{height:34px;width:auto}
-    .brand .name{font-weight:800;letter-spacing:.2px}
+    .brand img{display:block;height:72px;padding:6px 20px;border-radius:14px;background:#ecfdf5;border:1px solid rgba(14,165,163,.3);box-shadow:0 10px 26px rgba(6,95,91,.18)}
     .menu{display:flex;gap:18px;align-items:center}
     .menu a{font-weight:600;color:var(--ink)}
     .menu a[aria-current="page"]{color:var(--brand);text-decoration:underline}
+    header .menu .btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;padding:12px 16px;border-radius:10px;border:none;font-weight:700;background:linear-gradient(180deg,var(--brand-600),var(--brand));color:#fff}
+    header .menu .btn.primary{background:linear-gradient(180deg,var(--brand-600),var(--brand));color:#fff}
     .hamburger{display:none;appearance:none;border:1px solid var(--border);background:#fff;border-radius:10px;padding:8px 10px}
     .hamburger:focus{outline:2px solid var(--ring)}
     #menuPanel{display:flex;gap:18px}
@@ -124,8 +125,7 @@
   <header>
     <div class="nav container" role="navigation" aria-label="Primary">
       <a class="brand" href="/" aria-label="Gateway Financial Settlement Relief Home">
-        <img src="/assets/logo.svg" alt="GFSR logo" onerror="this.style.display='none'">
-        <span class="name">Gateway Financial Settlement Relief</span>
+        <img src="/images/gfsr-logo.svg" alt="Gateway Financial Settlement Relief logo" onerror="this.style.display='none'">
       </a>
 
       <button id="menuBtn" class="hamburger" aria-label="Open menu" aria-controls="menuPanel" aria-expanded="false">
@@ -137,9 +137,15 @@
         <a href="/credit.card.relief.index.html" role="menuitem" aria-current="page">Credit Card Relief</a>
         <a href="/debt.relief.option.index.html" role="menuitem">Debt Relief Options</a>
         <a href="/compare.us.html" role="menuitem">Compare Us</a>
-        <a href="/faq.html" role="menuitem">FAQs</a>
-        <a href="/blog/index.html" role="menuitem">Blog</a>
-        <a href="/#leadForm" role="menuitem" class="btn btn-primary">Check My Options</a>
+        <a href="/faq.index.html" role="menuitem">FAQs</a>
+        <a href="/blog.index.html" role="menuitem">Blog</a>
+        <a href="/savings.calculator.html" role="menuitem">Savings Calculator</a>
+        <a href="/geo-blocked.html" role="menuitem">State Programs</a>
+        <a href="/scam.warning.index.html" role="menuitem">Scam Warning</a>
+        <a href="/contact.index.html" role="menuitem">Contact</a>
+        <a href="/privacy.policy.index.html" role="menuitem">Privacy Policy</a>
+        <a href="/terms.index.html" role="menuitem">Terms</a>
+        <a href="/#leadForm" role="menuitem" class="btn primary">Check My Options</a>
       </nav>
     </div>
   </header>
@@ -285,28 +291,86 @@
 
     // Hamburger toggle (matches homepage behavior)
     (function(){
-      var btn = document.getElementById('menuBtn');
-      var panel = document.getElementById('menuPanel');
-      if(!btn || !panel) return;
+      const menuBtn=document.getElementById('menuBtn');
+      const menuPanel=document.getElementById('menuPanel');
+      if(!menuBtn||!menuPanel) return;
 
-      function closeMenu(){ panel.style.display='none'; btn.setAttribute('aria-expanded','false'); }
-      function openMenu(){ panel.style.display='flex'; btn.setAttribute('aria-expanded','true'); }
+      const menuLinks=Array.from(menuPanel.querySelectorAll('a'));
+      const normalizePath=(value)=>{
+        const url=new URL(value,location.origin);
+        let path=url.pathname;
+        if(path.endsWith('.html')) path=path.slice(0,-'.html'.length);
+        if(path.endsWith('.index')) path=path.slice(0,-'.index'.length);
+        if(path!=='/'&&path.endsWith('/')) path=path.slice(0,-1);
+        return path||'/';
+      };
 
-      btn.addEventListener('click', function(){
-        var open = panel.style.display === 'flex';
-        if(open) closeMenu(); else openMenu();
+      const currentPath=normalizePath(location.pathname);
+      menuLinks.forEach((link)=>{
+        const href=link.getAttribute('href')||'';
+        if(href.includes('#')) return;
+        const linkPath=normalizePath(href);
+        if(linkPath===currentPath){
+          link.setAttribute('aria-current','page');
+        }
       });
 
-      document.addEventListener('click', function(e){
-        if(!panel.contains(e.target) && e.target !== btn && window.innerWidth <= 900){
+      const closeMenu=()=>{
+        if(window.innerWidth>900) return;
+        menuPanel.style.display='none';
+        menuBtn.setAttribute('aria-expanded','false');
+      };
+
+      const openMenu=()=>{
+        menuPanel.style.display='flex';
+        menuBtn.setAttribute('aria-expanded','true');
+      };
+
+      const syncMenuForViewport=()=>{
+        if(window.innerWidth>900){
+          menuPanel.style.display='flex';
+          menuBtn.setAttribute('aria-expanded','false');
+        }else{
+          menuPanel.style.display='none';
+          menuBtn.setAttribute('aria-expanded','false');
+        }
+      };
+
+      syncMenuForViewport();
+      
+      menuBtn.addEventListener('click',()=>{
+        const isOpen=menuPanel.style.display==='flex';
+        if(isOpen){
+          closeMenu();
           closeMenu();
         }
       });
 
-      window.addEventListener('resize', function(){
-        if(window.innerWidth > 900){ panel.style.display='flex'; btn.setAttribute('aria-expanded','false'); }
-        else { panel.style.display='none'; }
+      document.addEventListener('click',(event)=>{
+        if(window.innerWidth>900) return;
+        if(event.target===menuBtn||menuBtn.contains(event.target)) return;
+        if(menuPanel.contains(event.target)) return;
+        closeMenu();
+        }else{
+          openMenu();
       });
+
+      menuLinks.forEach((link)=>{
+        link.addEventListener('click',()=>{
+          if(window.innerWidth>900) return;
+          closeMenu();
+        });
+      });
+
+      document.addEventListener('keydown',(event)=>{
+        if(event.key!=='Escape') return;
+        if(window.innerWidth>900) return;
+        if(menuPanel.style.display!=='flex') return;
+        closeMenu();
+        menuBtn.focus();
+      });
+
+      window.addEventListener('resize',syncMenuForViewport);
     })();
   </script>
 </body>
