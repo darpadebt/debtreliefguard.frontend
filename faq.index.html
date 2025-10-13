@@ -59,18 +59,17 @@
   </script>
 
   <style>
-    :root{ --bg:#ffffff; --ink:#0b1f16; --muted:#415a50; --brand:#0ea5a3; --brand-ink:#053d3a; --card:#f7faf9; --border:#e5eeeb; --ring:rgba(14,165,163,.25); --pad:clamp(16px,2vw,24px); --radius:16px; --max:1200px; --shadow:0 10px 30px rgba(0,0,0,.08);} 
+    :root{ --bg:#ffffff; --ink:#0b1f16; --muted:#415a50; --brand:#0ea5a3; --brand-600:#0d9488; --brand-ink:#053d3a; --card:#f7faf9; --border:#e5eeeb; --ring:rgba(14,165,163,.25); --pad:clamp(16px,2vw,24px); --radius:16px; --max:1200px; --shadow:0 10px 30px rgba(0,0,0,.08);}
     *{box-sizing:border-box}
     html,body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.5 Inter,system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif}
     a{color:var(--brand);text-decoration:none}
     a:hover{text-decoration:underline}
     .container{max-width:var(--max);margin:0 auto;padding:0 var(--pad)}
     .micro{font-size:.875rem;color:var(--muted)}
-    header{position:sticky;top:0;z-index:50;background:var(--bg);border-bottom:1px solid var(--border)}
+    header{position:sticky;top:0;z-index:50;background:#fff;border-bottom:1px solid var(--border)}
     .nav{display:flex;align-items:center;justify-content:space-between;padding:12px var(--pad)}
     .brand{display:flex;align-items:center;gap:12px}
-    .brand img{height:34px;width:auto}
-    .brand .name{font-weight:800;letter-spacing:.2px}
+    .brand img{display:block;height:72px;padding:6px 20px;border-radius:14px;background:#ecfdf5;border:1px solid rgba(14,165,163,.3);box-shadow:0 10px 26px rgba(6,95,91,.18)}
     .menu{display:flex;gap:18px;align-items:center}
     .menu a{font-weight:600;color:var(--ink)}
     .menu a[aria-current="page"]{color:var(--brand);text-decoration:underline}
@@ -83,9 +82,9 @@
     .hero h1{font-size:clamp(1.6rem,2.4vw,2.2rem);line-height:1.2;margin:.35rem 0 .5rem}
     .hero .sub{max-width:860px;color:var(--muted)}
     .hero-ctas{display:flex;gap:12px;margin-top:10px;flex-wrap:wrap}
-    .btn{display:inline-block;padding:10px 16px;border-radius:12px;font-weight:700;border:1px solid var(--border);text-decoration:none}
-    .btn-primary{background:var(--brand);color:#fff;border-color:var(--brand)}
-    .btn-outline{background:#fff;color:var(--brand-ink)}
+    .btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;padding:12px 16px;border-radius:12px;font-weight:700;border:1px solid var(--border);background:#fff;color:var(--brand-ink);text-decoration:none}
+    .btn.btn-primary,.btn.primary{background:linear-gradient(180deg,var(--brand-600),var(--brand));color:#fff;border:none}
+    .btn.btn-outline{background:#fff;color:var(--brand-ink)}
 
     details{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);margin-top:12px;padding:16px;box-shadow:var(--shadow)}
     summary{cursor:pointer;font-weight:600}
@@ -97,8 +96,7 @@
   <header>
     <div class="nav container" role="navigation" aria-label="Primary">
       <a class="brand" href="/" aria-label="Gateway Financial Settlement Relief Home">
-        <img src="/assets/logo.svg" alt="GFSR logo" onerror="this.style.display='none'">
-        <span class="name">Gateway Financial Settlement Relief</span>
+        <img src="/images/gfsr-logo.svg" alt="Gateway Financial Settlement Relief logo" onerror="this.style.display='none'">
       </a>
       <button id="menuBtn" class="hamburger" aria-label="Open menu" aria-controls="menuPanel" aria-expanded="false">☰ Menu</button>
       <nav id="menuPanel" class="menu" role="menu">
@@ -106,9 +104,15 @@
         <a href="/credit.card.relief.index.html" role="menuitem">Credit Card Relief</a>
         <a href="/debt.relief.option.index.html" role="menuitem">Debt Relief Options</a>
         <a href="/compare.us.html" role="menuitem">Compare Us</a>
-        <a href="/faq.html" role="menuitem" aria-current="page">FAQs</a>
-        <a href="/blog/index.html" role="menuitem">Blog</a>
-        <a href="/#leadForm" role="menuitem" class="btn btn-primary">Check My Options</a>
+        <a href="/faq.index.html" role="menuitem" aria-current="page">FAQs</a>
+        <a href="/blog.index.html" role="menuitem">Blog</a>
+        <a href="/savings.calculator.html" role="menuitem">Savings Calculator</a>
+        <a href="/geo-blocked.html" role="menuitem">State Programs</a>
+        <a href="/scam.warning.index.html" role="menuitem">Scam Warning</a>
+        <a href="/contact.index.html" role="menuitem">Contact</a>
+        <a href="/privacy.policy.index.html" role="menuitem">Privacy Policy</a>
+        <a href="/terms.index.html" role="menuitem">Terms</a>
+        <a href="/#leadForm" role="menuitem" class="btn primary" style="color:#fff;">Check My Options</a>
       </nav>
     </div>
   </header>
@@ -147,8 +151,84 @@
   </footer>
 
   <script>
-    (function(){var y=document.getElementById('y'); if(y){ y.textContent=new Date().getFullYear(); }})();
-    (function(){var btn=document.getElementById('menuBtn'); var panel=document.getElementById('menuPanel'); if(!btn||!panel)return; function closeMenu(){panel.style.display='none';btn.setAttribute('aria-expanded','false');} function openMenu(){panel.style.display='flex';btn.setAttribute('aria-expanded','true');} btn.addEventListener('click',function(){var open=panel.style.display==='flex';if(open)closeMenu();else openMenu();}); document.addEventListener('click',function(e){if(!panel.contains(e.target)&&e.target!==btn&&window.innerWidth<=900){closeMenu();}}); window.addEventListener('resize',function(){if(window.innerWidth>900){panel.style.display='flex';btn.setAttribute('aria-expanded','false');}else{panel.style.display='none';}});})();
+    (function(){
+      var menuBtn=document.getElementById('menuBtn');
+      var menuPanel=document.getElementById('menuPanel');
+      if(!menuBtn||!menuPanel)return;
+
+      var menuLinks=Array.prototype.slice.call(menuPanel.querySelectorAll('a'));
+      var normalizePath=function(value){
+        try{
+          var url=new URL(value,location.origin);
+          var path=url.pathname;
+          if(path.slice(-5)==='.html'){path=path.slice(0,-5);} 
+          if(path.slice(-6)==='.index'){path=path.slice(0,-6);} 
+          if(path!=='/'&&path.slice(-1)==='/'){path=path.slice(0,-1);} 
+          return path||'/';
+        }catch(e){return value;}
+      };
+
+      var currentPath=normalizePath(location.pathname);
+      menuLinks.forEach(function(link){
+        var href=link.getAttribute('href')||'';
+        if(href.indexOf('#')!==-1)return;
+        if(normalizePath(href)===currentPath){
+          link.setAttribute('aria-current','page');
+        }
+      });
+
+      var closeMenu=function(){
+        if(window.innerWidth>900)return;
+        menuPanel.style.display='none';
+        menuBtn.setAttribute('aria-expanded','false');
+      };
+
+      var openMenu=function(){
+        menuPanel.style.display='flex';
+        menuBtn.setAttribute('aria-expanded','true');
+      };
+
+      var syncMenu=function(){
+        if(window.innerWidth>900){
+          menuPanel.style.display='flex';
+          menuBtn.setAttribute('aria-expanded','false');
+        }else{
+          menuPanel.style.display='none';
+          menuBtn.setAttribute('aria-expanded','false');
+        }
+      };
+
+      syncMenu();
+
+      menuBtn.addEventListener('click',function(){
+        var isOpen=menuPanel.style.display==='flex';
+        if(isOpen){closeMenu();}else{openMenu();}
+      });
+
+      document.addEventListener('click',function(event){
+        if(window.innerWidth>900)return;
+        if(event.target===menuBtn||menuBtn.contains(event.target))return;
+        if(menuPanel.contains(event.target))return;
+        closeMenu();
+      });
+
+      menuLinks.forEach(function(link){
+        link.addEventListener('click',function(){
+          if(window.innerWidth>900)return;
+          closeMenu();
+        });
+      });
+
+      document.addEventListener('keydown',function(event){
+        if(event.key!=='Escape')return;
+        if(window.innerWidth>900)return;
+        if(menuPanel.style.display!=='flex')return;
+        closeMenu();
+        menuBtn.focus();
+      });
+
+      window.addEventListener('resize',syncMenu);
+    })();
   </script>
 </body>
 </html>
