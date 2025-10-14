@@ -43,31 +43,34 @@
     :root{
       --bg:#0b1220; --card:#0f1730; --ink:#e6ecf8; --muted:#9fb1d6;
       --brand:#0a5cff; --brand2:#072a86; --cta:#0a5cff; --ok:#2ecc71;
-      --sitemap-h:52px; --callbar-h:0px; --max:1080px;
+      --callbar-h:0px; --max:1080px; --border:#e2e8f0;
     }
     *{box-sizing:border-box}
     html,body{margin:0;padding:0;background:var(--bg);color:var(--ink);font:16px/1.55 system-ui,-apple-system,Segoe UI,Roboto,Ubuntu,"Helvetica Neue",Arial;overflow-x:hidden}
     a{color:#cfe0ff;text-decoration:none}
     a:hover{opacity:.95;text-decoration:underline}
     .sr-only{position:absolute;width:1px;height:1px;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}
-
-    /* Top header (match How It Works layout) */
-    header.top{position:sticky;top:0;z-index:60;background:rgba(11,18,32,.92);backdrop-filter:blur(8px);border-bottom:1px solid rgba(255,255,255,.06)}
+    
     .wrap{max-width:var(--max);margin:0 auto;padding:0 16px}
-    .row{display:flex;align-items:center;gap:10px;padding:10px 0}
-    .brand{display:flex;align-items:center;gap:8px;font-weight:800;color:#fff;text-decoration:none}
-    .logo{display:inline-flex;align-items:center;justify-content:center;width:28px;height:28px;border-radius:8px;background:linear-gradient(180deg,var(--brand),var(--brand2));font-size:12px}
-    nav.pills{display:flex;gap:8px;margin-left:8px}
-    nav.pills .btn{scroll-snap-align:center}
-    nav.pills::-webkit-scrollbar{display:none}
-    .btn{display:inline-flex;align-items:center;gap:8px;border:0;border-radius:999px;padding:8px 14px;font-weight:800;cursor:pointer;text-decoration:none}
+    .btn{display:inline-flex;align-items:center;gap:8px;border:0;border-radius:999px;padding:10px 16px;font-weight:800;cursor:pointer;text-decoration:none}
     .btn.ghost{background:transparent;color:#dbe6ff;border:1px solid rgba(255,255,255,.15)}
     .btn.primary{background:linear-gradient(180deg,var(--brand),var(--brand2));color:white;box-shadow:0 6px 18px rgba(10,92,255,.35)}
-    .call{margin-left:auto}
 
-    .ftc{border-top:1px solid rgba(255,255,255,.06);font-weight:700;color:#cfe0ff;background:#0c1b3d}
-    .ftc .row{display:flex;gap:8px;align-items:center}
-    .dot{width:7px;height:7px;border-radius:999px;background:#22c55e;display:inline-block}
+    .site-header{position:sticky;top:0;z-index:60;background:#fff;border-bottom:1px solid var(--border)}
+    .site-header .nav{display:flex;align-items:center;justify-content:space-between;padding:12px 16px;position:relative}
+    .site-header .container{max-width:var(--max);margin:0 auto;width:100%;padding:0}
+    .site-header .brand{display:flex;align-items:center;gap:12px}
+    .site-header .brand img{display:block;height:72px;padding:6px 20px;border-radius:14px;background:#ecfdf5;border:1px solid rgba(14,165,163,.3);box-shadow:0 10px 26px rgba(6,95,91,.18)}
+    .site-header .hamburger{display:none;appearance:none;border:1px solid var(--border);background:#fff;border-radius:10px;padding:8px 10px}
+    .site-header .hamburger:focus{outline:2px solid rgba(14,165,163,.35)}
+    .site-header #menuPanel{display:flex;gap:18px;align-items:center}
+    .site-header .menu a{font-weight:600;color:#0f172a}
+    .site-header .menu a[aria-current="page"]{color:#0d9488;text-decoration:underline}
+    @media (max-width:900px){
+      .site-header .nav{padding:12px 16px}
+      .site-header #menuPanel{display:none;position:absolute;left:0;right:0;top:100%;background:#fff;border-bottom:1px solid var(--border);padding:10px 16px 16px;flex-direction:column;gap:12px}
+      .site-header .hamburger{display:inline-flex;align-items:center;justify-content:center}
+    }
 
     /* Main */
     main{max-width:var(--max);margin:0 auto;padding:14px 16px 90px}
@@ -103,47 +106,40 @@
     .mobile-est{background:var(--cta);color:#fff}
     @media (min-width:769px){.mobile-bar{display:none}}
 
-    /* Bottom 5‑pill sitemap */
-    footer.sticky-menu{position:fixed;left:0;right:0;bottom:calc(var(--callbar-h) + env(safe-area-inset-bottom));background:#003a84;color:#fff;border-top:2px solid #2563eb;height:var(--sitemap-h);display:flex;align-items:center;z-index:9997}
-    @media(min-width:769px){footer.sticky-menu{bottom:0}}
-    footer.sticky-menu nav{display:flex;gap:10px;overflow-x:auto;white-space:nowrap;padding:0 .75rem;width:100%;align-items:center;scrollbar-width:none;scroll-snap-type:x mandatory}
-    footer.sticky-menu nav::-webkit-scrollbar{display:none}
-    footer.sticky-menu nav a{scroll-snap-align:center}
-    footer.sticky-menu nav a{color:#ffdd00;text-decoration:none;padding:.35rem .55rem;border-radius:6px;font-weight:800;font-size:.92rem;flex:0 0 auto}
-    footer.sticky-menu nav a:hover{background:rgba(255,255,255,.1)}
-    .navwrap{display:grid;grid-template-columns:auto 1fr auto;align-items:center;gap:6px}
-    .nav-arrow{background:transparent;border:1px solid rgba(255,255,255,.18);color:#dbe6ff;border-radius:10px;padding:6px 8px;cursor:pointer}
-    .nav-arrow:focus{outline:2px solid #2563eb;outline-offset:2px}
-    .scroller{display:flex;gap:8px;overflow-x:auto;white-space:nowrap;scrollbar-width:none;scroll-snap-type:x mandatory}
-    .scroller::-webkit-scrollbar{display:none}
   </style>
 </head>
 <body>
   <!-- Accessible skip -->
   <a href="#main" class="sr-only">Skip to content</a>
 
-  <!-- ===== Unified Header (5-pill nav) ===== -->
-  <header class="top" role="banner">
-    <div class="wrap"><div class="row">
-      <a class="brand" href="/"><span class="logo">DRG</span><span>Debt Relief Guard</span></a>
-      <div class="navwrap" role="navigation" aria-label="Primary">
-        <button class="nav-arrow prev" aria-label="Scroll left" type="button">◀</button>
-        <nav class="pills scroller" tabindex="0">
-          <a class="btn ghost" href="/">Home</a>
-          <a class="btn ghost" href="/how.it.works.index.html">How It Works</a>
-          <a class="btn ghost" href="/faq.index.html">FAQ</a>
-          <a class="btn ghost" href="/geo-blocked.html">State Programs</a>
-          <a class="btn ghost" href="/blog.index.html" aria-current="page">Blog</a>
-        </nav>
-        <button class="nav-arrow next" aria-label="Scroll right" type="button">▶</button>
-      </div>
-      <div class="call"><a class="btn primary" href="tel:+18884377141" aria-label="Call now: 888-437-7141">Call</a></div>
-    </div></div>
+  <!-- ===== Site Header ===== -->
+  <header class="site-header" role="banner">
+    <div class="nav container" role="navigation" aria-label="Primary">
+      <a class="brand" href="/" aria-label="Gateway Financial Settlement Relief Home">
+        <img src="/images/gfsr-logo.svg" alt="Gateway Financial Settlement Relief logo" onerror="this.style.display='none'">
+      </a>
+      <button id="menuBtn" class="hamburger" aria-label="Open menu" aria-controls="menuPanel" aria-expanded="false">☰ Menu</button>
+      <nav id="menuPanel" class="menu" role="menu">
+        <a href="/" role="menuitem">Home</a>
+        <a href="/credit.card.relief.index.html" role="menuitem">Credit Card Relief</a>
+        <a href="/debt.relief.option.index.html" role="menuitem">Debt Relief Options</a>
+        <a href="/compare.us.html" role="menuitem">Compare Us</a>
+        <a href="/faq.index.html" role="menuitem">FAQs</a>
+        <a href="/blog.index.html" role="menuitem" aria-current="page">Blog</a>
+        <a href="/savings.calculator.html" role="menuitem">Savings Calculator</a>
+        <a href="/geo-blocked.html" role="menuitem">State Programs</a>
+        <a href="/scam.warning.index.html" role="menuitem">Scam Warning</a>
+        <a href="/contact.index.html" role="menuitem">Contact</a>
+        <a href="/privacy.policy.index.html" role="menuitem">Privacy Policy</a>
+        <a href="/terms.index.html" role="menuitem">Terms</a>
+        <a href="/#leadForm" role="menuitem" class="btn primary" style="color:#fff;">Check My Options</a>
+      </nav>
+    </div>
     <div class="ftc"><div class="wrap"><div class="row"><span class="dot"></span> <strong>FTC‑aligned</strong> • No upfront fees • Transparent savings estimates</div></div></div>
   </header>
 
   <!-- ===== Main ===== -->
-  <main id="main" role="main" class="wrap" style="padding-bottom:calc(var(--sitemap-h) + 90px)">
+  <main id="main" role="main" class="wrap" style="padding-bottom:calc(var(--callbar-h) + 90px)">
     <h1 id="ab-cta-text">Latest Articles</h1>
     <p class="sub">Guides to help you compare consolidation vs settlement and choose confidently.</p>
 
@@ -185,39 +181,89 @@
     <a class="mobile-est" href="/#get-started" target="_blank" rel="noopener">🔒 Start Secure Estimate</a>
   </div>
 
-  <!-- Bottom 5‑pill sitemap -->
-  <footer class="sticky-menu" role="navigation" aria-label="Site map">
-    <div class="navwrap">
-      <button class="nav-arrow prev" aria-label="Scroll left" type="button">◀</button>
-      <nav class="pills scroller" tabindex="0">
-        <a href="/">Home</a>
-        <a href="/how.it.works.index.html">How It Works</a>
-        <a href="/faq.index.html">FAQ</a>
-        <a href="/geo-blocked.html">State Programs</a>
-        <a href="/blog.index.html" aria-current="page">Blog</a>
-      </nav>
-      <button class="nav-arrow next" aria-label="Scroll right" type="button">▶</button>
-    </div>
-  </footer>
-
   <script>
-    // Toggle/scrollable menus (top & bottom) without moving the page
+    // Responsive navigation toggle (matches site header behavior)
     (function(){
-      function initWrap(root){
-        const scroller = root.querySelector('.scroller');
-        const prev = root.querySelector('.nav-arrow.prev');
-        const next = root.querySelector('.nav-arrow.next');
-        if(!scroller||!prev||!next) return;
-        const by = () => Math.max(140, Math.floor(scroller.clientWidth*0.8));
-        prev.addEventListener('click', ()=> scroller.scrollBy({left:-by(), behavior:'smooth'}));
-        next.addEventListener('click', ()=> scroller.scrollBy({left: by(), behavior:'smooth'}));
-        // Keyboard
-        scroller.addEventListener('keydown', (e)=>{
-          if(e.key==='ArrowLeft'){ scroller.scrollBy({left:-by(), behavior:'smooth'}); }
-          if(e.key==='ArrowRight'){ scroller.scrollBy({left: by(), behavior:'smooth'}); }
+      const menuBtn = document.getElementById('menuBtn');
+      const menuPanel = document.getElementById('menuPanel');
+      if(!menuBtn || !menuPanel) return;
+
+      const menuLinks = Array.from(menuPanel.querySelectorAll('a'));
+      const normalizePath = (value) => {
+        try{
+          const url = new URL(value, location.origin);
+          let path = url.pathname;
+          if(path.endsWith('.html')) path = path.slice(0, -'.html'.length);
+          if(path.endsWith('.index')) path = path.slice(0, -'.index'.length);
+          if(path !== '/' && path.endsWith('/')) path = path.slice(0, -1);
+          return path || '/';
+        }catch(_){ return value; }
+      };
+
+      const currentPath = normalizePath(location.pathname);
+      menuLinks.forEach((link) => {
+        const href = link.getAttribute('href') || '';
+        if(href.includes('#')) return;
+        if(normalizePath(href) === currentPath){
+          link.setAttribute('aria-current', 'page');
+        }
+      });
+
+      const closeMenu = () => {
+        if(window.innerWidth > 900) return;
+        menuPanel.style.display = 'none';
+        menuBtn.setAttribute('aria-expanded', 'false');
+      };
+
+      const openMenu = () => {
+        menuPanel.style.display = 'flex';
+        menuBtn.setAttribute('aria-expanded', 'true');
+      };
+
+      const syncMenu = () => {
+        if(window.innerWidth > 900){
+          menuPanel.style.display = 'flex';
+          menuBtn.setAttribute('aria-expanded', 'false');
+        } else {
+          menuPanel.style.display = 'none';
+          menuBtn.setAttribute('aria-expanded', 'false');
+        }
+      };
+
+      syncMenu();
+
+      menuBtn.addEventListener('click', () => {
+        const isOpen = menuPanel.style.display === 'flex';
+        if(isOpen){
+          closeMenu();
+        }else{
+          openMenu();
+        }
+      });
+
+      menuLinks.forEach((link) => {
+        link.addEventListener('click', () => {
+          if(window.innerWidth > 900) return;
+          closeMenu();
         });
-      }
-      document.querySelectorAll('.navwrap').forEach(initWrap);
+      });
+
+      document.addEventListener('click', (event) => {
+        if(window.innerWidth > 900) return;
+        if(event.target === menuBtn || menuBtn.contains(event.target)) return;
+        if(menuPanel.contains(event.target)) return;
+        closeMenu();
+      });
+
+      document.addEventListener('keydown', (event) => {
+        if(event.key !== 'Escape') return;
+        if(window.innerWidth > 900) return;
+        if(menuPanel.style.display !== 'flex') return;
+        closeMenu();
+        menuBtn.focus();
+      });
+
+      window.addEventListener('resize', syncMenu);
     })();
   </script>
 
@@ -305,7 +351,7 @@
     })();
   </script>
 
-  <!-- Dynamic spacing: keep sitemap above mobile bar on phones -->
+  <!-- Dynamic spacing: keep content above mobile bar on phones -->
   <script>
     (function(){
       const root=document.documentElement, mb=document.getElementById('drgMobileBar');
