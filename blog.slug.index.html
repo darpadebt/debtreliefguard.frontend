@@ -194,7 +194,10 @@
         const heroSrc = entry?.thumbnail || entry?.image || hero?.getAttribute('src') || '';
         if (heroSrc){
           heroEl.src = heroSrc;
-          if (heroEl.src) heroEl.style.display = '';
+          if (heroEl.src) {
+            heroEl.style.display = '';
+            if (entry?.title) heroEl.alt = `${entry.title} hero image`;
+          }
         }
 
         // Meta
@@ -204,7 +207,12 @@
           return isNaN(parsed.getTime()) ? '' : parsed.toLocaleDateString();
         };
         const date = formatDate(entry?.date_published || entry?.published_at);
-        metaEl.textContent = [date, entry?.author].filter(Boolean).join(' · ');
+        const author = (() => {
+          if (!entry?.author) return 'DebtReliefGuard';
+          const value = Array.isArray(entry.author) ? entry.author.join(', ') : String(entry.author);
+          return value.trim() || 'DebtReliefGuard';
+        })();
+        metaEl.textContent = [date, author].filter(Boolean).join(' · ');
 
         // Body (remove first h1/hero if duplicated, then inject)
         if (h1) h1.remove();
@@ -223,7 +231,7 @@
           }
           metaDesc.setAttribute('content', entry.excerpt);
         }
-        const canonicalCandidate = normalizePostUrl(entry?.canonical_url || entry?.url || contentHref);
+        const canonicalCandidate = normalizePostUrl(entry?.canonical_url || entry?.url || `/blog/${slug}`);
         if (canonicalCandidate){
           let canonical = document.querySelector('link[rel="canonical"]');
           if (!canonical){
@@ -250,9 +258,7 @@
           ensureMeta('meta[name="twitter:image"]', { content: heroAbsolute });
         }
         const published = entry?.date_published || entry?.published_at;
-        if (published) {
-          ensureMeta('meta[property="article:published_time"]', { content: new Date(published).toISOString() });
-        }
+        ensureMeta('meta[name="author"]', { content: author });
         if (entry?.author) {
           ensureMeta('meta[name="author"]', { content: entry.author });
         }
@@ -264,7 +270,19 @@
           script.type = 'application/ld+json';
           script.id = 'dynamic-schema-jsonld';
           try {
-            script.textContent = JSON.stringify(entry.schema_jsonld);
+            let schema = entry.schema_jsonld;
+            if (typeof schema === 'string') {
+              try {
+                schema = JSON.parse(schema);
+              } catch (_) {
+                schema = schema.trim();
+              }
+            }
+            if (typeof schema === 'string') {
+              script.textContent = schema;
+            } else {
+              script.textContent = JSON.stringify(schema);
+            }
             document.head.appendChild(script);
           } catch(_) {}
         }
