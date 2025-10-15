@@ -232,25 +232,21 @@
             heroEl.style.display = 'none';
             return;
           }
-        }
-        heroEl.addEventListener('error', () => {
-          fallbackHero();
-        });
-        heroEl.addEventListener('load', () => {
-          if (heroEl.naturalWidth <= 1 || heroEl.naturalHeight <= 1) {
-            if (heroEl.dataset.fallbackApplied === '1') {
-              heroEl.style.display = 'none';
-            } else {
-              fallbackHero();
-            }
-            return;
-          }
           heroEl.dataset.fallbackApplied = '1';
           heroEl.src = defaultHero;
           heroEl.style.display = '';
           if (!heroEl.alt) heroEl.alt = 'DebtReliefGuard blog hero';
           applyOgImage(defaultHero);
         };
+        heroEl.addEventListener('error', () => {
+          fallbackHero();
+        });
+        heroEl.addEventListener('load', () => {
+          if (heroEl.dataset.fallbackApplied === '1') return;
+          if (heroEl.naturalWidth <= 1 || heroEl.naturalHeight <= 1) {
+            fallbackHero();
+          }
+        });
 
         if (heroSrc){
           heroEl.src = heroSrc;
@@ -259,10 +255,7 @@
           applyOgImage(heroSrc);
         } else {
           fallbackHero();
-          
-        heroEl.style.display = '';
-          applyOgImage(heroEl.src);
-        });
+        }
 
         // Meta
         const formatDate = (value) => {
