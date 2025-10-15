@@ -201,7 +201,9 @@
         // Hero image
         const hero = article.querySelector('img');
         const heroSrc = entry?.thumbnail || entry?.image || hero?.getAttribute('src') || '';
+        let heroAbsolute = '';
         if (heroSrc){
+          heroAbsolute = toAbsolute(heroSrc);
           heroEl.src = heroAbsolute || heroSrc;
           if (heroEl.src) {
             heroEl.style.display = '';
