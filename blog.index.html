@@ -309,6 +309,7 @@
         })();
         const src = isPreview ? 'https://debtreliefguard.com/blogs.json' : '/blogs.json';
         const res = await fetch(src, {cache:'no-store'});
+        if(!res.ok) throw new Error(`Failed to load blogs.json: ${res.status}`);
         const list = await res.json();
         const posts = Array.isArray(list)
           ? list
