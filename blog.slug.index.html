@@ -130,15 +130,32 @@
         catch(_) { return value; }
       };
 
+      const originUrl = (() => {
+        try { return new URL(siteOrigin).origin; }
+        catch(_) { return siteOrigin; }
+      })();
+
       const normalizePostUrl = (value) => {
         if (typeof value !== 'string') return '';
-        const trimmed = value.trim();
-        if (!trimmed) return '';
-        const match = trimmed.match(/^\/blog\/([^\/]+)\.html(?:([?#].*)|$)/);
-        if (match && match[1] && !/^\d{4}-\d{2}-\d{2}-/.test(match[1])) {
-          return trimmed.replace(/\.html(?=[?#]|$)/, '');
+        const raw = value.trim();
+        if (!raw) return '';
+        try {
+          const url = new URL(raw, siteOrigin);
+          const isRelative = !/^https?:\/\//i.test(raw);
+          const sameOrigin = isRelative || url.origin === originUrl;
+          const match = url.pathname.match(/^\/blog\/([^\/]+)\.html$/);
+          if (match && match[1] && !/^\d{4}-\d{2}-\d{2}-/.test(match[1])) {
+            const path = url.pathname.replace(/\.html$/, '');
+            const rebuilt = `${path}${url.search}${url.hash}`;
+            return sameOrigin ? rebuilt : `${url.origin}${rebuilt}`;
+          }
+          return sameOrigin ? `${url.pathname}${url.search}${url.hash}` : url.href;
+        } catch (_) {
+          if (/^\/blog\/[^\/]+\.html(?:[?#].*)?$/i.test(raw) && !/^\/blog\/\d{4}-\d{2}-\d{2}-/i.test(raw)) {
+            return raw.replace(/\.html(?=[?#]|$)/, '');
+          }
+          return raw;
         }
-        return trimmed;
       };
 
       const ensureMeta = (selector, attrs) => {
