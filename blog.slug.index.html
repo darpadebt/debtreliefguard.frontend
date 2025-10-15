@@ -269,13 +269,18 @@
         }
         const canonicalCandidate = normalizePostUrl(entry?.canonical_url || entry?.url || `/blog/${slug}`);
         if (canonicalCandidate){
-          let canonical = document.querySelector('link[rel="canonical"]');
-          if (!canonical){
-            canonical = document.createElement('link');
-            canonical.setAttribute('rel','canonical');
-            document.head.appendChild(canonical);
+          const canonicalUrl = toAbsolute(canonicalCandidate);
+          if (canonicalUrl){
+            let canonical = document.querySelector('link[rel="canonical"]');
+            if (!canonical){
+              canonical = document.createElement('link');
+              canonical.setAttribute('rel','canonical');
+              document.head.appendChild(canonical);
+            }
+            canonical.setAttribute('href', canonicalUrl);
+            ensureMeta('meta[property="og:url"]', { content: canonicalUrl });
+            ensureMeta('meta[name="twitter:url"]', { content: canonicalUrl });
           }
-          canonical.setAttribute('href', toAbsolute(canonicalCandidate));
         }
 
         if (entry?.title) {
