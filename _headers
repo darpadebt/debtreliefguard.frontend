@@ -16,6 +16,20 @@
   Cache-Control: no-cache, must-revalidate
   Vary: Accept, Origin
 
+# Blog folder (covers generated HTML + assets in /blog)
+/blog/*
+  Cache-Control: public, max-age=300, s-maxage=300, stale-while-revalidate=600
+
+# Slug loader ONLY for extensionless slugs (never catches *.html)
+/blog/:slug
+  Cache-Control: no-cache, must-revalidate
+  Vary: Accept, Origin
+
+/blog/:slug/
+  Cache-Control: no-cache, must-revalidate
+  Vary: Accept, Origin
+
+
 # Home and other HTML can also be no-cache if you prefer dynamic updates
 /index.html
   Cache-Control: no-cache, must-revalidate
