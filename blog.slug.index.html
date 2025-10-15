@@ -122,6 +122,26 @@
       const heroEl  = document.getElementById('post-hero');
       const bodyEl  = document.getElementById('post-content');
 
+      const toAbsolute = (value) => {
+        if (!value || typeof value !== 'string') return '';
+        try { return new URL(value, location.origin).href; }
+        catch(_) { return value; }
+      };
+
+      const ensureMeta = (selector, attrs) => {
+        if (!attrs || typeof attrs !== 'object') return;
+        let node = document.head.querySelector(selector);
+        if (!node) {
+          node = document.createElement('meta');
+          if (selector.includes('[name="')) node.setAttribute('name', selector.split('[name="')[1].split('"')[0]);
+          if (selector.includes('[property="')) node.setAttribute('property', selector.split('[property="')[1].split('"')[0]);
+          document.head.appendChild(node);
+        }
+        Object.entries(attrs).forEach(([k,v]) => {
+          if (typeof v === 'string' && v) node.setAttribute(k, v);
+        });
+      };
+
       // 1) Try to locate the entry in blogs.json (for meta, hero, canonical URL)
       let entry = null;
       try{
@@ -192,16 +212,50 @@
           }
           metaDesc.setAttribute('content', entry.excerpt);
         }
-        if (entry?.url){
+        const canonicalCandidate = entry?.canonical_url || entry?.url || contentHref;
+        if (canonicalCandidate){
           let canonical = document.querySelector('link[rel="canonical"]');
           if (!canonical){
             canonical = document.createElement('link');
             canonical.setAttribute('rel','canonical');
             document.head.appendChild(canonical);
           }
-          try{
-            canonical.setAttribute('href', new URL(entry.url, location.origin).href);
-          }catch(_){ canonical.setAttribute('href', entry.url); }
+          canonical.setAttribute('href', toAbsolute(canonicalCandidate));
+        }
+
+        if (entry?.title) {
+          ensureMeta('meta[property="og:title"]', { content: `${entry.title} | DebtReliefGuard` });
+          ensureMeta('meta[name="twitter:title"]', { content: `${entry.title} | DebtReliefGuard` });
+        }
+        if (entry?.excerpt) {
+          ensureMeta('meta[property="og:description"]', { content: entry.excerpt });
+          ensureMeta('meta[name="twitter:description"]', { content: entry.excerpt });
+        }
+        ensureMeta('meta[property="og:type"]', { content: 'article' });
+        ensureMeta('meta[name="twitter:card"]', { content: 'summary_large_image' });
+        const heroAbsolute = toAbsolute(heroEl.src || '');
+        if (heroAbsolute) {
+          ensureMeta('meta[property="og:image"]', { content: heroAbsolute });
+          ensureMeta('meta[name="twitter:image"]', { content: heroAbsolute });
+        }
+        const published = entry?.date_published || entry?.published_at;
+        if (published) {
+          ensureMeta('meta[property="article:published_time"]', { content: new Date(published).toISOString() });
+        }
+        if (entry?.author) {
+          ensureMeta('meta[name="author"]', { content: entry.author });
+        }
+
+        if (entry?.schema_jsonld) {
+          const existing = document.getElementById('dynamic-schema-jsonld');
+          if (existing) existing.remove();
+          const script = document.createElement('script');
+          script.type = 'application/ld+json';
+          script.id = 'dynamic-schema-jsonld';
+          try {
+            script.textContent = JSON.stringify(entry.schema_jsonld);
+            document.head.appendChild(script);
+          } catch(_) {}
         }
       }catch(err){
         titleEl.textContent = 'Post not found';
