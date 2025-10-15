@@ -204,6 +204,788 @@
       // 3) Fetch the HTML content & inject
       try{
         const res = await fetch(resolvedContentHref, {cache:'no-store'});
+        /**
+ * 033-blog-auto-committer — Dual-site publish (DRG + DHF)
+ * Endpoints:
+ *  - GET  /health
+ *  - POST /ingest
+ *  - POST /commit
+ *  - GET  /history
+ *
+ * KV binding: PHASE_5
+ */
+
+type KVNamespace = import('@cloudflare/workers-types').KVNamespace;
+
+export interface Env {
+  PHASE_5: KVNamespace;
+
+  // Required
+  AI_SCHEDULER_SECRET: string;
+
+  // Single-site legacy (fallbacks)
+  GITHUB_TOKEN?: string;
+  GITHUB_REPO?: string;
+  GITHUB_BRANCH?: string;
+  BLOG_PATH?: string;         // default "blog"
+  BLOG_INDEX_PATH?: string;   // default "blogs.json"
+
+  // NEW: Per-site repos/paths (preferred)
+  GITHUB_REPO_DRG?: string;         // e.g. "darpadebt/debtreliefguard.frontend"
+  GITHUB_REPO_DHF?: string;         // e.g. "darpadebt/debthelpform.frontend"
+  BLOG_PATH_DRG?: string;           // default "blog"
+  BLOG_PATH_DHF?: string;           // default "blog"
+  BLOG_INDEX_PATH_DRG?: string;     // default "blogs.json"
+  BLOG_INDEX_PATH_DHF?: string;     // default "blogs.json"
+
+  // Optional metadata (unchanged)
+  SELF_BASE_URL?: string;
+  MESH_PREFIX?: string;
+  SITE_BASE_URL_DEBTHELPFORM?: string;
+  SITE_BASE_URL_DEBTRELIEFGUARD?: string;
+
+  OPENAI_API_KEY?: string;
+  OPENAI_ORG_ID?: string;
+  OPENAI_PROJECT_ID?: string;
+
+  MAX_PARALLEL?: string;
+}
+
+const WORKER = { name: "033-BlogAutoCommitter", version: "2025-09-04-dual+headers" };
+
+const STRICT: HeadersInit = {
+  "x-worker-name": WORKER.name,
+  "x-worker-version": WORKER.version,
+  "Referrer-Policy": "no-referrer",
+  "X-Content-Type-Options": "nosniff",
+  "X-Frame-Options": "DENY",
+  "Permissions-Policy":
+    "accelerometer=(), camera=(), geolocation=(), gyroscope=(), microphone=(), payment=(), usb=()",
+};
+const CACHE_HEALTH = "public, max-age=60, s-maxage=60, stale-while-revalidate=120";
+const CACHE_ADMIN  = "private, max-age=0, no-store";
+const iso = () => new Date().toISOString();
+
+function json(data: unknown, init: ResponseInit = {}) {
+  return new Response(JSON.stringify(data), {
+    ...init,
+    headers: { "Content-Type": "application/json; charset=utf-8", ...STRICT, ...(init.headers || {}) },
+  });
+}
+function text(body: string, init: ResponseInit = {}) {
+  return new Response(body, {
+    ...init,
+    headers: { "Content-Type": "text/plain; charset=utf-8", ...STRICT, ...(init.headers || {}) },
+  });
+}
+
+function meshPrefix(env: Env) {
+  return (env.MESH_PREFIX || "/api/mesh").replace(/\/+$/, "");
+}
+
+function baseUrl(env: Env, req: Request) {
+  if (env.SELF_BASE_URL) return env.SELF_BASE_URL.replace(/\/+$/, "");
+  try {
+    const u = new URL(req.url);
+    return `${u.protocol}//${u.host}`;
+  } catch {
+    return "";
+  }
+}
+
+function queueTelemetry(ctx: ExecutionContext, req: Request, env: Env, events: any | any[]) {
+  if (!env.AI_SCHEDULER_SECRET) return;
+  const base = baseUrl(env, req);
+  if (!base) return;
+  const url = `${base}${meshPrefix(env)}/015-telemetry-collector/snapshot`;
+  const payload = Array.isArray(events) ? events : [events];
+  ctx.waitUntil(
+    fetch(url, {
+      method: "POST",
+      headers: {
+        "content-type": "application/json",
+        "x-ai-scheduler-secret": env.AI_SCHEDULER_SECRET,
+      },
+      body: JSON.stringify(payload),
+    }).catch(() => {})
+  );
+}
+
+function requireAdmin(req: Request, env: Env): Response | null {
+  const h = req.headers.get("x-ai-scheduler-secret") || "";
+  if (!h || h !== env.AI_SCHEDULER_SECRET) {
+    return json({ ok: false, error: "unauthorized" }, { status: 401, headers: { "Cache-Control": CACHE_ADMIN } });
+  }
+  return null;
+}
+
+// ---------- Bot protections ----------
+function badUA(ua: string | null) {
+  if (!ua) return true;
+  const s = ua.toLowerCase();
+  return s.includes("curl/") || s.includes("python-requests") || s.includes("wget/") || s.includes("scanner") || s.includes("crawler");
+}
+async function ratelimit(env: Env, ip: string, bucket: string, limit = 40, windowSec = 60) {
+  const key = `rl:${bucket}:${ip}:${Math.floor(Date.now() / 60000)}`;
+  const cur = Number((await env.PHASE_5.get(key)) || "0") + 1;
+  if (cur === 1) await env.PHASE_5.put(key, "1", { expirationTtl: windowSec + 10 });
+  else await env.PHASE_5.put(key, String(cur));
+  return cur <= limit;
+}
+
+// ---------- Types ----------
+type SiteKey = "debtreliefguard" | "debthelpform";
+
+type Post = {
+  slug: string;
+  title: string;
+  html?: string;
+  md?: string;
+  excerpt?: string;
+  tags?: string[];
+  schema_jsonld?: any;
+  canonical_url?: string;
+  author?: string;
+  published_at?: string;
+  site?: SiteKey;     // which site to publish to
+  thumbnail?: string;
+  content_url?: string;
+  draft_id?: string;
+  brand_trust?: {
+    brand?: any;
+    trust?: any;
+    trustStatus?: string | null;
+    flags?: string[];
+  };
+};
+
+type QueueRecord = {
+  post: Post;
+  enqueued_at: string;
+  idempotency_key: string;
+};
+
+// ---------- Helpers ----------
+function h36(s: string) {
+  let h = 0;
+  for (let i = 0; i < s.length; i++) h = (h * 31 + s.charCodeAt(i)) | 0;
+  return (h >>> 0).toString(36);
+}
+function qKey(id: string) { return `queue:033:${id}`; }
+function pubKey(ts: string, slug: string) { return `published:033:${ts}:${slug}`; }
+
+async function withLock(kv: KVNamespace, key: string, ttl: number, fn: () => Promise<Response>): Promise<Response> {
+  const lk = `lock:${key}`;
+  const exists = await kv.get(lk);
+  if (exists) return json({ ok: false, error: "lock_held" }, { status: 423 });
+  await kv.put(lk, iso(), { expirationTtl: ttl });
+  try { return await fn(); } finally { await kv.delete(lk).catch(() => {}); }
+}
+
+async function listQueue(env: Env, limit = 25) {
+  const l = await env.PHASE_5.list({ prefix: "queue:033:" });
+  const names = l.keys.map(k => k.name).sort().slice(0, limit);
+  const items: QueueRecord[] = [];
+  for (const n of names) {
+    const v = await env.PHASE_5.get(n);
+    if (v) items.push(JSON.parse(v));
+  }
+  return { names, items };
+}
+
+// ---------- Per-site config ----------
+function normalizeSlug(s: string) {
+  return s.trim().replace(/[^\w\-]/g, "-").replace(/-+/g, "-");
+}
+function pickSiteKey(p?: SiteKey): SiteKey {
+  const s = (p || "debthelpform").toLowerCase();
+  return (s === "debtreliefguard") ? "debtreliefguard" : "debthelpform";
+}
+function siteConfig(env: Env, site: SiteKey) {
+  const branch = env.GITHUB_BRANCH || "main";
+
+  const repo =
+    site === "debtreliefguard" ? (env.GITHUB_REPO_DRG || env.GITHUB_REPO)
+  : /* debthelpform */           (env.GITHUB_REPO_DHF || env.GITHUB_REPO);
+
+  const path =
+    site === "debtreliefguard" ? (env.BLOG_PATH_DRG || env.BLOG_PATH || "blog")
+  : /* debthelpform */           (env.BLOG_PATH_DHF || env.BLOG_PATH || "blog");
+
+  const indexPath =
+    site === "debtreliefguard" ? (env.BLOG_INDEX_PATH_DRG || env.BLOG_INDEX_PATH || "blogs.json")
+  : /* debthelpform */           (env.BLOG_INDEX_PATH_DHF || env.BLOG_INDEX_PATH || "blogs.json");
+
+  return { repo, branch, path, indexPath };
+}
+
+// ---------- IMAGE HELPERS ----------
+const TRANSPARENT_PNG_BASE64 =
+  "iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR4nGNgYAAAAAMAASsJTYQAAAAASUVORK5CYII=";
+
+function isHttpUrl(s?: string) { return !!s && /^https?:\/\//i.test(s.trim()); }
+
+async function fetchAsBase64(url: string): Promise<string | null> {
+  try {
+    const r = await fetch(url, { headers: { "User-Agent": "033-BlogAutoCommitter" } });
+    if (!r.ok) return null;
+    const buf = await r.arrayBuffer();
+    // guardrail: keep under ~900KB after base64; rough pre-check
+    if (buf.byteLength > 900_000) return null;
+    let binary = "";
+    const bytes = new Uint8Array(buf);
+    for (let i = 0; i < bytes.length; i++) binary += String.fromCharCode(bytes[i]);
+    return btoa(binary);
+  } catch { return null; }
+}
+
+// --- NEW: Generate a 1200x630 hero via OpenAI Images if no thumbnail provided ---
+async function generateHeroImageBase64(env: Env, title: string, excerpt?: string, site?: SiteKey): Promise<string | null> {
+  if (!env.OPENAI_API_KEY) return null;
+
+  const prompt =
+    `Generate a clean, trustworthy blog hero image (PNG) for an article titled: "${title}". ` +
+    `Theme: debt relief, financial clarity, optimism, modern, high-trust design, subtle blue/green tones, ` +
+    `no logos, no faces, no text. Composition works at 1200x630 (16:9), clear subject, minimal clutter. ` +
+    (excerpt ? `Context: ${excerpt.substring(0, 300)}.` : "");
+
+  try {
+    const res = await fetch("https://api.openai.com/v1/images/generations", {
+      method: "POST",
+      headers: {
+        "Authorization": `Bearer ${env.OPENAI_API_KEY}`,
+        ...(env.OPENAI_ORG_ID ? { "OpenAI-Organization": env.OPENAI_ORG_ID } : {}),
+        ...(env.OPENAI_PROJECT_ID ? { "OpenAI-Project": env.OPENAI_PROJECT_ID } : {}),
+        "Content-Type": "application/json",
+        "Accept": "application/json",
+      },
+      body: JSON.stringify({
+        model: "gpt-image-1",        // DALL·E / ChatGPT Image model
+        prompt,
+        size: "1200x630",
+        response_format: "b64_json",
+        // high-level style guidance; safe, non-photoreal
+        // (fields like "quality" or "style" may be ignored by some models; harmless if unsupported)
+        // quality: "high",
+      }),
+    });
+
+    if (!res.ok) {
+      // swallow error, fall back to placeholder
+      await res.text().catch(() => null);
+      return null;
+    }
+    const data = await res.json<any>().catch(() => null);
+    const b64 = data?.data?.[0]?.b64_json;
+    if (typeof b64 === "string" && b64.length > 0) return b64;
+    return null;
+  } catch {
+    return null;
+  }
+}
+
+async function putFileToGitHub(env: Env, repo: string, path: string, base64Content: string, message: string, branch: string) {
+  if (!env.GITHUB_TOKEN || !repo) return { ok: false, reason: "github_not_configured" };
+  const url = `https://api.github.com/repos/${repo}/contents/${encodeURIComponent(path)}`;
+  const payload = { message, content: base64Content, branch };
+  const res = await fetch(url, {
+    method: "PUT",
+    headers: {
+      "Authorization": `Bearer ${env.GITHUB_TOKEN}`,
+      "Content-Type": "application/json",
+      "Accept": "application/vnd.github.v3+json",
+      "User-Agent": WORKER.name,
+    },
+    body: JSON.stringify(payload),
+  });
+  if (!res.ok) {
+    const t = await res.text().catch(() => "");
+    return { ok: false, status: res.status, reason: `github_status_${res.status}`, detail: t.slice(0, 500) };
+  }
+  const j = await res.json().catch(() => ({}));
+  return { ok: true, sha: j.content?.sha };
+}
+
+/** Fetch any file raw (base64 decoded). Returns null if not found or non-text. */
+async function githubGetFileRaw(env: Env, repo: string, path: string, branch: string): Promise<string | null> {
+  if (!env.GITHUB_TOKEN || !repo) return null;
+  const url = `https://api.github.com/repos/${repo}/contents/${encodeURIComponent(path)}?ref=${encodeURIComponent(branch)}`;
+  const res = await fetch(url, {
+    headers: {
+      "Authorization": `Bearer ${env.GITHUB_TOKEN}`,
+      "Accept": "application/vnd.github.v3+json",
+      "User-Agent": WORKER.name,
+    },
+  });
+  if (res.status === 404) return null;
+  if (!res.ok) return null;
+  const j = await res.json().catch(() => null);
+  if (!j?.content || typeof j.content !== "string") return null;
+  try {
+    const raw = decodeURIComponent(escape(atob(j.content)));
+    return raw;
+  } catch {
+    return null;
+  }
+}
+
+async function githubGetJson(env: Env, repo: string, path: string, branch: string) {
+  if (!env.GITHUB_TOKEN || !repo) return null;
+  const url = `https://api.github.com/repos/${repo}/contents/${encodeURIComponent(path)}?ref=${encodeURIComponent(branch)}`;
+  const res = await fetch(url, {
+    headers: {
+      "Authorization": `Bearer ${env.GITHUB_TOKEN}`,
+      "Accept": "application/vnd.github.v3+json",
+      "User-Agent": WORKER.name,
+    },
+  });
+  if (!res.ok) return null;
+  const j = await res.json().catch(() => null);
+  if (!j?.content) return { sha: j?.sha || null, json: [] as any[] };
+  const raw = decodeURIComponent(escape(atob(j.content)));
+  try { return { sha: j.sha || null, json: JSON.parse(raw || "[]") }; }
+  catch { return { sha: j.sha || null, json: [] as any[] }; }
+}
+
+// --- UPDATED: Ensure repo image, generating via OpenAI if missing ---
+async function ensureRepoImage(env: Env, site: SiteKey, slug: string, thumbnail?: string) {
+  const { repo, branch } = siteConfig(env, site);
+  if (!repo) return;
+  const imagePath = `images/${slug}.png`;
+
+  let b64: string | null = null;
+
+  // If user provided an external URL, try to fetch and use it
+  if (isHttpUrl(thumbnail)) {
+    b64 = await fetchAsBase64(String(thumbnail));
+  }
+
+  // If no usable thumbnail, generate via OpenAI (1200x630)
+  if (!b64) {
+    // We need title/excerpt to craft a prompt — pull from queue later in flow;
+    // here, we only have slug, but processOne will pass rec.post (with title/excerpt)
+    // To keep function standalone, accept we might not have those here.
+    // We'll try to infer from slug if needed; processOne sets rec.post.thumbnail from return.
+    // For best results, processOne calls this right away; adjust to pass title/excerpt if desired.
+    // To avoid signature changes (keep rest untouched), we fetch minimal info from KV if present (optional).
+    // Simpler: generate with slug as title fallback.
+    const titleFallback = slug.replace(/-/g, " ").trim();
+    b64 = await generateHeroImageBase64(env, titleFallback);
+  }
+
+  // If still nothing, drop in a 1x1 placeholder (last resort)
+  if (!b64) b64 = TRANSPARENT_PNG_BASE64;
+
+  await putFileToGitHub(env, repo, imagePath, b64, `chore(images): add thumbnail for ${slug} via 033`, branch);
+  return `/${imagePath}`;
+}
+
+// ---------- Publish HTML to the correct site repo ----------
+async function publishHtml(env: Env, site: SiteKey, rec: QueueRecord) {
+  const { repo, branch, path } = siteConfig(env, site);
+  if (!env.GITHUB_TOKEN || !repo) {
+    return { ok: false, mode: "noop" as const, reason: "github_not_configured" };
+  }
+
+  const publishedAt = rec.post.published_at || iso();
+  const slug = normalizeSlug(rec.post.slug || "");
+  if (!slug) return { ok: false, mode: "github" as const, reason: "invalid_slug" };
+
+  const fileName = `${publishedAt.slice(0, 10)}-${slug}.html`;
+  const relPath  = `${path}/${fileName}`;
+  const contentUrl = `/${relPath}`;
+  rec.post.content_url = contentUrl; // used by slug page fetch
+
+  // Build HTML body from inputs
+  let body = "";
+  if (rec.post.html && rec.post.html.trim()) {
+    body = rec.post.html.trim();
+    if (!/<!doctype html/i.test(body) && !/<html[\s>]/i.test(body)) {
+      body = `<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><title>${rec.post.title || slug}</title></head><body>${body}</body></html>`;
+    }
+  } else if (rec.post.md && rec.post.md.trim()) {
+    const mdSafe = rec.post.md.trim().replace(/</g, "&lt;").replace(/>/g, "&gt;");
+    body = `<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><title>${rec.post.title || slug}</title></head><body><article><pre>${mdSafe}</pre></article></body></html>`;
+  } else {
+    body = `<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><title>${rec.post.title || slug}</title></head><body><article><h1>${rec.post.title || slug}</h1><p>${(rec.post.excerpt || "").trim()}</p></article></body></html>`;
+  }
+
+  const put = await putFileToGitHub(
+    env,
+    repo,
+    relPath,
+    btoa(unescape(encodeURIComponent(body))),
+    `feat(blog): publish ${slug} (${site}) as HTML via 033`,
+    branch
+  );
+  if (!put.ok) return { ok: false, mode: "github" as const, ...put };
+
+  return { ok: true, mode: "github" as const, path: relPath, contentUrl };
+}
+
+// ---------- Update blogs.json in the correct site repo ----------
+async function updateBlogsIndex(env: Env, site: SiteKey, rec: QueueRecord) {
+  const { repo, branch, indexPath } = siteConfig(env, site);
+  if (!env.GITHUB_TOKEN || !repo) return { ok: false, mode: "noop" as const };
+
+  const current = (await githubGetJson(env, repo, indexPath, branch)) || { sha: null, json: [] as any[] };
+
+  const slug = normalizeSlug(rec.post.slug || "");
+  const thumb = (rec.post.thumbnail && String(rec.post.thumbnail).trim())
+    ? String(rec.post.thumbnail).trim()
+    : `/images/${slug}.png`;
+
+  const publishedAt = rec.post.published_at || iso();
+  const datedHtml = rec.post.content_url || `/blog/${publishedAt.slice(0,10)}-${slug}.html`;
+
+    const entry = {
+    slug,
+    title: rec.post.title,
+    excerpt: (rec.post.excerpt || "").replace(/^#+\s*/, "").trim(),
+
+    // Keep existing keys…
+    published_at: publishedAt,
+    thumbnail: thumb,
+
+    // …and add DRG-friendly aliases:
+    date_published: publishedAt,
+    image: thumb,
+
+    site,
+    url: rec.post.canonical_url || `/blog/${slug}.html`, // undated link
+    content_url: datedHtml,                               // dated file
+    tags: rec.post.tags || []
+  };
+
+
+  const src = Array.isArray(current.json) ? current.json : [];
+  const next = [entry, ...src].reduce((acc: any[], e) => {
+    const i = acc.findIndex(x => x.slug === e.slug);
+    if (i >= 0) acc[i] = e; else acc.push(e);
+    return acc;
+  }, [] as any[]).slice(0, 300);
+
+  const put = await putFileToGitHub(
+    env,
+    repo,
+    indexPath,
+    btoa(unescape(encodeURIComponent(JSON.stringify(next, null, 2)))),
+    `chore(blog): update ${indexPath} for ${site} via 033`,
+    branch
+  );
+  if (!put.ok) return { ok: false, mode: "github" as const, ...put };
+  return { ok: true, mode: "github" as const };
+}
+
+/** Ensure a _headers file exists/contains our cache rules. */
+async function ensureHeadersFile(env: Env, site: SiteKey) {
+  const { repo, branch, indexPath, path } = siteConfig(env, site);
+  if (!env.GITHUB_TOKEN || !repo) return { ok: false, reason: "github_not_configured" as const };
+
+  const desired = [
+    `/blogs.json`,
+    `  Cache-Control: no-store, must-revalidate`,
+    `  Content-Type: application/json; charset=utf-8`,
+    `  Vary: Accept, Origin`,
+    ``,
+    `/blog.index.html`,
+    `  Cache-Control: no-cache, must-revalidate`,
+    ``,
+    `/${path}/*`,
+    `  Cache-Control: public, max-age=300, s-maxage=300, stale-while-revalidate=600`,
+  ].join("\n");
+
+  const headersPath = `_headers`;
+  const existing = await githubGetFileRaw(env, repo, headersPath, branch);
+  if (!existing) {
+    await putFileToGitHub(env, repo, headersPath, btoa(unescape(encodeURIComponent(desired))),
+      `chore(headers): add cache rules for blogs via 033`, branch);
+    return { ok: true };
+  }
+
+  if (!existing.includes(`/blogs.json`) || !existing.includes(`/${path}/*`)) {
+    const next = `${existing.trim()}\n\n${desired}\n`;
+    await putFileToGitHub(env, repo, headersPath, btoa(unescape(encodeURIComponent(next))),
+      `chore(headers): update cache rules for blogs via 033`, branch);
+  }
+  return { ok: true };
+}
+
+// ---------- Queue ops ----------
+async function enqueue(env: Env, rec: QueueRecord) {
+  const key = qKey(rec.idempotency_key);
+  await env.PHASE_5.put(key, JSON.stringify(rec), { expirationTtl: 60 * 60 * 24 * 7 });
+  return key;
+}
+
+async function dequeueBatch(env: Env, max = 10) {
+  const list = await env.PHASE_5.list({ prefix: "queue:033:" });
+  const names = list.keys.map(k => k.name).slice(0, max);
+  const items: { key: string; rec: QueueRecord }[] = [];
+  for (const k of names) {
+    const v = await env.PHASE_5.get(k);
+    if (v) items.push({ key: k, rec: JSON.parse(v) });
+  }
+  return items;
+}
+
+async function markPublished(env: Env, rec: QueueRecord) {
+  const k = pubKey(iso(), rec.post.slug);
+  await env.PHASE_5.put(k, JSON.stringify(rec), { expirationTtl: 60 * 60 * 24 * 30 });
+}
+
+async function recentPublished(env: Env, limit = 20) {
+  const list = await env.PHASE_5.list({ prefix: "published:033:" });
+  const names = list.keys.map(k => k.name).sort().reverse().slice(0, limit);
+  const out: QueueRecord[] = [];
+  for (const n of names) {
+    const v = await env.PHASE_5.get(n);
+    if (v) out.push(JSON.parse(v));
+  }
+  return out;
+}
+
+// ---------- HTTP Handlers ----------
+async function handleHealth(env: Env): Promise<Response> {
+  const q = await listQueue(env, 10);
+  return json({ ok: true, name: WORKER.name, version: WORKER.version, queue_len: q.names.length, now: iso() }, {
+    headers: { "Cache-Control": CACHE_HEALTH },
+  });
+}
+
+async function handleIngest(req: Request, env: Env, ctx: ExecutionContext): Promise<Response> {
+  const ip = req.headers.get("cf-connecting-ip") || "0.0.0.0";
+  if (badUA(req.headers.get("User-Agent")) || !(await ratelimit(env, ip, "ingest", 60, 60))) {
+    return json({ ok: false, error: "blocked" }, { status: 429 });
+  }
+
+  let body: any = {};
+  try { body = await req.json(); } catch { /* noop */ }
+
+  const post: Post = body?.post || {};
+  const site = pickSiteKey(post.site);
+  const slug = normalizeSlug(post.slug || "");
+  if (!slug || !post.title) return json({ ok: false, error: "invalid_input" }, { status: 400 });
+
+  const idempotency_key = `${site}:${slug}:${h36((post.published_at || "").slice(0,10) || iso().slice(0,10))}`;
+  const rec: QueueRecord = {
+    post: { ...post, slug, site },
+    enqueued_at: iso(),
+    idempotency_key,
+  };
+
+  await enqueue(env, rec);
+
+  const leadId = post.draft_id ? `blog:${site}:${post.draft_id}` : `blog:${site}:${slug}`;
+  queueTelemetry(ctx, req, env, {
+    leadId,
+    worker: "033-blog-auto-committer",
+    stage: "queued",
+    site,
+    slug,
+    ts: iso(),
+    idempotency_key,
+    title: post.title,
+  });
+  
+  return json({ ok: true, queued: true, idempotency_key, site, slug });
+}
+
+async function processOne(env: Env, rec: QueueRecord) {
+  const site = pickSiteKey(rec.post.site);
+  // Ensure thumbnail presence (generate via OpenAI if missing)
+  // Pass title/excerpt context by temporarily updating ensureRepoImage logic through env only (signature preserved).
+  // To maximize prompt quality, we set a temporary KV hint (optional, not required).
+  const thumb = await (async () => {
+    // Prefer external URL if provided; otherwise generate from title/excerpt
+    if (isHttpUrl(rec.post.thumbnail)) {
+      return await ensureRepoImage(env, site, rec.post.slug, rec.post.thumbnail);
+    } else {
+      // Overload: ensureRepoImage will call OpenAI with a title fallback; we can
+      // opportunistically generate here for best fidelity, then write via ensureRepoImage.
+      const generated = await generateHeroImageBase64(env, rec.post.title, rec.post.excerpt, site);
+      if (generated) {
+        const { repo, branch } = siteConfig(env, site);
+        if (repo) {
+          const imagePath = `images/${rec.post.slug}.png`;
+          await putFileToGitHub(env, repo, imagePath, generated, `chore(images): add thumbnail for ${rec.post.slug} via 033`, branch);
+          return `/${imagePath}`;
+        }
+      }
+      // Fallback to internal ensure (it will try again and finally drop a placeholder if needed)
+      return await ensureRepoImage(env, site, rec.post.slug, rec.post.thumbnail);
+    }
+  })();
+
+  if (thumb) rec.post.thumbnail = thumb;
+
+  // Publish HTML
+  const pub = await publishHtml(env, site, rec);
+  if (!pub.ok) return { ok: false as const, step: "publishHtml", detail: pub };
+
+  // Update blogs.json
+  const upd = await updateBlogsIndex(env, site, rec);
+  if (!upd.ok) return { ok: false as const, step: "updateBlogsIndex", detail: upd };
+
+  // Ensure headers
+  await ensureHeadersFile(env, site);
+
+  // Mark success
+  await markPublished(env, rec);
+  if (rec.post.brand_trust) {
+    const trustRecord = {
+      ts: iso(),
+      site,
+      slug: rec.post.slug,
+      ...rec.post.brand_trust,
+    };
+    await env.PHASE_5.put(
+      `brandtrust:published:${site}:${rec.post.slug}`,
+      JSON.stringify(trustRecord),
+      { expirationTtl: 30 * 86400 }
+    );
+  }
+  return { ok: true as const, site, contentUrl: pub.contentUrl };
+}
+
+async function handleCommit(req: Request, env: Env, ctx: ExecutionContext): Promise<Response> {
+  const admin = requireAdmin(req, env);
+  if (admin) return admin;
+
+  // OPTIONAL ordering gate: if caller provided correlationId, enforce stage "031:generated"
+  let body: any = {};
+  try { body = await req.json(); } catch { /* no body provided is fine */ }
+  const requestedSite = body?.site ? pickSiteKey(body.site) : undefined;
+  const requestedSlug = body?.slug ? normalizeSlug(String(body.slug)) : undefined;
+  const correlationId: string | undefined = body?.correlationId;
+
+  if (correlationId) {
+    const st = await env.PHASE_5.get(`stage:${correlationId}`);
+    if (st !== "031:generated") {
+      return json(
+        { ok: false, error: "stage_not_ready", expected: "031:generated", got: st || null, correlationId },
+        { status: 409, headers: { "Retry-After": "60" } }
+      );
+    }
+  }
+
+  const max = Math.max(1, Math.min(+(env.MAX_PARALLEL || "4"), 10));
+  return withLock(env.PHASE_5, "033-commit", 60, async () => {
+    const batch = await dequeueBatch(env, max);
+    if (!batch.length) return json({ ok: true, processed: 0, results: [] });
+
+    const results: any[] = [];
+    const telemetryEvents: any[] = [];
+    for (const item of batch) {
+      try {
+        // If specific site/slug requested, skip non-matching queue items (minimal, preserves behavior by only narrowing when asked)
+        if (requestedSlug && normalizeSlug(item.rec.post.slug) !== requestedSlug) {
+          results.push({ key: item.key, ok: false, skipped: true, reason: "slug_mismatch" });
+          continue;
+        }
+        if (requestedSite && pickSiteKey(item.rec.post.site) !== requestedSite) {
+          results.push({ key: item.key, ok: false, skipped: true, reason: "site_mismatch" });
+          continue;
+        }
+
+        const r = await processOne(env, item.rec);
+        if (r.ok) {
+          await env.PHASE_5.delete(item.key);
+          telemetryEvents.push({
+            leadId: `blog:${pickSiteKey(item.rec.post.site)}:${item.rec.post.slug}`,
+            worker: "033-blog-auto-committer",
+            stage: "committed",
+            site: pickSiteKey(item.rec.post.site),
+            slug: item.rec.post.slug,
+            ts: iso(),
+            contentUrl: r.contentUrl || null,
+            repo: siteConfig(env, pickSiteKey(item.rec.post.site)).repo,
+          });
+        } else {
+          telemetryEvents.push({
+            leadId: `blog:${pickSiteKey(item.rec.post.site)}:${item.rec.post.slug}`,
+            worker: "033-blog-auto-committer",
+            stage: "commit_failed",
+            site: pickSiteKey(item.rec.post.site),
+            slug: item.rec.post.slug,
+            ts: iso(),
+            reason: (r as any)?.step || (r as any)?.error || "unknown",
+          });
+        }
+        results.push({ key: item.key, slug: item.rec.post.slug, site: pickSiteKey(item.rec.post.site), ...r });
+      } catch (e: any) {
+        results.push({ key: item.key, ok: false, error: String(e?.message || e) });
+        telemetryEvents.push({
+          leadId: `blog:${pickSiteKey(item.rec.post.site)}:${item.rec.post.slug}`,
+          worker: "033-blog-auto-committer",
+          stage: "commit_failed",
+          site: pickSiteKey(item.rec.post.site),
+          slug: item.rec.post.slug,
+          ts: iso(),
+          reason: String(e?.message || e),
+        });
+      }
+    }
+
+    // If gated by correlationId and we successfully committed the matching record, advance the stage
+    if (correlationId) {
+      const okMatch = results.some(r =>
+        r && r.ok === true &&
+        (!requestedSlug || normalizeSlug(r.slug) === requestedSlug) &&
+        (!requestedSite || pickSiteKey(r.site) === requestedSite)
+      );
+      if (okMatch) {
+        await env.PHASE_5.put(`stage:${correlationId}`, "033:committed", { expirationTtl: 60 * 60 * 24 * 30 });
+      }
+    }
+
+    if (telemetryEvents.length) {
+      queueTelemetry(ctx, req, env, telemetryEvents);
+    }
+
+    return json({ ok: true, processed: results.length, results });
+  });
+}
+
+async function handleHistory(_req: Request, env: Env): Promise<Response> {
+  const recent = await recentPublished(env, 25);
+  return json({ ok: true, recent });
+}
+
+// ---------- Router ----------
+function pathname(url: string) {
+  try { return new URL(url).pathname; } catch { return "/"; }
+}
+
+export default {
+  async fetch(req: Request, env: Env, ctx: ExecutionContext): Promise<Response> {
+    const p = pathname(req.url);
+
+    // health
+    if (req.method === "GET" && p.endsWith("/health")) {
+      return handleHealth(env);
+    }
+
+    // ingest (no admin header; bot-protected + rate-limited)
+    if (req.method === "POST" && p.endsWith("/ingest")) {
+      return handleIngest(req, env, ctx);
+    }
+
+    // commit (admin only)
+    if (req.method === "POST" && p.endsWith("/commit")) {
+      return handleCommit(req, env, ctx);
+    }
+
+    // history (admin only)
+    if (req.method === "GET" && p.endsWith("/history")) {
+      const admin = requireAdmin(req, env);
+      if (admin) return admin;
+      return handleHistory(req, env);
+    }
+
+    return text("033-blog-auto-committer: not found", { status: 404 });
+  }
+};
         const html = await res.text();
 
         // Extract <article>… if present; else use whole document
