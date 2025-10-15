@@ -5,7 +5,7 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5" />
   <title>Blog | DebtReliefGuard</title>
-  <meta name="description" content="DebtReliefGuard Blog — clear, FTC‑aligned guides with gentle CTAs to compare your savings." />
+  <meta name="description" content="DebtReliefGuard Blog — clear, FTC-aligned guides with gentle CTAs to compare your savings." />
   <link rel="canonical" href="https://debtreliefguard.com/blog.index.html" />
   <meta name="x-ai-optimizer-page" content="drg:blog" />
   <meta name="theme-color" content="#0a5cff" />
@@ -342,12 +342,12 @@
                 ? p.content_url
                 : (p.slug ? `/blog/${p.slug}.html` : '#'));
           const date = formatDate(p.date_published || p.published_at);
-          const img  = p.thumbnail || p.image || '/og-cover.jpg';
+          const img  = p.thumbnail || p.image || '/images/debt-relief-guide/hero-01.jpg';
           const title= escapeHtml(p.title || 'Untitled');
           const ex   = escapeHtml(p.excerpt || '');
           const tags = Array.isArray(p.tags)?p.tags.slice(0,3).map(escapeHtml):[];
           const safeHref = escapeAttr(href);
-          const imgSrc = escapeAttr(img, '/og-cover.jpg');
+          const imgSrc = escapeAttr(img, '/images/debt-relief-guide/hero-01.jpg');
           return `
             <article class="card">
               <a href="${safeHref}"><img alt="" src="${imgSrc}" loading="lazy"></a>
