@@ -311,6 +311,7 @@
         const res = await fetch(src, {cache:'no-store'});
         if(!res.ok) throw new Error(`Failed to load blogs.json: ${res.status}`);
         const list = await res.json();
+        const fallbackImage = '/images/debt-relief-guide/hero-01.jpg';
         const posts = Array.isArray(list)
           ? list
               .filter((item) => {
@@ -395,8 +396,8 @@
             ? p.thumbnail.trim()
             : (typeof p.image === 'string' && p.image.trim())
               ? p.image.trim()
-              : '/images/debt-relief-guide/hero-01.jpg';
-          const imgSrc = escapeAttr(img, '/images/debt-relief-guide/hero-01.jpg');
+              : fallbackImage;
+          const imgSrc = escapeAttr(img, fallbackImage);
           const title = escapeHtml(p.title || 'Untitled');
           const excerptRaw = (typeof p.excerpt === 'string' && p.excerpt.trim()) ? p.excerpt.trim() : '';
           const excerpt = escapeHtml(excerptRaw || 'See how much you could save with a personalized plan.');
@@ -404,7 +405,7 @@
           const tagsLabel = tags.length ? ` · ${tags.join(' · ')}` : '';
           return `
             <article class="card">
-              <a href="${safeHref}"><img alt="" src="${imgSrc}" loading="lazy"></a>
+              <a href="${safeHref}"><img alt="" src="${imgSrc}" loading="lazy" data-thumb="1"></a>
               <div class="card-body">
                 <h2><a href="${safeHref}">${title}</a></h2>
                 <div class="meta">${date}${tagsLabel}</div>
@@ -417,6 +418,35 @@
             </article>`;
         }).join('');
         empty.style.display='none';
+
+        grid.querySelectorAll('img[data-thumb]').forEach((img) => {
+          if (!(img instanceof HTMLImageElement)) return;
+          const fallbackOnce = () => {
+            if (img.dataset.fallbackApplied === '1') {
+              img.style.display = 'none';
+              return;
+            }
+            img.dataset.fallbackApplied = '1';
+            img.src = fallbackImage;
+            img.style.display = '';
+          };
+
+          img.addEventListener('error', () => {
+            fallbackOnce();
+          });
+
+          img.addEventListener('load', () => {
+            if (img.naturalWidth <= 1 || img.naturalHeight <= 1) {
+              if (img.dataset.fallbackApplied === '1') {
+                img.style.display = 'none';
+              } else {
+                fallbackOnce();
+              }
+            } else {
+              img.style.display = '';
+            }
+          });
+        });
       }catch(err){ empty.style.display='block'; }
       finally{ grid.setAttribute('aria-busy','false'); }
     })();
