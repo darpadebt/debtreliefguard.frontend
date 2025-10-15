@@ -302,6 +302,11 @@
       const empty = document.getElementById('emptyState');
       try{
         const isPreview = /chatgpt\.com$/i.test(location.hostname) || location.hostname.includes('chatgpt');
+        const siteOrigin = isPreview ? 'https://debtreliefguard.com' : location.origin;
+        const originUrl = (() => {
+          try { return new URL(siteOrigin).origin; }
+          catch(_) { return siteOrigin; }
+        })();
         const src = isPreview ? 'https://debtreliefguard.com/blogs.json' : '/blogs.json';
         const res = await fetch(src, {cache:'no-store'});
         const list = await res.json();
@@ -338,6 +343,28 @@
           })[ch]);
         };
 
+        const adjustBlogHref = (value) => {
+          if (typeof value !== 'string' || !value.trim()) return '';
+          const raw = value.trim();
+          try {
+            const url = new URL(raw, siteOrigin);
+            const isRelative = !/^https?:\/\//i.test(raw);
+            const sameOrigin = isRelative || url.origin === originUrl;
+            const match = url.pathname.match(/^\/blog\/([^\/]+)\.html$/);
+            if (match && match[1] && !/^\d{4}-\d{2}-\d{2}-/.test(match[1])) {
+              const path = url.pathname.replace(/\.html$/, '');
+              const rebuilt = `${path}${url.search}${url.hash}`;
+              return sameOrigin ? rebuilt : `${url.origin}${rebuilt}`;
+            }
+            return sameOrigin ? `${url.pathname}${url.search}${url.hash}` : url.href;
+          } catch (_) {
+            if (/^\/blog\/[^\/]+\.html(?:[?#].*)?$/i.test(raw) && !/^\/blog\/\d{4}-\d{2}-\d{2}-/i.test(raw)) {
+              return raw.replace(/\.html(?=[?#]|$)/, '');
+            }
+            return raw;
+          }
+        };
+
         const deriveLink = (post) => {
           if (!post || typeof post !== 'object') return '#';
 
@@ -348,16 +375,9 @@
             post.slug ? `/blog/${post.slug}` : '',
           ];
 
-          let href = candidates.find((value) => value) || '#';
-
-          // Prefer extensionless slug routes for undated blog paths so they resolve
-          // through blog.slug.index.html even if a matching .html file was not committed.
-          const match = href.match(/^\/blog\/([^\/]+)\.html(?:([?#].*)|$)/);
-          if (match && match[1] && !/^\d{4}-\d{2}-\d{2}-/.test(match[1])) {
-            href = href.replace(/\.html(?=[?#]|$)/, '');
-          }
-
-          return href;
+          const href = candidates.find((value) => value) || '#';
+          const adjusted = adjustBlogHref(href);
+          return adjusted || '#';
         };
 
         const formatDate = (value) => {
