@@ -116,6 +116,8 @@
 
     // ---- Post Loader (uses your existing blogs.json + static HTML fallback) ----
     (async function(){
+      const isPreview = /chatgpt\.com$/i.test(location.hostname) || location.hostname.includes('chatgpt');
+      const siteOrigin = isPreview ? 'https://debtreliefguard.com' : location.origin;
       const slug = (location.pathname.split('/').pop() || '').replace(/\.html$/,'');
       const titleEl = document.getElementById('post-title');
       const metaEl  = document.getElementById('post-meta');
@@ -124,7 +126,7 @@
 
       const toAbsolute = (value) => {
         if (!value || typeof value !== 'string') return '';
-        try { return new URL(value, location.origin).href; }
+        try { return new URL(value, siteOrigin).href; }
         catch(_) { return value; }
       };
 
@@ -156,7 +158,8 @@
       // 1) Try to locate the entry in blogs.json (for meta, hero, canonical URL)
       let entry = null;
       try{
-        const res = await fetch('/blogs.json', {cache:'no-store'});
+        const blogsSrc = isPreview ? 'https://debtreliefguard.com/blogs.json' : '/blogs.json';
+        const res = await fetch(blogsSrc, {cache:'no-store'});
         const list = await res.json();
         if(Array.isArray(list)){
           entry = list.find(p => {
@@ -174,10 +177,16 @@
       // 2) Derive target content URL (prefer explicit .url/content_url; else /blog/<dated>.html; else /blog/<slug>/index.html)
       const contentHref = entry?.content_url || entry?.url ||
         (slug.match(/^20\d{2}-\d{2}-\d{2}-/) ? `/blog/${slug}.html` : `/blog/${slug}/index.html`);
+      const resolvedContentHref = (() => {
+        if (!contentHref || typeof contentHref !== 'string') return `/blog/${slug}.html`;
+        if (/^https?:\/\//i.test(contentHref)) return contentHref;
+        try { return new URL(contentHref, siteOrigin).href; }
+        catch(_) { return `/blog/${slug}.html`; }
+      })();
 
       // 3) Fetch the HTML content & inject
       try{
-        const res = await fetch(contentHref, {cache:'no-store'});
+        const res = await fetch(resolvedContentHref, {cache:'no-store'});
         const html = await res.text();
 
         // Extract <article>… if present; else use whole document
@@ -193,12 +202,20 @@
         const hero = article.querySelector('img');
         const heroSrc = entry?.thumbnail || entry?.image || hero?.getAttribute('src') || '';
         if (heroSrc){
-          heroEl.src = heroSrc;
+          heroEl.src = heroAbsolute || heroSrc;
           if (heroEl.src) {
             heroEl.style.display = '';
             if (entry?.title) heroEl.alt = `${entry.title} hero image`;
           }
         }
+        heroEl.addEventListener('error', () => {
+          heroEl.style.display = 'none';
+        }, { once: true });
+        heroEl.addEventListener('load', () => {
+          if (heroEl.naturalWidth <= 1 || heroEl.naturalHeight <= 1) {
+            heroEl.style.display = 'none';
+          }
+        }, { once: true });
 
         // Meta
         const formatDate = (value) => {
@@ -252,10 +269,10 @@
         }
         ensureMeta('meta[property="og:type"]', { content: 'article' });
         ensureMeta('meta[name="twitter:card"]', { content: 'summary_large_image' });
-        const heroAbsolute = toAbsolute(heroEl.src || '');
-        if (heroAbsolute) {
-          ensureMeta('meta[property="og:image"]', { content: heroAbsolute });
-          ensureMeta('meta[name="twitter:image"]', { content: heroAbsolute });
+        const ogHero = heroAbsolute || toAbsolute(heroEl.src || '');
+        if (ogHero) {
+          ensureMeta('meta[property="og:image"]', { content: ogHero });
+          ensureMeta('meta[name="twitter:image"]', { content: ogHero });
         }
         const published = entry?.date_published || entry?.published_at;
         ensureMeta('meta[name="author"]', { content: author });
