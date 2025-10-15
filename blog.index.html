@@ -312,6 +312,14 @@
               const site = (item.site || '').toString().toLowerCase();
               return !site || site === 'debtreliefguard';
             })
+            .sort((a, b) => {
+              const getTime = (value) => {
+                if (!value) return 0;
+                const parsed = new Date(value);
+                return isNaN(parsed.getTime()) ? 0 : parsed.getTime();
+              };
+              return getTime(b?.date_published || b?.published_at) - getTime(a?.date_published || a?.published_at);
+            })
           : [];
         if(!posts.length){ empty.style.display='block'; grid.setAttribute('aria-busy','false'); return; }
 
@@ -336,15 +344,16 @@
         };
 
         grid.innerHTML = posts.map(p=>{
-          const href = typeof p.url === 'string' && p.url
-            ? p.url
-            : (typeof p.content_url === 'string' && p.content_url
-                ? p.content_url
-                : (p.slug ? `/blog/${p.slug}.html` : '#'));
+          const hrefCandidate = (
+            (typeof p.canonical_url === 'string' && p.canonical_url.trim()) ? p.canonical_url.trim() :
+            (typeof p.url === 'string' && p.url.trim()) ? p.url.trim() :
+            (typeof p.content_url === 'string' && p.content_url.trim()) ? p.content_url.trim() :
+            (p.slug ? `/blog/${p.slug}.html` : '#')
+          );
           const date = formatDate(p.date_published || p.published_at);
           const img  = p.thumbnail || p.image || '/images/debt-relief-guide/hero-01.jpg';
           const title= escapeHtml(p.title || 'Untitled');
-          const ex   = escapeHtml(p.excerpt || '');
+          const safeHref = escapeAttr(hrefCandidate);
           const tags = Array.isArray(p.tags)?p.tags.slice(0,3).map(escapeHtml):[];
           const safeHref = escapeAttr(href);
           const imgSrc = escapeAttr(img, '/images/debt-relief-guide/hero-01.jpg');
