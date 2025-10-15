@@ -127,11 +127,21 @@
       try{
         const res = await fetch('/blogs.json', {cache:'no-store'});
         const list = await res.json();
-        entry = Array.isArray(list) ? list.find(p => (p.slug && p.slug === slug) || (p.url && p.url.endsWith(`${slug}.html`))) : null;
+        if(Array.isArray(list)){
+          entry = list.find(p => {
+            if(!p || typeof p !== 'object') return false;
+            const site = (p.site || '').toString().toLowerCase();
+            if(site && site !== 'debtreliefguard') return false;
+            const slugMatch = typeof p.slug === 'string' && p.slug === slug;
+            const urlMatch = typeof p.url === 'string' && p.url.replace(/\.html$/,'').endsWith(`/${slug}`);
+            const contentMatch = typeof p.content_url === 'string' && p.content_url.replace(/\.html$/,'').endsWith(`/${slug}`);
+            return slugMatch || urlMatch || contentMatch;
+          }) || null;
+        }
       }catch(_){}
 
       // 2) Derive target content URL (prefer explicit .url/content_url; else /blog/<dated>.html; else /blog/<slug>/index.html)
-      const contentHref = entry?.url || entry?.content_url ||
+      const contentHref = entry?.content_url || entry?.url ||
         (slug.match(/^20\d{2}-\d{2}-\d{2}-/) ? `/blog/${slug}.html` : `/blog/${slug}/index.html`);
 
       // 3) Fetch the HTML content & inject
@@ -146,22 +156,28 @@
 
         // Title
         const h1 = article.querySelector('h1');
-        titleEl.textContent = (entry?.title) || (h1 ? h1.textContent.trim() : 'Untitled');
-
+        const derivedTitle = (entry?.title) || (h1 ? h1.textContent.trim() : 'Untitled');
+        titleEl.textContent = derivedTitle;
         // Hero image
         const hero = article.querySelector('img');
-        if ((entry?.image) || hero){
-          heroEl.src = entry?.image || hero?.getAttribute('src') || '';
+        const heroSrc = entry?.thumbnail || entry?.image || hero?.getAttribute('src') || '';
+        if (heroSrc){
+          heroEl.src = heroSrc;
           if (heroEl.src) heroEl.style.display = '';
         }
 
         // Meta
-        const date = entry?.date_published ? new Date(entry.date_published).toLocaleDateString() : '';
+        const formatDate = (value) => {
+          if(!value) return '';
+          const parsed = new Date(value);
+          return isNaN(parsed.getTime()) ? '' : parsed.toLocaleDateString();
+        };
+        const date = formatDate(entry?.date_published || entry?.published_at);
         metaEl.textContent = [date, entry?.author].filter(Boolean).join(' · ');
 
         // Body (remove first h1/hero if duplicated, then inject)
         if (h1) h1.remove();
-        if (hero && hero.src === heroEl.src) hero.remove();
+        if (hero && hero.src && heroEl.src && hero.src === heroEl.src) hero.remove();
         bodyEl.innerHTML = article.innerHTML;
         bodyEl.setAttribute('aria-busy','false');
 
@@ -175,6 +191,17 @@
             document.head.appendChild(metaDesc);
           }
           metaDesc.setAttribute('content', entry.excerpt);
+        }
+        if (entry?.url){
+          let canonical = document.querySelector('link[rel="canonical"]');
+          if (!canonical){
+            canonical = document.createElement('link');
+            canonical.setAttribute('rel','canonical');
+            document.head.appendChild(canonical);
+          }
+          try{
+            canonical.setAttribute('href', new URL(entry.url, location.origin).href);
+          }catch(_){ canonical.setAttribute('href', entry.url); }
         }
       }catch(err){
         titleEl.textContent = 'Post not found';
