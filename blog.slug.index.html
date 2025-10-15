@@ -123,6 +123,7 @@
       const metaEl  = document.getElementById('post-meta');
       const heroEl  = document.getElementById('post-hero');
       const bodyEl  = document.getElementById('post-content');
+      const defaultHero = '/images/debt-relief-guide/hero-01.jpg';
 
       const toAbsolute = (value) => {
         if (!value || typeof value !== 'string') return '';
@@ -156,6 +157,14 @@
           }
           return raw;
         }
+      };
+
+      const applyOgImage = (value) => {
+        if (!value || typeof value !== 'string') return;
+        const absolute = toAbsolute(value);
+        if (!absolute) return;
+        ensureMeta('meta[property="og:image"]', { content: absolute });
+        ensureMeta('meta[name="twitter:image"]', { content: absolute });
       };
 
       const ensureMeta = (selector, attrs) => {
@@ -218,23 +227,42 @@
         // Hero image
         const hero = article.querySelector('img');
         const heroSrc = entry?.thumbnail || entry?.image || hero?.getAttribute('src') || '';
-        let heroAbsolute = '';
-        if (heroSrc){
-          heroAbsolute = toAbsolute(heroSrc);
-          heroEl.src = heroAbsolute || heroSrc;
-          if (heroEl.src) {
-            heroEl.style.display = '';
-            if (entry?.title) heroEl.alt = `${entry.title} hero image`;
+        const fallbackHero = () => {
+          if (heroEl.dataset.fallbackApplied === '1') {
+            heroEl.style.display = 'none';
+            return;
           }
         }
         heroEl.addEventListener('error', () => {
-          heroEl.style.display = 'none';
-        }, { once: true });
+          fallbackHero();
+        });
         heroEl.addEventListener('load', () => {
           if (heroEl.naturalWidth <= 1 || heroEl.naturalHeight <= 1) {
-            heroEl.style.display = 'none';
+            if (heroEl.dataset.fallbackApplied === '1') {
+              heroEl.style.display = 'none';
+            } else {
+              fallbackHero();
+            }
+            return;
           }
-        }, { once: true });
+          heroEl.dataset.fallbackApplied = '1';
+          heroEl.src = defaultHero;
+          heroEl.style.display = '';
+          if (!heroEl.alt) heroEl.alt = 'DebtReliefGuard blog hero';
+          applyOgImage(defaultHero);
+        };
+
+        if (heroSrc){
+          heroEl.src = heroSrc;
+          heroEl.style.display = '';
+          if (entry?.title) heroEl.alt = `${entry.title} hero image`;
+          applyOgImage(heroSrc);
+        } else {
+          fallbackHero();
+          
+        heroEl.style.display = '';
+          applyOgImage(heroEl.src);
+        });
 
         // Meta
         const formatDate = (value) => {
@@ -293,11 +321,6 @@
         }
         ensureMeta('meta[property="og:type"]', { content: 'article' });
         ensureMeta('meta[name="twitter:card"]', { content: 'summary_large_image' });
-        const ogHero = heroAbsolute || toAbsolute(heroEl.src || '');
-        if (ogHero) {
-          ensureMeta('meta[property="og:image"]', { content: ogHero });
-          ensureMeta('meta[name="twitter:image"]', { content: ogHero });
-        }
         const published = entry?.date_published || entry?.published_at;
         ensureMeta('meta[name="author"]', { content: author });
         if (entry?.author) {
