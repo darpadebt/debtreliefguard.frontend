@@ -306,20 +306,21 @@
         const res = await fetch(src, {cache:'no-store'});
         const list = await res.json();
         const posts = Array.isArray(list)
-          ? list.filter((item) => {
-              if (!item || typeof item !== 'object') return false;
-              if (!item.slug) return false;
-              const site = (item.site || '').toString().toLowerCase();
-              return !site || site === 'debtreliefguard';
-            })
-            .sort((a, b) => {
-              const getTime = (value) => {
-                if (!value) return 0;
-                const parsed = new Date(value);
-                return isNaN(parsed.getTime()) ? 0 : parsed.getTime();
-              };
-              return getTime(b?.date_published || b?.published_at) - getTime(a?.date_published || a?.published_at);
-            })
+          ? list
+              .filter((item) => {
+                if (!item || typeof item !== 'object') return false;
+                if (!item.slug) return false;
+                const site = (item.site || '').toString().toLowerCase();
+                return !site || site === 'debtreliefguard';
+              })
+              .sort((a, b) => {
+                const getTime = (value) => {
+                  if (!value) return 0;
+                  const parsed = new Date(value);
+                  return isNaN(parsed.getTime()) ? 0 : parsed.getTime();
+                };
+                return getTime(b?.date_published || b?.published_at) - getTime(a?.date_published || a?.published_at);
+              })
           : [];
         if(!posts.length){ empty.style.display='block'; grid.setAttribute('aria-busy','false'); return; }
 
@@ -343,27 +344,33 @@
           return isNaN(parsed.getTime()) ? '' : parsed.toLocaleDateString();
         };
 
-        grid.innerHTML = posts.map(p=>{
+        grid.innerHTML = posts.map((p) => {
           const hrefCandidate = (
             (typeof p.canonical_url === 'string' && p.canonical_url.trim()) ? p.canonical_url.trim() :
             (typeof p.url === 'string' && p.url.trim()) ? p.url.trim() :
             (typeof p.content_url === 'string' && p.content_url.trim()) ? p.content_url.trim() :
             (p.slug ? `/blog/${p.slug}.html` : '#')
           );
-          const date = formatDate(p.date_published || p.published_at);
-          const img  = p.thumbnail || p.image || '/images/debt-relief-guide/hero-01.jpg';
-          const title= escapeHtml(p.title || 'Untitled');
           const safeHref = escapeAttr(hrefCandidate);
-          const tags = Array.isArray(p.tags)?p.tags.slice(0,3).map(escapeHtml):[];
-          const safeHref = escapeAttr(href);
+          const date = formatDate(p.date_published || p.published_at);
+          const img = (typeof p.thumbnail === 'string' && p.thumbnail.trim())
+            ? p.thumbnail.trim()
+            : (typeof p.image === 'string' && p.image.trim())
+              ? p.image.trim()
+              : '/images/debt-relief-guide/hero-01.jpg';
           const imgSrc = escapeAttr(img, '/images/debt-relief-guide/hero-01.jpg');
+          const title = escapeHtml(p.title || 'Untitled');
+          const excerptRaw = (typeof p.excerpt === 'string' && p.excerpt.trim()) ? p.excerpt.trim() : '';
+          const excerpt = escapeHtml(excerptRaw || 'See how much you could save with a personalized plan.');
+          const tags = Array.isArray(p.tags) ? p.tags.slice(0, 3).map(escapeHtml) : [];
+          const tagsLabel = tags.length ? ` · ${tags.join(' · ')}` : '';
           return `
             <article class="card">
               <a href="${safeHref}"><img alt="" src="${imgSrc}" loading="lazy"></a>
               <div class="card-body">
                 <h2><a href="${safeHref}">${title}</a></h2>
-                <div class="meta">${date}${tags.length?` · ${tags.join(' · ')}`:''}</div>
-                <p class="excerpt">${ex}</p>
+                <div class="meta">${date}${tagsLabel}</div>
+                <p class="excerpt">${excerpt}</p>
                 <div class="inline-cta">
                   <a href="${safeHref}">Read more →</a>
                   <a href="/#get-started" target="_blank" rel="noopener">See savings →</a>
@@ -371,6 +378,7 @@
               </div>
             </article>`;
         }).join('');
+        empty.style.display='none';
       }catch(err){ empty.style.display='block'; }
       finally{ grid.setAttribute('aria-busy','false'); }
     })();
