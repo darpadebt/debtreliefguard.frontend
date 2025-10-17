@@ -215,9 +215,41 @@
       })();
 
       // 3) Fetch the HTML content & inject
+      const fetchHtml = async (href) => {
+        const response = await fetch(href, { cache: 'no-store' });
+        if (!response.ok) {
+          throw new Error(`Failed to load ${href} (${response.status})`);
+        }
+        return response.text();
+      };
+
+      const fallbackHref = (() => {
+        try {
+          const url = new URL(resolvedContentHref, siteOrigin);
+          const sameOrigin = url.origin === originUrl;
+          if (sameOrigin && url.pathname.startsWith('/blog/')) {
+            return `${url.origin}/content${url.pathname}${url.search}${url.hash}`;
+          }
+        } catch (_) { /* noop */ }
+        return '';
+      })();
+
+      let html = '';
       try{
-        const res = await fetch(resolvedContentHref, {cache:'no-store'});
-        const html = await res.text();
+        html = await fetchHtml(resolvedContentHref);
+      } catch (primaryError){
+        if (fallbackHref) {
+          try {
+            html = await fetchHtml(fallbackHref);
+          } catch (fallbackError) {
+            console.error('Unable to fetch blog article HTML from public path or content/blog.', primaryError, fallbackError);
+            throw fallbackError;
+          }
+        } else {
+          console.error('Unable to fetch blog article HTML from public path.', primaryError);
+          throw primaryError;
+        }
+      }
 
         // Extract <article>… if present; else use whole document
         const tmp = document.createElement('div');
