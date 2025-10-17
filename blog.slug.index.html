@@ -118,7 +118,11 @@
     (async function(){
       const isPreview = /chatgpt\.com$/i.test(location.hostname) || location.hostname.includes('chatgpt');
       const siteOrigin = isPreview ? 'https://debtreliefguard.com' : location.origin;
-      const slug = (location.pathname.split('/').pop() || '').replace(/\.html$/,'');
+      const slug = (() => {
+        const trimmedPath = location.pathname.replace(/\/+$/, '');
+        const segment = trimmedPath.split('/').pop() || '';
+        return segment.replace(/\.html$/, '');
+      })();
       const titleEl = document.getElementById('post-title');
       const metaEl  = document.getElementById('post-meta');
       const heroEl  = document.getElementById('post-hero');
