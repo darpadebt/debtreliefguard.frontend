@@ -20,6 +20,10 @@
 /blog/*
   Cache-Control: public, max-age=300, s-maxage=300, stale-while-revalidate=600
 
+# Mirror cache headers for the source folder that workers commit into
+/content/blog/*
+  Cache-Control: public, max-age=300, s-maxage=300, stale-while-revalidate=600
+
 # Slug loader ONLY for extensionless slugs (never catches *.html)
 /blog/:slug
   Cache-Control: no-cache, must-revalidate
