@@ -223,30 +223,45 @@
         return response.text();
       };
 
-      const fallbackHref = (() => {
+      const fallbackHrefs = (() => {
+        const list = [];
         try {
           const url = new URL(resolvedContentHref, siteOrigin);
           const sameOrigin = url.origin === originUrl;
-          if (sameOrigin && url.pathname.startsWith('/blog/')) {
-            return `${url.origin}/content${url.pathname}${url.search}${url.hash}`;
+          if (sameOrigin) {
+            if (url.pathname.startsWith('/blog/')) {
+              list.push(`${url.origin}/content${url.pathname}${url.search}${url.hash}`);
+            }
+            if (url.pathname.startsWith('/content/blog/')) {
+              const altPath = url.pathname.replace(/^\/content/, '');
+              list.push(`${url.origin}${altPath}${url.search}${url.hash}`);
+            }
           }
         } catch (_) { /* noop */ }
-        return '';
+        return list;
       })();
 
       let html = '';
       try{
         html = await fetchHtml(resolvedContentHref);
       } catch (primaryError){
-        if (fallbackHref) {
+        let loaded = false;
+        const errors = [];
+        for (const href of fallbackHrefs) {
           try {
-            html = await fetchHtml(fallbackHref);
-          } catch (fallbackError) {
-            console.error('Unable to fetch blog article HTML from public path or content/blog.', primaryError, fallbackError);
-            throw fallbackError;
+            html = await fetchHtml(href);
+            loaded = true;
+            break;
+          } catch (err) {
+            errors.push(err);
           }
-        } else {
-          console.error('Unable to fetch blog article HTML from public path.', primaryError);
+        }
+        if (!loaded) {
+          if (fallbackHrefs.length) {
+            console.error('Unable to fetch blog article HTML from any known location.', primaryError, ...errors);
+          } else {
+            console.error('Unable to fetch blog article HTML from public path.', primaryError);
+          }
           throw primaryError;
         }
       }
