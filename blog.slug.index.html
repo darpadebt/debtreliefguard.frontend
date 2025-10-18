@@ -192,13 +192,28 @@
         const res = await fetch(blogsSrc, {cache:'no-store'});
         const list = await res.json();
         if(Array.isArray(list)){
+          const matchesEntrySlug = (value) => {
+            if (typeof value !== 'string') return false;
+            const cleaned = value.trim();
+            if (!cleaned) return false;
+            const withoutHash = cleaned.split('#')[0];
+            const withoutQuery = withoutHash.split('?')[0];
+            const withoutIndex = withoutQuery.replace(/\/index(?:\.html)?$/i, '');
+            const trimmed = withoutIndex.replace(/\/+$/, '');
+            const segments = trimmed.split('/').filter(Boolean);
+            if (!segments.length) return false;
+            const last = segments[segments.length - 1].replace(/\.html$/i, '');
+            if (!last) return false;
+            return last === slug || last.endsWith(`-${slug}`);
+          };  
+          
           entry = list.find(p => {
             if(!p || typeof p !== 'object') return false;
             const site = (p.site || '').toString().toLowerCase();
             if(site && site !== 'debtreliefguard') return false;
             const slugMatch = typeof p.slug === 'string' && p.slug === slug;
-            const urlMatch = typeof p.url === 'string' && p.url.replace(/\.html$/,'').endsWith(`/${slug}`);
-            const contentMatch = typeof p.content_url === 'string' && p.content_url.replace(/\.html$/,'').endsWith(`/${slug}`);
+            const urlMatch = matchesEntrySlug(p.url);
+            const contentMatch = matchesEntrySlug(p.content_url);
             return slugMatch || urlMatch || contentMatch;
           }) || null;
         }
