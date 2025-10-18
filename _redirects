@@ -19,6 +19,10 @@
 # Fallback: serve any other static artifact from content/blog
 /blog/*                    /content/blog/:splat
 
+# Allow direct access to raw content artifacts
+/content/blog/*            /content/blog/:splat                           200
+
+
 # Data & assets
 /blogs.json                /blogs.json                                     200
 /favicon.ico               /favicon.ico                                     200
