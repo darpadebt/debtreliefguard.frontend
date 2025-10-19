@@ -1,28 +1,28 @@
 /blogs.json
-  Cache-Control: no-store, must-revalidate
+  Cache-Control: no-store
   Content-Type: application/json; charset=utf-8
   Vary: Accept, Origin
 
 /blog.index.html
-  Cache-Control: no-cache, must-revalidate
+  Cache-Control: no-cache
   Vary: Accept, Origin
 
 /blog.slug.index.html
-  Cache-Control: no-cache, must-revalidate
+  Cache-Control: no-cache
   Vary: Accept, Origin
 
 # (Optional) dated article HTML files generated as static
 /blog/:year-:month-:day-:rest.html
-  Cache-Control: no-cache, must-revalidate
+  Cache-Control: no-cache
   Vary: Accept, Origin
 
 # Blog folder (covers generated HTML + assets in /blog)
 /blog/*
-  Cache-Control: public, max-age=300, s-maxage=300, stale-while-revalidate=600
+  Cache-Control: public, max-age=300
 
 # Mirror cache headers for the source folder that workers commit into
 /content/blog/*
-  Cache-Control: public, max-age=300, s-maxage=300, stale-while-revalidate=600
+  Cache-Control: public, max-age=300
 
 # Slug loader ONLY for extensionless slugs (never catches *.html)
 /blog/:slug
