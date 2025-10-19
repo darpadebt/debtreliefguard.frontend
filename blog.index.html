@@ -352,6 +352,12 @@
             const url = new URL(raw, siteOrigin);
             const isRelative = !/^https?:\/\//i.test(raw);
             const sameOrigin = isRelative || url.origin === originUrl;
+            if (sameOrigin && url.pathname.startsWith('/content/blog/')) {
+              const rebuilt = `/blog/${url.pathname.slice('/content/blog/'.length)}${url.search}${url.hash}`;
+              const adjusted = adjustBlogHref(rebuilt);
+              if (adjusted) return adjusted;
+              return rebuilt;
+            }
             const match = url.pathname.match(/^\/blog\/([^\/]+)\.html$/);
             if (match && match[1] && !/^\d{4}-\d{2}-\d{2}-/.test(match[1])) {
               const path = url.pathname.replace(/\.html$/, '');
@@ -360,6 +366,12 @@
             }
             return sameOrigin ? `${url.pathname}${url.search}${url.hash}` : url.href;
           } catch (_) {
+            if (/^\/content\/blog\//i.test(raw)) {
+              const rewritten = raw.replace(/^\/content\/blog\//i, '/blog/');
+              const adjustedRewritten = adjustBlogHref(rewritten);
+              if (adjustedRewritten) return adjustedRewritten;
+              return rewritten;
+            }
             if (/^\/blog\/[^\/]+\.html(?:[?#].*)?$/i.test(raw) && !/^\/blog\/\d{4}-\d{2}-\d{2}-/i.test(raw)) {
               return raw.replace(/\.html(?=[?#]|$)/, '');
             }
