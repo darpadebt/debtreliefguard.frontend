@@ -219,15 +219,51 @@
         }
       }catch(_){}
 
-      // 2) Derive target content URL (prefer explicit .url/content_url; else /blog/<dated>.html; else /blog/<slug>/index.html)
-      const contentHref = entry?.content_url || entry?.url ||
-        (slug.match(/^20\d{2}-\d{2}-\d{2}-/) ? `/blog/${slug}.html` : `/blog/${slug}/index.html`);
-      const resolvedContentHref = (() => {
-        if (!contentHref || typeof contentHref !== 'string') return `/blog/${slug}.html`;
-        if (/^https?:\/\//i.test(contentHref)) return contentHref;
-        try { return new URL(contentHref, siteOrigin).href; }
-        catch(_) { return `/blog/${slug}.html`; }
-      })();
+      // 2) Build the list of candidate content URLs (prefer undated /blog/<slug>, then dated variants)
+      const resolveHref = (value) => {
+        if (!value || typeof value !== 'string') return '';
+        try {
+          return new URL(value, siteOrigin).href;
+        } catch (_) {
+          return '';
+        }
+      };
+
+      const isDatedHref = (href) => {
+        try {
+          const url = new URL(href, siteOrigin);
+          const path = url.pathname.toLowerCase();
+          return /^\/blog\/20\d{2}-\d{2}-\d{2}-/.test(path) || /^\/content\/blog\/20\d{2}-\d{2}-\d{2}-/.test(path);
+        } catch (_) {
+          return false;
+        }
+      };
+
+      const candidateHrefSet = new Set();
+      const undated = [];
+      const dated = [];
+      const pushCandidate = (value) => {
+        const href = resolveHref(value);
+        if (!href || candidateHrefSet.has(href)) return;
+        candidateHrefSet.add(href);
+        if (isDatedHref(href)) dated.push(href);
+        else undated.push(href);
+      };
+
+      pushCandidate(entry?.url);
+      pushCandidate(entry?.content_url);
+
+      if (!candidateHrefSet.size) {
+        if (/^20\d{2}-\d{2}-\d{2}-/.test(slug)) {
+          pushCandidate(`/blog/${slug}.html`);
+        } else {
+          pushCandidate(`/blog/${slug}.html`);
+          pushCandidate(`/blog/${slug}/index.html`);
+        }
+      }
+
+      const candidateHrefs = [...undated, ...dated];
+      const primaryHref = candidateHrefs[0] || resolveHref(`/blog/${slug}.html`);
 
       // 3) Fetch the HTML content & inject
       const fetchHtml = async (href) => {
@@ -240,25 +276,39 @@
 
       const fallbackHrefs = (() => {
         const list = [];
-        try {
-          const url = new URL(resolvedContentHref, siteOrigin);
-          const sameOrigin = url.origin === originUrl;
-          if (sameOrigin) {
+        const seen = new Set();
+        const push = (href) => {
+          if (!href || seen.has(href) || href === primaryHref) return;
+          seen.add(href);
+          list.push(href);
+        };
+        const addOpposite = (href) => {
+          try {
+            const url = new URL(href, siteOrigin);
+            if (url.origin !== originUrl) return;
             if (url.pathname.startsWith('/blog/')) {
-              list.push(`${url.origin}/content${url.pathname}${url.search}${url.hash}`);
-            }
-            if (url.pathname.startsWith('/content/blog/')) {
+              push(`${url.origin}/content${url.pathname}${url.search}${url.hash}`);
+            } else if (url.pathname.startsWith('/content/blog/')) {
               const altPath = url.pathname.replace(/^\/content/, '');
-              list.push(`${url.origin}${altPath}${url.search}${url.hash}`);
+              push(`${url.origin}${altPath}${url.search}${url.hash}`);
             }
-          }
-        } catch (_) { /* noop */ }
+          } catch (_) { /* noop */ }
+        };
+
+        addOpposite(primaryHref);
+
+        for (let i = 1; i < candidateHrefs.length; i++) {
+          const candidate = candidateHrefs[i];
+          push(candidate);
+          addOpposite(candidate);
+        }
+        
         return list;
       })();
 
       let html = '';
       try{
-        html = await fetchHtml(resolvedContentHref);
+        html = await fetchHtml(primaryHref);
       } catch (primaryError){
         let loaded = false;
         const errors = [];
