@@ -262,16 +262,46 @@
         }
       }
 
-      const candidateHrefs = [...dated, ...undated];
+      const candidateHrefs = [...dated, ...undated].sort((a, b) => {
+        const score = (href) => {
+          try {
+            const url = new URL(href, siteOrigin);
+            return url.pathname.startsWith('/content/blog/') ? 0 : 1;
+          } catch (_) {
+            return href.includes('/content/blog/') ? 0 : 1;
+          }
+        };
+        return score(a) - score(b);
+      });
       const primaryHref = candidateHrefs[0] || resolveHref(`/blog/${slug}.html`);
 
       // 3) Fetch the HTML content & inject
+      const isLoaderShell = (html) => {
+        if (!html || typeof html !== 'string') return false;
+        const probe = document.createElement('div');
+        probe.innerHTML = html;
+        const loaderArticle = probe.querySelector('article#post');
+        if (!loaderArticle) return false;
+        const loaderContent = loaderArticle.querySelector('#post-content');
+        const loaderTitle = loaderArticle.querySelector('#post-title');
+        const text = loaderContent && loaderContent.textContent ? loaderContent.textContent.trim().toLowerCase() : '';
+        const title = loaderTitle && loaderTitle.textContent ? loaderTitle.textContent.trim().toLowerCase() : '';
+        if (!text && !title) return false;
+        const isPlaceholderText = text.startsWith('please wait') || text === 'loading' || text === 'loading…' || text === 'loading...';
+        const isPlaceholderTitle = title === 'loading…' || title === 'loading...' || title === 'loading';
+        return isPlaceholderText || isPlaceholderTitle;
+      };
+      
       const fetchHtml = async (href) => {
         const response = await fetch(href, { cache: 'no-store' });
         if (!response.ok) {
           throw new Error(`Failed to load ${href} (${response.status})`);
         }
-        return response.text();
+        const text = await response.text();
+        if (isLoaderShell(text)) {
+          throw new Error(`Loaded placeholder shell from ${href}`);
+        }
+        return text;
       };
 
       const fallbackHrefs = (() => {
@@ -306,29 +336,21 @@
         return list;
       })();
 
-      let html = '';
-      try{
-        html = await fetchHtml(primaryHref);
-      } catch (primaryError){
-        let loaded = false;
-        const errors = [];
-        for (const href of fallbackHrefs) {
-          try {
-            html = await fetchHtml(href);
-            loaded = true;
-            break;
-          } catch (err) {
-            errors.push(err);
-          }
+      const fetchQueue = [primaryHref, ...fallbackHrefs].filter(Boolean);
+      const errors = [];
+      for (const href of fetchQueue) {
+        try {
+          html = await fetchHtml(href);
+          break;
+        } catch (err) {
+          errors.push(err);
         }
-        if (!loaded) {
-          if (fallbackHrefs.length) {
-            console.error('Unable to fetch blog article HTML from any known location.', primaryError, ...errors);
-          } else {
-            console.error('Unable to fetch blog article HTML from public path.', primaryError);
-          }
-          throw primaryError;
+      if (!html) {
+        if (errors.length) {
+          console.error('Unable to fetch blog article HTML from any known location.', ...errors);
+          throw errors[errors.length - 1];
         }
+        throw new Error('No candidate URLs available for blog article.');
       }
 
         // Extract <article>… if present; else use whole document
