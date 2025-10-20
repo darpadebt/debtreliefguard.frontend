@@ -409,13 +409,13 @@
         const undated = [];
         const dated = [];
           
-          function pushCandidate(value, allowAugment = true) {
+        function pushCandidate(value, allowAugment = true) {
           const href = resolveHref(value);
           if (!href || candidateHrefSet.has(href)) return;
           candidateHrefSet.add(href);
           if (isDatedHref(href)) dated.push(href);
           else undated.push(href);
-        if (allowAugment) augmentFromHref(href);
+          if (allowAugment) augmentFromHref(href);
         }
 
         function augmentFromHref(href) {
@@ -430,13 +430,9 @@
               if (/^\/blog\/[^/]+$/i.test(pathname)) {
                 const base = pathname;
                 pushCandidate(`${url.origin}${base}.html${suffix}`, false);
-                pushCandidate(`${url.origin}/content${base}.html${suffix}`, false);
               } else if (/^\/blog\/[^/]+\/index\.html$/i.test(pathname)) {
                 const base = pathname.replace(/\/index\.html$/i, '');
                 pushCandidate(`${url.origin}${base}.html${suffix}`, false);
-                pushCandidate(`${url.origin}/content${base}.html${suffix}`, false);
-              } else if (/^\/blog\/[^/]+\.html$/i.test(pathname)) {
-                pushCandidate(`${url.origin}/content${pathname}${suffix}`, false);
               }
             } else if (pathname.startsWith('/content/blog/')) {
               const altPath = pathname.replace(/^\/content/, '');
@@ -462,14 +458,17 @@
         }
         
 
-      const candidateHrefs = [...dated, ...undated].sort((a, b) => {
+        const candidateHrefs = [...dated, ...undated].sort((a, b) => {
           const score = (href) => {
             try {
               const url = new URL(href, siteOrigin);
-              return url.pathname.startsWith('/content/blog/') ? 0 : 1;
+              if (url.pathname.startsWith('/blog/')) return 0;
+              if (url.pathname.startsWith('/content/blog/')) return 1;
             } catch (_) {
-              return href.includes('/content/blog/') ? 0 : 1;
+              if (/^\/blog\//i.test(href)) return 0;
+              if (/^\/content\/blog\//i.test(href)) return 1;
             }
+            return 2;
           };
           return score(a) - score(b);
         });
@@ -487,9 +486,7 @@
             try {
               const url = new URL(href, siteOrigin);
               if (url.origin !== originUrl) return;
-              if (url.pathname.startsWith('/blog/')) {
-                push(`${url.origin}/content${url.pathname}${url.search}${url.hash}`);
-              } else if (url.pathname.startsWith('/content/blog/')) {
+              if (url.pathname.startsWith('/content/blog/')) {
                 const altPath = url.pathname.replace(/^\/content/, '');
                 push(`${url.origin}${altPath}${url.search}${url.hash}`);
               }
