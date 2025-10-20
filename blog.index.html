@@ -307,10 +307,24 @@
           try { return new URL(siteOrigin).origin; }
           catch(_) { return siteOrigin; }
         })();
-        const src = isPreview ? 'https://debtreliefguard.com/blogs.json' : '/blogs.json';
-        const res = await fetch(src, {cache:'no-store'});
-        if(!res.ok) throw new Error(`Failed to load blogs.json: ${res.status}`);
-        const list = await res.json();
+        const blogsSrc = 'https://debtreliefguard.com/blogs.json';
+        const candidates = [blogsSrc, '/blogs.json'];
+        let list = null;
+        for (let i = 0; i < candidates.length; i++) {
+          const href = candidates[i];
+          if (!href) continue;
+          try {
+            const response = await fetch(href, { cache: 'no-store' });
+            if (!response || !response.ok) continue;
+            const data = await response.json();
+            if (Array.isArray(data)) {
+              list = data;
+              break;
+            }
+          } catch (_) {
+            /* try next */
+          }
+        }
         const fallbackImage = '/images/debt-relief-guide/hero-01.jpg';
         const posts = Array.isArray(list)
           ? list
