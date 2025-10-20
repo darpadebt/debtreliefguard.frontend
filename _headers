@@ -1,14 +1,14 @@
 /blogs.json
-  Cache-Control: no-store
+  Cache-Control: no-store, must-revalidate
   Content-Type: application/json; charset=utf-8
   Vary: Accept, Origin
 
 /blog.index.html
-  Cache-Control: no-cache
+  Cache-Control: no-cache, must-revalidate
   Vary: Accept, Origin
 
 /blog.slug.index.html
-  Cache-Control: no-cache
+  Cache-Control: no-cache, must-revalidate
   Vary: Accept, Origin
 
 # (Optional) dated article HTML files generated as static
