@@ -1,4 +1,6 @@
-https://www.debtreliefguard.com/*    https://debtreliefguard.com/:splat    301!
+# NOTE: Cloudflare Pages _redirects only accepts path sources. Domain-level
+# redirects must be configured in DNS/Page Rules, so keep this file limited to
+# path-based routing rules.
 /                          /index.html                                    200
 
 # Blog list
