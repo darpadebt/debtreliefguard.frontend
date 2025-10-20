@@ -18,7 +18,7 @@ https://www.debtreliefguard.com/*    https://debtreliefguard.com/:splat    301!
 /blog/:slug/               /blog.slug.index.html                           200
 
 # Fallback: serve any other static artifact from blog
-/blog/*                    /blog/:splat
+/blog/*                    /blog/:splat                     200
 
 # Legacy support: redirect old content/blog URLs to the new blog location
 /content/blog/:date-:slug.html        /blog/:date-:slug.html               301
