@@ -362,9 +362,9 @@
             if (match && match[1] && !/^\d{4}-\d{2}-\d{2}-/.test(match[1])) {
               const path = url.pathname.replace(/\.html$/, '');
               const rebuilt = `${path}${url.search}${url.hash}`;
-              return sameOrigin ? rebuilt : `${url.origin}${rebuilt}`;
+              return rebuilt;
             }
-            return sameOrigin ? `${url.pathname}${url.search}${url.hash}` : url.href;
+            return `${url.pathname}${url.search}${url.hash}`;
           } catch (_) {
             if (/^\/content\/blog\//i.test(raw)) {
               const rewritten = raw.replace(/^\/content\/blog\//i, '/blog/');
