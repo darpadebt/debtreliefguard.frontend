@@ -31,12 +31,6 @@
   Access-Control-Allow-Origin: *
   Access-Control-Allow-Methods: GET, OPTIONS
 
-# Mirror cache headers for the source folder that workers commit into
-/content/blog/*
-  Cache-Control: public, max-age=300
-  Access-Control-Allow-Origin: *
-  Access-Control-Allow-Methods: GET, OPTIONS
-
 # Slug loader ONLY for extensionless slugs (never catches *.html)
 /blog/:slug
   Cache-Control: no-cache, must-revalidate
