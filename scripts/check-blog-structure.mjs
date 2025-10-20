@@ -11,15 +11,14 @@ const REQUIRED_HEADER_SNIPPETS = [
   '/blogs.json',
   '/blog.index.html',
   '/blog.slug.index.html',
-  '/blog/*',
-  '/content/blog/*'
+  '/blog/*'
 ];
 
 const REQUIRED_REDIRECT_SNIPPETS = [
   '/blog/:slug.html',
   '/blog/:slug',
   '/blog/:year-:month-:day-:rest.html',
-  '/content/blog/:year-:month-:day-:rest.html'
+  '/content/blog/:splat'
 ];
 
 const errors = [];
@@ -139,21 +138,21 @@ async function ensureBlogsJson() {
 }
 
 async function ensureBlogDirectory() {
-  const rel = path.join('content', 'blog');
+  const rel = 'blog';
   const full = path.join(repoRoot, rel);
   try {
     const stat = await fs.stat(full);
     if (!stat.isDirectory()) {
-      errors.push('content/blog must be a directory.');
+      errors.push('blog must be a directory.');
       return;
     }
     const files = await fs.readdir(full);
     const htmlFiles = files.filter((f) => f.endsWith('.html'));
     if (!htmlFiles.length) {
-      warnings.push('content/blog directory does not contain any HTML files yet.');
+      warnings.push('blog directory does not contain any HTML files yet.')
     }
   } catch (err) {
-    errors.push('Missing content/blog directory. 033 writes dated HTML files there.');
+    errors.push('Missing blog directory. 033 writes dated HTML files there.');
   }
 }
 
