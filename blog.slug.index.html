@@ -316,9 +316,24 @@
       // 1) Try to locate the entry in blogs.json (for meta, hero, canonical URL)
       let entry = null;
       try{
-        const blogsSrc = isPreview ? 'https://debtreliefguard.com/blogs.json' : '/blogs.json';
-        const res = await fetch(blogsSrc, {cache:'no-store'});
-        const list = await res.json();
+        const blogsSrc = 'https://debtreliefguard.com/blogs.json';
+        const candidates = [blogsSrc, '/blogs.json'];
+        let list = null;
+        for (let i = 0; i < candidates.length; i++) {
+          const href = candidates[i];
+          if (!href) continue;
+          try {
+            const response = await fetch(href, { cache: 'no-store' });
+            if (!response || !response.ok) continue;
+            const data = await response.json();
+            if (Array.isArray(data)) {
+              list = data;
+              break;
+            }
+          } catch (_) {
+            /* try next */
+          }
+        }
         if(Array.isArray(list)){
           const matchesEntrySlug = (value) => {
             if (typeof value !== 'string') return false;
