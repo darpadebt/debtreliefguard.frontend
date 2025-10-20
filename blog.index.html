@@ -389,7 +389,7 @@
           const url = typeof post.url === 'string' ? post.url.trim() : '';
           const slugHref = post.slug ? `/blog/${post.slug}` : '';
 
-          const primaryHref = [canonical, url, slugHref].find((value) => value);
+          const primaryHref = [slugHref, canonical, url].find((value) => value);
           if (primaryHref) {
             const adjustedPrimary = adjustBlogHref(primaryHref);
             if (adjustedPrimary) return adjustedPrimary;
