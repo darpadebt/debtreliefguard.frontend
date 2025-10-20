@@ -364,7 +364,10 @@
               const rebuilt = `${path}${url.search}${url.hash}`;
               return rebuilt;
             }
-            return `${url.pathname}${url.search}${url.hash}`;
+            if (sameOrigin) {
+              return `${url.pathname}${url.search}${url.hash}`;
+            }
+            return url.href;
           } catch (_) {
             if (/^\/content\/blog\//i.test(raw)) {
               const rewritten = raw.replace(/^\/content\/blog\//i, '/blog/');
