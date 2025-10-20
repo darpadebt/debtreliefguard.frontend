@@ -15,6 +15,8 @@
 
 # Non-dated slug .html requests → canonical extensionless slug loader
 
+/blog/:slug.html      /blog/:slug                  200
+
 # Slug loader ONLY for extensionless slugs (never catches *.html)
 /blog/:slug                /blog.slug.index.html                           200
 /blog/:slug/               /blog.slug.index.html                           200
