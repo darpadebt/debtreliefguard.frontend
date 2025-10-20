@@ -50,22 +50,5 @@
         "url": "/blog/navigating-the-path-to-debt-relief-your-guide-to-debt-consolidation-and-settlement.html",
         "content_url": "/blog/2025-08-06-navigating-the-path-to-debt-relief-your-guide-to-debt-consolidation-and-settlement.html",
         "site": "debtreliefguard"
-    },
-    {
-        "slug": "drg-live-demo-033-pipeline-check",
-        "title": "DRG Live Demo \u2013 033 pipeline check",
-        "author": "DebtReliefGuard",
-        "date_published": "2025-10-18",
-        "published_at": "2025-10-18",
-        "tags": [
-            "debt relief",
-            "demo"
-        ],
-        "excerpt": "Smoke test showing the DRG pipeline creates dated HTML and blog metadata.",
-        "image": "/images/debt-relief-guide/hero-01.jpg",
-        "thumbnail": "/images/debt-relief-guide/hero-01.jpg",
-        "url": "/blog/drg-live-demo-033-pipeline-check",
-        "content_url": "/blog/2025-10-18-drg-live-demo.html",
-        "site": "debtreliefguard"
     }
 ]
