@@ -338,6 +338,7 @@
 
       const fetchQueue = [primaryHref, ...fallbackHrefs].filter(Boolean);
       const errors = [];
+      let html = '';
       for (const href of fetchQueue) {
         try {
           html = await fetchHtml(href);
@@ -345,6 +346,7 @@
         } catch (err) {
           errors.push(err);
         }
+      }
       if (!html) {
         if (errors.length) {
           console.error('Unable to fetch blog article HTML from any known location.', ...errors);
