@@ -3,36 +3,52 @@
   Cache-Control: no-store, must-revalidate
   Content-Type: application/json; charset=utf-8
   Vary: Accept, Origin
+  Access-Control-Allow-Origin: *
+  Access-Control-Allow-Methods: GET, OPTIONS
 
 /blog.index.html
   Cache-Control: no-cache, must-revalidate
   Vary: Accept, Origin
+  Access-Control-Allow-Origin: *
+  Access-Control-Allow-Methods: GET, OPTIONS
 
 /blog.slug.index.html
   Cache-Control: no-cache, must-revalidate
   Vary: Accept, Origin
+  Access-Control-Allow-Origin: *
+  Access-Control-Allow-Methods: GET, OPTIONS
 
 # (Optional) dated article HTML files generated as static
 /blog/:year-:month-:day-:rest.html
   Cache-Control: no-cache
   Vary: Accept, Origin
+  Access-Control-Allow-Origin: *
+  Access-Control-Allow-Methods: GET, OPTIONS
 
 # Blog folder (covers generated HTML + assets in /blog)
 /blog/*
   Cache-Control: public, max-age=300
+  Access-Control-Allow-Origin: *
+  Access-Control-Allow-Methods: GET, OPTIONS
 
 # Mirror cache headers for the source folder that workers commit into
 /content/blog/*
   Cache-Control: public, max-age=300
+  Access-Control-Allow-Origin: *
+  Access-Control-Allow-Methods: GET, OPTIONS
 
 # Slug loader ONLY for extensionless slugs (never catches *.html)
 /blog/:slug
   Cache-Control: no-cache, must-revalidate
   Vary: Accept, Origin
+  Access-Control-Allow-Origin: *
+  Access-Control-Allow-Methods: GET, OPTIONS
 
 /blog/:slug/
   Cache-Control: no-cache, must-revalidate
   Vary: Accept, Origin
+  Access-Control-Allow-Origin: *
+  Access-Control-Allow-Methods: GET, OPTIONS
 
 
 # Home and other HTML can also be no-cache if you prefer dynamic updates
