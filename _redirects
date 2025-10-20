@@ -5,11 +5,11 @@ https://www.debtreliefguard.com/*    https://debtreliefguard.com/:splat    301!
 /blog                      /blog.index.html                                200
 /blog/                     /blog.index.html                                200
 
-# Serve dated HTML files directly (workers commit real files into content/blog)
-/blog/:date-:slug.html         /content/blog/:date-:slug.html               200
+# Serve dated HTML files directly (workers commit real files into blog)
+/blog/:date-:slug.html         /blog/:date-:slug.html               200
 
 # Extensionless dated URLs → the actual .html file (one hop max)
-/blog/:year-:month-:day-:rest        /content/blog/:year-:month-:day-:rest.html   200
+/blog/:year-:month-:day-:rest        /blog/:year-:month-:day-:rest.html   200
 
 # Non-dated slug .html requests → canonical extensionless slug loader
 /blog/:slug.html               /blog/:slug                                   301
@@ -17,11 +17,13 @@ https://www.debtreliefguard.com/*    https://debtreliefguard.com/:splat    301!
 /blog/:slug                /blog.slug.index.html                           200
 /blog/:slug/               /blog.slug.index.html                           200
 
-# Fallback: serve any other static artifact from content/blog
-/blog/*                    /content/blog/:splat
+# Fallback: serve any other static artifact from blog
+/blog/*                    /blog/:splat
 
-# Allow direct access to raw content artifacts
-/content/blog/*            /content/blog/:splat                           200
+# Legacy support: redirect old content/blog URLs to the new blog location
+/content/blog/:date-:slug.html        /blog/:date-:slug.html               301
+/content/blog/:year-:month-:day-:rest /blog/:year-:month-:day-:rest.html   301
+/content/blog/:splat                  /blog/:splat                         301
 
 
 # Data & assets
