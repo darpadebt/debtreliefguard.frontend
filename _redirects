@@ -8,7 +8,7 @@
 /blog/:date-:slug.html         /content/blog/:date-:slug.html               200
 
 # Extensionless dated URLs → the actual .html file (one hop max)
-/blog/:year-:month-:day-:rest        /content/blog/:year-:month-:day-:rest.html
+/blog/:year-:month-:day-:rest        /content/blog/:year-:month-:day-:rest.html   200
 
 # Non-dated slug .html requests → canonical extensionless slug loader
 /blog/:slug.html               /blog/:slug                                   301
