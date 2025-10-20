@@ -262,7 +262,7 @@
         }
       }
 
-      const candidateHrefs = [...undated, ...dated];
+      const candidateHrefs = [...dated, ...undated];
       const primaryHref = candidateHrefs[0] || resolveHref(`/blog/${slug}.html`);
 
       // 3) Fetch the HTML content & inject
