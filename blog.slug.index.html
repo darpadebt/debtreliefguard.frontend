@@ -408,13 +408,46 @@
         const candidateHrefSet = new Set();
         const undated = [];
         const dated = [];
-        const pushCandidate = (value) => {
+          
+          function pushCandidate(value, allowAugment = true) {
           const href = resolveHref(value);
           if (!href || candidateHrefSet.has(href)) return;
           candidateHrefSet.add(href);
           if (isDatedHref(href)) dated.push(href);
           else undated.push(href);
-        };
+        if (allowAugment) augmentFromHref(href);
+        }
+
+        function augmentFromHref(href) {
+          try {
+            const url = new URL(href, siteOrigin);
+            const sameOrigin = url.origin === originUrl;
+            if (!sameOrigin) return;
+            const pathname = url.pathname.replace(/\/+$/, '');
+            const suffix = `${url.search || ''}${url.hash || ''}`;
+
+            if (pathname.startsWith('/blog/')) {
+              if (/^\/blog\/[^/]+$/i.test(pathname)) {
+                const base = pathname;
+                pushCandidate(`${url.origin}${base}.html${suffix}`, false);
+                pushCandidate(`${url.origin}/content${base}.html${suffix}`, false);
+              } else if (/^\/blog\/[^/]+\/index\.html$/i.test(pathname)) {
+                const base = pathname.replace(/\/index\.html$/i, '');
+                pushCandidate(`${url.origin}${base}.html${suffix}`, false);
+                pushCandidate(`${url.origin}/content${base}.html${suffix}`, false);
+              } else if (/^\/blog\/[^/]+\.html$/i.test(pathname)) {
+                pushCandidate(`${url.origin}/content${pathname}${suffix}`, false);
+              }
+            } else if (pathname.startsWith('/content/blog/')) {
+              const altPath = pathname.replace(/^\/content/, '');
+              pushCandidate(`${url.origin}${altPath}${suffix}`, false);
+              if (/\/index\.html$/i.test(altPath)) {
+                const base = altPath.replace(/\/index\.html$/i, '');
+                pushCandidate(`${url.origin}${base}.html${suffix}`, false);
+              }
+            }
+          } catch (_) { /* noop */ }
+        }
 
         pushCandidate(entry?.url);
         pushCandidate(entry?.content_url);
