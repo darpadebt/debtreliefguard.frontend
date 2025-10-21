@@ -1,6 +1,6 @@
 # Blog JSON list and shell HTML should always revalidate
 /blogs.json
-  Cache-Control: no-store, no-cache, must-revalidate
+  Cache-Control: no-cache, must-revalidate
   Content-Type: application/json; charset=utf-8
   Vary: Accept, Origin
   Access-Control-Allow-Origin: *
@@ -19,9 +19,9 @@
   Access-Control-Allow-Origin: *
   Access-Control-Allow-Methods: GET, OPTIONS
 
-# (Optional) dated article HTML files generated as static
-/blog/:year-:month-:day-:rest.html
-  Cache-Control: no-cache
+# All generated blog HTML should be publicly cacheable but CORS-accessible
+/blog/*.html
+  Cache-Control: public, max-age=600
   Vary: Accept, Origin
   Access-Control-Allow-Origin: *
   Access-Control-Allow-Methods: GET, OPTIONS
