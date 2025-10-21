@@ -12,6 +12,7 @@
 
 # Extensionless dated URLs → the actual .html file (one hop max)
 /blog/:year-:month-:day-:rest /blog/:year-:month-:day-:rest.html 200
+/blog/:year-:month-:day-:rest/index.html /blog/:year-:month-:day-:rest.html 200
 
 # Non-dated slug .html requests → canonical extensionless slug loader
 
@@ -27,6 +28,7 @@
 # Legacy support: redirect old content/blog URLs to the new blog location
 /content/blog/:date-:slug.html        /blog/:date-:slug.html               301
 /content/blog/:year-:month-:day-:rest /blog/:year-:month-:day-:rest.html   301
+/content/blog/:year-:month-:day-:rest/index.html /blog/:year-:month-:day-:rest.html 301
 /content/blog/:splat                  /blog/:splat                         301
 
 
