@@ -445,49 +445,31 @@
           const canonical = typeof post.canonical_url === 'string' ? post.canonical_url.trim() : '';
           const url = typeof post.url === 'string' ? post.url.trim() : '';
           const slugHref = post.slug ? `/blog/${post.slug}` : '';
+          const contentHref = typeof post.content_url === 'string' ? post.content_url.trim() : '';
 
-          const primaryHref = [slugHref, canonical, url].find((value) => value);
-          if (primaryHref) {
-            const adjustedPrimary = adjustBlogHref(primaryHref);
-            if (adjustedPrimary) return adjustedPrimary;
+          const seen = new Set();
+          const candidates = [contentHref, canonical, url, slugHref];
+          let fallback = '';
           }
 
-          if (typeof post.content_url === 'string') {
-            const rawContent = post.content_url.trim();
-            if (rawContent) {
-              try {
-                const parsed = new URL(rawContent, siteOrigin);
-                const isRelative = !/^https?:\/\//i.test(rawContent);
-                const sameOrigin = isRelative || parsed.origin === originUrl;
-                if (sameOrigin && parsed.pathname.startsWith('/content/blog/')) {
-                  const rewrittenPath = `/blog/${parsed.pathname.slice('/content/blog/'.length)}`;
-                  const rebuilt = `${rewrittenPath}${parsed.search}${parsed.hash}`;
-                  const adjustedContent = adjustBlogHref(rebuilt);
-                  if (adjustedContent && !adjustedContent.startsWith('/content/blog/')) {
-                    return adjustedContent;
-                  }
-                  if (!rebuilt.startsWith('/content/blog/')) {
-                    return rebuilt;
-                  }
-                }
-                const adjustedFallback = adjustBlogHref(rawContent);
-                if (adjustedFallback && !adjustedFallback.startsWith('/content/blog/')) {
-                  return adjustedFallback;
-                }
-              } catch (_) {
-                if (rawContent.startsWith('/content/blog/')) {
-                  const rewritten = rawContent.replace(/^\/content\/blog\//, '/blog/');
-                  const adjustedRewritten = adjustBlogHref(rewritten);
-                  if (adjustedRewritten) return adjustedRewritten;
-                  return rewritten;
-                }
-                const adjustedRaw = adjustBlogHref(rawContent);
-                if (adjustedRaw) return adjustedRaw;
+          for (let i = 0; i < candidates.length; i++) {
+            const candidate = candidates[i];
+            if (!candidate || seen.has(candidate)) continue;
+            seen.add(candidate);
+
+            const adjusted = adjustBlogHref(candidate);
+            if (adjusted && !/^\/content\/blog\//i.test(adjusted)) {
+              return adjusted;
+            }
+            if (!fallback && adjusted) {
+              fallback = adjusted;
+            } else if (!fallback && typeof candidate === 'string' && !/^\/content\/blog\//i.test(candidate)) {
+              fallback = candidate;
               }
             }
           }
 
-          return '#';
+          return fallback || '#';
         };
 
         const formatDate = (value) => {
