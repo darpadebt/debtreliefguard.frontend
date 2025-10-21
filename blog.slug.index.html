@@ -394,18 +394,11 @@
 
       const isLoaderShell = (html) => {
         if (!html || typeof html !== 'string') return false;
+        if (/<html[^>]*\sdata-slug-loader/i.test(html)) return true;
         const probe = document.createElement('div');
         probe.innerHTML = html;
-        const loaderArticle = probe.querySelector('article#post');
-        if (!loaderArticle) return false;
-        const loaderContent = loaderArticle.querySelector('#post-content');
-        const loaderTitle = loaderArticle.querySelector('#post-title');
-        const text = loaderContent && loaderContent.textContent ? loaderContent.textContent.trim().toLowerCase() : '';
-        const title = loaderTitle && loaderTitle.textContent ? loaderTitle.textContent.trim().toLowerCase() : '';
-        if (!text && !title) return false;
-        const isPlaceholderText = text.startsWith('please wait') || text === 'loading' || text === 'loading…' || text === 'loading...';
-        const isPlaceholderTitle = title === 'loading…' || title === 'loading...' || title === 'loading';
-        return isPlaceholderText || isPlaceholderTitle;
+        return Boolean(probe.querySelector('[data-slug-loader]'));
+
       };
       
       const fetchHtml = async (href) => {
