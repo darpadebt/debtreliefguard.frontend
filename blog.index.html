@@ -372,6 +372,13 @@
               if (adjusted) return adjusted;
               return rebuilt;
             }
+            if (sameOrigin && /\/blog\/.+\/index\.html$/i.test(url.pathname)) {
+              const collapsedPath = url.pathname.replace(/\/index\.html$/i, '.html');
+              const rebuilt = `${collapsedPath}${url.search}${url.hash}`;
+              const adjusted = adjustBlogHref(rebuilt);
+              if (adjusted) return adjusted;
+              return rebuilt;
+            }
             const match = url.pathname.match(/^\/blog\/([^\/]+)\.html$/);
             if (match && match[1] && !/^\d{4}-\d{2}-\d{2}-/.test(match[1])) {
               const path = url.pathname.replace(/\.html$/, '');
@@ -388,6 +395,12 @@
               const adjustedRewritten = adjustBlogHref(rewritten);
               if (adjustedRewritten) return adjustedRewritten;
               return rewritten;
+            }
+            if (/^\/blog\/.+\/index\.html(?:[?#].*)?$/i.test(raw)) {
+              const collapsed = raw.replace(/\/index\.html(?=[?#]|$)/i, '.html');
+              const adjustedCollapsed = adjustBlogHref(collapsed);
+              if (adjustedCollapsed) return adjustedCollapsed;
+              return collapsed;
             }
             if (/^\/blog\/[^\/]+\.html(?:[?#].*)?$/i.test(raw) && !/^\/blog\/\d{4}-\d{2}-\d{2}-/i.test(raw)) {
               return raw.replace(/\.html(?=[?#]|$)/, '');
