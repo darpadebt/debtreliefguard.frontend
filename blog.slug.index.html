@@ -244,8 +244,9 @@
 
     // ---- Post Loader (uses your existing blogs.json + static HTML fallback) ----
     (async function(){
+      const canonicalOrigin = 'https://debtreliefguard.com';
       const isPreview = /chatgpt\.com$/i.test(location.hostname) || location.hostname.includes('chatgpt');
-      const siteOrigin = isPreview ? 'https://debtreliefguard.com' : location.origin;
+      const siteOrigin = isPreview ? canonicalOrigin : location.origin;
       const slug = (() => {
         const trimmedPath = location.pathname.replace(/\/+$/, '');
         const segment = trimmedPath.split('/').pop() || '';
@@ -316,7 +317,7 @@
       // 1) Try to locate the entry in blogs.json (for meta, hero, canonical URL)
       let entry = null;
       try{
-        const blogsSrc = 'https://debtreliefguard.com/blogs.json';
+        const blogsSrc = `${canonicalOrigin}/blogs.json`;
         const candidates = [blogsSrc, '/blogs.json'];
         let list = null;
         for (let i = 0; i < candidates.length; i++) {
@@ -519,7 +520,37 @@
           return list;
         })();
 
-        return [primaryHref, ...fallbackHrefs].filter(Boolean);
+        const seenQueue = new Set();
+        const queue = [];
+        const pushUnique = (href) => {
+          if (!href || seenQueue.has(href)) return;
+          seenQueue.add(href);
+          queue.push(href);
+        };
+        const pushWithCanonicalPriority = (href) => {
+          if (!href) return;
+          try {
+            const url = new URL(href, siteOrigin);
+            const suffix = `${url.pathname}${url.search}${url.hash}`;
+            const isCanonical = url.origin === canonicalOrigin;
+            const isLocal = url.origin === originUrl;
+            if (isCanonical || isLocal) {
+              pushUnique(`${canonicalOrigin}${suffix}`);
+              if (canonicalOrigin !== originUrl) {
+                pushUnique(`${originUrl}${suffix}`);
+              }
+            } else {
+              pushUnique(url.href);
+            }
+          } catch (_) {
+            pushUnique(href);
+          }
+        };
+
+        pushWithCanonicalPriority(primaryHref);
+        fallbackHrefs.forEach((href) => pushWithCanonicalPriority(href));
+
+        return queue;
       };
 
       const loadArticleHtml = async () => {
