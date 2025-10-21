@@ -366,6 +366,22 @@
             const url = new URL(raw, siteOrigin);
             const isRelative = !/^https?:\/\//i.test(raw);
             const sameOrigin = isRelative || url.origin === originUrl;
+            if (sameOrigin) {
+              const datedIndexMatch = url.pathname.match(/^\/blog\/(\d{4}-\d{2}-\d{2}-[^/]+)\/index\.html$/i);
+              if (datedIndexMatch && datedIndexMatch[1]) {
+                const rebuilt = `/blog/${datedIndexMatch[1]}.html${url.search}${url.hash}`;
+                const adjusted = adjustBlogHref(rebuilt);
+                if (adjusted) return adjusted;
+                return rebuilt;
+              }
+              const contentDatedIndexMatch = url.pathname.match(/^\/content\/blog\/(\d{4}-\d{2}-\d{2}-[^/]+)\/index\.html$/i);
+              if (contentDatedIndexMatch && contentDatedIndexMatch[1]) {
+                const rebuilt = `/blog/${contentDatedIndexMatch[1]}.html${url.search}${url.hash}`;
+                const adjusted = adjustBlogHref(rebuilt);
+                if (adjusted) return adjusted;
+                return rebuilt;
+              }
+            }
             if (sameOrigin && url.pathname.startsWith('/content/blog/')) {
               const rebuilt = `/blog/${url.pathname.slice('/content/blog/'.length)}${url.search}${url.hash}`;
               const adjusted = adjustBlogHref(rebuilt);
@@ -390,6 +406,20 @@
             }
             return url.href;
           } catch (_) {
+            const datedIndexRaw = raw.match(/^\/blog\/(\d{4}-\d{2}-\d{2}-[^/]+)\/index\.html([?#].*)?$/i);
+            if (datedIndexRaw && datedIndexRaw[1]) {
+              const rebuilt = `/blog/${datedIndexRaw[1]}.html${datedIndexRaw[2] || ''}`;
+              const adjustedRebuilt = adjustBlogHref(rebuilt);
+              if (adjustedRebuilt) return adjustedRebuilt;
+              return rebuilt;
+            }
+            const contentDatedIndexRaw = raw.match(/^\/content\/blog\/(\d{4}-\d{2}-\d{2}-[^/]+)\/index\.html([?#].*)?$/i);
+            if (contentDatedIndexRaw && contentDatedIndexRaw[1]) {
+              const rebuilt = `/blog/${contentDatedIndexRaw[1]}.html${contentDatedIndexRaw[2] || ''}`;
+              const adjustedRebuilt = adjustBlogHref(rebuilt);
+              if (adjustedRebuilt) return adjustedRebuilt;
+              return rebuilt;
+            }
             if (/^\/content\/blog\//i.test(raw)) {
               const rewritten = raw.replace(/^\/content\/blog\//i, '/blog/');
               const adjustedRewritten = adjustBlogHref(rewritten);
