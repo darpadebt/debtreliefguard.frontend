@@ -457,6 +457,45 @@
         pushCandidate(entry?.url);
         pushCandidate(entry?.content_url);
 
+        const pushDerivedDatedCandidates = () => {
+          const rawSlug = (() => {
+            const value = entry?.slug || slug;
+            if (!value) return '';
+            return String(value).trim();
+          })();
+          if (!rawSlug) return;
+
+          const baseSlug = rawSlug.replace(/\.html$/i, '');
+          if (!baseSlug) return;
+
+          const isoDate = (() => {
+            const rawDate = (() => {
+              const primary = entry?.date_published || entry?.published_at;
+              if (!primary) return '';
+              return String(primary).trim();
+            })();
+            if (!rawDate) return '';
+            const match = rawDate.match(/^(\d{4})-(\d{2})-(\d{2})/);
+            if (!match) return '';
+            return `${match[1]}-${match[2]}-${match[3]}`;
+          })();
+          if (!isoDate) return;
+
+          const slugTail = baseSlug.replace(/^20\d{2}-\d{2}-\d{2}-/, '');
+          if (!slugTail) return;
+
+          const datedBase = `${isoDate}-${slugTail}`;
+          const datedCandidates = [
+            `/blog/${datedBase}.html`,
+            `/blog/${datedBase}/index.html`,
+            `/content/blog/${datedBase}.html`,
+            `/content/blog/${datedBase}/index.html`
+          ];
+          datedCandidates.forEach((href) => pushCandidate(href));
+        };
+
+        pushDerivedDatedCandidates();
+        
         if (!candidateHrefSet.size) {
           if (/^20\d{2}-\d{2}-\d{2}-/.test(slug)) {
             pushCandidate(`/blog/${slug}.html`);
