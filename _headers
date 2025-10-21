@@ -1,6 +1,6 @@
 # Blog JSON list and shell HTML should always revalidate
 /blogs.json
-  Cache-Control: no-cache, must-revalidate
+  Cache-Control: no-store, must-revalidate
   Content-Type: application/json; charset=utf-8
   Vary: Accept, Origin
   Access-Control-Allow-Origin: *
