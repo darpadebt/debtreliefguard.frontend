@@ -12,12 +12,14 @@
   Vary: Accept, Origin
   Access-Control-Allow-Origin: *
   Access-Control-Allow-Methods: GET, OPTIONS
+  Access-Control-Allow-Headers: *
 
 /blog.slug.index.html
   Cache-Control: no-cache, must-revalidate
   Vary: Accept, Origin
   Access-Control-Allow-Origin: *
   Access-Control-Allow-Methods: GET, OPTIONS
+  Access-Control-Allow-Headers: *
 
 # All generated blog HTML should be publicly cacheable but CORS-accessible
 /blog/*.html
@@ -25,12 +27,14 @@
   Vary: Accept, Origin
   Access-Control-Allow-Origin: *
   Access-Control-Allow-Methods: GET, OPTIONS
+  Access-Control-Allow-Headers: *
 
 # Blog folder (covers generated HTML + assets in /blog)
 /blog/*
   Cache-Control: public, max-age=300
   Access-Control-Allow-Origin: *
   Access-Control-Allow-Methods: GET, OPTIONS
+  Access-Control-Allow-Headers: *
 
 # Slug loader ONLY for extensionless slugs (never catches *.html)
 /blog/:slug
@@ -38,12 +42,14 @@
   Vary: Accept, Origin
   Access-Control-Allow-Origin: *
   Access-Control-Allow-Methods: GET, OPTIONS
+  Access-Control-Allow-Headers: *
 
 /blog/:slug/
   Cache-Control: no-cache, must-revalidate
   Vary: Accept, Origin
   Access-Control-Allow-Origin: *
   Access-Control-Allow-Methods: GET, OPTIONS
+  Access-Control-Allow-Headers: *
 
 
 # Home and other HTML can also be no-cache if you prefer dynamic updates
