@@ -269,6 +269,18 @@
         catch(_) { return siteOrigin; }
       })();
 
+      const runtimeOrigin = (() => {
+        try {
+          const origin = typeof location !== 'undefined' ? location.origin : '';
+          if (origin && origin !== 'null') return origin;
+        } catch (_) { /* noop */ }
+        try {
+          const resolved = typeof location !== 'undefined' ? new URL(location.href).origin : '';
+          if (resolved && resolved !== 'null') return resolved;
+        } catch (_) { /* noop */ }
+        return '';
+      })();
+
       const normalizePostUrl = (value) => {
         if (typeof value !== 'string') return '';
         const raw = value.trim();
@@ -565,12 +577,27 @@
             const url = new URL(href, siteOrigin);
             const suffix = `${url.pathname}${url.search}${url.hash}`;
             const isCanonical = url.origin === canonicalOrigin;
-            const isLocal = url.origin === originUrl;
-            if (isCanonical || isLocal) {
-              pushUnique(`${canonicalOrigin}${suffix}`);
-              if (canonicalOrigin !== originUrl) {
-                pushUnique(`${originUrl}${suffix}`);
-              }
+            const candidateOrigin = url.origin;
+            const knownOrigins = [];
+            const pushKnownOrigin = (origin) => {
+              if (!origin || origin === 'null') return;
+              pushUnique(`${origin}${suffix}`);
+            };
+            if (canonicalOrigin) knownOrigins.push(canonicalOrigin);
+            if (originUrl && originUrl !== canonicalOrigin) knownOrigins.push(originUrl);
+            if (
+              runtimeOrigin &&
+              runtimeOrigin !== canonicalOrigin &&
+              runtimeOrigin !== originUrl
+            ) {
+              knownOrigins.push(runtimeOrigin);
+            }
+            if (
+              candidateOrigin === canonicalOrigin ||
+              candidateOrigin === originUrl ||
+              (runtimeOrigin && candidateOrigin === runtimeOrigin)
+            ) {
+              knownOrigins.forEach((origin) => pushKnownOrigin(origin));
             } else {
               pushUnique(url.href);
             }
