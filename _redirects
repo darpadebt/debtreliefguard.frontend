@@ -11,17 +11,21 @@
 /blog/chapter-1-understanding-debt-relief-options.html                                      /blog/2025-08-03-chapter-1-understanding-debt-relief-options.html                                 200
 /blog/navigating-the-path-to-debt-relief-your-guide-to-debt-consolidation-and-settlement.html /blog/2025-08-06-navigating-the-path-to-debt-relief-your-guide-to-debt-consolidation-and-settlement.html 200
 
-# /blog/:slug.html routes are handled via the explicit entries above; catch-all removed to avoid redirect loops.
+# /blog/:slug.html routes either match the explicit entries above or 301 back to the extensionless canonical URL.
 
 # Extensionless dated URLs → their .html file (one hop)
 /blog/:year-:month-:day-:rest                         /blog/:year-:month-:day-:rest.html                    200
 /blog/:year-:month-:day-:rest/index.html              /blog/:year-:month-:day-:rest.html                    200
 
-# New posts without explicit lines fall back to the dynamic slug loader shell
+# Prevent /blog/:slug.html from being treated like the dynamic loader (avoids redirect loops)
+/blog/:slug.html                                      /blog/:slug                                            301
+
+# Extensionless slug URLs fall back to the dynamic loader shell
 /blog/:slug                                           /blog.slug.index.html                                  200
-/blog/:slug/                                          /blog.slug.index.html                                  200
-/blog/:slug/index                                     /blog.slug.index.html                                  200
-/blog/:slug/index.html                                /blog.slug.index.html                                  200
+# Canonicalise trailing-slash/index variants so they resolve once instead of looping
+/blog/:slug/                                          /blog/:slug                                            301
+/blog/:slug/index                                     /blog/:slug                                            301
+/blog/:slug/index.html                                /blog/:slug                                            301
 
 # Legacy paths → new location
 /content/blog/:date-:slug.html                        /blog/:date-:slug.html                                 301
