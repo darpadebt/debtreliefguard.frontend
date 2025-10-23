@@ -395,11 +395,14 @@
               if (adjusted) return adjusted;
               return rebuilt;
             }
-            const match = url.pathname.match(/^\/blog\/([^\/]+)\.html$/);
-            if (match && match[1] && !/^\d{4}-\d{2}-\d{2}-/.test(match[1])) {
-              const path = url.pathname.replace(/\.html$/, '');
-              const rebuilt = `${path}${url.search}${url.hash}`;
+            if (sameOrigin && /^\/blog\/\d{4}-\d{2}-\d{2}-[^/]+$/i.test(url.pathname) && !/\.html$/i.test(url.pathname)) {
+              const rebuilt = `${url.pathname}.html${url.search}${url.hash}`;
+              const adjusted = adjustBlogHref(rebuilt);
+              if (adjusted) return adjusted;
               return rebuilt;
+            }
+            if (sameOrigin && /^\/blog\/[^\/]+\.html$/i.test(url.pathname) && !/^\/blog\/\d{4}-\d{2}-\d{2}-/i.test(url.pathname)) {
+              return '';
             }
             if (sameOrigin) {
               return `${url.pathname}${url.search}${url.hash}`;
@@ -432,8 +435,15 @@
               if (adjustedCollapsed) return adjustedCollapsed;
               return collapsed;
             }
+            const datedRaw = raw.match(/^\/blog\/(\d{4}-\d{2}-\d{2}-[^/]+)([?#].*)?$/i);
+            if (datedRaw && datedRaw[1] && !/\.html$/i.test(datedRaw[1])) {
+              const rebuilt = `/blog/${datedRaw[1]}.html${datedRaw[2] || ''}`;
+              const adjustedRebuilt = adjustBlogHref(rebuilt);
+              if (adjustedRebuilt) return adjustedRebuilt;
+              return rebuilt;
+            }
             if (/^\/blog\/[^\/]+\.html(?:[?#].*)?$/i.test(raw) && !/^\/blog\/\d{4}-\d{2}-\d{2}-/i.test(raw)) {
-              return raw.replace(/\.html(?=[?#]|$)/, '');
+              return '';
             }
             return raw;
           }
@@ -444,11 +454,31 @@
 
           const canonical = typeof post.canonical_url === 'string' ? post.canonical_url.trim() : '';
           const url = typeof post.url === 'string' ? post.url.trim() : '';
-          const slugHref = post.slug ? `/blog/${post.slug}` : '';
+          const slugValue = typeof post.slug === 'string' ? post.slug.trim() : '';
+          const slugHtml = (() => {
+            if (!slugValue) return '';
+            const hasDatePrefix = /^20\d{2}-\d{2}-\d{2}-/.test(slugValue);
+            if (!hasDatePrefix) return '';
+            return `/blog/${slugValue.replace(/\.html$/i, '')}.html`;
+          })();
+          const isoDate = (() => {
+            const value = post.date_published || post.published_at;
+            if (!value) return '';
+            const str = String(value).trim();
+            const match = str.match(/^(\d{4})-(\d{2})-(\d{2})/);
+            return match ? `${match[1]}-${match[2]}-${match[3]}` : '';
+          })();
+          const datedFromSlug = (() => {
+            if (!isoDate || !slugValue) return '';
+            const base = slugValue.replace(/\.html$/i, '');
+            const tail = base.replace(/^20\d{2}-\d{2}-\d{2}-/, '');
+            if (!tail) return '';
+            return `/blog/${isoDate}-${tail}.html`;
+          })();
           const contentHref = typeof post.content_url === 'string' ? post.content_url.trim() : '';
 
           const seen = new Set();
-          const candidates = [contentHref, canonical, url, slugHref];
+          const candidates = [contentHref, canonical, url, datedFromSlug, slugHtml];
           let fallback = '';
 
           for (let i = 0; i < candidates.length; i++) {
