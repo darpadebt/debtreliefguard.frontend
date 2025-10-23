@@ -450,7 +450,6 @@
           const seen = new Set();
           const candidates = [contentHref, canonical, url, slugHref];
           let fallback = '';
-          }
 
           for (let i = 0; i < candidates.length; i++) {
             const candidate = candidates[i];
@@ -465,7 +464,6 @@
               fallback = adjusted;
             } else if (!fallback && typeof candidate === 'string' && !/^\/content\/blog\//i.test(candidate)) {
               fallback = candidate;
-              }
             }
           }
 
