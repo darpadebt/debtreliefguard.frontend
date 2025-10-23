@@ -666,7 +666,9 @@
           ensureMeta('meta[property="og:description"]', { content: excerptValue });
           ensureMeta('meta[name="twitter:description"]', { content: excerptValue });
         }
-        const canonicalCandidate = normalizePostUrl(sourceEntry.canonical_url || sourceEntry.url || `/blog/${slug}`);
+        const canonicalCandidate = normalizePostUrl(
+          sourceEntry.content_url || sourceEntry.canonical_url || sourceEntry.url || `/blog/${slug}`
+        );
         if (canonicalCandidate) {
           const canonicalUrl = toAbsolute(canonicalCandidate);
           if (canonicalUrl) {
