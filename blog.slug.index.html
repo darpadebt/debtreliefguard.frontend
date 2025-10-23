@@ -258,7 +258,11 @@
       const bodyEl  = document.getElementById('post-content');
       const defaultHero = '/images/debt-relief-guide/hero-01.jpg';
       
-      const storageKeys = { list: 'drg:blog:index', lastEntry: 'drg:blog:last' };
+      const storageKeys = {
+        list: 'drg:blog:index',
+        lastEntry: 'drg:blog:last',
+        navigate: 'drg:blog:navigate'
+      };
       const readSessionJson = (key) => {
         try {
           if (typeof sessionStorage === 'undefined') return null;
@@ -280,6 +284,9 @@
           if (typeof sessionStorage === 'undefined') return;
           sessionStorage.removeItem(key);
         } catch (_) {}
+      };
+      const isPlainObject = (value) => {
+        return !!value && typeof value === 'object' && !Array.isArray(value);
       };
       const deriveSlug = (value) => {
         if (typeof value !== 'string') return '';
@@ -407,6 +414,73 @@
           return false;
         }) || null;
       };
+      const unwrapListPayload = (payload) => {
+        if (!payload) return null;
+        const seen = new Set();
+        const queue = [payload];
+        const keys = ['posts','entries','items','list','blogPosts','blogList','data','value','payload'];
+        while (queue.length) {
+          const current = queue.shift();
+          if (!current) continue;
+          if (typeof current === 'string' || typeof current === 'number' || typeof current === 'boolean') continue;
+          if (Array.isArray(current)) {
+            const hasObject = current.some((item) => isPlainObject(item));
+            if (hasObject) return current;
+            continue;
+          }
+          if (!isPlainObject(current)) continue;
+          if (seen.has(current)) continue;
+          seen.add(current);
+          keys.forEach((key) => {
+            if (key in current) queue.push(current[key]);
+          });
+        }
+        return null;
+      };
+      const unwrapEntryPayload = (payload) => {
+        if (!payload) return null;
+        const seen = new Set();
+        const queue = [];
+        const push = (value) => {
+          if (!value) return;
+          if (Array.isArray(value)) {
+            value.forEach((item) => push(item));
+            return;
+          }
+          if (!isPlainObject(value)) return;
+          if (seen.has(value)) return;
+          seen.add(value);
+          queue.push(value);
+        };
+        push(payload);
+        let fallback = null;
+        while (queue.length) {
+          const current = queue.shift();
+          const sanitized = sanitizeEntry(current);
+          if (sanitized) {
+            const slugCandidates = [
+              sanitized.slug,
+              current.slug,
+              sanitized.url,
+              current.url,
+              sanitized.content_url,
+              current.content_url
+            ].filter((value) => typeof value === 'string' && value.trim());
+            if (slugCandidates.some((candidate) => matchesEntrySlug(candidate))) {
+              return sanitized;
+            }
+            if (!fallback && !slugCandidates.length) {
+              fallback = sanitized;
+            }
+          }
+          if (isPlainObject(current)) {
+            ['entry','post','article','data','payload','blogEntry','current','currentEntry','value'].forEach((key) => {
+              if (key in current) push(current[key]);
+            });
+          }
+        }
+        return fallback;
+      };
       const persistListSnapshot = (items) => {
         if (!Array.isArray(items) || !items.length) {
           removeSession(storageKeys.list);
@@ -435,24 +509,68 @@
       };
       const readStoredEntry = () => {
         const payload = readSessionJson(storageKeys.lastEntry);
-        if (!payload || typeof payload !== 'object') return null;
-        const storedEntry = payload.entry;
-        if (!storedEntry || typeof storedEntry !== 'object') return null;
-        if (
-          matchesEntrySlug(payload.slug || '') ||
-          matchesEntrySlug(storedEntry.slug || '') ||
-          matchesEntrySlug(storedEntry.url || '') ||
-          matchesEntrySlug(storedEntry.content_url || '')
-        ) {
-          return storedEntry;
-        }
-        return null;
+        if (!payload) return null;
+        const entry = unwrapEntryPayload(payload);
+        return entry || null;
       };
       const readStoredListEntry = () => {
         const payload = readSessionJson(storageKeys.list);
-        if (!payload || typeof payload !== 'object') return null;
-        if (!Array.isArray(payload.posts)) return null;
-        return findEntryInList(payload.posts, slug);
+        if (!payload) return null;
+        const list = unwrapListPayload(payload);
+        if (!Array.isArray(list)) return null;
+        return findEntryInList(list, slug);
+      };
+      const readNavigateEntry = () => {
+        const payload = readSessionJson(storageKeys.navigate);
+        if (!payload) return null;
+        removeSession(storageKeys.navigate);
+        const list = unwrapListPayload(payload);
+        if (Array.isArray(list)) {
+          persistListSnapshot(list);
+        }
+        const entry = unwrapEntryPayload(payload);
+        return entry || null;
+      };
+      const readHistoryEntry = () => {
+        try {
+          const state = history && typeof history.state === 'object' ? history.state : null;
+          if (!state) return null;
+          const list = unwrapListPayload(state);
+          if (Array.isArray(list)) {
+            persistListSnapshot(list);
+          }
+          const entry = unwrapEntryPayload(state);
+          return entry || null;
+        } catch (_) {
+          return null;
+        }
+      };
+      const readWindowNameEntry = () => {
+        try {
+          if (typeof window === 'undefined') return null;
+          const raw = window.name;
+          if (typeof raw !== 'string') return null;
+          const trimmed = raw.trim();
+          if (!trimmed) return null;
+          if (!/^[\[{]/.test(trimmed)) return null;
+          let parsed;
+          try {
+            parsed = JSON.parse(trimmed);
+          } catch (_) {
+            return null;
+          }
+          const list = unwrapListPayload(parsed);
+          if (Array.isArray(list)) {
+            persistListSnapshot(list);
+          }
+          const entry = unwrapEntryPayload(parsed);
+          if (entry || list) {
+            try { window.name = ''; } catch (_) {}
+          }
+          return entry || null;
+        } catch (_) {
+          return null;
+        }
       };
       
       let entry = null;
@@ -601,12 +719,16 @@
       };
 
       (() => {
-        const stored = readStoredEntry();
-        if (stored) {
-          adoptEntry(stored);
-          return;
-        }
-        const fallbackEntry = readStoredListEntry();
+        const tryAdopt = (entry, options) => {
+          if (!entry) return false;
+          adoptEntry(entry, options);
+          return true;
+        };
+        if (tryAdopt(readNavigateEntry(), { persist: true })) return;
+        if (tryAdopt(readHistoryEntry(), { persist: true })) return;
+        if (tryAdopt(readWindowNameEntry(), { persist: true })) return;
+        if (tryAdopt(readStoredEntry())) return;
+        tryAdopt(readStoredListEntry());
         if (fallbackEntry) {
           adoptEntry(fallbackEntry);
         }
