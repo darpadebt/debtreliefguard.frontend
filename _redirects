@@ -10,6 +10,13 @@
 # Serve dated HTML files directly (workers commit real files into blog)
 /blog/:date-:slug.html         /blog/:date-:slug.html               200
 
+# Slug-based HTML URLs map to their generated dated artifacts so canonical
+# links like /blog/example-post.html resolve to the real static file. Keep this
+# list in sync with blogs.json + /blog/*.html commits.
+/blog/finding-your-path-to-debt-relief-a-guide-to-debt-consolidation-and-settlement.html /blog/2025-08-02-finding-your-path-to-debt-relief-a-guide-to-debt-consolidation-and-settlement.html 200
+/blog/chapter-1-understanding-debt-relief-options.html /blog/2025-08-03-chapter-1-understanding-debt-relief-options.html 200
+/blog/navigating-the-path-to-debt-relief-your-guide-to-debt-consolidation-and-settlement.html /blog/2025-08-06-navigating-the-path-to-debt-relief-your-guide-to-debt-consolidation-and-settlement.html 200
+
 # Extensionless dated URLs → the actual .html file (one hop max)
 /blog/:year-:month-:day-:rest /blog/:year-:month-:day-:rest.html 200
 /blog/:year-:month-:day-:rest/index.html /blog/:year-:month-:day-:rest.html 200
