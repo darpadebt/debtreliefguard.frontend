@@ -30,8 +30,18 @@
 /blog/:year-:month-:day-:rest /blog/:year-:month-:day-:rest.html 200
 /blog/:year-:month-:day-:rest/index.html /blog/:year-:month-:day-:rest.html 200
 
-# Non-dated slug .html requests should hit the generated HTML directly so
-# headers like Cache-Control from `_headers` can apply to the real artifact.
+# Non-dated slug .html requests fall back to the dynamic slug loader so
+# freshly published posts resolve immediately even before explicit rewrites
+# are added. Keep the explicit slug → dated mappings above to prefer direct
+# static files when available.
+/blog/:slug.html            /blog.slug.index.html              200
+/blog/:slug                 /blog.slug.index.html              200
+/blog/:slug/                /blog.slug.index.html              200
+
+# Dated HTML artifacts committed by worker 033 should be served directly so
+# cache directives on the static files take effect. Including this explicit
+# rule keeps the readiness check and router assumptions aligned.
+/blog/:year-:month-:day-:rest.html /blog/:year-:month-:day-:rest.html 200
 
 # Fallback: serve any other static artifact from blog
 /blog/*                    /blog/:splat                     200
