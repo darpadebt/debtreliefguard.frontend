@@ -97,6 +97,8 @@ async function ensureBlogsJson() {
     return;
   }
 
+  const pending = [];
+
   data.forEach((entry, index) => {
     const prefix = `blogs.json[${index}]`;
     if (!entry || typeof entry !== 'object') {
