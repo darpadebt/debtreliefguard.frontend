@@ -257,18 +257,82 @@
       const heroEl  = document.getElementById('post-hero');
       const bodyEl  = document.getElementById('post-content');
       const defaultHero = '/images/debt-relief-guide/hero-01.jpg';
-
+      
+      const storageKeys = { list: 'drg:blog:index', lastEntry: 'drg:blog:last' };
+      const readSessionJson = (key) => {
+        try {
+          if (typeof sessionStorage === 'undefined') return null;
+          const raw = sessionStorage.getItem(key);
+          if (!raw) return null;
+          return JSON.parse(raw);
+        } catch (_) {
+          return null;
+        }
+      };
+      const writeSessionJson = (key, value) => {
+        try {
+          if (typeof sessionStorage === 'undefined') return;
+          sessionStorage.setItem(key, JSON.stringify(value));
+        } catch (_) {}
+      };
+      const removeSession = (key) => {
+        try {
+          if (typeof sessionStorage === 'undefined') return;
+          sessionStorage.removeItem(key);
+        } catch (_) {}
+      };
+      const deriveSlug = (value) => {
+        if (typeof value !== 'string') return '';
+        const cleaned = value.trim();
+        if (!cleaned) return '';
+        const withoutHash = cleaned.split('#')[0];
+        const withoutQuery = withoutHash.split('?')[0];
+        const withoutIndex = withoutQuery.replace(/\/index(?:\.html)?$/i, '');
+        const trimmed = withoutIndex.replace(/\/+$/, '');
+        const segments = trimmed.split('/').filter(Boolean);
+        if (!segments.length) return '';
+        const last = segments[segments.length - 1];
+        return last.replace(/\.html$/i, '');
+      };
+      const allowedEntryFields = [
+        'slug','title','excerpt','date_published','published_at','thumbnail','image','author',
+        'url','content_url','canonical_url','schema_jsonld','tags','site'
+      ];
+      const sanitizeEntry = (value) => {
+        if (!value || typeof value !== 'object') return null;
+        const result = {};
+        allowedEntryFields.forEach((key) => {
+          if (!(key in value)) return;
+          const current = value[key];
+          if (current === undefined) return;
+          if (key === 'tags' && Array.isArray(current)) {
+            result.tags = current.slice(0, 10);
+          } else {
+            result[key] = current;
+          }
+        });
+        const derived = deriveSlug(result.slug || value.slug || value.url || value.content_url || '');
+        if (derived) {
+          result.slug = derived;
+        } else if (!result.slug) {
+          delete result.slug;
+        }
+        return result;
+      };
+      const formatDate = (value) => {
+        if (!value) return '';
+        const parsed = new Date(value);
+        return isNaN(parsed.getTime()) ? '' : parsed.toLocaleDateString();
+      };
       const toAbsolute = (value) => {
         if (!value || typeof value !== 'string') return '';
         try { return new URL(value, siteOrigin).href; }
         catch(_) { return value; }
       };
-
       const originUrl = (() => {
         try { return new URL(siteOrigin).origin; }
         catch(_) { return siteOrigin; }
       })();
-
       const runtimeOrigin = (() => {
         try {
           const origin = typeof location !== 'undefined' ? location.origin : '';
@@ -280,7 +344,6 @@
         } catch (_) { /* noop */ }
         return '';
       })();
-
       const normalizePostUrl = (value) => {
         if (typeof value !== 'string') return '';
         const raw = value.trim();
@@ -302,15 +365,7 @@
           }
           return raw;
         }
-      };
-
-      const applyOgImage = (value) => {
-        if (!value || typeof value !== 'string') return;
-        const absolute = toAbsolute(value);
-        if (!absolute) return;
-        ensureMeta('meta[property="og:image"]', { content: absolute });
-        ensureMeta('meta[name="twitter:image"]', { content: absolute });
-      };
+      }
 
       const ensureMeta = (selector, attrs) => {
         if (!attrs || typeof attrs !== 'object') return;
@@ -325,9 +380,238 @@
           if (typeof v === 'string' && v) node.setAttribute(k, v);
         });
       };
-
-      // 1) Try to locate the entry in blogs.json (for meta, hero, canonical URL)
+      const applyOgImage = (value) => {
+        if (!value || typeof value !== 'string') return;
+        const absolute = toAbsolute(value);
+        if (!absolute) return;
+        ensureMeta('meta[property="og:image"]', { content: absolute });
+        ensureMeta('meta[name="twitter:image"]', { content: absolute });
+      };
+      const matchesEntrySlug = (value, candidateSlug = slug) => {
+        if (typeof value !== 'string') return false;
+        const candidate = deriveSlug(candidateSlug);
+        if (!candidate) return false;
+        const source = deriveSlug(value);
+        if (!source) return false;
+        return source === candidate || source.endsWith(`-${candidate}`) || candidate.endsWith(`-${source}`);
+      };
+      const findEntryInList = (list, candidateSlug = slug) => {
+        if (!Array.isArray(list)) return null;
+        return list.find((p) => {
+          if (!p || typeof p !== 'object') return false;
+          const site = (p.site || '').toString().toLowerCase();
+          if (site && site !== 'debtreliefguard') return false;
+          if (typeof p.slug === 'string' && matchesEntrySlug(p.slug, candidateSlug)) return true;
+          if (matchesEntrySlug(p.url, candidateSlug)) return true;
+          if (matchesEntrySlug(p.content_url, candidateSlug)) return true;
+          return false;
+        }) || null;
+      };
+      const persistListSnapshot = (items) => {
+        if (!Array.isArray(items) || !items.length) {
+          removeSession(storageKeys.list);
+          return;
+        }
+        const sanitized = items.map(sanitizeEntry).filter(Boolean);
+        if (!sanitized.length) {
+          removeSession(storageKeys.list);
+          return;
+        }
+        writeSessionJson(storageKeys.list, {
+          origin: siteOrigin,
+          updated_at: Date.now(),
+          posts: sanitized
+        });
+      };
+      const persistCurrentEntry = (value) => {
+        const sanitized = sanitizeEntry(value);
+        if (!sanitized) return;
+        writeSessionJson(storageKeys.lastEntry, {
+          origin: siteOrigin,
+          updated_at: Date.now(),
+          slug: sanitized.slug || null,
+          entry: sanitized
+        });
+      };
+      const readStoredEntry = () => {
+        const payload = readSessionJson(storageKeys.lastEntry);
+        if (!payload || typeof payload !== 'object') return null;
+        const storedEntry = payload.entry;
+        if (!storedEntry || typeof storedEntry !== 'object') return null;
+        if (
+          matchesEntrySlug(payload.slug || '') ||
+          matchesEntrySlug(storedEntry.slug || '') ||
+          matchesEntrySlug(storedEntry.url || '') ||
+          matchesEntrySlug(storedEntry.content_url || '')
+        ) {
+          return storedEntry;
+        }
+        return null;
+      };
+      const readStoredListEntry = () => {
+        const payload = readSessionJson(storageKeys.list);
+        if (!payload || typeof payload !== 'object') return null;
+        if (!Array.isArray(payload.posts)) return null;
+        return findEntryInList(payload.posts, slug);
+      };
+      
       let entry = null;
+
+      const ensureHeroHandlers = (() => {
+        let attached = false;
+        return () => {
+          if (attached) return;
+          attached = true;
+          heroEl.addEventListener('error', () => { fallbackHero(); });
+          heroEl.addEventListener('load', () => {
+            if (heroEl.dataset.fallbackApplied === '1') return;
+            if (heroEl.naturalWidth <= 1 || heroEl.naturalHeight <= 1) {
+              fallbackHero();
+            }
+          });
+        };
+      })();
+      function fallbackHero() {
+        ensureHeroHandlers();
+        if (heroEl.dataset.fallbackApplied === '1') {
+          heroEl.style.display = 'none';
+          return;
+        }
+        heroEl.dataset.fallbackApplied = '1';
+        heroEl.src = defaultHero;
+        heroEl.style.display = '';
+        const alt = entry && entry.title ? `${entry.title} hero image` : 'DebtReliefGuard blog hero';
+        heroEl.alt = alt;
+        applyOgImage(defaultHero);
+      }
+      const updateHeroImage = (sourceEntry, fallbackSrc = '') => {
+        ensureHeroHandlers();
+        const candidate = (() => {
+          if (sourceEntry && typeof sourceEntry === 'object') {
+            const thumb = typeof sourceEntry.thumbnail === 'string' ? sourceEntry.thumbnail.trim() : '';
+            if (thumb) return thumb;
+            const image = typeof sourceEntry.image === 'string' ? sourceEntry.image.trim() : '';
+            if (image) return image;
+          }
+          if (typeof fallbackSrc === 'string') {
+            const trimmed = fallbackSrc.trim();
+            if (trimmed) return trimmed;
+          }
+          return '';
+        })();
+        if (candidate) {
+          heroEl.dataset.fallbackApplied = '0';
+          heroEl.style.display = '';
+          heroEl.src = candidate;
+          const alt = (() => {
+            if (sourceEntry && typeof sourceEntry.title === 'string' && sourceEntry.title.trim()) {
+              return `${sourceEntry.title.trim()} hero image`;
+            }
+            return heroEl.alt || 'DebtReliefGuard blog hero';
+          })();
+          heroEl.alt = alt;
+          applyOgImage(candidate);
+        } else {
+          fallbackHero();
+        }
+      };
+      const applyEntryPreview = (sourceEntry) => {
+        if (!sourceEntry || typeof sourceEntry !== 'object') return;
+        const title = typeof sourceEntry.title === 'string' ? sourceEntry.title.trim() : '';
+        if (title) {
+          titleEl.textContent = title;
+          document.title = `${title} | DebtReliefGuard`;
+        }
+        updateHeroImage(sourceEntry);
+        const date = formatDate(sourceEntry.date_published || sourceEntry.published_at);
+        const author = (() => {
+          const raw = sourceEntry.author;
+          if (Array.isArray(raw)) {
+            return raw.map((item) => String(item).trim()).filter(Boolean).join(', ') || 'DebtReliefGuard';
+          }
+          if (typeof raw === 'string' && raw.trim()) return raw.trim();
+          return 'DebtReliefGuard';
+        })();
+        const metaParts = [date, author].filter(Boolean);
+        if (metaParts.length) {
+          metaEl.textContent = metaParts.join(' · ');
+        }
+        if (sourceEntry.excerpt) {
+          let metaDesc = document.querySelector('meta[name="description"]');
+          if (!metaDesc) {
+            metaDesc = document.createElement('meta');
+            metaDesc.setAttribute('name', 'description');
+            document.head.appendChild(metaDesc);
+          }
+          const excerptValue = String(sourceEntry.excerpt);
+          metaDesc.setAttribute('content', excerptValue);
+          ensureMeta('meta[property="og:description"]', { content: excerptValue });
+          ensureMeta('meta[name="twitter:description"]', { content: excerptValue });
+        }
+        const canonicalCandidate = normalizePostUrl(sourceEntry.canonical_url || sourceEntry.url || `/blog/${slug}`);
+        if (canonicalCandidate) {
+          const canonicalUrl = toAbsolute(canonicalCandidate);
+          if (canonicalUrl) {
+            let canonical = document.querySelector('link[rel="canonical"]');
+            if (!canonical) {
+              canonical = document.createElement('link');
+              canonical.setAttribute('rel', 'canonical');
+              document.head.appendChild(canonical);
+            }
+            canonical.setAttribute('href', canonicalUrl);
+            ensureMeta('meta[property="og:url"]', { content: canonicalUrl });
+            ensureMeta('meta[name="twitter:url"]', { content: canonicalUrl });
+          }
+        }
+        if (title) {
+          const composedTitle = `${title} | DebtReliefGuard`;
+          ensureMeta('meta[property="og:title"]', { content: composedTitle });
+          ensureMeta('meta[name="twitter:title"]', { content: composedTitle });
+        }
+        ensureMeta('meta[property="og:type"]', { content: 'article' });
+        ensureMeta('meta[name="twitter:card"]', { content: 'summary_large_image' });
+        if (author) {
+          ensureMeta('meta[name="author"]', { content: author });
+        }
+        const existingSchema = document.getElementById('dynamic-schema-jsonld');
+        if (sourceEntry.schema_jsonld) {
+          if (existingSchema) existingSchema.remove();
+          const script = document.createElement('script');
+          script.type = 'application/ld+json';
+          script.id = 'dynamic-schema-jsonld';
+          try {
+            let schema = sourceEntry.schema_jsonld;
+            if (typeof schema === 'string') {
+              script.textContent = schema;
+            } else {
+              script.textContent = JSON.stringify(schema);
+            }
+            document.head.appendChild(script);
+          } catch (_) {}
+        } else if (existingSchema) {
+          existingSchema.remove();
+        }
+      };
+      const adoptEntry = (value, { persist = false } = {}) => {
+        if (!value || typeof value !== 'object') return null;
+        entry = { ...value };
+        applyEntryPreview(entry);
+        if (persist) persistCurrentEntry(entry);
+        return entry;
+      };
+
+      (() => {
+        const stored = readStoredEntry();
+        if (stored) {
+          adoptEntry(stored);
+          return;
+        }
+        const fallbackEntry = readStoredListEntry();
+        if (fallbackEntry) {
+          adoptEntry(fallbackEntry);
+        }
+      })();
+      
       try{
         const blogsSrc = `${canonicalOrigin}/blogs.json`;
         const candidates = [blogsSrc, '/blogs.json'];
@@ -348,32 +632,13 @@
           }
         }
         if(Array.isArray(list)){
-          const matchesEntrySlug = (value) => {
-            if (typeof value !== 'string') return false;
-            const cleaned = value.trim();
-            if (!cleaned) return false;
-            const withoutHash = cleaned.split('#')[0];
-            const withoutQuery = withoutHash.split('?')[0];
-            const withoutIndex = withoutQuery.replace(/\/index(?:\.html)?$/i, '');
-            const trimmed = withoutIndex.replace(/\/+$/, '');
-            const segments = trimmed.split('/').filter(Boolean);
-            if (!segments.length) return false;
-            const last = segments[segments.length - 1].replace(/\.html$/i, '');
-            if (!last) return false;
-            return last === slug || last.endsWith(`-${slug}`);
-          };  
-          
-          entry = list.find(p => {
-            if(!p || typeof p !== 'object') return false;
-            const site = (p.site || '').toString().toLowerCase();
-            if(site && site !== 'debtreliefguard') return false;
-            const slugMatch = typeof p.slug === 'string' && p.slug === slug;
-            const urlMatch = matchesEntrySlug(p.url);
-            const contentMatch = matchesEntrySlug(p.content_url);
-            return slugMatch || urlMatch || contentMatch;
-          }) || null;
+          persistListSnapshot(list);
+          const matched = findEntryInList(list, slug);
+          if (matched) {
+            adoptEntry(matched, { persist: true });
+          }
         }
-      }catch(_){}
+      }catch(_){ }
 
       const legacyPostHtml = (() => {
         const map = new Map();
@@ -481,13 +746,10 @@
           if (!baseSlug) return;
 
           const isoDate = (() => {
-            const rawDate = (() => {
-              const primary = entry?.date_published || entry?.published_at;
-              if (!primary) return '';
-              return String(primary).trim();
-            })();
-            if (!rawDate) return '';
-            const match = rawDate.match(/^(\d{4})-(\d{2})-(\d{2})/);
+            const primary = entry?.date_published || entry?.published_at;
+            if (!primary) return '';
+            const trimmed = String(primary).trim();
+            const match = trimmed.match(/^(\d{4})-(\d{2})-(\d{2})/);
             if (!match) return '';
             return `${match[1]}-${match[2]}-${match[3]}`;
           })();
@@ -516,7 +778,6 @@
             pushCandidate(`/blog/${slug}/index.html`);
           }
         }
-        
 
         const candidateHrefs = [...dated, ...undated].sort((a, b) => {
           const score = (href) => {
@@ -576,7 +837,6 @@
           try {
             const url = new URL(href, siteOrigin);
             const suffix = `${url.pathname}${url.search}${url.hash}`;
-            const isCanonical = url.origin === canonicalOrigin;
             const candidateOrigin = url.origin;
             const knownOrigins = [];
             const pushKnownOrigin = (origin) => {
@@ -639,122 +899,27 @@
 
         const h1 = article.querySelector('h1');
         const derivedTitle = (entry?.title) || (h1 ? h1.textContent.trim() : 'Untitled');
-        titleEl.textContent = derivedTitle;
-        
-        const hero = article.querySelector('img');
-        const heroSrc = entry?.thumbnail || entry?.image || hero?.getAttribute('src') || '';
-        const fallbackHero = () => {
-          if (heroEl.dataset.fallbackApplied === '1') {
-            heroEl.style.display = 'none';
-            return;
-          }
-          heroEl.dataset.fallbackApplied = '1';
-          heroEl.src = defaultHero;
-          heroEl.style.display = '';
-          if (!heroEl.alt) heroEl.alt = 'DebtReliefGuard blog hero';
-          applyOgImage(defaultHero);
-        };
-        heroEl.addEventListener('error', () => {
-          fallbackHero();
-        });
-        heroEl.addEventListener('load', () => {
-          if (heroEl.dataset.fallbackApplied === '1') return;
-          if (heroEl.naturalWidth <= 1 || heroEl.naturalHeight <= 1) {
-            fallbackHero();
-          }
-        });
-
-        if (heroSrc){
-          heroEl.src = heroSrc;
-          heroEl.style.display = '';
-          if (entry?.title) heroEl.alt = `${entry.title} hero image`;
-          applyOgImage(heroSrc);
-        } else {
-          fallbackHero();
+        if (derivedTitle) {
+          titleEl.textContent = derivedTitle;
+          document.title = `${derivedTitle} | DebtReliefGuard`;
         }
 
-        const formatDate = (value) => {
-          if(!value) return '';
-          const parsed = new Date(value);
-          return isNaN(parsed.getTime()) ? '' : parsed.toLocaleDateString();
-        };
-        const date = formatDate(entry?.date_published || entry?.published_at);
-        const author = (() => {
-          if (!entry?.author) return 'DebtReliefGuard';
-          const value = Array.isArray(entry.author) ? entry.author.join(', ') : String(entry.author);
-          return value.trim() || 'DebtReliefGuard';
-        })();
-        metaEl.textContent = [date, author].filter(Boolean).join(' · ');
+        const workingEntry = entry && typeof entry === 'object'
+          ? entry
+          : { title: derivedTitle, slug };
+        if (!entry) {
+          entry = { ...workingEntry };
+          applyEntryPreview(workingEntry);
+        }
+
+        const hero = article.querySelector('img');
+        const heroSrc = hero?.getAttribute('src') || '';
+        updateHeroImage(workingEntry, heroSrc);
+        if (hero && hero.src && heroEl.src && hero.src === heroEl.src) hero.remove();
 
         if (h1) h1.remove();
-        if (hero && hero.src && heroEl.src && hero.src === heroEl.src) hero.remove();
         bodyEl.innerHTML = article.innerHTML;
         bodyEl.setAttribute('aria-busy','false');
-
-        if (entry?.title) document.title = `${entry.title} | DebtReliefGuard`;
-        if (entry?.excerpt){
-          let metaDesc = document.querySelector('meta[name="description"]');
-          if (!metaDesc){
-            metaDesc = document.createElement('meta');
-            metaDesc.setAttribute('name','description');
-            document.head.appendChild(metaDesc);
-          }
-          metaDesc.setAttribute('content', entry.excerpt);
-        }
-        const canonicalCandidate = normalizePostUrl(entry?.canonical_url || entry?.url || `/blog/${slug}`);
-        if (canonicalCandidate){
-          const canonicalUrl = toAbsolute(canonicalCandidate);
-          if (canonicalUrl){
-            let canonical = document.querySelector('link[rel="canonical"]');
-            if (!canonical){
-              canonical = document.createElement('link');
-              canonical.setAttribute('rel','canonical');
-              document.head.appendChild(canonical);
-            }
-            canonical.setAttribute('href', canonicalUrl);
-            ensureMeta('meta[property="og:url"]', { content: canonicalUrl });
-            ensureMeta('meta[name="twitter:url"]', { content: canonicalUrl });
-          }
-        }
-
-        if (entry?.title) {
-          ensureMeta('meta[property="og:title"]', { content: `${entry.title} | DebtReliefGuard` });
-          ensureMeta('meta[name="twitter:title"]', { content: `${entry.title} | DebtReliefGuard` });
-        }
-        if (entry?.excerpt) {
-          ensureMeta('meta[property="og:description"]', { content: entry.excerpt });
-          ensureMeta('meta[name="twitter:description"]', { content: entry.excerpt });
-        }
-        ensureMeta('meta[property="og:type"]', { content: 'article' });
-        ensureMeta('meta[name="twitter:card"]', { content: 'summary_large_image' });
-        ensureMeta('meta[name="author"]', { content: author });
-        if (entry?.author) {
-          ensureMeta('meta[name="author"]', { content: entry.author });
-        }
-
-        if (entry?.schema_jsonld) {
-          const existing = document.getElementById('dynamic-schema-jsonld');
-          if (existing) existing.remove();
-          const script = document.createElement('script');
-          script.type = 'application/ld+json';
-          script.id = 'dynamic-schema-jsonld';
-          try {
-            let schema = entry.schema_jsonld;
-            if (typeof schema === 'string') {
-              try {
-                schema = JSON.parse(schema);
-              } catch (_) {
-                schema = schema.trim();
-              }
-            }
-            if (typeof schema === 'string') {
-              script.textContent = schema;
-            } else {
-              script.textContent = JSON.stringify(schema);
-            }
-            document.head.appendChild(script);
-          } catch(_) {}
-        }
       };
 
       try {
@@ -782,6 +947,7 @@
         bodyEl.setAttribute('aria-busy','false');
       }
     })();
+    
   </script>
 </body>
 </html>
