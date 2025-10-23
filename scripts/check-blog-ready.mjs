@@ -119,13 +119,11 @@ async function checkFileContains(rel, needles) {
   await ensureExists('blog', 'dir');
   await ensureExists('images', 'dir');
   await ensureExists('blog.index.html', 'file');
-  await ensureExists('blog.slug.index.html', 'file');
   await ensureExists('_headers', 'file');
   await ensureExists('_redirects', 'file');
   await checkBlogsJson();
-  await checkFileContains('_headers', ['/blogs.json', '/blog/*']);
+  await checkFileContains('_headers', ['/blogs.json', '/blog/*.html', '/blog/*']);
   await checkFileContains('_redirects', [
-    '/blog/:slug',
     '/blog/:year-:month-:day-:rest.html',
     '/content/blog/:splat'
   ]);
