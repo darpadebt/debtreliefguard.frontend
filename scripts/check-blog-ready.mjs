@@ -43,6 +43,7 @@ async function checkBlogsJson() {
       return;
     }
     const requiredKeys = ['slug', 'title'];
+    const pending = [];
     data.forEach((entry, idx) => {
       if (!entry || typeof entry !== 'object') {
         problems.push(`${rel}[${idx}] is not an object.`);
@@ -57,11 +58,44 @@ async function checkBlogsJson() {
       if (!hasDate) {
         notices.push(`${rel}[${idx}] is missing a publish date; worker will default to now.`);
       }
-      const hasLink = ['canonical_url', 'url', 'content_url'].some((key) => typeof entry[key] === 'string' && entry[key].trim());
-      if (!hasLink) {
-        problems.push(`${rel}[${idx}] is missing canonical/url/content_url so slug routing may fail.`);
+      const expectLink = (field) => {
+        const value = entry[field];
+        if (!value || typeof value !== 'string' || !value.trim()) {
+          problems.push(`${rel}[${idx}] is missing required field "${field}".`);
+          return null;
+        }
+        const trimmed = value.trim();
+        if (!/^https?:\/\//i.test(trimmed) && !/^\/blog\//.test(trimmed)) {
+          problems.push(`${rel}[${idx}].${field} should point to /blog/... or an https:// URL.`);
+          return trimmed;
+        }
+        return trimmed;
+      };
+
+      const contentUrl = expectLink('content_url');
+      const slugUrl = expectLink('url');
+
+      if (slugUrl && entry.slug && !slugUrl.endsWith(`${entry.slug}.html`)) {
+        notices.push(`${rel}[${idx}].url typically ends with ${entry.slug}.html; double-check the path.`);
       }
+
+      const checkExists = async (href, field) => {
+        if (!href || !href.startsWith('/')) return;
+        const target = path.join(root, href.replace(/^\/+/, '').split('?')[0]);
+        try {
+          const stat = await fs.stat(target);
+          if (!stat.isFile()) {
+            notices.push(`${rel}[${idx}].${field} points to ${href} but no HTML file was found.`);
+          }
+        } catch (err) {
+          notices.push(`${rel}[${idx}].${field} points to ${href} but the file is missing.`);
+        }
+      };
+
+      if (contentUrl) pending.push(checkExists(contentUrl, 'content_url'));
     });
+
+    await Promise.allSettled(pending);
   } catch (err) {
     problems.push(`Unable to read ${rel}: ${(err && err.message) || err}`);
   }
