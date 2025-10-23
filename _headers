@@ -38,24 +38,6 @@
   Access-Control-Allow-Methods: GET, OPTIONS
   Access-Control-Allow-Headers: *
 
-# Slug loader ONLY for extensionless slugs (never catches *.html)
-/blog/:slug
-  Content-Type: text/html; charset=utf-8
-  Cache-Control: no-store, must-revalidate
-  Vary: Accept, Origin
-  Access-Control-Allow-Origin: *
-  Access-Control-Allow-Methods: GET, OPTIONS
-  Access-Control-Allow-Headers: *
-
-/blog/:slug/
-  Content-Type: text/html; charset=utf-8
-  Cache-Control: no-store, must-revalidate
-  Vary: Accept, Origin
-  Access-Control-Allow-Origin: *
-  Access-Control-Allow-Methods: GET, OPTIONS
-  Access-Control-Allow-Headers: *
-
-
 # Home and other HTML can also be no-cache if you prefer dynamic updates
 /index.html
   Cache-Control: no-cache, must-revalidate
