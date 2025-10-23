@@ -11,13 +11,7 @@
 /blog/chapter-1-understanding-debt-relief-options.html                                      /blog/2025-08-03-chapter-1-understanding-debt-relief-options.html                                 200
 /blog/navigating-the-path-to-debt-relief-your-guide-to-debt-consolidation-and-settlement.html /blog/2025-08-06-navigating-the-path-to-debt-relief-your-guide-to-debt-consolidation-and-settlement.html 200
 
-# Extensionless slug URLs map to their dated artifacts (convenience)
-/blog/finding-your-path-to-debt-relief-a-guide-to-debt-consolidation-and-settlement       /blog/2025-08-02-finding-your-path-to-debt-relief-a-guide-to-debt-consolidation-and-settlement.html 200
-/blog/finding-your-path-to-debt-relief-a-guide-to-debt-consolidation-and-settlement/      /blog/2025-08-02-finding-your-path-to-debt-relief-a-guide-to-debt-consolidation-and-settlement.html 200
-/blog/chapter-1-understanding-debt-relief-options                                         /blog/2025-08-03-chapter-1-understanding-debt-relief-options.html                                 200
-/blog/chapter-1-understanding-debt-relief-options/                                        /blog/2025-08-03-chapter-1-understanding-debt-relief-options.html                                 200
-/blog/navigating-the-path-to-debt-relief-your-guide-to-debt-consolidation-and-settlement  /blog/2025-08-06-navigating-the-path-to-debt-relief-your-guide-to-debt-consolidation-and-settlement.html 200
-/blog/navigating-the-path-to-debt-relief-your-guide-to-debt-consolidation-and-settlement/ /blog/2025-08-06-navigating-the-path-to-debt-relief-your-guide-to-debt-consolidation-and-settlement.html 200
+# /blog/:slug.html routes are handled via the explicit entries above; catch-all removed to avoid redirect loops.
 
 # Extensionless dated URLs → their .html file (one hop)
 /blog/:year-:month-:day-:rest                         /blog/:year-:month-:day-:rest.html                    200
