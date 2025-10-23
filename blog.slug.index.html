@@ -867,8 +867,20 @@
           } catch (_) { /* noop */ }
         }
 
-        pushCandidate(entry?.url);
-        pushCandidate(entry?.content_url);
+        // Prefer fetching the definitive HTML targets before the slug shell to avoid
+        // an extra network hop through /blog.slug.index.html. Include legacy
+        // key shapes for robustness because upstream workers have evolved over time.
+        const primarySources = [
+          entry?.content_url,
+          entry?.contentUrl,
+          entry?.canonical_url,
+          entry?.canonicalUrl,
+          entry?.url,
+          entry?.permalink,
+          entry?.primary_url,
+          entry?.primaryUrl
+        ];
+        primarySources.forEach((href) => pushCandidate(href));
 
         const pushDerivedDatedCandidates = () => {
           const rawSlug = (() => {
