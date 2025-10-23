@@ -15,14 +15,6 @@
   Access-Control-Allow-Methods: GET, OPTIONS
   Access-Control-Allow-Headers: *
 
-/blog.slug.index.html
-  Content-Type: text/html; charset=utf-8
-  Cache-Control: no-store, must-revalidate
-  Vary: Accept, Origin
-  Access-Control-Allow-Origin: *
-  Access-Control-Allow-Methods: GET, OPTIONS
-  Access-Control-Allow-Headers: *
-
 # All generated blog HTML should be publicly cacheable but CORS-accessible
 /blog/*.html
   Cache-Control: public, max-age=600
