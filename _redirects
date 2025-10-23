@@ -17,17 +17,21 @@
 /blog/chapter-1-understanding-debt-relief-options.html /blog/2025-08-03-chapter-1-understanding-debt-relief-options.html 200
 /blog/navigating-the-path-to-debt-relief-your-guide-to-debt-consolidation-and-settlement.html /blog/2025-08-06-navigating-the-path-to-debt-relief-your-guide-to-debt-consolidation-and-settlement.html 200
 
+# Extensionless slug URLs map directly to their dated artifacts. This keeps
+# /blog/:slug stable even if upstream rules strip the .html extension.
+/blog/finding-your-path-to-debt-relief-a-guide-to-debt-consolidation-and-settlement /blog/2025-08-02-finding-your-path-to-debt-relief-a-guide-to-debt-consolidation-and-settlement.html 200
+/blog/finding-your-path-to-debt-relief-a-guide-to-debt-consolidation-and-settlement/ /blog/2025-08-02-finding-your-path-to-debt-relief-a-guide-to-debt-consolidation-and-settlement.html 200
+/blog/chapter-1-understanding-debt-relief-options /blog/2025-08-03-chapter-1-understanding-debt-relief-options.html 200
+/blog/chapter-1-understanding-debt-relief-options/ /blog/2025-08-03-chapter-1-understanding-debt-relief-options.html 200
+/blog/navigating-the-path-to-debt-relief-your-guide-to-debt-consolidation-and-settlement /blog/2025-08-06-navigating-the-path-to-debt-relief-your-guide-to-debt-consolidation-and-settlement.html 200
+/blog/navigating-the-path-to-debt-relief-your-guide-to-debt-consolidation-and-settlement/ /blog/2025-08-06-navigating-the-path-to-debt-relief-your-guide-to-debt-consolidation-and-settlement.html 200
+
 # Extensionless dated URLs → the actual .html file (one hop max)
 /blog/:year-:month-:day-:rest /blog/:year-:month-:day-:rest.html 200
 /blog/:year-:month-:day-:rest/index.html /blog/:year-:month-:day-:rest.html 200
 
 # Non-dated slug .html requests should hit the generated HTML directly so
 # headers like Cache-Control from `_headers` can apply to the real artifact.
-# The extensionless loader still handles `/blog/:slug` and `/blog/:slug/`.
-
-# Slug loader ONLY for extensionless slugs (never catches *.html)
-/blog/:slug                /blog.slug.index.html                           200
-/blog/:slug/               /blog.slug.index.html                           200
 
 # Fallback: serve any other static artifact from blog
 /blog/*                    /blog/:splat                     200
