@@ -10,13 +10,11 @@ const repoRoot = path.resolve(__dirname, '..');
 const REQUIRED_HEADER_SNIPPETS = [
   '/blogs.json',
   '/blog.index.html',
-  '/blog.slug.index.html',
+  '/blog/*.html',
   '/blog/*'
 ];
 
 const REQUIRED_REDIRECT_SNIPPETS = [
-  '/blog/:slug.html',
-  '/blog/:slug',
   '/blog/:year-:month-:day-:rest.html',
   '/content/blog/:splat'
 ];
