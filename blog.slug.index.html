@@ -812,6 +812,25 @@
         return text;
       };
 
+      const preferExtensionlessSameOriginBlogHref = (href) => {
+        try {
+          const url = new URL(href, siteOrigin);
+          const suffix = `${url.search || ''}${url.hash || ''}`;
+          const sameOrigin = url.origin === originUrl;
+          if (!sameOrigin) return url.href;
+          let pathname = url.pathname.replace(/\/+$/, '');
+          if (!pathname) pathname = '/';
+          if (/^\/(?:content\/)?blog\//i.test(pathname)) {
+            pathname = pathname.replace(/\/index\.html$/i, '');
+            pathname = pathname.replace(/\.html$/i, '');
+            if (!pathname) pathname = '/';
+          }
+          return `${url.origin}${pathname}${suffix}`;
+        } catch (_) {
+          return href;
+        }
+      };
+
       const buildCandidateQueue = () => {
         const candidateHrefSet = new Set();
         const undated = [];
@@ -819,11 +838,13 @@
           
         function pushCandidate(value, allowAugment = true) {
           const href = resolveHref(value);
-          if (!href || candidateHrefSet.has(href)) return;
-          candidateHrefSet.add(href);
-          if (isDatedHref(href)) dated.push(href);
-          else undated.push(href);
-          if (allowAugment) augmentFromHref(href);
+          if (!href) return;
+          const preferred = preferExtensionlessSameOriginBlogHref(href);
+          if (candidateHrefSet.has(preferred)) return;
+          candidateHrefSet.add(preferred);
+          if (isDatedHref(preferred)) dated.push(preferred);
+          else undated.push(preferred);
+          if (allowAugment) augmentFromHref(preferred);
         }
 
         function augmentFromHref(href) {
@@ -834,21 +855,12 @@
             const pathname = url.pathname.replace(/\/+$/, '');
             const suffix = `${url.search || ''}${url.hash || ''}`;
 
-            if (pathname.startsWith('/blog/')) {
-              if (/^\/blog\/[^/]+$/i.test(pathname)) {
-                const base = pathname;
-                pushCandidate(`${url.origin}${base}.html${suffix}`, false);
-              } else if (/^\/blog\/[^/]+\/index\.html$/i.test(pathname)) {
-                const base = pathname.replace(/\/index\.html$/i, '');
-                pushCandidate(`${url.origin}${base}.html${suffix}`, false);
-              }
-            } else if (pathname.startsWith('/content/blog/')) {
-              const altPath = pathname.replace(/^\/content/, '');
+            if (/^\/blog\//i.test(pathname)) {
+              const altPath = pathname.replace(/^\/blog\//i, '/content/blog/');
               pushCandidate(`${url.origin}${altPath}${suffix}`, false);
-              if (/\/index\.html$/i.test(altPath)) {
-                const base = altPath.replace(/\/index\.html$/i, '');
-                pushCandidate(`${url.origin}${base}.html${suffix}`, false);
-              }
+            } else if (/^\/content\/blog\//i.test(pathname)) {
+              const altPath = pathname.replace(/^\/content/i, '');
+              pushCandidate(`${url.origin}${altPath}${suffix}`, false);
             }
           } catch (_) { /* noop */ }
         }
@@ -882,10 +894,8 @@
 
           const datedBase = `${isoDate}-${slugTail}`;
           const datedCandidates = [
-            `/blog/${datedBase}.html`,
-            `/blog/${datedBase}/index.html`,
-            `/content/blog/${datedBase}.html`,
-            `/content/blog/${datedBase}/index.html`
+            `/blog/${datedBase}`,
+            `/content/blog/${datedBase}`
           ];
           datedCandidates.forEach((href) => pushCandidate(href));
         };
@@ -893,29 +903,28 @@
         pushDerivedDatedCandidates();
         
         if (!candidateHrefSet.size) {
-          if (/^20\d{2}-\d{2}-\d{2}-/.test(slug)) {
-            pushCandidate(`/blog/${slug}.html`);
-          } else {
-            pushCandidate(`/blog/${slug}.html`);
-            pushCandidate(`/blog/${slug}/index.html`);
-          }
+          pushCandidate(`/blog/${slug}`);
+          pushCandidate(`/content/blog/${slug}`);
         }
 
         const candidateHrefs = [...dated, ...undated].sort((a, b) => {
           const score = (href) => {
             try {
               const url = new URL(href, siteOrigin);
-              if (url.pathname.startsWith('/blog/')) return 0;
-              if (url.pathname.startsWith('/content/blog/')) return 1;
+              const path = url.pathname;
+              const htmlPenalty = /\.html$/i.test(path) ? 1 : 0;
+              if (path.startsWith('/blog/')) return htmlPenalty;
+              if (path.startsWith('/content/blog/')) return 2 + htmlPenalty;
             } catch (_) {
-              if (/^\/blog\//i.test(href)) return 0;
-              if (/^\/content\/blog\//i.test(href)) return 1;
+              const htmlPenalty = /\.html$/i.test(href) ? 1 : 0;
+              if (/^\/blog\//i.test(href)) return htmlPenalty;
+              if (/^\/content\/blog\//i.test(href)) return 2 + htmlPenalty;
             }
-            return 2;
+            return 4 + (/\.html$/i.test(href) ? 1 : 0);
           };
           return score(a) - score(b);
         });
-        const primaryHref = candidateHrefs[0] || resolveHref(`/blog/${slug}.html`);
+        const primaryHref = candidateHrefs[0] || resolveHref(`/blog/${slug}`);
 
         const fallbackHrefs = (() => {
           const list = [];
