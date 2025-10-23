@@ -26,14 +26,19 @@
 /blog/navigating-the-path-to-debt-relief-your-guide-to-debt-consolidation-and-settlement /blog/2025-08-06-navigating-the-path-to-debt-relief-your-guide-to-debt-consolidation-and-settlement.html 200
 /blog/navigating-the-path-to-debt-relief-your-guide-to-debt-consolidation-and-settlement/ /blog/2025-08-06-navigating-the-path-to-debt-relief-your-guide-to-debt-consolidation-and-settlement.html 200
 
+# Generic .html slugs should serve the static artifact directly so they don't
+# bounce through the dynamic loader shell.
+/blog/:slug.html            /blog/:slug.html                  200
+
 # Extensionless dated URLs → the actual .html file (one hop max)
 /blog/:year-:month-:day-:rest /blog/:year-:month-:day-:rest.html 200
 /blog/:year-:month-:day-:rest/index.html /blog/:year-:month-:day-:rest.html 200
 
-# Non-dated slug requests fall back to the dynamic slug loader so freshly
-# published posts resolve immediately even before explicit rewrites are added.
-# Keep the explicit slug → dated mappings above to prefer direct static files
-# when available.
+# Non-dated, extensionless slug requests fall back to the dynamic slug loader
+# so freshly published posts resolve immediately even before explicit rewrites
+# are added. Keep the explicit slug → dated mappings above to prefer direct
+# static files when available. The /blog/:slug.html identity rule above ensures
+# .html requests bypass the loader.
 /blog/:slug                 /blog.slug.index.html              200
 /blog/:slug/                /blog.slug.index.html              200
 
