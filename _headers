@@ -1,4 +1,4 @@
-# Blog JSON list and shell HTML should always revalidate
+# Blog JSON list and shell HTML should never be cached between requests
 /blogs.json
   Cache-Control: no-store, must-revalidate
   Content-Type: application/json; charset=utf-8
@@ -8,7 +8,8 @@
   Access-Control-Allow-Headers: *
 
 /blog.index.html
-  Cache-Control: no-cache, must-revalidate
+  Content-Type: text/html; charset=utf-8
+  Cache-Control: no-store, must-revalidate
   Vary: Accept, Origin
   Access-Control-Allow-Origin: *
   Access-Control-Allow-Methods: GET, OPTIONS
@@ -16,7 +17,7 @@
 
 /blog.slug.index.html
   Content-Type: text/html; charset=utf-8
-  Cache-Control: no-cache, must-revalidate
+  Cache-Control: no-store, must-revalidate
   Vary: Accept, Origin
   Access-Control-Allow-Origin: *
   Access-Control-Allow-Methods: GET, OPTIONS
@@ -40,7 +41,7 @@
 # Slug loader ONLY for extensionless slugs (never catches *.html)
 /blog/:slug
   Content-Type: text/html; charset=utf-8
-  Cache-Control: no-cache, must-revalidate
+  Cache-Control: no-store, must-revalidate
   Vary: Accept, Origin
   Access-Control-Allow-Origin: *
   Access-Control-Allow-Methods: GET, OPTIONS
@@ -48,7 +49,7 @@
 
 /blog/:slug/
   Content-Type: text/html; charset=utf-8
-  Cache-Control: no-cache, must-revalidate
+  Cache-Control: no-store, must-revalidate
   Vary: Accept, Origin
   Access-Control-Allow-Origin: *
   Access-Control-Allow-Methods: GET, OPTIONS
