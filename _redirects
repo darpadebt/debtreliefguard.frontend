@@ -1,6 +1,3 @@
-# NOTE: Cloudflare Pages _redirects only accepts path sources. Domain-level
-# redirects must be configured in DNS/Page Rules, so keep this file limited to
-# path-based routing rules.
 /                          /index.html                                    200
 
 # Blog list
@@ -9,58 +6,31 @@
 /blog/index                /blog.index.html                                200
 /blog/index.html           /blog.index.html                                200
 
-# Serve dated HTML files directly (workers commit real files into blog)
-/blog/:date-:slug.html         /blog/:date-:slug.html               200
-
-# Slug-based HTML URLs map to their generated dated artifacts so canonical
-# links like /blog/example-post.html resolve to the real static file. Keep this
-# list in sync with blogs.json + /blog/*.html commits.
-/blog/finding-your-path-to-debt-relief-a-guide-to-debt-consolidation-and-settlement.html /blog/2025-08-02-finding-your-path-to-debt-relief-a-guide-to-debt-consolidation-and-settlement.html 200
+# Explicit slug → dated artifacts (prefer serving the real static files)
+/blog/finding-your-path-to-debt-relief-a-guide-to-debt-consolidation-and-settlement.html /blog/2025-08-02-finding-your-path-to-debt-relief-a-guide-to-debt-relief-a-guide-to-debt-consolidation-and-settlement.html 200
 /blog/chapter-1-understanding-debt-relief-options.html /blog/2025-08-03-chapter-1-understanding-debt-relief-options.html 200
 /blog/navigating-the-path-to-debt-relief-your-guide-to-debt-consolidation-and-settlement.html /blog/2025-08-06-navigating-the-path-to-debt-relief-your-guide-to-debt-consolidation-and-settlement.html 200
 
-# Extensionless slug URLs map directly to their dated artifacts. This keeps
-# /blog/:slug stable even if upstream rules strip the .html extension.
-/blog/finding-your-path-to-debt-relief-a-guide-to-debt-consolidation-and-settlement /blog/2025-08-02-finding-your-path-to-debt-relief-a-guide-to-debt-consolidation-and-settlement.html 200
-/blog/finding-your-path-to-debt-relief-a-guide-to-debt-consolidation-and-settlement/ /blog/2025-08-02-finding-your-path-to-debt-relief-a-guide-to-debt-consolidation-and-settlement.html 200
+# Extensionless slug → dated artifacts
+/blog/finding-your-path-to-debt-relief-a-guide-to-debt-relief-a-guide-to-debt-consolidation-and-settlement /blog/2025-08-02-finding-your-path-to-debt-relief-a-guide-to-debt-relief-a-guide-to-debt-consolidation-and-settlement.html 200
+/blog/finding-your-path-to-debt-relief-a-guide-to-debt-relief-a-guide-to-debt-consolidation-and-settlement/ /blog/2025-08-02-finding-your-path-to-debt-relief-a-guide-to-debt-relief-a-guide-to-debt-consolidation-and-settlement.html 200
 /blog/chapter-1-understanding-debt-relief-options /blog/2025-08-03-chapter-1-understanding-debt-relief-options.html 200
 /blog/chapter-1-understanding-debt-relief-options/ /blog/2025-08-03-chapter-1-understanding-debt-relief-options.html 200
 /blog/navigating-the-path-to-debt-relief-your-guide-to-debt-consolidation-and-settlement /blog/2025-08-06-navigating-the-path-to-debt-relief-your-guide-to-debt-consolidation-and-settlement.html 200
 /blog/navigating-the-path-to-debt-relief-your-guide-to-debt-consolidation-and-settlement/ /blog/2025-08-06-navigating-the-path-to-debt-relief-your-guide-to-debt-consolidation-and-settlement.html 200
 
-# Generic .html slugs should serve the static artifact directly so they don't
-# bounce through the dynamic loader shell.
-/blog/:slug.html            /blog/:slug.html                  200
+# Dated (extensionless) → dated.html (one hop max)
+/blog/:year-:month-:day-:rest         /blog/:year-:month-:day-:rest.html   200
+/blog/:year-:month-:day-:rest/index.html  /blog/:year-:month-:day-:rest.html 200
 
-# Extensionless dated URLs → the actual .html file (one hop max)
-/blog/:year-:month-:day-:rest /blog/:year-:month-:day-:rest.html 200
-/blog/:year-:month-:day-:rest/index.html /blog/:year-:month-:day-:rest.html 200
+# Fallback for non-dated, extensionless slugs → dynamic loader
+/blog/:slug                    /blog.slug.index.html                        200
+/blog/:slug/                   /blog.slug.index.html                        200
+/blog/:slug/index              /blog.slug.index.html                        200
+/blog/:slug/index.html         /blog.slug.index.html                        200
 
-# Non-dated, extensionless slug requests fall back to the dynamic slug loader
-# so freshly published posts resolve immediately even before explicit rewrites
-# are added. Keep the explicit slug → dated mappings above to prefer direct
-# static files when available. The /blog/:slug.html identity rule above ensures
-# .html requests bypass the loader.
-/blog/:slug                 /blog.slug.index.html              200
-/blog/:slug/                /blog.slug.index.html              200
-/blog/:slug/index           /blog.slug.index.html              200
-/blog/:slug/index.html      /blog.slug.index.html              200
-
-# Dated HTML artifacts committed by worker 033 should be served directly so
-# cache directives on the static files take effect. Including this explicit
-# rule keeps the readiness check and router assumptions aligned.
-/blog/:year-:month-:day-:rest.html /blog/:year-:month-:day-:rest.html 200
-
-# Fallback: serve any other static artifact from blog
-/blog/*                    /blog/:splat                     200
-
-# Legacy support: redirect old content/blog URLs to the new blog location
+# Legacy content folder → new blog
 /content/blog/:date-:slug.html        /blog/:date-:slug.html               301
 /content/blog/:year-:month-:day-:rest /blog/:year-:month-:day-:rest.html   301
 /content/blog/:year-:month-:day-:rest/index.html /blog/:year-:month-:day-:rest.html 301
 /content/blog/:splat                  /blog/:splat                         301
-
-
-# Data & assets (served directly by Pages)
-# NOTE: Removing self-referential rewrites like "/blogs.json /blogs.json 200"
-# prevents infinite rewrite loops that break asset fetching.
