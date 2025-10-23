@@ -6,31 +6,31 @@
 /blog/index                /blog.index.html                                200
 /blog/index.html           /blog.index.html                                200
 
-# Explicit slug → dated artifacts (prefer serving the real static files)
-/blog/finding-your-path-to-debt-relief-a-guide-to-debt-consolidation-and-settlement.html /blog/2025-08-02-finding-your-path-to-debt-relief-a-guide-to-debt-relief-a-guide-to-debt-consolidation-and-settlement.html 200
-/blog/chapter-1-understanding-debt-relief-options.html /blog/2025-08-03-chapter-1-understanding-debt-relief-options.html 200
+# Slug-based HTML URLs map to their generated dated artifacts (keep in sync with blogs.json)
+/blog/finding-your-path-to-debt-relief-a-guide-to-debt-consolidation-and-settlement.html  /blog/2025-08-02-finding-your-path-to-debt-relief-a-guide-to-debt-consolidation-and-settlement.html 200
+/blog/chapter-1-understanding-debt-relief-options.html                                      /blog/2025-08-03-chapter-1-understanding-debt-relief-options.html                                 200
 /blog/navigating-the-path-to-debt-relief-your-guide-to-debt-consolidation-and-settlement.html /blog/2025-08-06-navigating-the-path-to-debt-relief-your-guide-to-debt-consolidation-and-settlement.html 200
 
-# Extensionless slug → dated artifacts
-/blog/finding-your-path-to-debt-relief-a-guide-to-debt-relief-a-guide-to-debt-consolidation-and-settlement /blog/2025-08-02-finding-your-path-to-debt-relief-a-guide-to-debt-relief-a-guide-to-debt-consolidation-and-settlement.html 200
-/blog/finding-your-path-to-debt-relief-a-guide-to-debt-relief-a-guide-to-debt-consolidation-and-settlement/ /blog/2025-08-02-finding-your-path-to-debt-relief-a-guide-to-debt-relief-a-guide-to-debt-consolidation-and-settlement.html 200
-/blog/chapter-1-understanding-debt-relief-options /blog/2025-08-03-chapter-1-understanding-debt-relief-options.html 200
-/blog/chapter-1-understanding-debt-relief-options/ /blog/2025-08-03-chapter-1-understanding-debt-relief-options.html 200
-/blog/navigating-the-path-to-debt-relief-your-guide-to-debt-consolidation-and-settlement /blog/2025-08-06-navigating-the-path-to-debt-relief-your-guide-to-debt-consolidation-and-settlement.html 200
+# Extensionless slug URLs map to their dated artifacts (convenience)
+/blog/finding-your-path-to-debt-relief-a-guide-to-debt-consolidation-and-settlement       /blog/2025-08-02-finding-your-path-to-debt-relief-a-guide-to-debt-consolidation-and-settlement.html 200
+/blog/finding-your-path-to-debt-relief-a-guide-to-debt-consolidation-and-settlement/      /blog/2025-08-02-finding-your-path-to-debt-relief-a-guide-to-debt-consolidation-and-settlement.html 200
+/blog/chapter-1-understanding-debt-relief-options                                         /blog/2025-08-03-chapter-1-understanding-debt-relief-options.html                                 200
+/blog/chapter-1-understanding-debt-relief-options/                                        /blog/2025-08-03-chapter-1-understanding-debt-relief-options.html                                 200
+/blog/navigating-the-path-to-debt-relief-your-guide-to-debt-consolidation-and-settlement  /blog/2025-08-06-navigating-the-path-to-debt-relief-your-guide-to-debt-consolidation-and-settlement.html 200
 /blog/navigating-the-path-to-debt-relief-your-guide-to-debt-consolidation-and-settlement/ /blog/2025-08-06-navigating-the-path-to-debt-relief-your-guide-to-debt-consolidation-and-settlement.html 200
 
-# Dated (extensionless) → dated.html (one hop max)
-/blog/:year-:month-:day-:rest         /blog/:year-:month-:day-:rest.html   200
-/blog/:year-:month-:day-:rest/index.html  /blog/:year-:month-:day-:rest.html 200
+# Extensionless dated URLs → their .html file (one hop)
+/blog/:year-:month-:day-:rest                         /blog/:year-:month-:day-:rest.html                    200
+/blog/:year-:month-:day-:rest/index.html              /blog/:year-:month-:day-:rest.html                    200
 
-# Fallback for non-dated, extensionless slugs → dynamic loader
-/blog/:slug                    /blog.slug.index.html                        200
-/blog/:slug/                   /blog.slug.index.html                        200
-/blog/:slug/index              /blog.slug.index.html                        200
-/blog/:slug/index.html         /blog.slug.index.html                        200
+# New posts without explicit lines fall back to the dynamic slug loader shell
+/blog/:slug                                           /blog.slug.index.html                                  200
+/blog/:slug/                                          /blog.slug.index.html                                  200
+/blog/:slug/index                                     /blog.slug.index.html                                  200
+/blog/:slug/index.html                                /blog.slug.index.html                                  200
 
-# Legacy content folder → new blog
-/content/blog/:date-:slug.html        /blog/:date-:slug.html               301
-/content/blog/:year-:month-:day-:rest /blog/:year-:month-:day-:rest.html   301
-/content/blog/:year-:month-:day-:rest/index.html /blog/:year-:month-:day-:rest.html 301
-/content/blog/:splat                  /blog/:splat                         301
+# Legacy paths → new location
+/content/blog/:date-:slug.html                        /blog/:date-:slug.html                                 301
+/content/blog/:year-:month-:day-:rest                 /blog/:year-:month-:day-:rest.html                     301
+/content/blog/:year-:month-:day-:rest/index.html      /blog/:year-:month-:day-:rest.html                     301
+/content/blog/:splat                                  /blog/:splat                                           301
