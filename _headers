@@ -15,6 +15,7 @@
   Access-Control-Allow-Headers: *
 
 /blog.slug.index.html
+  Content-Type: text/html; charset=utf-8
   Cache-Control: no-cache, must-revalidate
   Vary: Accept, Origin
   Access-Control-Allow-Origin: *
@@ -38,6 +39,7 @@
 
 # Slug loader ONLY for extensionless slugs (never catches *.html)
 /blog/:slug
+  Content-Type: text/html; charset=utf-8
   Cache-Control: no-cache, must-revalidate
   Vary: Accept, Origin
   Access-Control-Allow-Origin: *
@@ -45,6 +47,7 @@
   Access-Control-Allow-Headers: *
 
 /blog/:slug/
+  Content-Type: text/html; charset=utf-8
   Cache-Control: no-cache, must-revalidate
   Vary: Accept, Origin
   Access-Control-Allow-Origin: *
