@@ -43,10 +43,6 @@
 /content/blog/:splat                  /blog/:splat                         301
 
 
-# Data & assets
-/blogs.json                /blogs.json                                     200
-/favicon.ico               /favicon.ico                                     200
-/robots.txt                /robots.txt                                      200
-/sitemap.xml               /sitemap.xml
-/images/*                  /images/:splat                                   200
-/assets/*                  /assets/:splat                                   200
+# Data & assets (served directly by Pages)
+# NOTE: Removing self-referential rewrites like "/blogs.json /blogs.json 200"
+# prevents infinite rewrite loops that break asset fetching.
