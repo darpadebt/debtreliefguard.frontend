@@ -6,6 +6,8 @@
 # Blog list
 /blog                      /blog.index.html                                200
 /blog/                     /blog.index.html                                200
+/blog/index                /blog.index.html                                200
+/blog/index.html           /blog.index.html                                200
 
 # Serve dated HTML files directly (workers commit real files into blog)
 /blog/:date-:slug.html         /blog/:date-:slug.html               200
@@ -41,6 +43,8 @@
 # .html requests bypass the loader.
 /blog/:slug                 /blog.slug.index.html              200
 /blog/:slug/                /blog.slug.index.html              200
+/blog/:slug/index           /blog.slug.index.html              200
+/blog/:slug/index.html      /blog.slug.index.html              200
 
 # Dated HTML artifacts committed by worker 033 should be served directly so
 # cache directives on the static files take effect. Including this explicit
