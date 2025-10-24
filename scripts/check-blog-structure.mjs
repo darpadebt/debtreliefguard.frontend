@@ -21,6 +21,8 @@ const REQUIRED_REDIRECT_SNIPPETS = [
 
 const errors = [];
 const warnings = [];
+const heroAssetChecks = [];
+const heroHtmlChecks = [];
 
 async function readText(relPath) {
   const fullPath = path.join(repoRoot, relPath);
@@ -62,6 +64,122 @@ function isHttpUrl(value) {
 
 function isSitePath(value) {
   return typeof value === 'string' && value.trim().startsWith('/');
+}
+
+function cleanSitePath(value) {
+  if (typeof value !== 'string') return '';
+  const trimmed = value.trim();
+  if (!trimmed) return '';
+  return trimmed.replace(/^[/.]+/, '').replace(/\\+/g, '/');
+}
+
+function getIsoDate(entry) {
+  const raw = entry?.date_published || entry?.published_at;
+  if (!raw) return '';
+  const str = String(raw).trim();
+  const match = str.match(/^(\d{4})-(\d{2})-(\d{2})/);
+  return match ? `${match[1]}-${match[2]}-${match[3]}` : '';
+}
+
+function deriveBlogHtmlCandidates(entry) {
+  const results = [];
+  const seen = new Set();
+  const isoDate = getIsoDate(entry);
+  const slugValue = typeof entry?.slug === 'string' ? entry.slug.trim() : '';
+
+  const push = (raw) => {
+    if (typeof raw !== 'string') return;
+    let value = raw.trim();
+    if (!value) return;
+    if (isHttpUrl(value)) {
+      try {
+        const parsed = new URL(value);
+        value = parsed.pathname || '';
+      } catch {
+        return;
+      }
+    }
+    if (!value) return;
+    value = value.replace(/[?#].*$/, '');
+    if (!value) return;
+    if (value.startsWith('/')) value = value.slice(1);
+    value = value.replace(/^content\//i, '');
+    value = value.replace(/^blog\//i, 'blog/');
+    if (!value.toLowerCase().startsWith('blog/')) return;
+    value = value.replace(/\/index\.html$/i, '.html');
+    if (/^blog\/[\w-]+$/i.test(value) && !/\.html$/i.test(value)) {
+      value = `${value}.html`;
+    }
+    if (/^blog\/\d{4}-\d{2}-\d{2}-[\w-]+$/i.test(value) && !/\.html$/i.test(value)) {
+      value = `${value}.html`;
+    }
+    if (!/\.html$/i.test(value)) return;
+    if (!seen.has(value)) {
+      seen.add(value);
+      results.push(value);
+    }
+  };
+
+  push(entry?.content_url);
+  push(entry?.url);
+  push(entry?.canonical_url);
+
+  if (slugValue) {
+    const slugNoExt = slugValue.replace(/\.html$/i, '');
+    if (/^20\d{2}-\d{2}-\d{2}-/.test(slugNoExt)) {
+      push(`blog/${slugNoExt}.html`);
+    } else if (isoDate) {
+      const tail = slugNoExt.replace(/^20\d{2}-\d{2}-\d{2}-/, '') || slugNoExt;
+      push(`blog/${isoDate}-${tail}.html`);
+    }
+  }
+
+  return results;
+}
+
+async function ensureHeroAssets() {
+  for (const check of heroAssetChecks) {
+    const rel = cleanSitePath(check.path);
+    if (!rel) continue;
+    const full = path.join(repoRoot, rel);
+    try {
+      await fs.access(full);
+    } catch {
+      errors.push(`${check.prefix} references hero image "${check.path}" but the file does not exist.`);
+    }
+  }
+}
+
+async function ensureHeroInHtml() {
+  for (const check of heroHtmlChecks) {
+    if (!check || !check.hero || !check.hero.startsWith('/')) continue;
+    const candidates = Array.isArray(check.htmlCandidates) ? check.htmlCandidates : [];
+    if (!candidates.length) {
+      warnings.push(`${check.prefix} could not be mapped to a blog HTML file for hero validation.`);
+      continue;
+    }
+
+    let fileRead = null;
+    for (const rel of candidates) {
+      const full = path.join(repoRoot, rel);
+      try {
+        const text = await fs.readFile(full, 'utf8');
+        fileRead = { rel, text };
+        break;
+      } catch {
+        continue;
+      }
+    }
+
+    if (!fileRead) {
+      warnings.push(`${check.prefix} has no existing HTML file among expected candidates: ${candidates.join(', ')}.`);
+      continue;
+    }
+
+    if (!fileRead.text.includes(check.hero)) {
+      errors.push(`${check.prefix} HTML (${fileRead.rel}) does not include hero image "${check.hero}".`);
+    }
+  }
 }
 
 function validateContentUrl(value) {
@@ -127,6 +245,16 @@ async function ensureBlogsJson() {
       warnings.push(`${prefix} is missing a thumbnail/image. 033 will backfill with a placeholder.`);
     }
 
+    const heroCandidates = [];
+    if (typeof entry.thumbnail === 'string' && entry.thumbnail.trim()) heroCandidates.push(entry.thumbnail.trim());
+    if (typeof entry.image === 'string' && entry.image.trim()) heroCandidates.push(entry.image.trim());
+    const localHero = heroCandidates.find((value) => isSitePath(value) && !isHttpUrl(value));
+    if (localHero) {
+      heroAssetChecks.push({ prefix, path: localHero });
+      const htmlCandidates = deriveBlogHtmlCandidates(entry);
+      heroHtmlChecks.push({ prefix, hero: localHero, htmlCandidates });
+    }
+
     if (entry.content_url && !validateContentUrl(entry.content_url)) {
       warnings.push(`${prefix}.content_url should point to /blog/... or a full URL.`);
     }
@@ -163,6 +291,9 @@ async function main() {
     ensureBlogsJson(),
     ensureBlogDirectory()
   ]);
+
+  await ensureHeroAssets();
+  await ensureHeroInHtml();
 
   const uniqueErrors = [...new Set(errors)];
   const uniqueWarnings = [...new Set(warnings)];
