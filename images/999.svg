@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg"
+     xmlns:xlink="http://www.w3.org/1999/xlink"
+     width="1024px" height="1536px"
+     viewBox="0 0 1024 1536" preserveAspectRatio="xMidYMid meet">
+  <!-- Raster-perfect SVG wrapper embedding the original WEBP.
+       This preserves every pixel exactly while allowing SVG placement/scaling. -->
+  <image width="1024" height="1536" x="0" y="0"
+         href="data:image/webp;base64,UklGRlsoAABXRUJQVlA4WAoAAA...AAAA==" />
+</svg>
