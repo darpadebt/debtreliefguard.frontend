@@ -478,7 +478,7 @@
           })();
 
           const seen = new Set();
-          const candidates = [canonical, contentHref, url, datedFromSlug, slugHtml];
+          const candidates = [contentHref, canonical, url, datedFromSlug, slugHtml];
           let fallback = '';
 
           for (let i = 0; i < candidates.length; i++) {
