@@ -16,6 +16,9 @@
 /blog/debt-relief-options-you-can-start-exploring-today-debt-relief-guard-insights-november-29-2025.html /blog/2025-11-29-debt-relief-options-you-can-start-exploring-today-debt-relief-guard-insights-november-29-2025.html 301
 /blog/debt-relief-options-you-can-start-exploring-today-debt-relief-guard-insights-november-29-2025      /blog/2025-11-29-debt-relief-options-you-can-start-exploring-today-debt-relief-guard-insights-november-29-2025.html 301
 
+# Fallback: when a dated HTML isn't present, load the shell that redirects using blogs.json
+/blog/:slug.html                 /blog-shell.html                                   200
+
 # Dated URLs that already include an extension should resolve as-is
 /blog/:year-:month-:day-:rest.html                    /blog/:year-:month-:day-:rest.html                    200
 
