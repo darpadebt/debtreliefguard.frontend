@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5">
+  <title>Loading article… | Debt Relief Guard</title>
+  <meta name="description" content="Loading blog article">
+  <style>
+    :root {
+      --bg:#0b1220; --ink:#e6ecf8; --muted:#9fb1d6; --border:#1f2937; --brand:#0a5cff;
+    }
+    *{box-sizing:border-box}
+    html,body{margin:0;padding:0;background:var(--bg);color:var(--ink);font:16px/1.6 system-ui,-apple-system,Segoe UI,Roboto,"Helvetica Neue",Arial}
+    main{max-width:720px;margin:0 auto;padding:72px 16px;text-align:center}
+    h1{margin:0 0 8px;font-size:1.8rem}
+    p{color:var(--muted)}
+    .spinner{width:32px;height:32px;border:4px solid rgba(255,255,255,.12);border-top-color:var(--brand);border-radius:50%;margin:22px auto;animation:spin 1s linear infinite}
+    @keyframes spin{to{transform:rotate(360deg)}}
+    a{color:#cfe0ff}
+  </style>
+</head>
+<body>
+  <main>
+    <div class="spinner" aria-hidden="true"></div>
+    <h1 aria-live="polite" id="statusText">Loading article…</h1>
+    <p id="helperText">Redirecting you to the published blog post.</p>
+  </main>
+  <script>
+    (async function(){
+      const statusEl = document.getElementById('statusText');
+      const helperEl = document.getElementById('helperText');
+
+      const fail = (msg) => {
+        statusEl.textContent = 'Article not found';
+        helperEl.textContent = msg || 'We could not find this article. Please return to the blog list.';
+      };
+
+      const path = location.pathname || '';
+      const slug = (() => {
+        const raw = path.replace(/^\/+/, '').replace(/\.html$/i, '');
+        if (!raw.toLowerCase().startsWith('blog/')) return '';
+        const cleaned = raw.slice('blog/'.length);
+        const withoutIndex = cleaned.replace(/\/index$/i, '');
+        return withoutIndex.trim();
+      })();
+
+      if (!slug) {
+        fail('Invalid article path.');
+        return;
+      }
+
+      try {
+        const response = await fetch('/blogs.json', { cache: 'no-store' });
+        if (!response.ok) throw new Error('list fetch failed');
+        const list = await response.json();
+        if (!Array.isArray(list)) throw new Error('invalid blog list');
+
+        const match = list.find((entry) => {
+          if (!entry || typeof entry !== 'object') return false;
+          const entrySlug = typeof entry.slug === 'string' ? entry.slug.trim() : '';
+          const normalizedSlug = entrySlug.replace(/^20\d{2}-\d{2}-\d{2}-/, '');
+          const incoming = slug.replace(/^20\d{2}-\d{2}-\d{2}-/, '');
+          return entrySlug === slug || normalizedSlug === incoming;
+        });
+
+        const contentUrl = typeof match?.content_url === 'string' ? match.content_url.trim() : '';
+        if (!contentUrl) {
+          fail('This article is missing its published link.');
+          return;
+        }
+
+        const target = (() => {
+          try {
+            const u = new URL(contentUrl, location.origin);
+            return u.pathname + u.search + u.hash;
+          } catch (_) {
+            return contentUrl;
+          }
+        })();
+
+        helperEl.textContent = 'Redirecting to the published version…';
+        location.replace(target);
+      } catch (err) {
+        fail('We ran into a problem loading the article. Please try again.');
+      }
+    })();
+  </script>
+</body>
+</html>
