@@ -8,12 +8,7 @@
   Access-Control-Allow-Headers: *
 
 /blog.index.html
-  Content-Type: text/html; charset=utf-8
-  Cache-Control: no-store, must-revalidate
-  Vary: Accept, Origin
-  Access-Control-Allow-Origin: *
-  Access-Control-Allow-Methods: GET, OPTIONS
-  Access-Control-Allow-Headers: *
+  Cache-Control: no-cache, must-revalidate
 
 # All generated blog HTML should be publicly cacheable but CORS-accessible
 /blog/*.html
@@ -59,3 +54,14 @@
 
 /*.avif
   Cache-Control: public, max-age=31536000, immutable
+
+/blogs.json
+  Cache-Control: no-store, must-revalidate
+  Content-Type: application/json; charset=utf-8
+  Vary: Accept, Origin
+
+/blog/*
+  Cache-Control: public, max-age=300
+
+/content/blog/*
+  Cache-Control: public, max-age=300
