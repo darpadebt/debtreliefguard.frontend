@@ -453,6 +453,7 @@
           if (!post || typeof post !== 'object') return '#';
 
           const canonical = typeof post.canonical_url === 'string' ? post.canonical_url.trim() : '';
+          const contentHref = typeof post.content_url === 'string' ? post.content_url.trim() : '';
           const url = typeof post.url === 'string' ? post.url.trim() : '';
           const slugValue = typeof post.slug === 'string' ? post.slug.trim() : '';
           const slugHtml = (() => {
@@ -475,10 +476,9 @@
             if (!tail) return '';
             return `/blog/${isoDate}-${tail}.html`;
           })();
-          const contentHref = typeof post.content_url === 'string' ? post.content_url.trim() : '';
 
           const seen = new Set();
-          const candidates = [canonical, url, contentHref, datedFromSlug, slugHtml];
+          const candidates = [canonical, contentHref, url, datedFromSlug, slugHtml];
           let fallback = '';
 
           for (let i = 0; i < candidates.length; i++) {
