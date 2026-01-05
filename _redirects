@@ -36,3 +36,5 @@
 /content/blog/:year-:month-:day-:rest                 /blog/:year-:month-:day-:rest.html                     301
 /content/blog/:year-:month-:day-:rest/index.html      /blog/:year-:month-:day-:rest.html                     301
 /content/blog/:splat                                  /blog/:splat                                           301
+
+/blog/debt-settlement-timeline-expectations-navigating-your-path-with-debt-consolidation-loans /blog/2026-01-05-debt-settlement-timeline-expectations-navigating-your-path-with-debt-consolidation-loans.html 301
