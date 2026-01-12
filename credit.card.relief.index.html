@@ -56,6 +56,48 @@
   }
   </script>
 
+  <!-- JSON-LD: FAQ -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      {
+        "@type": "Question",
+        "name": "What is the best credit card debt relief option?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Most people start by comparing consolidation loans and balance transfer offers to reduce APRs. If those are not a fit, hardship relief and settlement programs can restructure payments and reduce balances."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Will checking my options hurt my credit score?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "No. The initial consultation and comparison are completed without a hard credit pull."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "How long does credit card debt relief take?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Consolidation loans often run 36–60 months, while hardship relief programs generally take 24–48 months depending on balances and negotiated terms."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "How do I compare consolidation vs. hardship relief?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Compare monthly payments, total payoff timeline, and credit impact. Use the Compare Us page to review side-by-side details."
+        }
+      }
+    ]
+  }
+  </script>
+
   <style>
     :root{
       --bg:#ffffff; --ink:#0b1f16; --muted:#415a50; --brand:#0ea5a3; --brand-ink:#053d3a; --brand-600:#0d9488; --trust-blue:#4da9ff;
@@ -134,6 +176,11 @@
     .visual-card img{width:100%;height:auto;border-radius:14px;display:block}
     .visual-card h3{margin:12px 0 6px;font-size:1.05rem}
     .visual-card p{margin:0;color:var(--muted);font-size:.95rem}
+    .faq{display:grid;gap:12px;margin-top:18px}
+    .faq details{background:#fff;border:1px solid var(--border);border-radius:14px;padding:14px 16px;box-shadow:var(--shadow)}
+    .faq summary{font-weight:700;cursor:pointer;color:var(--ink)}
+    .faq summary::-webkit-details-marker{display:none}
+    .faq p{margin:10px 0 0;color:var(--muted)}
     #consolidation{
       background:radial-gradient(circle at 20% 20%,#fff9f1 0%,#fff3e0 55%,#ffe7c7 100%);
       border-color:rgba(249,115,22,.25);
@@ -231,6 +278,31 @@
             <h3>Compare relief options</h3>
             <p>Quickly evaluate consolidation, hardship relief, and balance transfer solutions.</p>
           </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="container">
+        <h2>Credit card debt relief FAQ</h2>
+        <p class="micro">Fast answers to common questions about consolidation loans, hardship relief, and balance transfer strategies.</p>
+        <div class="faq" aria-label="Credit card debt relief frequently asked questions">
+          <details>
+            <summary>What is the best credit card debt relief option?</summary>
+            <p>Start by comparing consolidation loans and balance transfer offers to reduce APRs. If those are not a fit, hardship relief and settlement programs can restructure payments and reduce balances.</p>
+          </details>
+          <details>
+            <summary>Will checking my options hurt my credit score?</summary>
+            <p>No. The initial consultation and comparison are completed without a hard credit pull.</p>
+          </details>
+          <details>
+            <summary>How long does credit card debt relief take?</summary>
+            <p>Consolidation loans often run 36–60 months, while hardship relief programs generally take 24–48 months depending on balances and negotiated terms.</p>
+          </details>
+          <details>
+            <summary>How do I compare consolidation vs. hardship relief?</summary>
+            <p>Compare monthly payments, total payoff timeline, and credit impact. Use the <a href="/compare.us.html">Compare Us</a> page for side-by-side details and the <a href="/faq.index.html">FAQs</a> page for more guidance.</p>
+          </details>
         </div>
       </div>
     </section>
