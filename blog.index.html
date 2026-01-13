@@ -477,8 +477,24 @@
             return `/blog/${isoDate}-${tail}.html`;
           })();
 
+          const preferContent = (() => {
+            if (!contentHref) return '';
+            const adjusted = adjustBlogHref(contentHref);
+            if (adjusted && !/^\/content\/blog\//i.test(adjusted)) {
+              return adjusted;
+            }
+            if (typeof contentHref === 'string' && !/^\/content\/blog\//i.test(contentHref)) {
+              return contentHref;
+            }
+            return adjusted || '';
+          })();
+
+          if (preferContent) {
+            return preferContent;
+          }
+
           const seen = new Set();
-          const candidates = [contentHref, canonical, url, datedFromSlug, slugHtml];
+          const candidates = [canonical, url, datedFromSlug, slugHtml];
           let fallback = '';
 
           for (let i = 0; i < candidates.length; i++) {
