@@ -29,8 +29,9 @@
 /blog/:date-:slug.html.html                           /blog/:date-:slug.html                                301
 /blog/:year-:month-:day-:rest.html.html               /blog/:year-:month-:day-:rest.html                    301
 
-# Extensionless dated URLs should redirect to the canonical .html version.
-/blog/:date-:slug                                     /blog/:date-:slug.html                                301
+# Extensionless dated URLs should serve the canonical .html version without redirecting.
+# This avoids redirect loops on hosts that auto-normalize .html URLs.
+/blog/:date-:slug                                     /blog/:date-:slug.html                                200
 
 # Extensionless dated URLs previously redirected to their .html file.
 # To avoid redirect loops like /blog/...html → /blog/...html.html,
