@@ -494,7 +494,7 @@
           }
 
           const seen = new Set();
-          const candidates = [canonical, url, datedFromSlug, slugHtml];
+          const candidates = [canonical, datedFromSlug, url, slugHtml];
           let fallback = '';
 
           for (let i = 0; i < candidates.length; i++) {

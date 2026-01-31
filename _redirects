@@ -15,7 +15,9 @@
 
 # Canonical blog article redirects (keep in sync with blogs.json)
 /blog/understanding-your-rights-how-to-handle-credit-card-debt-collections /blog/2026-01-30-understanding-your-rights-how-to-handle-credit-card-debt-collections.html 301
+/blog/understanding-your-rights-how-to-handle-credit-card-debt-collections/ /blog/2026-01-30-understanding-your-rights-how-to-handle-credit-card-debt-collections.html 301
 /blog/debt-relief-fraud-prevention-safeguard-against-scams-and-verify-trustworthiness /blog/2026-01-31-debt-relief-fraud-prevention-safeguard-against-scams-and-verify-trustworthiness.html 301
+/blog/debt-relief-fraud-prevention-safeguard-against-scams-and-verify-trustworthiness/ /blog/2026-01-31-debt-relief-fraud-prevention-safeguard-against-scams-and-verify-trustworthiness.html 301
 
 # Dated URLs that already include an extension should resolve as-is
 /blog/:year-:month-:day-:rest.html                    /blog/:year-:month-:day-:rest.html                    200
