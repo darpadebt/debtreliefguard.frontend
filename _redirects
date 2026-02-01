@@ -28,3 +28,5 @@
 /content/blog/:year-:month-:day-:rest                 /blog/:year-:month-:day-:rest.html                     301
 /content/blog/:year-:month-:day-:rest/index.html      /blog/:year-:month-:day-:rest.html                     301
 /content/blog/:splat                                  /blog/:splat                                           301
+
+/blog/understanding-your-rights-how-to-handle-credit-card-debt-collection /blog/2026-02-01-understanding-your-rights-how-to-handle-credit-card-debt-collection.html 301
