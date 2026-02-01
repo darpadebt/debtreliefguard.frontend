@@ -36,13 +36,53 @@
       };
 
       const path = location.pathname || '';
+      const extractSlug = (value) => {
+        if (!value || typeof value !== 'string') return '';
+        const trimmed = value.trim();
+        if (!trimmed) return '';
+        const stripHash = trimmed.replace(/^#+/, '');
+        const normalized = stripHash.startsWith('/') ? stripHash : `/${stripHash}`;
+        const fromUrl = (() => {
+          try {
+            return new URL(trimmed, location.origin).pathname || normalized;
+          } catch (_) {
+            return normalized;
+          }
+        })();
+        const withoutHtml = fromUrl.replace(/\.html$/i, '');
+        const withoutLeading = withoutHtml.replace(/^\/+/, '');
+        if (!withoutLeading) return '';
+        if (withoutLeading.toLowerCase().startsWith('blog/')) {
+          const cleaned = withoutLeading.slice('blog/'.length);
+          return cleaned.replace(/\/index$/i, '').trim();
+        }
+        if (/^blog-shell$/i.test(withoutLeading)) return '';
+        if (!withoutLeading.includes('/')) {
+          return withoutLeading.trim();
+        }
+        return '';
+      };
+
       const slug = (() => {
-        const raw = path.replace(/^\/+/, '').replace(/\.html$/i, '');
-        if (!raw.toLowerCase().startsWith('blog/')) return '';
-        const cleaned = raw.slice('blog/'.length);
-        const withoutIndex = cleaned.replace(/\/index$/i, '');
-        return withoutIndex.trim();
+        const fromPath = extractSlug(path);
+        if (fromPath) return fromPath;
+        const params = new URLSearchParams(location.search || '');
+        const queryKeys = ['slug', 'article', 'path', 'url'];
+        for (const key of queryKeys) {
+          const candidate = extractSlug(params.get(key) || '');
+          if (candidate) return candidate;
+        }
+        return extractSlug(location.hash || '');
       })();
+
+      if (slug && !path.toLowerCase().startsWith('/blog/')) {
+        const canonical = `/blog/${slug.replace(/\.html$/i, '')}.html`;
+        try {
+          history.replaceState(null, '', canonical);
+        } catch (_) {
+          /* ignore */
+        }
+      }
 
       if (!slug) {
         fail('Invalid article path.');
