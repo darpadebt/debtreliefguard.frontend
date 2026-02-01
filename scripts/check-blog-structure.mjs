@@ -189,6 +189,17 @@ function validateContentUrl(value) {
   return /^\/blog\//.test(v);
 }
 
+function isBlogShellUrl(value) {
+  if (typeof value !== 'string' || !value.trim()) return false;
+  const raw = value.trim();
+  try {
+    const url = new URL(raw, 'https://debtreliefguard.com');
+    return /^\/blog-shell(?:\.html)?$/i.test(url.pathname);
+  } catch (_) {
+    return /^\/?blog-shell(?:\.html)?$/i.test(raw);
+  }
+}
+
 async function ensureBlogsJson() {
   const relPath = 'blogs.json';
   const fullPath = path.join(repoRoot, relPath);
@@ -259,8 +270,16 @@ async function ensureBlogsJson() {
       warnings.push(`${prefix}.content_url should point to /blog/... or a full URL.`);
     }
 
+    if (isBlogShellUrl(entry.content_url)) {
+      errors.push(`${prefix}.content_url points at blog-shell.html, which causes redirect loops.`);
+    }
+
     if (entry.url && !validateContentUrl(entry.url)) {
       warnings.push(`${prefix}.url should point to /blog/... or a full URL.`);
+    }
+
+    if (isBlogShellUrl(entry.url)) {
+      errors.push(`${prefix}.url points at blog-shell.html, which causes redirect loops.`);
     }
   });
 }
