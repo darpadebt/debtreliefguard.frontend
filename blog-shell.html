@@ -118,8 +118,23 @@
           }
         })();
 
+        const normalizedTarget = (() => {
+          try {
+            const u = new URL(target, location.origin);
+            return u.pathname + u.search + u.hash;
+          } catch (_) {
+            return target;
+          }
+        })();
+
+        const current = location.pathname + location.search + location.hash;
+        if (!normalizedTarget || normalizedTarget === current || /\/blog-shell\.html$/i.test(normalizedTarget)) {
+          fail('This article link looks misconfigured. Please return to the blog list.');
+          return;
+        }
+
         helperEl.textContent = 'Redirecting to the published version…';
-        location.replace(target);
+        location.replace(normalizedTarget);
       } catch (err) {
         fail('We ran into a problem loading the article. Please try again.');
       }
