@@ -21,13 +21,10 @@
 /blog/:date-:slug.html.html                           /blog/:date-:slug.html                                301
 /blog/:year-:month-:day-:rest.html.html               /blog/:year-:month-:day-:rest.html                    301
 
-# Extensionless pretty slugs should route through the blog shell resolver.
-# The shell handles both pretty slugs and date-prefixed slugs, so it avoids
-# conflicts with the dated URL patterns above.
-/blog/:slug                                       /blog-shell.html                                200
-/blog/:slug/                                      /blog-shell.html                                200
-/blog/:slug.html                                  /blog-shell.html                                200
-/blog/:slug/index.html                            /blog-shell.html                                200
+# Extensionless pretty slugs should resolve to the static blog HTML files.
+# This keeps the visible URL on /blog/<slug> while serving /blog/<slug>.html.
+/blog/:slug                                       /blog/:slug.html                                200
+/blog/:slug/                                      /blog/:slug.html                                200
 
 # Legacy paths → new location
 /content/blog/:date-:slug.html                        /blog/:date-:slug.html                                 301
