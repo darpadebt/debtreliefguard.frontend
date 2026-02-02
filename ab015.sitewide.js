@@ -241,9 +241,13 @@
     });
 
     let primaryCount = 0;
-    document.querySelectorAll('.btn.primary, a.btn.primary, button.btn.primary').forEach((el) => {
-      if (addSlot(el, `primary_btn_${primaryCount + 1}`)) primaryCount += 1;
-    });
+    document
+      .querySelectorAll(
+        '.btn.primary, a.btn.primary, button.btn.primary, .btn.btn-primary, a.btn.btn-primary, button.btn.btn-primary'
+      )
+      .forEach((el) => {
+        if (addSlot(el, `primary_btn_${primaryCount + 1}`)) primaryCount += 1;
+      });
 
     if (page_type === 'blog') {
       let blogCount = 0;
