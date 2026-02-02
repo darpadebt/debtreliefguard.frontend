@@ -1,4 +1,10 @@
 (function() {
+  const AB_BASE = (window.__AB015_BASE || '/api/mesh/015-a-b-test-accelerator').replace(/\/$/, '');
+  const buildEndpoint = (path) => {
+    const base = AB_BASE.startsWith('http') ? AB_BASE : `${window.location.origin}${AB_BASE}`;
+    return `${base}${path}`;
+  };
+
   const state = {
     site: null,
     corrKey: null,
@@ -96,7 +102,7 @@
     });
 
     try {
-      const url = new URL('/api/mesh/015-a-b-test-accelerator/cta', window.location.origin);
+      const url = new URL(buildEndpoint('/cta'));
       url.search = params.toString();
       const res = await fetch(url.toString(), { method: 'GET', credentials: 'same-origin' });
       if (!res.ok) return null;
@@ -141,7 +147,7 @@
       page_path: state.context.page_path,
     };
 
-    void fetch('/api/mesh/015-a-b-test-accelerator/track', {
+    void fetch(buildEndpoint('/track'), {
       method: 'POST',
       headers: { 'content-type': 'application/json' },
       body: JSON.stringify(payload),
@@ -207,8 +213,13 @@
       return true;
     };
 
-    const heroHeadline = document.getElementById('heroHeadline') || document.querySelector('[data-ab-slot="hero_headline"]');
-    if (heroHeadline) addSlot(heroHeadline, 'hero_headline', { clickable: false, trackExposure: true });
+    document.querySelectorAll('[data-ab-slot]').forEach((el) => {
+      const slotName = el.getAttribute('data-ab-slot');
+      if (!slotName) return;
+      const trackExposure = el.getAttribute('data-ab-track') === 'exposure';
+      const clickable = el.getAttribute('data-ab-click') !== 'false';
+      addSlot(el, slotName, { clickable, trackExposure });
+    });
 
     document.querySelectorAll('nav a.btn.primary.cta-unlock[href="/#leadForm"]').forEach((el) => {
       addSlot(el, 'nav_unlock');
