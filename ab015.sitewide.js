@@ -28,7 +28,21 @@
     return 'returning';
   };
 
-  const getBucket = () => localStorage.getItem('ab_bucket') || '';
+  const generateBucket = () => {
+    if (window.crypto && typeof window.crypto.randomUUID === 'function') {
+      return window.crypto.randomUUID();
+    }
+    return `b_${Date.now().toString(36)}_${Math.random().toString(36).slice(2, 10)}`;
+  };
+
+  const getBucket = () => {
+    let bucket = localStorage.getItem('ab_bucket');
+    if (!bucket) {
+      bucket = generateBucket();
+      localStorage.setItem('ab_bucket', bucket);
+    }
+    return bucket;
+  };
 
   const getTrafficSource = () => {
     const params = new URLSearchParams(window.location.search);
@@ -208,7 +222,7 @@
         clickable: options.clickable !== false,
         trackExposure: options.trackExposure === true,
         test_id: `drg_${pageSlug}_${slotName}`,
-        scope: `DRG:${pageSlug}:${slotName}`,
+        scope: `debtreliefguard:${pageSlug}:${slotName}`,
       });
       return true;
     };
