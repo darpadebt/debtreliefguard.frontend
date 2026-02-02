@@ -256,7 +256,8 @@
 
     slots.forEach(async ({ el, slotName, test_id, scope, clickable, trackExposure }) => {
       const response = await resolve({ test_id, scope, page_type, funnel_stage, step_index });
-      const label = response?.meta?.label || localLabelMap[test_id] || el.textContent?.trim();
+      const label =
+        response?.meta?.label || response?.meta?.text || localLabelMap[test_id] || el.textContent?.trim();
       if (label) applyLabel(el, label);
       if (trackExposure && label) {
         const liveStepIndex = getStepIndex();
