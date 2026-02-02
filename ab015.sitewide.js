@@ -193,17 +193,22 @@
     const slots = [];
     const seen = new Set();
 
-    const addSlot = (el, slotName) => {
+    const addSlot = (el, slotName, options = {}) => {
       if (!el || seen.has(el)) return false;
       seen.add(el);
       slots.push({
         el,
         slotName,
+        clickable: options.clickable !== false,
+        trackExposure: options.trackExposure === true,
         test_id: `drg_${pageSlug}_${slotName}`,
         scope: `DRG:${pageSlug}:${slotName}`,
       });
       return true;
     };
+
+    const heroHeadline = document.getElementById('heroHeadline') || document.querySelector('[data-ab-slot="hero_headline"]');
+    if (heroHeadline) addSlot(heroHeadline, 'hero_headline', { clickable: false, trackExposure: true });
 
     document.querySelectorAll('nav a.btn.primary.cta-unlock[href="/#leadForm"]').forEach((el) => {
       addSlot(el, 'nav_unlock');
@@ -238,26 +243,40 @@
         });
     }
 
-    slots.forEach(async ({ el, slotName, test_id, scope }) => {
+    slots.forEach(async ({ el, slotName, test_id, scope, clickable, trackExposure }) => {
       const response = await resolve({ test_id, scope, page_type, funnel_stage, step_index });
       const label = response?.meta?.label || localLabelMap[test_id] || el.textContent?.trim();
       if (label) applyLabel(el, label);
-      el.addEventListener(
-        'click',
-        () => {
-          const liveStepIndex = getStepIndex();
-          track({
-            event: 'click',
-            test_id,
-            scope,
-            variant: state.variants[scope],
-            page_type,
-            funnel_stage,
-            step_index: liveStepIndex,
-          });
-        },
-        { passive: true }
-      );
+      if (trackExposure && label) {
+        const liveStepIndex = getStepIndex();
+        track({
+          event: 'exposure',
+          test_id,
+          scope,
+          variant: state.variants[scope],
+          page_type,
+          funnel_stage,
+          step_index: liveStepIndex,
+        });
+      }
+      if (clickable) {
+        el.addEventListener(
+          'click',
+          () => {
+            const liveStepIndex = getStepIndex();
+            track({
+              event: 'click',
+              test_id,
+              scope,
+              variant: state.variants[scope],
+              page_type,
+              funnel_stage,
+              step_index: liveStepIndex,
+            });
+          },
+          { passive: true }
+        );
+      }
     });
   };
 
