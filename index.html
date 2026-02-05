@@ -157,7 +157,6 @@ footer { padding: 20px 18px 40px; color: var(--muted); font-size: 13px; }
     }
   </script>
     <script src="/ab015.sitewide.js" defer></script>
-  <script src="/ab015.apply.drg.js" defer></script>
     <script src="/eng038.sitewide.js" defer></script>
 </head>  
 <body>
@@ -460,7 +459,7 @@ footer { padding: 20px 18px 40px; color: var(--muted); font-size: 13px; }
           });  
           if (!res.ok) throw new Error('HTTP ' + res.status);  
           okBox.style.display = 'block';  
-          window.__AB015?.track({event:'completion', test_id:`drg_${(location.pathname.replace(/^\//,'').replace(/\.html$/,'') || 'home')}_submitBtn`, scope:`debtreliefguard:${(location.pathname.replace(/^\//,'').replace(/\.html$/,'') || 'home')}:submitBtn`, variant: window.__AB015?._variants?.[`debtreliefguard:${(location.pathname.replace(/^\//,'').replace(/\.html$/,'') || 'home')}:submitBtn`], page_type:'home', funnel_stage:'leadflow', step_index: String(step)});  
+          window.__AB015?.track({event:'completion', test_id:'drg_homepage_buttons', scope:'homepage_buttons', variant: window.__AB015?._variants?.homepage_buttons, page_type:'home', funnel_stage:'leadflow', step_index: String(step)});  
           form.reset(); setStep(1);  
         } catch (err) {  
           console.warn('POST failed (likely preview env):', err);  

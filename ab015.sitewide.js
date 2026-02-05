@@ -14,7 +14,7 @@
     labels: {},
   };
 
-  const localLabelMap = {};
+  const SLOT_SCOPES = ['homepage_buttons', 'blog_mid_segue', 'blog_end_cta'];
 
   const getDeviceType = () => (window.matchMedia('(max-width: 900px)').matches ? 'mobile' : 'desktop');
 
@@ -130,8 +130,8 @@
       if (variant) {
         state.variants[scope] = variant;
       }
-      if (data?.meta?.label) {
-        state.labels[scope] = data.meta.label;
+      if (data?.meta?.text) {
+        state.labels[scope] = data.meta.text;
       }
       return data;
     } catch (err) {
@@ -181,11 +181,6 @@
     el.setAttribute('aria-label', label);
   };
 
-  const getPageSlug = () => {
-    const path = window.location.pathname.replace(/^\//, '').replace(/\.html$/, '');
-    return path || 'home';
-  };
-
   const getPageMeta = () => {
     const path = window.location.pathname;
     if (path.includes('blog')) {
@@ -207,22 +202,22 @@
   };
 
   const setupCtas = () => {
-    const pageSlug = getPageSlug();
     const { page_type, funnel_stage } = getPageMeta();
     const step_index = getStepIndex();
     const slots = [];
     const seen = new Set();
+    const scopeCache = new Map();
 
-    const addSlot = (el, slotName, options = {}) => {
+    const addSlot = (el, scope, options = {}) => {
+      if (!SLOT_SCOPES.includes(scope)) return false;
       if (!el || seen.has(el)) return false;
       seen.add(el);
       slots.push({
         el,
-        slotName,
+        scope,
         clickable: options.clickable !== false,
         trackExposure: options.trackExposure === true,
-        test_id: `drg_${pageSlug}_${slotName}`,
-        scope: `debtreliefguard:${pageSlug}:${slotName}`,
+        test_id: `drg_${scope}`,
       });
       return true;
     };
@@ -235,43 +230,45 @@
       addSlot(el, slotName, { clickable, trackExposure });
     });
 
-    document.querySelectorAll('nav a.btn.primary.cta-unlock[href="/#leadForm"]').forEach((el) => {
-      addSlot(el, 'nav_unlock');
-    });
-
-    const nextBtn = document.getElementById('nextBtn');
-    if (nextBtn) addSlot(nextBtn, 'nextBtn');
-    const submitBtn = document.getElementById('submitBtn');
-    if (submitBtn) addSlot(submitBtn, 'submitBtn');
-
-    let telCount = 0;
-    document.querySelectorAll('a[href^="tel:"]').forEach((el) => {
-      if (addSlot(el, `tel_link_${telCount + 1}`)) telCount += 1;
-    });
-
-    let leadCount = 0;
-    document.querySelectorAll('a[href*="#leadForm"]').forEach((el) => {
-      if (addSlot(el, `lead_anchor_${leadCount + 1}`)) leadCount += 1;
-    });
-
-    let primaryCount = 0;
-    document.querySelectorAll('a.btn.primary, a.btn.btn-primary').forEach((el) => {
-      if (addSlot(el, `primary_btn_${primaryCount + 1}`)) primaryCount += 1;
-    });
-
     if (page_type === 'blog') {
-      let blogCount = 0;
-      document
-        .querySelectorAll('a.lead-cta-button, a.cta-button, a[data-cta], .inline-cta a')
-        .forEach((el) => {
-          if (addSlot(el, `blog_cta_${blogCount + 1}`)) blogCount += 1;
-        });
+      const midSegue =
+        document.querySelector('article .leadform-segway a, article .leadform-segway button') || null;
+      if (midSegue) addSlot(midSegue, 'blog_mid_segue');
+
+      document.querySelectorAll('.cta-section a.cta-button, .cta-section button.cta-button').forEach((el) => {
+        addSlot(el, 'blog_end_cta');
+      });
+    } else {
+      document.querySelectorAll('nav a.btn.primary.cta-unlock[href="/#leadForm"]').forEach((el) => {
+        addSlot(el, 'homepage_buttons');
+      });
+
+      const nextBtn = document.getElementById('nextBtn');
+      if (nextBtn) addSlot(nextBtn, 'homepage_buttons');
+      const submitBtn = document.getElementById('submitBtn');
+      if (submitBtn) addSlot(submitBtn, 'homepage_buttons');
+
+      document.querySelectorAll('a[href*="#leadForm"]').forEach((el) => {
+        addSlot(el, 'homepage_buttons');
+      });
+
+      document.querySelectorAll('a.btn.primary, a.btn.btn-primary, a.lead-cta-button, button.btn-primary').forEach(
+        (el) => {
+          addSlot(el, 'homepage_buttons');
+        }
+      );
     }
 
-    slots.forEach(async ({ el, slotName, test_id, scope, clickable, trackExposure }) => {
-      const response = await resolve({ test_id, scope, page_type, funnel_stage, step_index });
-      const label =
-        response?.meta?.label || response?.meta?.text || localLabelMap[test_id] || el.textContent?.trim();
+    const resolveScope = (scope, test_id) => {
+      if (!scopeCache.has(scope)) {
+        scopeCache.set(scope, resolve({ test_id, scope, page_type, funnel_stage, step_index }));
+      }
+      return scopeCache.get(scope);
+    };
+
+    slots.forEach(async ({ el, test_id, scope, clickable, trackExposure }) => {
+      const response = await resolveScope(scope, test_id);
+      const label = response?.meta?.text || state.labels[scope] || el.textContent?.trim();
       if (label) applyLabel(el, label);
       if (trackExposure && label) {
         const liveStepIndex = getStepIndex();
