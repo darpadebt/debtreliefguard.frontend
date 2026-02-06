@@ -14,7 +14,16 @@
     labels: {},
   };
 
-  const SLOT_SCOPES = ['homepage_buttons', 'blog_mid_segue', 'blog_end_cta'];
+  const SLOT_SCOPES = [
+    'homepage_buttons',
+    'blog_mid_segue',
+    'blog_end_cta',
+    'hero_headline',
+    'nav_cta',
+    'form_next',
+    'form_submit',
+    'lead_anchor',
+  ];
 
   const getDeviceType = () => (window.matchMedia('(max-width: 900px)').matches ? 'mobile' : 'desktop');
 
@@ -115,10 +124,17 @@
       page_path: state.context.page_path,
     });
 
+    let timeoutId;
     try {
       const url = new URL(buildEndpoint('/cta'));
       url.search = params.toString();
-      const res = await fetch(url.toString(), { method: 'GET', credentials: 'same-origin' });
+      const controller = new AbortController();
+      timeoutId = window.setTimeout(() => controller.abort(), 2000);
+      const res = await fetch(url.toString(), {
+        method: 'GET',
+        credentials: 'same-origin',
+        signal: controller.signal,
+      });
       if (!res.ok) return null;
       const data = await res.json();
       const correlationId = data?.correlation_id || data?.corr_id || data?.correlationId;
@@ -130,12 +146,16 @@
       if (variant) {
         state.variants[scope] = variant;
       }
-      if (data?.meta?.text) {
-        state.labels[scope] = data.meta.text;
+      if (typeof data?.meta?.text === 'string' && data.meta.text.trim()) {
+        state.labels[scope] = data.meta.text.trim();
       }
       return data;
     } catch (err) {
       return null;
+    } finally {
+      if (timeoutId) {
+        window.clearTimeout(timeoutId);
+      }
     }
   };
 
@@ -201,16 +221,40 @@
     return '0';
   };
 
+  const hasBlogSlots = () => {
+    return Boolean(
+      document.querySelector('[data-ab-slot="blog_mid_segue"], [data-ab-slot="blog_end_cta"]')
+    );
+  };
+
+  const hasEmbeddedBlogAbConfig = () => {
+    return Array.from(document.scripts).some((script) => {
+      const content = script.textContent || '';
+      const src = script.src || '';
+      const hasInline =
+        content.includes('/ab-config') ||
+        content.includes('/api/mesh/015-a-b-test-accelerator/ab-config') ||
+        content.includes('015-a-b-test-accelerator');
+      const hasSrc =
+        src.includes('/ab-config') ||
+        src.includes('/api/mesh/015-a-b-test-accelerator/ab-config') ||
+        src.includes('015-a-b-test-accelerator');
+      return hasInline || hasSrc;
+    });
+  };
+
   const setupCtas = () => {
     const { page_type, funnel_stage } = getPageMeta();
     const step_index = getStepIndex();
     const slots = [];
     const seen = new Set();
     const scopeCache = new Map();
+    const hasBlogConfigScript = page_type === 'blog' && hasBlogSlots() && hasEmbeddedBlogAbConfig();
 
     const addSlot = (el, scope, options = {}) => {
       if (!SLOT_SCOPES.includes(scope)) return false;
       if (!el || seen.has(el)) return false;
+      if (el.dataset && el.dataset.abApplied === '1') return false;
       seen.add(el);
       slots.push({
         el,
@@ -225,35 +269,41 @@
     document.querySelectorAll('[data-ab-slot]').forEach((el) => {
       const slotName = el.getAttribute('data-ab-slot');
       if (!slotName) return;
+      if (
+        hasBlogConfigScript &&
+        (slotName === 'blog_mid_segue' || slotName === 'blog_end_cta')
+      ) {
+        return;
+      }
       const trackExposure = el.getAttribute('data-ab-track') === 'exposure';
       const clickable = el.getAttribute('data-ab-click') !== 'false';
       addSlot(el, slotName, { clickable, trackExposure });
     });
 
     if (page_type === 'blog') {
-      const midSegue =
-        document.querySelector('article .leadform-segway a, article .leadform-segway button') || null;
-      if (midSegue) addSlot(midSegue, 'blog_mid_segue');
-
-      document.querySelectorAll('.cta-section a.cta-button, .cta-section button.cta-button').forEach((el) => {
-        addSlot(el, 'blog_end_cta');
-      });
+      if (!hasBlogConfigScript) {
+        document.querySelectorAll('.cta-section a.cta-button, .cta-section button.cta-button').forEach((el) => {
+          addSlot(el, 'blog_end_cta');
+        });
+      }
     } else {
       document.querySelectorAll('nav a.btn.primary.cta-unlock[href="/#leadForm"]').forEach((el) => {
-        addSlot(el, 'homepage_buttons');
+        addSlot(el, 'nav_cta');
       });
 
       const nextBtn = document.getElementById('nextBtn');
-      if (nextBtn) addSlot(nextBtn, 'homepage_buttons');
+      if (nextBtn) addSlot(nextBtn, 'form_next');
       const submitBtn = document.getElementById('submitBtn');
-      if (submitBtn) addSlot(submitBtn, 'homepage_buttons');
+      if (submitBtn) addSlot(submitBtn, 'form_submit');
 
       document.querySelectorAll('a[href*="#leadForm"]').forEach((el) => {
-        addSlot(el, 'homepage_buttons');
+        if (el.hasAttribute('data-ab-slot')) return;
+        addSlot(el, 'lead_anchor');
       });
 
       document.querySelectorAll('a.btn.primary, a.btn.btn-primary, a.lead-cta-button, button.btn-primary').forEach(
         (el) => {
+          if (el.hasAttribute('data-ab-slot')) return;
           addSlot(el, 'homepage_buttons');
         }
       );
@@ -268,8 +318,16 @@
 
     slots.forEach(async ({ el, test_id, scope, clickable, trackExposure }) => {
       const response = await resolveScope(scope, test_id);
-      const label = response?.meta?.text || state.labels[scope] || el.textContent?.trim();
-      if (label) applyLabel(el, label);
+      const responseLabel =
+        typeof response?.meta?.text === 'string' && response.meta.text.trim()
+          ? response.meta.text.trim()
+          : null;
+      const cachedLabel = typeof state.labels[scope] === 'string' ? state.labels[scope] : null;
+      const label = responseLabel || cachedLabel;
+      if (label) {
+        applyLabel(el, label);
+        el.dataset.abApplied = '1';
+      }
       if (trackExposure && label) {
         const liveStepIndex = getStepIndex();
         track({
@@ -282,7 +340,7 @@
           step_index: liveStepIndex,
         });
       }
-      if (clickable) {
+      if (clickable && label) {
         el.addEventListener(
           'click',
           () => {
@@ -315,5 +373,29 @@
   document.addEventListener('DOMContentLoaded', () => {
     window.__AB015.init({ site: 'DRG', corrKey: 'ab_corr_DRG' });
     setupCtas();
+    let attempts = 0;
+    const maxAttempts = 2;
+    const retrySetup = () => {
+      attempts += 1;
+      setupCtas();
+      if (attempts >= maxAttempts) {
+        return;
+      }
+      window.setTimeout(retrySetup, 600);
+    };
+    window.setTimeout(retrySetup, 600);
+
+    const observer = new MutationObserver(() => {
+      const nextBtn = document.getElementById('nextBtn');
+      const submitBtn = document.getElementById('submitBtn');
+      const navCta = document.querySelector('nav a.btn.primary.cta-unlock[href="/#leadForm"]');
+      if (nextBtn || submitBtn || navCta) {
+        setupCtas();
+        observer.disconnect();
+      }
+    });
+    if (document.body) {
+      observer.observe(document.body, { childList: true, subtree: true });
+    }
   });
 })();
