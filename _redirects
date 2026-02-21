@@ -7,6 +7,11 @@
 /learn/state-laws                  /learn/state-laws/index.html           200
 /learn/state-laws/                 /learn/state-laws/index.html           200
 
+/faq.html                   /faq.index.html                                301
+/faq                        /faq.index.html                                301
+/faq/                       /faq.index.html                                301
+/faq/index.html             /faq.index.html                                301
+
 # Blog list
 /blogs                     /blog                                           301
 /blogs/                    /blog/                                          301
@@ -86,3 +91,8 @@
 /blog/defending-against-debt-collection-lawsuits-safe-relief-options /blog/2026-02-19-defending-against-debt-collection-lawsuits-safe-relief-options.html 301
 
 /blog/alternatives-to-bankruptcy-safe-debt-relief-options-explained /blog/2026-02-21-alternatives-to-bankruptcy-safe-debt-relief-options-explained.html 301
+
+/learn/debt-relief-red-flags      /faq.index.html#debt-relief-red-flags      301
+/learn/debt-relief-red-flags/     /faq.index.html#debt-relief-red-flags      301
+/faq/debt-relief-safety           /faq.index.html#debt-relief-safety         301
+/faq/debt-relief-safety/          /faq.index.html#debt-relief-safety         301
